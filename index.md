@@ -91,6 +91,15 @@ title: Tiago Belintani
 <div class="section">
   <h2>📬 Contact Me</h2>
   <p><strong>Email:</strong> <a href="mailto:tiagobellintani@gmail.com">tiagobellintani@gmail.com</a></p>
-  <p><strong>
+  <p><strong>GitHub:</strong> <a href="https://github.com/TiagoBelintani">github.com/TiagoBelintani</a></p>
+</div>
 
- 
+<div class="section">
+  <h2>📄 Academic Profiles</h2>
+  <ul>
+    <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR">Google Scholar</a></li>
+    <li><a href="https://www.researchgate.net/profile/Tiago-Belintani?ev=hdr_xprf">ResearchGate</a></li>
+    <li><a href="https://lattes.cnpq.br/8948388411348223">Lattes</a></li>
+  </ul>
+</div>
+
