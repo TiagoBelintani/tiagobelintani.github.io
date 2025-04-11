@@ -1,4 +1,6 @@
-## Tiago Belintani
+![ChatGPT Image Apr 6, 2025, 09_07_47 PM](https://github.com/user-attachments/assets/5c38e5a7-8b9e-4f3f-a9e7-0b29bdff15ed)## Tiago Belintani
+![IMG-20241113-WA0075](https://github.com/user-attachments/assets/9545d94c-9f51-457d-8f73-030d5f1ce21f)
+
 ### Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil
 
 Hello, I'm **Tiago Belintani**, a postdoctoral researcher at **UNESP**.  
@@ -21,11 +23,6 @@ You can explore my publications by clicking the button above. 📚
 
 ---
 
-### 🧠 Descrição
-> "Currently using computational tools, I research: transcriptome, phylogeny, morphology, and *Triatominae* morphometry."
-— *Tiago. B*
-
-🔗 [Coleção de Triatominae FCFAR - Unesp Araraquara](https://www2.fcfar.unesp.br/#!/triatominae)
 
 ---
 
@@ -35,4 +32,5 @@ You can explore my publications by clicking the button above. 📚
 **Academic Profiles:**
 - [Google Scholar](https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR)
 - [ResearchGate](https://www.researchgate.net/profile/Tiago-Belintani?ev=hdr_xprf)
+- [Lattes]( https://lattes.cnpq.br/8948388411348223)
 
