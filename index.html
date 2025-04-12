@@ -4,56 +4,79 @@ title: Tiago Belintani
 ---
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
   body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Fira Code', monospace;
     color: #222;
-    background-color: #fff;
-    max-width: 800px;
+    background: url('assets/images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
   }
+
   h1, h2, h3 {
-    font-family: 'Montserrat', sans-serif;
     color: #000;
-  }
-  h1 {
-    font-size: 3em;
     text-align: center;
+  }
+
+  h1 {
+    font-size: 4em;
     margin-bottom: 0;
   }
+
   h3 {
-    font-size: 1.5em;
-    text-align: center;
-    font-weight: normal;
+    font-size: 2em;
+    font-weight: 400;
     margin-top: 0;
   }
+
   .section {
-    background-color: #f7f7f7;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    margin: 30px 0;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
+
   .photo {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
+
   .photo img {
-    width: 250px;
-    border-radius: 10px;
+    width: 240px;
+    border-radius: 12px;
+    border: 4px solid #eee;
   }
+
   a {
     color: #000;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 500;
   }
+
   a:hover {
     text-decoration: underline;
+  }
+
+  .image-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .image-gallery img {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
   }
 </style>
 
 <div class="photo">
-  <img src="https://github.com/user-attachments/assets/9545d94c-9f51-457d-8f73-030d5f1ce21f" alt="Tiago Belintani">
+  <img src="assets/images/profile.jpg" alt="Tiago Belintani">
 </div>
 
 <h1>Tiago Belintani</h1>
@@ -94,5 +117,10 @@ My background is in Animal Biology, with strong emphasis on bioinformatics, evol
     <li><a href="https://www.researchgate.net/profile/Tiago-Belintani?ev=hdr_xprf">ResearchGate</a></li>
     <li><a href="https://lattes.cnpq.br/8948388411348223">Lattes</a></li>
   </ul>
+</div>
+
+<div class="image-gallery">
+  <img src="assets/images/img1.jpg" alt="Extra Image 1">
+  <img src="assets/images/img2.jpg" alt="Extra Image 2">
 </div>
 
