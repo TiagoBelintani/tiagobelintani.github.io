@@ -14,6 +14,7 @@ title: Tiago Belintani
     max-width: 960px;
     margin: 0 auto;
     padding: 30px;
+    background-color: rgba(255,255,255,0.85); /* leve clareamento sobre o fundo */
   }
 
   h1, h2, h3 {
@@ -37,12 +38,16 @@ title: Tiago Belintani
     line-height: 1.5em;
   }
 
-  .section {
+  .section, .intro-box {
     background-color: rgba(255, 255, 255, 0.95);
     padding: 25px;
     margin: 30px 0;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .intro-box {
+    background-color: rgba(248, 248, 248, 0.95);
   }
 
   .photo {
@@ -75,7 +80,7 @@ title: Tiago Belintani
   }
 
   .image-gallery img {
-    width: 380px;
+    width: 420px;
     flex-shrink: 0;
     border-radius: 12px;
     box-shadow: 0 0 12px rgba(0,0,0,0.2);
@@ -84,6 +89,12 @@ title: Tiago Belintani
   .cv-link {
     text-align: center;
     margin: 30px 0;
+  }
+
+  .cv-link img {
+    width: 36px;
+    vertical-align: middle;
+    margin-right: 10px;
   }
 </style>
 
@@ -94,9 +105,11 @@ title: Tiago Belintani
 <h1>Tiago Belintani</h1>
 <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
 
-<p>Hello, I'm Tiago Belintani, a postdoctoral researcher at UNESP.  
-I study evolution, phylogenomics, and systematics of <em>Triatominae</em> (vectors of Chagas disease) and <em>Theraphosidae</em> (tarantulas).  
-My background is in Animal Biology, with strong emphasis on bioinformatics, evolutionary biology, and morphometric analysis.</p>
+<div class="intro-box">
+  <p>Hello, I'm Tiago Belintani, a postdoctoral researcher at UNESP.  
+  I study evolution, phylogenomics, and systematics of <em>Triatominae</em> (vectors of Chagas disease) and <em>Theraphosidae</em> (tarantulas).  
+  My background is in Animal Biology, with strong emphasis on bioinformatics, evolutionary biology, and morphometric analysis.</p>
+</div>
 
 <div class="section">
   <h2>🧬 Work</h2>
@@ -132,12 +145,13 @@ My background is in Animal Biology, with strong emphasis on bioinformatics, evol
 </div>
 
 <div class="cv-link">
-  <h2>📁 <a href="assets/images/CV_TiagoBelintani.pdf" target="_blank">Access My CV</a></h2>
+  <a href="assets/images/CV_TiagoBelintani.pdf" target="_blank">
+    <img src="assets/images/cv_icon.png" alt="CV Icon">Access My CV
+  </a>
 </div>
 
 <div class="image-gallery">
   <img src="assets/images/imagem1.jpg" alt="DNA theme">
   <img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug">
 </div>
-
 
