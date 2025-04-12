@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tiago Belintani</title>
 
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-
+  
+  <!-- Swiper for carousel -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Fira Code', monospace;
       background: url('assets/images/background.png') no-repeat center center fixed;
@@ -16,24 +23,23 @@
       margin: 0 auto;
       padding: 40px 20px;
       max-width: 1100px;
-      line-height: 1.6;
     }
 
     h1 {
-      font-size: 2.6em;
+      font-size: 2.8em;
       text-align: center;
       margin-bottom: 10px;
     }
 
     h3 {
-      font-size: 1.3em;
+      font-size: 1.4em;
       font-weight: 400;
       text-align: center;
       margin-top: 0;
     }
 
     h2 {
-      font-size: 1.5em;
+      font-size: 1.6em;
       margin-top: 40px;
       margin-bottom: 20px;
       text-align: center;
@@ -41,6 +47,7 @@
 
     p, li {
       font-size: 1em;
+      line-height: 1.6;
     }
 
     .section {
@@ -63,6 +70,27 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
 
+    .cv-button {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .cv-button a {
+      display: inline-block;
+      background-color: #444;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .cv-button a:hover {
+      background-color: #000;
+    }
+
     a {
       color: #000;
       text-decoration: none;
@@ -73,19 +101,22 @@
       text-decoration: underline;
     }
 
-    .image-gallery {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-top: 60px;
-      margin-bottom: 40px;
+    /* Carousel */
+    .swiper {
+      width: 100%;
+      padding-top: 40px;
+      padding-bottom: 40px;
     }
 
-    .image-gallery img {
-      width: 480px;
+    .swiper-slide {
+      text-align: center;
+    }
+
+    .swiper-slide img {
+      width: 500px;
+      max-width: 90%;
       border-radius: 14px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
     }
   </style>
 </head>
@@ -101,6 +132,10 @@
   <p>Hello, I'm Tiago Belintani, a postdoctoral researcher at UNESP.  
   I study evolution, phylogenomics, and systematics of <em>Triatominae</em> (vectors of Chagas disease) and <em>Theraphosidae</em> (tarantulas).  
   My background is in Animal Biology, with strong emphasis on bioinformatics, evolutionary biology, and morphometric analysis.</p>
+
+  <div class="cv-button">
+    <a href="assets/CV_TiagoBelintani.pdf" download>📄 Download My CV</a>
+  </div>
 
   <div class="section">
     <h2>🧬 Work</h2>
@@ -135,14 +170,29 @@
     </ul>
   </div>
 
-  <h2>🖼️ Visual Themes</h2>
-  <div class="image-gallery">
-    <img src="assets/images/imagem1.jpg" alt="DNA theme">
-    <img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug">
+  <h2>🖼️ Research Themes</h2>
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="assets/images/imagem1.jpg" alt="DNA theme" /></div>
+      <div class="swiper-slide"><img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug" /></div>
+    </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper(".mySwiper", {
+      loop: true,
+      spaceBetween: 40,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      centeredSlides: true,
+    });
+  </script>
 </body>
 </html>
+
 
 
 
