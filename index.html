@@ -9,12 +9,10 @@ title: Tiago Belintani
   body {
     font-family: 'IBM Plex Sans', sans-serif;
     color: #FFFFFF;
-    background: url('assets/images/imagem1.jpg') repeat center center fixed, url('assets/images/imagem2.jpg') repeat center center fixed;
-    background-size: cover;
+    background-color: #191919;
     max-width: 960px;
     margin: 0 auto;
     padding: 30px;
-    background-color: #191919;
   }
 
   h1, h2, h3 {
@@ -118,7 +116,28 @@ title: Tiago Belintani
   .publication-item {
     margin-bottom: 20px;
   }
+
+  .image-gallery {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px 0;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .image-gallery img {
+    width: 420px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  }
 </style>
+
+<!-- Galeria de imagens no topo -->
+<div class="image-gallery">
+  <img src="assets/images/imagem1.jpg" alt="DNA theme">
+  <img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug">
+</div>
 
 <h1>Tiago Belintani</h1>
 <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
@@ -140,7 +159,6 @@ title: Tiago Belintani
       <li class="publication-item">PAIVA, V. F.; OLIVEIRA, J.; BELINTANI, TIAGO; ... Scientific Reports, v. 15, p. 8143, 2025.</li>
       <li class="publication-item">FONSECA-FERREIRA, R.; DERKARABETIAN, S.; MORALES, M. J.; ... MOLECULAR PHYLOGENETICS AND EVOLUTION, v. 206, p. 108323, 2025.</li>
       <li class="publication-item">SANTOS SANTANA, J. K.; BELINTANI, TIAGO; ... Revista Chilena de Entomologia, v. 50, p. 375-381, 2024.</li>
-      <!-- Continuação das publicações omitida aqui para brevidade -->
     </ol>
   </div>
 </div>
@@ -166,4 +184,3 @@ title: Tiago Belintani
     <li>São Paulo State University (Unesp) – Campus de Rio Claro</li>
   </ul>
 </div>
-
