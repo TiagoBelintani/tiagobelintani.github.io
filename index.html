@@ -8,8 +8,8 @@ title: Tiago Belintani
 
   body {
     font-family: 'IBM Plex Sans', sans-serif;
-    color: #cccccc;
-    background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') repeat center center fixed;
+    color: #e0e0e0;
+    background: linear-gradient(rgba(10, 10, 10, 0.65), rgba(10, 10, 10, 0.65)), url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center fixed;
     background-size: cover;
     max-width: 960px;
     margin: 0 auto;
@@ -18,49 +18,57 @@ title: Tiago Belintani
 
   h1, h2, h3 {
     text-align: center;
-    color: #cccccc;
+    color: #ffffff;
     font-family: 'Space Grotesk', sans-serif;
     letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 
   h1 {
     font-size: 3em;
     margin-bottom: 0.2em;
-    padding: 10px;
-    background-color: #1a1a1a;
-    border-radius: 12px;
+    padding: 12px;
+    background-color: rgba(26, 26, 26, 0.85);
+    border-radius: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
 
   h3 {
-    font-size: 1.7em;
+    font-size: 1.6em;
     font-weight: 500;
     margin-top: 0;
-    padding: 6px;
-    background-color: #1a1a1a;
-    border-radius: 8px;
+    padding: 8px;
+    background-color: rgba(26, 26, 26, 0.75);
+    border-radius: 10px;
   }
 
   p, li {
-    font-size: 1.05em;
-    line-height: 1.8em;
-    color: #cccccc;
+    font-size: 1.08em;
+    line-height: 1.75em;
+    color: #dddddd;
   }
 
   .white-box,
   .section,
   .cv-link {
-    background-color: #1a1a1a;
+    background-color: rgba(26, 26, 26, 0.85);
     padding: 25px;
     margin: 30px 0;
     border-radius: 12px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     width: 100%;
     box-sizing: border-box;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+  }
+
+  .section:hover, .white-box:hover {
+    transform: translateY(-4px);
   }
 
   .cv-link a {
     font-size: 1.2em;
-    color: #cccccc;
+    color: #d0f0ec;
     text-decoration: none;
     font-weight: 600;
   }
@@ -79,17 +87,18 @@ title: Tiago Belintani
   .photo img {
     width: 320px;
     border: none;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   a {
-    color: #999999;
+    color: #8de6d1;
     text-decoration: none;
     font-weight: 600;
   }
 
   a:hover {
+    color: #5cc6b3;
     text-decoration: underline;
   }
 
@@ -102,12 +111,20 @@ title: Tiago Belintani
   }
 
   .image-gallery img {
-    width: 420px;
+    width: 400px;
     flex-shrink: 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .image-gallery img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   }
 </style>
+
 
 <!-- Galeria de imagens no topo -->
 <div class="image-gallery">
