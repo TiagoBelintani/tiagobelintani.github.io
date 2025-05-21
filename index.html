@@ -1,94 +1,71 @@
+
 ---
 layout: default
 title: Tiago Belintani
 ---
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
 
   body {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Courier New', monospace;
     color: #333333;
-    background: #f8f9fa;
+    background: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)),
+                url('assets/images/imagem1.jpg'),
+                url('assets/images/imagem2.jpg');
+    background-blend-mode: lighten;
+    background-size: cover;
+    background-position: center center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
     max-width: 960px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 40px 20px;
   }
 
   h1, h2, h3 {
     text-align: center;
-    color: #222222;
+    color: #111111;
     font-family: 'Space Grotesk', sans-serif;
     letter-spacing: 0.5px;
-    text-shadow: none;
+    margin-bottom: 0.3em;
   }
 
   h1 {
     font-size: 3em;
-    margin-bottom: 0.2em;
-    padding: 12px 0;
   }
 
   h3 {
     font-size: 1.6em;
     font-weight: 500;
-    margin-top: 0;
-    padding: 8px 0;
   }
 
   p, li {
-    font-size: 1.08em;
-    line-height: 1.75em;
-    color: #444444;
+    font-size: 1.1em;
+    line-height: 1.8em;
+    color: #333333;
   }
 
-  .photo {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-
-  .photo img {
-    width: 320px;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  ul {
+    padding-left: 20px;
   }
 
   a {
-    color: #007b8a;
+    color: #006c7b;
+    font-weight: bold;
     text-decoration: none;
-    font-weight: 600;
   }
 
   a:hover {
-    color: #005f6b;
+    color: #004f59;
     text-decoration: underline;
   }
 
-  .image-gallery {
-    display: flex;
-    overflow-x: auto;
-    padding: 20px 0;
-    gap: 20px;
-    justify-content: center;
-  }
-
-  .image-gallery img {
-    width: 400px;
-    flex-shrink: 0;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  .image-gallery img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  }
-
   .section {
-    margin-bottom: 40px;
+    margin-bottom: 50px;
   }
 
   .cv-link img {
@@ -100,59 +77,63 @@ title: Tiago Belintani
   .cv-link a {
     font-size: 1.2em;
     color: #007b8a;
-    font-weight: 600;
+  }
+
+  .footer-banner {
+    margin-top: 80px;
+    height: 220px;
+    background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center bottom no-repeat;
+    background-size: cover;
+    border-top: 4px solid #ccc;
+    opacity: 0.9;
   }
 </style>
 
-<!-- Galeria de imagens no topo -->
-<div class="image-gallery">
-  <img src="assets/images/imagem1.jpg" alt="DNA theme">
-  <img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug">
+<div class="container">
+  <h1>Tiago Belintani</h1>
+  <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
+
+  <p style="text-align: justify;">
+    I am a postdoctoral researcher at São Paulo State University (UNESP), where I delve into the evolutionary biology, systematics, and phylogenomics of key Neotropical organisms. My research focuses primarily on two fascinating and ecologically significant groups: the <em>Triatominae</em> (blood-feeding insects and vectors of Chagas disease) and the <em>Theraphosidae</em> (the often misunderstood tarantulas).<br><br>
+    
+    My academic background merges classical training in zoology with modern bioinformatics and genomic analysis. From dusty entomological collections to high-throughput DNA sequencing, my work seeks to understand the hidden patterns of diversification, adaptation, and biogeography. I combine tools such as geometric morphometrics, phylogenetic inference, and comparative genomics to trace evolutionary lineages and untangle species complexes.<br><br>
+
+    I believe science is both a narrative and an exploration. Each sequence, specimen, or cladogram contributes to a broader understanding of life’s tangled branches — and I’m here to map them with curiosity and rigor.
+  </p>
+
+  <div class="section">
+    <h2>📄 Academic Profiles</h2>
+    <ul>
+      <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
+      <li><a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a></li>
+      <li><a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a></li>
+      <li><a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a></li>
+      <li><a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a></li>
+      <li><a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🎓 Education</h2>
+    <ul>
+      <li>PhD – São Paulo State University (UNESP)</li>
+      <li>MSc – University of Campinas (Unicamp)</li>
+      <li>Visiting Researcher – University of Idaho (UIDAHO)</li>
+      <li>BSc – São Paulo State University (UNESP)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📬 Contact</h2>
+    <p>Email: <a href="mailto:tiagobellintani@gmail.com">tiagobellintani@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/TiagoBelintani">github.com/TiagoBelintani</a></p>
+  </div>
+
+  <div class="section cv-link">
+    <a href="assets/images/CV_TiagoBelintani.pdf" target="_blank">
+      <img src="assets/images/3846805.png" alt="CV icon">Access My CV
+    </a>
+  </div>
 </div>
 
-<h1>Tiago Belintani</h1>
-<h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
-
-<p style="text-align: justify;">
-  Hello, I'm Tiago Belintani, a postdoctoral researcher at UNESP.<br>
-  I study evolution, phylogenomics, and systematics of <em>Triatominae</em> (vectors of Chagas disease) and <em>Theraphosidae</em> (tarantulas).<br>
-  My background is in Animal Biology, with strong emphasis on bioinformatics, evolutionary biology, and morphometric analysis.
-</p>
-
-<div class="section">
-  <h2>📄 Academic Profiles</h2>
-  <ul>
-    <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
-    <li><a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a></li>
-    <li><a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a></li>
-    <li><a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a></li>
-    <li><a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a></li>
-    <li><a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a></li>
-  </ul>
-</div>
-
-<div class="section">
-  <h2>🎓 Education</h2>
-  <ul>
-    <li>Universidade Estadual de Campinas – IB/Unicamp</li>
-    <li>Faculdade de Ciências Farmacêuticas – FCFAR/Unesp</li>
-    <li>University of Idaho – UIDAHO</li>
-    <li>São Paulo State University (Unesp) – Campus de Rio Claro</li>
-  </ul>
-</div>
-
-<div class="section">
-  <h2>📬 Contact</h2>
-  <p>Email: <a href="mailto:tiagobellintani@gmail.com">tiagobellintani@gmail.com</a></p>
-  <p>GitHub: <a href="https://github.com/TiagoBelintani">github.com/TiagoBelintani</a></p>
-</div>
-
-<div class="section cv-link">
-  <a href="assets/images/CV_TiagoBelintani.pdf" target="_blank">
-    <img src="assets/images/3846805.png" alt="CV icon">Access My CV
-  </a>
-</div>
-
-
-
-  
+<div class="footer-banner"></div>
