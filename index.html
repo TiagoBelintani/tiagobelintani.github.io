@@ -50,6 +50,12 @@ title: Tiago Belintani
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     object-fit: cover;
     flex-shrink: 0;
+    transition: filter 0.3s, transform 0.2s;
+  }
+  .top-images img:hover {
+    filter: brightness(1.15) contrast(1.1) saturate(1.1);
+    transform: scale(1.02) rotate(-0.5deg);
+    z-index: 2;
   }
   @media (max-width: 800px) {
     .top-images {
@@ -68,6 +74,18 @@ title: Tiago Belintani
   }
   h1 {
     font-size: 3em;
+    position:relative;
+  }
+  h1 span {
+    display:block;
+    margin:0.5em auto 0 auto;
+    width:64px;
+    border-bottom:3px solid #007b8a;
+    border-radius:2px;
+  }
+  h2 {
+    font-size: 2em;
+    margin-bottom:0.1em;
   }
   h3 {
     font-size: 1.6em;
@@ -123,9 +141,34 @@ title: Tiago Belintani
     position: relative;
     z-index: 1;
   }
+
+  /* Extra: Drop Cap for First Paragraph */
+  p.intro::first-letter {
+    float: left;
+    font-size: 3.1em;
+    line-height: 1;
+    font-weight: bold;
+    color: #007b8a;
+    padding-right: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  /* Extra: Card Effect on Academic Section */
+  .section ul {
+    background: rgba(245,251,251,0.7);
+    border-radius: 12px;
+    box-shadow: 0 1px 10px rgba(0,124,138,0.07);
+    padding: 16px 24px;
+    margin-bottom: 0;
+  }
 </style>
 
 <div class="container">
+
+  <!-- Epigraph / Poetic Quote -->
+  <div style="text-align:center; font-style:italic; font-size:1.25em; color:#333; margin-bottom:1.5em; margin-top:1em;">
+    “Nothing in biology makes sense except in the light of evolution.”<br>
+    <span style="font-size:0.95em; color:#666;">– Theodosius Dobzhansky</span>
+  </div>
 
   <!-- Imagens lado a lado -->
   <div class="top-images">
@@ -133,10 +176,13 @@ title: Tiago Belintani
     <img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug">
   </div>
 
-  <h1>Tiago Belintani</h1>
+  <h1>
+    Tiago Belintani
+    <span></span>
+  </h1>
   <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
 
-  <p>
+  <p class="intro">
     I am a postdoctoral researcher at São Paulo State University (UNESP), where I delve into the evolutionary biology, systematics, and phylogenomics of key Neotropical organisms. My research focuses primarily on two fascinating and ecologically significant groups: the <em>Triatominae</em> (blood-feeding insects and vectors of Chagas disease) and the <em>Theraphosidae</em> (the often misunderstood tarantulas).<br><br>
     
     My academic background merges classical training in zoology with modern bioinformatics and genomic analysis. From dusty entomological collections to high-throughput DNA sequencing, my work seeks to understand the hidden patterns of diversification, adaptation, and biogeography. I combine tools such as geometric morphometrics, phylogenetic inference, and comparative genomics to trace evolutionary lineages and untangle species complexes.<br><br>
@@ -144,8 +190,14 @@ title: Tiago Belintani
     I believe science is both a narrative and an exploration. Each sequence, specimen, or cladogram contributes to a broader understanding of life’s tangled branches — and I’m here to map them with curiosity and rigor.
   </p>
 
+  <!-- Section: Academic Profiles -->
   <div class="section">
     <h2>📄 Academic Profiles</h2>
+    <div style="display:flex;justify-content:center;">
+      <svg height="16" width="100" style="margin-bottom:1em;">
+        <path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+      </svg>
+    </div>
     <ul>
       <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
       <li><a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a></li>
@@ -156,22 +208,35 @@ title: Tiago Belintani
     </ul>
   </div>
 
+  <!-- Section: Education -->
   <div class="section">
     <h2>🎓 Education</h2>
+    <div style="display:flex;justify-content:center;">
+      <svg height="16" width="100" style="margin-bottom:1em;">
+        <path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+      </svg>
+    </div>
     <ul>
-      <li>PhD – São Paulo State University (UNESP)</li>
-      <li>MSc – University of Campinas (Unicamp)</li>
+       <li>PhD – University of Campinas (Unicamp)</li>
+      <li>MSc – São Paulo State University (UNESP)</li>
       <li>Visiting Researcher – University of Idaho (UIDAHO)</li>
-      <li>BSc – São Paulo State University (UNESP)</li>
+      <li>BSc – University of Araraquara (UNIARA)</li>
     </ul>
   </div>
 
+  <!-- Section: Contact -->
   <div class="section">
     <h2>📬 Contact</h2>
+    <div style="display:flex;justify-content:center;">
+      <svg height="16" width="100" style="margin-bottom:1em;">
+        <path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+      </svg>
+    </div>
     <p>Email: <a href="mailto:tiagobellintani@gmail.com">tiagobellintani@gmail.com</a></p>
     <p>GitHub: <a href="https://github.com/TiagoBelintani">github.com/TiagoBelintani</a></p>
   </div>
 
+  <!-- Section: CV -->
   <div class="section cv-link">
     <a href="assets/images/CV_TiagoBelintani.pdf" target="_blank">
       <img src="assets/images/3846805.png" alt="CV icon">Access My CV
@@ -184,5 +249,7 @@ title: Tiago Belintani
 
 <!-- Rodapé com copyright -->
 <footer>
-  © 2025 Tiago Belintani
+  © 2025 Tiago Belintani<br>
+  <span style="font-size:0.85em;color:#aaa;">Sapientia et disciplina</span>
 </footer>
+
