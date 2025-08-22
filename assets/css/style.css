@@ -1,87 +1,51 @@
-/* Estilo base do body e fundo */
+/* Fundo translúcido */
+.background-overlay {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
+  background-size: cover;
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Container do conteúdo */
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Texto e headings */
 body {
-  font-family: 'Georgia', serif;
-  background-color: #f5f5f5; /* fundo suave */
+  position: relative;
+  z-index: 1;
+  font-family: 'Courier New', monospace;
   color: #333;
+  background: #fdfdfd;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
+  min-height: 100vh;
+}
+h1, h2, h3 { 
+  text-align: center; 
+  font-family: 'Space Grotesk', sans-serif; 
+  color: #111; 
 }
 
-/* Header e navegação */
-header {
-  background-color: #1e2a38;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.menu {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0 0;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.menu li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.menu li a:hover {
-  text-decoration: underline;
-}
-
-/* Main content */
-main {
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 0 20px;
-}
-
-/* Footer */
-footer {
-  background-color: #1e2a38;
-  color: #fff;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: 40px;
-}
-
-/* Publicações e capítulos */
+/* Cards para publicações */
 .publication, .book-chapter {
-  background-color: #fff;
+  background: rgba(245,251,251,0.7);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 20px;
+  box-shadow: 0 1px 10px rgba(0,124,138,0.07);
+  padding: 16px 24px;
   margin-bottom: 20px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.publication:hover, .book-chapter:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.publication strong, .book-chapter strong {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 1.1rem;
-}
-
-.publication a, .book-chapter a {
-  color: #1e90ff;
-  text-decoration: none;
-}
-
-.publication a:hover, .book-chapter a:hover {
-  text-decoration: underline;
 }
