@@ -3,41 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tiago Belintani – Contact</title>
+<title>Contact | Tiago Belintani</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<style>
+  body::before {
+    content: "";
+    position: fixed; top:0; left:0; right:0; bottom:0;
+    background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
+    background-size: cover;
+    opacity: 0.25;
+    z-index: 0;
+    pointer-events: none;
+  }
+  body {
+    position: relative; z-index:1;
+    font-family: 'Courier New', monospace;
+    color:#333; background:#fdfdfd;
+    margin:0; padding:0; min-height:100vh;
+  }
+  .container { max-width:1120px; margin:0 auto; padding:40px 20px; position: relative; z-index:1; }
+  h1, h2 { font-family: 'Space Grotesk', sans-serif; text-align:center; color:#111; }
+  h1 { font-size:3em; margin-bottom:0.2em; }
+  h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px solid #007b8a; border-radius:2px; }
+  h2 { font-size:2em; margin-bottom:1em; }
+  p, li { line-height:1.7em; font-size:1.1em; }
+  ul { padding-left:20px; }
+  a { color:#007b8a; font-weight:bold; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .section { background: rgba(245,251,251,0.7); border-radius:12px; box-shadow:0 1px 10px rgba(0,124,138,0.07); padding:20px 24px; margin-bottom:20px; }
+</style>
 </head>
 <body>
-
 <div class="container">
+  <h1>Tiago Belintani <span></span></h1>
+  <h2>Contact</h2>
 
-<h1>Contact <span></span></h1>
-<p class="intro">
-Feel free to reach out for collaboration, inquiries, or questions regarding my research.
-</p>
-
-<div class="section">
-<h2>📧 Email</h2>
-<p><a href="mailto:tiago.belintani@example.com">tiago.belintani@example.com</a></p>
+  <div class="section">
+    <p>If you wish to get in touch for collaborations, questions about research, or inquiries regarding publications, you can reach me at:</p>
+    <ul>
+      <li>Email: <a href="mailto:tiago.belintani@example.com">tiago.belintani@example.com</a></li>
+      <li>Phone: +55 11 99999-9999</li>
+      <li>Institution: São Paulo State University (UNESP)</li>
+      <li>Address: Av. Eng. Luiz Edmundo Carrijo Coube, 14-01, Botucatu, SP, Brazil</li>
+    </ul>
+  </div>
 </div>
-
-<div class="section">
-<h2>🌐 Social / Academic Profiles</h2>
-<ul>
-    <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
-    <li><a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a></li>
-    <li><a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a></li>
-</ul>
-</div>
-
-<p style="text-align:center; margin-top:40px;"><a href="index.html">← Back to Home</a></p>
-
-</div>
-
-<footer>
-© 2025 Tiago Belintani<br>
-<span style="font-size:0.85em;color:#aaa;">Sapientia et disciplina</span>
-</footer>
-
 </body>
 </html>
