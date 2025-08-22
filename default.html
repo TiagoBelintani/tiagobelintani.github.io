@@ -1,36 +1,107 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{{ site.description }}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-  {% seo %}
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    /* Mantém background do site */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('/assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
+      background-size: cover;
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+    body {
+      position: relative;
+      z-index: 1;
+      font-family: 'Courier New', monospace;
+      color: #333;
+      background: #fdfdfd;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1,h2,h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      color: #111;
+      text-align: center;
+      margin-bottom: 0.5em;
+    }
+    h1 { font-size: 2.8em; margin-bottom: 0.2em; }
+    h2 { font-size: 2em; margin-bottom: 0.3em; }
+    h3 { font-size: 1.5em; margin-bottom: 0.3em; }
+
+    /* Publicações */
+    .publication {
+      background: rgba(245,251,251,0.9);
+      padding: 18px 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,124,138,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .publication:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,124,138,0.15);
+    }
+    .publication h4 {
+      font-size: 1.15em;
+      margin-bottom: 0.3em;
+      color: #007b8a;
+    }
+    .publication p {
+      margin: 4px 0;
+      font-size: 0.98em;
+      line-height: 1.5em;
+    }
+    .publication a {
+      color: #006c7b;
+      text-decoration: none;
+    }
+    .publication a:hover {
+      text-decoration: underline;
+    }
+
+    /* Seção Book Chapters */
+    .book-chapter {
+      background: rgba(230,245,247,0.9);
+      padding: 16px 22px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,124,138,0.05);
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <ul>
-        <li><a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ '/research/' | relative_url }}" class="{% if page.url contains '/research' %}active{% endif %}">Research</a></li>
-        <li><a href="{{ '/publications/' | relative_url }}" class="{% if page.url contains '/publications' %}active{% endif %}">Publications</a></li>
-        <li><a href="{{ '/repositories/' | relative_url }}" class="{% if page.url contains '/repositories' %}active{% endif %}">Repositories</a></li>
-        <li><a href="{{ '/contact/' | relative_url }}" class="{% if page.url contains '/contact' %}active{% endif %}">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="container">
+    <h1>{{ page.title }}</h1>
 
-  <main class="container">
-    {{ content }}
-  </main>
-
-  <footer>
-    © {{ 'now' | date: '%Y' }} {{ site.author.name }}<br />
-    <span class="motto">{{ site.author.motto }}</span>
-  </footer>
+    <!-- Publicações -->
+    {% for pub in site.pages %}
+      {% if pub.title %}
+      <div class="publication">
+        <h4>{{ pub.title }}</h4>
+        <p>{{ pub.content | markdownify }}</p>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
 </body>
 </html>
