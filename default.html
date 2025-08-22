@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,39 +9,26 @@
 </head>
 <body>
 
-  <!-- Fundo translúcido da main page -->
+  <!-- Background Overlay -->
   <div class="background-overlay"></div>
 
-  <!-- Container principal -->
+  <!-- Main container -->
   <div class="container">
-
-    <!-- Header condicional para home -->
-    {% if page.title == "Home" %}
-    <div class="epigraph">
-      “Nothing in biology makes sense except in the light of evolution.”<br>
-      <span>– Theodosius Dobzhansky</span>
-    </div>
-    <header class="profile-header">
-      <h1>Tiago Belintani <span></span></h1>
-      <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
-    </header>
+    <!-- Optional page title -->
+    {% if page.title %}
+      <h1>{{ page.title }}<span></span></h1>
     {% endif %}
 
-    <!-- Conteúdo principal (Markdown) -->
-    <main>
-      {{ content }}
-    </main>
-
-    <!-- Footer banner (mesmo estilo da main page) -->
-    <div class="footer-banner"></div>
-
-    <!-- Rodapé -->
-    <footer>
-      © 2025 Tiago Belintani<br>
-      <span>Sapientia et disciplina</span>
-    </footer>
-
+    <!-- Content from Markdown -->
+    {{ content }}
   </div>
+
+  <!-- Footer -->
+  <div class="footer-banner"></div>
+  <footer>
+    © 2025 Tiago Belintani<br>
+    <span class="footer-subtitle">Sapientia et disciplina</span>
+  </footer>
 
 </body>
 </html>
