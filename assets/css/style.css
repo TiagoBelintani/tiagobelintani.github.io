@@ -1,41 +1,80 @@
-/* Background overlay (uses your existing photo) */
-.bg-overlay {
-content: "";
-position: fixed;
-top: 0; left: 0; right: 0; bottom: 0;
-width: 100vw; height: 100vh;
-background: url('../images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
-background-size: cover;
-opacity: 0.25;
-z-index: 0;
-pointer-events: none;
-}
-
-
 body {
-position: relative; z-index: 1;
-font-family: 'Courier New', monospace;
-color: #333; background: #fdfdfd;
-margin: 0; padding: 0; min-height: 100vh;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #333;
+  background: #fdfdfd;
+  margin: 0;
+  padding: 0;
 }
-
 
 .container {
-max-width: 1120px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 1;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 100px 20px 40px 20px;
 }
 
-
 /* Navbar */
-.navbar { background: #fff; border-bottom: 1px solid #eaeaea; position: sticky; top: 0; z-index: 3; }
-.navbar ul { list-style: none; margin: 0; padding: 10px 0; text-align: center; }
-.navbar li { display: inline-block; margin: 0 16px; }
-.navbar a { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #007b8a; text-decoration: none; letter-spacing: .2px; }
-.navbar a:hover { color: #004f59; }
-.navbar a.active { color: #004f59; border-bottom: 2px solid #007b8a; padding-bottom: 2px; }
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+.navbar ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  margin: 0;
+  list-style: none;
+}
+.navbar li { margin: 0 18px; }
+.navbar a {
+  font-weight: 700;
+  color: #007b8a;
+  text-decoration: none;
+  padding-bottom: 4px;
+  transition: all 0.3s;
+}
+.navbar a.active,
+.navbar a:hover {
+  color: #004f59;
+  border-bottom: 2px solid #007b8a;
+}
 
+/* Card */
+.card {
+  background-color: #fff;
+  padding: 1.5em;
+  margin: 1em auto 2em auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-width: 900px;
+}
+
+/* Top images */
+.top-images {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.top-images img {
+  width: 45%;
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+.top-images img:hover {
+  filter: brightness(1.15);
+  transform: scale(1.02) rotate(-0.5deg);
+}
 
 /* Typography */
-h1, h2, h3 { text-align: center; color: #111; font-family: 'Space Grotesk', sans-serif; margin-bottom: 0.3em; }
+h1, h2, h3 { text-align: center; color: #111; margin-bottom: 0.3em; }
 h1 { font-size: 3em; position: relative; }
 h1 span { display: block; margin: 0.5em auto 0 auto; width: 64px; border-bottom: 3px solid #007b8a; border-radius: 2px; }
 h2 { font-size: 2em; margin-bottom: 0.1em; }
@@ -45,25 +84,3 @@ ul { padding-left: 20px; }
 a { color: #006c7b; font-weight: bold; text-decoration: none; }
 a:hover { color: #004f59; text-decoration: underline; }
 
-
-/* Sections */
-.section { margin-bottom: 50px; }
-.section ul { background: rgba(245,251,251,0.7); border-radius: 12px; box-shadow: 0 1px 10px rgba(0,124,138,0.07); padding: 16px 24px; margin-bottom: 0; }
-
-
-/* Top images */
-.top-images { display: flex; justify-content: center; align-items: flex-start; gap: 20px; margin-bottom: 40px; flex-wrap: nowrap; }
-.top-images img { width: 45%; max-width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); object-fit: cover; flex-shrink: 0; transition: filter 0.3s, transform 0.2s; }
-.top-images img:hover { filter: brightness(1.15) contrast(1.1) saturate(1.1); transform: scale(1.02) rotate(-0.5deg); z-index: 2; }
-@media (max-width: 800px) {
-.top-images { flex-direction: column; align-items: center; }
-.top-images img { width: 90%; }
-}
-
-
-/* Intro drop cap */
-p.intro::first-letter { float: left; font-size: 3.1em; line-height: 1; font-weight: bold; color: #007b8a; padding-right: 8px; font-family: 'Space Grotesk', sans-serif; }
-
-
-/* Profile photo */
-footer .motto { font-size: 0.85em; color: #aaa; }
