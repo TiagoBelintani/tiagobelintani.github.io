@@ -1,30 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul class="menu">
-        <li><a href="/index.html">Home</a></li>
-        <li><a href="/contact.html">Contact</a></li>
-        <li><a href="/publications.html">Publications</a></li>
-        <li><a href="/research.html">Research</a></li>
-      </ul>
-    </nav>
-    <h1>{{ page.title }}</h1>
-  </header>
+  <!-- Fundo translúcido -->
+  <div class="background-overlay"></div>
 
-  <main>
-    {{ content }}
-  </main>
+  <!-- Container principal -->
+  <div class="container">
+    
+    <!-- Epigraph / Poetic Quote -->
+    {% if page.title == "Home" %}
+    <div class="epigraph">
+      “Nothing in biology makes sense except in the light of evolution.”<br>
+      <span>– Theodosius Dobzhansky</span>
+    </div>
+    {% endif %}
 
-  <footer>
-    <p>&copy; {{ site.time | date: "%Y" }} Tiago Belintani. All rights reserved.</p>
-  </footer>
+    <!-- Cabeçalho com nome e cargo -->
+    {% if page.title == "Home" %}
+    <header class="profile-header">
+      <h1>Tiago Belintani <span></span></h1>
+      <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
+    </header>
+    {% endif %}
+
+    <!-- Conteúdo principal -->
+    <main>
+      {{ content }}
+    </main>
+
+    <!-- Footer Banner (opcional) -->
+    <div class="footer-banner"></div>
+
+    <!-- Rodapé -->
+    <footer>
+      © 2025 Tiago Belintani<br>
+      <span>Sapientia et disciplina</span>
+    </footer>
+  </div>
+
+  <!-- Scripts opcionais -->
+  <script>
+    // Caso queira alguma animação ou interatividade futura
+  </script>
 </body>
 </html>
