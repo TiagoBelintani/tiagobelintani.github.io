@@ -140,6 +140,7 @@ Palavras-chave: Triatominae, Trypanosoma cruzi, doença de Chagas
 Áreas do conhecimento: Entomologia e Malacologia de Parasitos e Vetores
 Referências adicionais: português. Meio de divulgação: Meio digital. Home page: [https://www.scielo.br/j/rsbmt/a/dwHqCHgXHgmkddCY3fNGkdF/abstract/?lang=em] 
 </div>
+---
 
 ## Book chapters
 
