@@ -1,165 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiago Belintani – Evolutionary Scientist</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f4f8;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
+---
+---
 
-    h1, h2, h3 {
-      margin: 0.5em 0;
-      text-align: center;
-    }
+<style>
+.card {
+  background-color: #fff;
+  padding: 1.5em;
+  margin: 1em auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 900px;
+}
 
-    h1 span {
-      display: block;
-      font-size: 0.7em;
-      color: #666;
-    }
+.cv-button {
+  display: inline-block;
+  margin: 1em auto;
+  padding: 0.75em 1.5em;
+  background-color: #007b8a;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
 
-    .intro, .card {
-      max-width: 900px;
-      margin: 1.5em auto;
-      background-color: #fff;
-      padding: 1.5em;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
+.cv-button:hover {
+  background-color: #005f66;
+}
 
-    .top-images {
-      display: flex;
-      justify-content: center;
-      gap: 1em;
-      flex-wrap: wrap;
-      margin-top: 2em;
-    }
+.top-images {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 2em;
+}
 
-    .top-images img {
-      max-width: 45%;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
+.top-images img {
+  max-width: 45%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 
-    .section ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
+blockquote {
+  text-align: center;
+  font-style: italic;
+  font-size: 1.25em;
+  color: #333;
+  margin: 1em auto;
+}
 
-    .section ul li {
-      margin-bottom: 0.75em;
-    }
+blockquote span {
+  display: block;
+  font-size: 0.95em;
+  color: #666;
+  margin-top: 0.5em;
+}
+</style>
 
-    .section svg {
-      display: block;
-      margin: 0.5em auto;
-    }
+<blockquote>
+“Nothing in biology makes sense except in the light of evolution.”
+<span>– Theodosius Dobzhansky</span>
+</blockquote>
 
-    .cv-button {
-      display: inline-block;
-      margin: 1em auto;
-      padding: 0.75em 1.5em;
-      background-color: #007b8a;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: background-color 0.3s;
-    }
+<div class="top-images">
+  <img src="{{ '/assets/images/imagem1.jpg' | relative_url }}" alt="DNA theme">
+  <img src="{{ '/assets/images/imagem2.jpg' | relative_url }}" alt="Tarantula and Kissing Bug">
+</div>
 
-    .cv-button:hover {
-      background-color: #005f66;
-    }
+<h1>
+Tiago Belintani
+<span></span>
+</h1>
+<h3 style="text-align:center;">Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
 
-    blockquote {
-      text-align: center;
-      font-style: italic;
-      font-size: 1.25em;
-      color: #333;
-      margin: 1em auto;
-    }
+<div class="card">
+<p class="intro">
+I am a postdoctoral researcher at São Paulo State University (UNESP), where I delve into evolutionary biology, systematics, and phylogenomics of key Neotropical organisms. My research focuses primarily on two fascinating and ecologically significant groups: the <em>Triatominae</em> (blood-feeding insects and vectors of Chagas disease) and the <em>Theraphosidae</em> (the often misunderstood tarantulas).<br><br>
+My academic background merges classical training in zoology with modern bioinformatics and genomic analysis. From dusty entomological collections to high-throughput DNA sequencing, my work seeks to understand the hidden patterns of diversification, adaptation, and biogeography. I combine tools such as geometric morphometrics, phylogenetic inference, and comparative genomics to trace evolutionary lineages and untangle species complexes.<br><br>
+I believe science is both a narrative and an exploration. Each sequence, specimen, or cladogram contributes to a broader understanding of life’s tangled branches — and I’m here to map them with curiosity and rigor.
+</p>
+</div>
 
-    blockquote span {
-      display: block;
-      font-size: 0.95em;
-      color: #666;
-      margin-top: 0.5em;
-    }
-  </style>
-</head>
-<body>
+<div class="card section">
+<h2>📄 Academic Profiles</h2>
+<div style="display:flex;justify-content:center;">
+<svg height="16" width="100" style="margin-bottom:1em;">
+<path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+</svg>
+</div>
+<ul>
+<li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
+<li><a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a></li>
+<li><a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a></li>
+<li><a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a></li>
+<li><a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a></li>
+<li><a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a></li>
+</ul>
+</div>
 
-  <blockquote>
-    “Nothing in biology makes sense except in the light of evolution.”
-    <span>– Theodosius Dobzhansky</span>
-  </blockquote>
+<div class="card section">
+<h2>🎓 Education</h2>
+<div style="display:flex;justify-content:center;">
+<svg height="16" width="100" style="margin-bottom:1em;">
+<path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+</svg>
+</div>
+<ul>
+<li>
+PhD – Animal Biodiversity, Anthropogenic Relationships, Environment, and Parasitology<br>
+<span style="font-size:0.95em; color:#666;">Institute of Biology, University of Campinas (Unicamp)</span>
+</li>
+<li>
+MSc – Biotechnology Applied to Biological Sciences<br>
+<span style="font-size:0.95em; color:#666;">Faculty of Pharmaceutical Sciences, São Paulo State University (UNESP)</span>
+</li>
+<li>
+Visiting Researcher – Department of Entomology, Plant Pathology and Nematology<br>
+<span style="font-size:0.95em; color:#666;">College of Agricultural and Life Sciences, University of Idaho (UIDAHO)</span>
+</li>
+<li>
+BSc – Biological Sciences<br>
+<span style="font-size:0.95em; color:#666;">University of Araraquara (UNIARA)</span>
+</li>
+</ul>
+</div>
 
-  <div class="top-images">
-    <img src="{{ '/assets/images/imagem1.jpg' | relative_url }}" alt="DNA theme">
-    <img src="{{ '/assets/images/imagem2.jpg' | relative_url }}" alt="Tarantula and Kissing Bug">
-  </div>
+<div class="card section">
+<h2>📚 Publications</h2>
+<div style="display:flex;justify-content:center;">
+<svg height="16" width="100" style="margin-bottom:1em;">
+<path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+</svg>
+</div>
+<ul>
+<li><a href="link_para_sua_publicacao1" target="_blank">Publicação 1</a></li>
+<li><a href="link_para_sua_publicacao2" target="_blank">Publicação 2</a></li>
+<li><a href="link_para_sua_publicacao3" target="_blank">Publicação 3</a></li>
+<!-- Adicione todas as publicações que você já tinha -->
+</ul>
+</div>
 
-  <h1>Tiago Belintani <span></span></h1>
-  <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
-
-  <div class="intro">
-    I am a postdoctoral researcher at São Paulo State University (UNESP), where I delve into evolutionary biology, systematics, and phylogenomics of key Neotropical organisms. My research focuses primarily on two fascinating and ecologically significant groups: the <em>Triatominae</em> (blood-feeding insects and vectors of Chagas disease) and the <em>Theraphosidae</em> (the often misunderstood tarantulas).<br><br>
-    My academic background merges classical training in zoology with modern bioinformatics and genomic analysis. From dusty entomological collections to high-throughput DNA sequencing, my work seeks to understand the hidden patterns of diversification, adaptation, and biogeography. I combine tools such as geometric morphometrics, phylogenetic inference, and comparative genomics to trace evolutionary lineages and untangle species complexes.<br><br>
-    I believe science is both a narrative and an exploration. Each sequence, specimen, or cladogram contributes to a broader understanding of life’s tangled branches — and I’m here to map them with curiosity and rigor.
-  </div>
-
-  <div class="card section">
-    <h2>📄 Academic Profiles</h2>
-    <svg height="16" width="100">
-      <path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
-    </svg>
-    <ul>
-      <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
-      <li><a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a></li>
-      <li><a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a></li>
-      <li><a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a></li>
-      <li><a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a></li>
-      <li><a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a></li>
-    </ul>
-  </div>
-
-  <div class="card section">
-    <h2>🎓 Education</h2>
-    <svg height="16" width="100">
-      <path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
-    </svg>
-    <ul>
-      <li>
-        PhD – Animal Biodiversity, Anthropogenic Relationships, Environment, and Parasitology<br>
-        <span style="font-size:0.95em; color:#666;">Institute of Biology, University of Campinas (Unicamp)</span>
-      </li>
-      <li>
-        MSc – Biotechnology Applied to Biological Sciences<br>
-        <span style="font-size:0.95em; color:#666;">Faculty of Pharmaceutical Sciences, São Paulo State University (UNESP)</span>
-      </li>
-      <li>
-        Visiting Researcher – Department of Entomology, Plant Pathology and Nematology<br>
-        <span style="font-size:0.95em; color:#666;">College of Agricultural and Life Sciences, University of Idaho (UIDAHO)</span>
-      </li>
-      <li>
-        BSc – Biological Sciences<br>
-        <span style="font-size:0.95em; color:#666;">University of Araraquara (UNIARA)</span>
-      </li>
-    </ul>
-  </div>
-
-  <div style="text-align:center; margin:2em 0;">
-    <a href="{{ '/assets/CV_TiagoBelintani.pdf' | relative_url }}" target="_blank" class="cv-button">
-      📄 Download CV
-    </a>
-  </div>
-
-</body>
-</html>
+<div style="text-align:center; margin:2em 0;">
+<a href="{{ '/assets/CV_TiagoBelintani.pdf' | relative_url }}" target="_blank" class="cv-button">
+📄 Download CV
+</a>
+</div>
 
