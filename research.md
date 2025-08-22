@@ -4,7 +4,6 @@ title: Research
 permalink: /research/
 ---
 
-
 # Research
 
 My research focuses on the **phylogeny, evolution, and diversification** of medically and ecologically important arthropods, particularly within **Triatominae** and **Theraphosinae** (tarantulas). My work integrates **molecular phylogenomics**, **morphometrics**, and **bioinformatics** to explore evolutionary relationships, biogeography, and the mechanisms shaping species diversity.
