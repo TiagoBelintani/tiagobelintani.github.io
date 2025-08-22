@@ -29,11 +29,44 @@ body {
     line-height: 1.6;
 }
 
+/* ================= TOP NAVIGATION ================= */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 999;
+}
+.top-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 12px 0;
+    gap: 40px;
+}
+.top-nav ul li a {
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 1em;
+    color: #007b8a;
+    transition: color 0.2s, border-bottom 0.2s;
+    padding-bottom: 2px;
+}
+.top-nav ul li a:hover {
+    color: #004f59;
+    border-bottom: 2px solid #007b8a;
+}
+
 /* ================= CONTAINER ================= */
 .container {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 120px 20px 40px; /* topo maior para menu fixo */
     position: relative;
     z-index: 1;
 }
@@ -78,31 +111,13 @@ h1, h2, h3 {
     font-family: 'Space Grotesk', sans-serif;
     margin-bottom: 0.3em;
 }
-h1 {
-    font-size: 3em;
-    position:relative;
-}
-h1 span {
-    display:block;
-    margin:0.5em auto 0 auto;
-    width:64px;
-    border-bottom:3px solid #007b8a;
-    border-radius:2px;
-}
-h2 {
-    font-size: 2em;
-    margin-bottom:0.1em;
-}
-h3 {
-    font-size: 1.6em;
-    font-weight: 500;
-}
+h1 { font-size: 3em; position:relative; }
+h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px solid #007b8a; border-radius:2px; }
+h2 { font-size: 2em; margin-bottom:0.5em; }
+h3 { font-size: 1.6em; font-weight: 500; }
 
 /* ================= PARAGRAPHS & LISTS ================= */
-p, li {
-    font-size: 1.1em;
-    text-align: justify;
-}
+p, li { font-size: 1.1em; text-align: justify; }
 p.intro::first-letter {
     float: left;
     font-size: 3.1em;
@@ -112,46 +127,25 @@ p.intro::first-letter {
     padding-right: 8px;
     font-family: 'Space Grotesk', sans-serif;
 }
-ul {
-    padding-left: 20px;
-    margin-bottom: 0;
-}
+ul { padding-left: 20px; margin-bottom: 0; }
 .section ul {
     background: rgba(245,251,251,0.7);
     border-radius: 12px;
     box-shadow: 0 1px 10px rgba(0,124,138,0.07);
     padding: 16px 24px;
 }
-.section ul li {
-    margin-bottom: 0.5em;
-}
+.section ul li { margin-bottom: 0.5em; }
 
 /* ================= LINKS ================= */
-a {
-    color: #006c7b;
-    font-weight: bold;
-    text-decoration: none;
-}
-a:hover {
-    color: #004f59;
-    text-decoration: underline;
-}
+a { color: #006c7b; font-weight: bold; text-decoration: none; }
+a:hover { color: #004f59; text-decoration: underline; }
 
 /* ================= SECTIONS ================= */
-.section {
-    margin-bottom: 50px;
-}
+.section { margin-bottom: 50px; }
 
 /* ================= CV LINK ================= */
-.cv-link img {
-    width: 48px;
-    vertical-align: middle;
-    margin-right: 12px;
-}
-.cv-link a {
-    font-size: 1.2em;
-    color: #007b8a;
-}
+.cv-link img { width: 48px; vertical-align: middle; margin-right: 12px; }
+.cv-link a { font-size: 1.2em; color: #007b8a; }
 
 /* ================= PROFILE PHOTO ================= */
 .profile-photo {
@@ -170,10 +164,7 @@ a:hover {
     background: #fff;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-.profile-photo img:hover {
-    transform: scale(1.04);
-    box-shadow: 0 6px 28px rgba(0,108,123,0.18);
-}
+.profile-photo img:hover { transform: scale(1.04); box-shadow: 0 6px 28px rgba(0,108,123,0.18); }
 
 /* ================= FOOTER BANNER ================= */
 .footer-banner {
@@ -199,19 +190,6 @@ footer {
     z-index: 1;
 }
 
-/* ================= SECTION DIVIDER ================= */
-.section-divider {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1em;
-}
-.section-divider svg path {
-    stroke: #007b8a;
-    stroke-width: 2;
-    fill: none;
-    opacity: 0.25;
-}
-
 /* ================= RESPONSIVENESS ================= */
 @media (max-width: 500px) {
     h1 { font-size: 2.2em; }
@@ -222,6 +200,16 @@ footer {
 </style>
 </head>
 <body>
+
+<!-- Top Navigation -->
+<nav class="top-nav">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
 
 <div class="container">
 
@@ -238,7 +226,7 @@ footer {
     </div>
 
     <!-- Name & Title -->
-    <h1> Tiago Belintani <span></span> </h1>
+    <h1>Tiago Belintani <span></span></h1>
     <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
 
     <!-- Introduction -->
@@ -251,11 +239,6 @@ footer {
     <!-- Academic Profiles -->
     <div class="section">
         <h2>📄 Academic Profiles</h2>
-        <div class="section-divider">
-            <svg height="16" width="100">
-                <path d="M5,10 Q50,0 95,10"></path>
-            </svg>
-        </div>
         <ul>
             <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
             <li><a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a></li>
@@ -263,21 +246,6 @@ footer {
             <li><a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a></li>
             <li><a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a></li>
             <li><a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a></li>
-        </ul>
-    </div>
-
-    <!-- Explore / HTML Links -->
-    <div class="section">
-        <h2>📚 Explore</h2>
-        <div class="section-divider">
-            <svg height="16" width="100">
-                <path d="M5,10 Q50,0 95,10"></path>
-            </svg>
-        </div>
-        <ul>
-            <li><a href="contact.html" target="_blank">Contact</a></li>
-            <li><a href="publications.html" target="_blank">Publications</a></li>
-            <li><a href="research.html" target="_blank">Research</a></li>
         </ul>
     </div>
 
