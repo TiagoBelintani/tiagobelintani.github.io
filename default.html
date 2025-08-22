@@ -8,34 +8,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Fundo translúcido -->
+
+  <!-- Fundo translúcido da main page -->
   <div class="background-overlay"></div>
 
   <!-- Container principal -->
   <div class="container">
-    
-    <!-- Epigraph / Poetic Quote -->
+
+    <!-- Header condicional para home -->
     {% if page.title == "Home" %}
     <div class="epigraph">
       “Nothing in biology makes sense except in the light of evolution.”<br>
       <span>– Theodosius Dobzhansky</span>
     </div>
-    {% endif %}
-
-    <!-- Cabeçalho com nome e cargo -->
-    {% if page.title == "Home" %}
     <header class="profile-header">
       <h1>Tiago Belintani <span></span></h1>
       <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
     </header>
     {% endif %}
 
-    <!-- Conteúdo principal -->
+    <!-- Conteúdo principal (Markdown) -->
     <main>
       {{ content }}
     </main>
 
-    <!-- Footer Banner (opcional) -->
+    <!-- Footer banner (mesmo estilo da main page) -->
     <div class="footer-banner"></div>
 
     <!-- Rodapé -->
@@ -43,11 +40,8 @@
       © 2025 Tiago Belintani<br>
       <span>Sapientia et disciplina</span>
     </footer>
+
   </div>
 
-  <!-- Scripts opcionais -->
-  <script>
-    // Caso queira alguma animação ou interatividade futura
-  </script>
 </body>
 </html>
