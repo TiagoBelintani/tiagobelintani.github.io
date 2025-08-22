@@ -1,5 +1,12 @@
 
-Full articles published in journals
+---
+layout: default
+title: Publications
+---
+
+# Publications
+
+## Full articles published in journals
 
 1. BELINTANI, T.; CONGRAINS, C.; PINOTTI, HELOISA; CHAHAD-EHLERS, S.; BRITO, R. A.; OLIVEIRA, J.; FRIAS-LASSERRE, D.; FONTES, F. M.; ROSA, J. A. Transcriptome-based phylogenomic analysis reveals evidence of ancient hybridization events in the Mepraia genus (Hemiptera: Reduviidae: Triatominae). FRONTIERS IN ECOLOGY AND EVOLUTION. v.11, p.1 - 1, 2023. (ANEXO – BQ)
 Áreas do conhecimento: Genética, Taxonomia dos Grupos Recentes,Entomologia e Malacologia de Parasitos e Vetores
@@ -78,7 +85,7 @@ Palavras-chave: Triatominae, Trypanosoma cruzi, doença de Chagas
 Áreas do conhecimento: Entomologia e Malacologia de Parasitos e Vetores
 Referências adicionais: português. Meio de divulgação: Meio digital. Home page: [https://www.scielo.br/j/rsbmt/a/dwHqCHgXHgmkddCY3fNGkdF/abstract/?lang=em] 
 
-Book chapters
+## Book chapters
 
 1. VIGANO, L.; BELINTANI, TIAGO; ROSA, J. A. ESTRATÉGIAS LABORATORIAIS PARA O DIAGNÓSTICO DA DOENÇA DE CHAGAS In: Atualidades em Medicina Tropical no Brasil: Interdisciplinaridade, ed.1. Rio Branco: Stricto Sensu, 2023, p. 1 - 323. (ANEXO – BY)
 Palavras-chave: Diagnostico, doença de Chagas
