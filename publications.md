@@ -1,11 +1,13 @@
-
 ---
 layout: default
 title: Publications
 permalink: /publications/
 ---
 
-# Full Articles Published in Journals
+# Publications
+
+## Full Articles Published in Journals
+
 
 <div class="publication">
 **BELINTANI, T.; CONGRAINS, C.; PINOTTI, HELOISA; CHAHAD-EHLERS, S.; BRITO, R. A.; OLIVEIRA, J.; FRIAS-LASSERRE, D.; FONTES, F. M.; ROSA, J. A..**  
@@ -141,7 +143,6 @@ Palavras-chave: Triatominae, Trypanosoma cruzi, doença de Chagas
 Áreas do conhecimento: Entomologia e Malacologia de Parasitos e Vetores
 Referências adicionais: português. Meio de divulgação: Meio digital. Home page: [https://www.scielo.br/j/rsbmt/a/dwHqCHgXHgmkddCY3fNGkdF/abstract/?lang=em] 
 </div>
----
 
 ## Book chapters
 
