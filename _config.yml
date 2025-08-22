@@ -1,0 +1,421 @@
+Below is a ready-to-use, multi-page Jekyll skeleton that keeps your current visual identity and adds a top navigation with tabs for Home, Research, Publications, Repositories, and Contact.
+
+Copy these files into your GitHub Pages repo (create folders as needed). Images go in `assets/images/`.
+
+---
+
+## 1) `_config.yml`
+
+```yaml
+title: "Tiago Belintani"
+description: "Evolutionary Bioinformatician | Postdoctoral Fellow (UNESP/FAPESP)"
+url: ""          # ex: https://tiagobelintani.github.io
+baseurl: ""      # keep empty for user.github.io root
+
+# Optional metadata
+author:
+  name: "Tiago Belintani"
+  email: "tiagobellintani@gmail.com"
+  motto: "Sapientia et disciplina"
+  scholar: "https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR"
+  fapesp: "https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/"
+  researchgate: "https://www.researchgate.net/profile/Tiago-Belintani"
+  orcid: "https://orcid.org/0000-0001-9485-1145"
+  lattes: "http://lattes.cnpq.br/8948388411348223"
+  researcherid: "https://www.webofscience.com/wos/author/record/AAL-8293-2021"
+
+github_username: "TiagoBelintani"
+
+markdown: kramdown
+plugins:
+  - jekyll-seo-tag   # (whitelisted on GitHub Pages)
+
+# Build settings (optional)
+exclude:
+  - README.md
+```
+
+---
+
+## 2) `_layouts/default.html`
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  {% seo %}
+</head>
+<body>
+  <div class="bg-overlay"></div>
+
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li><a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ '/research/' | relative_url }}" class="{% if page.url contains '/research' %}active{% endif %}">Research</a></li>
+        <li><a href="{{ '/publications/' | relative_url }}" class="{% if page.url contains '/publications' %}active{% endif %}">Publications</a></li>
+        <li><a href="{{ '/repositories/' | relative_url }}" class="{% if page.url contains '/repositories' %}active{% endif %}">Repositories</a></li>
+        <li><a href="{{ '/contact/' | relative_url }}" class="{% if page.url contains '/contact' %}active{% endif %}">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    {{ content }}
+  </main>
+
+  <div class="footer-banner"></div>
+  <footer>
+    © {{ 'now' | date: '%Y' }} {{ site.author.name }}<br />
+    <span class="motto">{{ site.author.motto }}</span>
+  </footer>
+</body>
+</html>
+```
+
+---
+
+## 3) `assets/css/style.css`
+
+```css
+/* Background overlay (uses your existing photo) */
+.bg-overlay {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh;
+  background: url('../images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
+  background-size: cover;
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body {
+  position: relative; z-index: 1;
+  font-family: 'Courier New', monospace;
+  color: #333; background: #fdfdfd;
+  margin: 0; padding: 0; min-height: 100vh;
+}
+
+.container {
+  max-width: 1120px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 1;
+}
+
+/* Navbar */
+.navbar { background: #fff; border-bottom: 1px solid #eaeaea; position: sticky; top: 0; z-index: 3; }
+.navbar ul { list-style: none; margin: 0; padding: 10px 0; text-align: center; }
+.navbar li { display: inline-block; margin: 0 16px; }
+.navbar a { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #007b8a; text-decoration: none; letter-spacing: .2px; }
+.navbar a:hover { color: #004f59; }
+.navbar a.active { color: #004f59; border-bottom: 2px solid #007b8a; padding-bottom: 2px; }
+
+/* Typography */
+h1, h2, h3 { text-align: center; color: #111; font-family: 'Space Grotesk', sans-serif; margin-bottom: 0.3em; }
+h1 { font-size: 3em; position: relative; }
+h1 span { display: block; margin: 0.5em auto 0 auto; width: 64px; border-bottom: 3px solid #007b8a; border-radius: 2px; }
+h2 { font-size: 2em; margin-bottom: 0.1em; }
+h3 { font-size: 1.6em; font-weight: 500; }
+p, li { font-size: 1.1em; line-height: 1.8em; text-align: justify; }
+ul { padding-left: 20px; }
+a { color: #006c7b; font-weight: bold; text-decoration: none; }
+a:hover { color: #004f59; text-decoration: underline; }
+
+/* Sections */
+.section { margin-bottom: 50px; }
+.section ul { background: rgba(245,251,251,0.7); border-radius: 12px; box-shadow: 0 1px 10px rgba(0,124,138,0.07); padding: 16px 24px; margin-bottom: 0; }
+
+/* Top images */
+.top-images { display: flex; justify-content: center; align-items: flex-start; gap: 20px; margin-bottom: 40px; flex-wrap: nowrap; }
+.top-images img { width: 45%; max-width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); object-fit: cover; flex-shrink: 0; transition: filter 0.3s, transform 0.2s; }
+.top-images img:hover { filter: brightness(1.15) contrast(1.1) saturate(1.1); transform: scale(1.02) rotate(-0.5deg); z-index: 2; }
+@media (max-width: 800px) {
+  .top-images { flex-direction: column; align-items: center; }
+  .top-images img { width: 90%; }
+}
+
+/* Intro drop cap */
+p.intro::first-letter { float: left; font-size: 3.1em; line-height: 1; font-weight: bold; color: #007b8a; padding-right: 8px; font-family: 'Space Grotesk', sans-serif; }
+
+/* Profile photo */
+.profile-photo { display: flex; justify-content: center; margin: 40px 0 40px 0; }
+.profile-photo img { width: 260px; max-width: 98vw; height: auto; object-fit: contain; border-radius: 18px; box-shadow: 0 4px 18px rgba(0,108,123,0.13); border: 3px solid #e8f6f7; background: #fff; transition: transform 0.2s, box-shadow 0.2s; }
+.profile-photo img:hover { transform: scale(1.04); box-shadow: 0 6px 28px rgba(0,108,123,0.18); }
+
+/* Footer */
+.footer-banner { margin-top: 80px; width: 100%; height: 300px; background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0.5), rgba(255,255,255,0)), url('../images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center bottom no-repeat; background-size: cover; background-attachment: fixed; opacity: 0.8; position: relative; z-index: 1; }
+footer { text-align: center; font-size: 0.9em; color: #666; padding: 20px 0; margin-top: -10px; position: relative; z-index: 1; }
+footer .motto { font-size: 0.85em; color: #aaa; }
+```
+
+---
+
+## 4) `index.md` (Home)
+
+```markdown
+---
+layout: default
+title: Tiago Belintani
+permalink: /
+---
+
+<div style="text-align:center; font-style:italic; font-size:1.25em; color:#333; margin-bottom:1.5em; margin-top:1em;">
+  “Nothing in biology makes sense except in the light of evolution.”<br>
+  <span style="font-size:0.95em; color:#666;">– Theodosius Dobzhansky</span>
+</div>
+
+<div class="top-images">
+  <img src="{{ '/assets/images/imagem1.jpg' | relative_url }}" alt="DNA theme">
+  <img src="{{ '/assets/images/imagem2.jpg' | relative_url }}" alt="Tarantula and Kissing Bug">
+</div>
+
+<h1>
+  Tiago Belintani
+  <span></span>
+</h1>
+<h3 style="text-align:center;">Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
+
+<p class="intro">
+  I am a postdoctoral researcher at São Paulo State University (UNESP), where I delve into evolutionary biology, systematics, and phylogenomics of key Neotropical organisms. My research focuses primarily on two fascinating and ecologically significant groups: the <em>Triatominae</em> (blood-feeding insects and vectors of Chagas disease) and the <em>Theraphosidae</em> (the often misunderstood tarantulas).<br><br>
+  My academic background merges classical training in zoology with modern bioinformatics and genomic analysis. From dusty entomological collections to high-throughput DNA sequencing, my work seeks to understand the hidden patterns of diversification, adaptation, and biogeography. I combine tools such as geometric morphometrics, phylogenetic inference, and comparative genomics to trace evolutionary lineages and untangle species complexes.<br><br>
+  I believe science is both a narrative and an exploration. Each sequence, specimen, or cladogram contributes to a broader understanding of life’s tangled branches — and I’m here to map them with curiosity and rigor.
+</p>
+
+<div class="section">
+  <h2>📄 Academic Profiles</h2>
+  <div style="display:flex;justify-content:center;">
+    <svg height="16" width="100" style="margin-bottom:1em;">
+      <path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+    </svg>
+  </div>
+  <ul>
+    <li><a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a></li>
+    <li><a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a></li>
+    <li><a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a></li>
+    <li><a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a></li>
+    <li><a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a></li>
+    <li><a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a></li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>🎓 Education</h2>
+  <div style="display:flex;justify-content:center;">
+    <svg height="16" width="100" style="margin-bottom:1em;">
+      <path d="M5,10 Q50,0 95,10" stroke="#007b8a" stroke-width="2" fill="none" opacity="0.25"/>
+    </svg>
+  </div>
+  <ul>
+    <li>
+      PhD – Animal Biodiversity, Anthropogenic Relationships, Environment, and Parasitology<br>
+      <span style="font-size:0.95em; color:#666;">Institute of Biology, University of Campinas (Unicamp)</span>
+    </li>
+    <li>
+      MSc – Biotechnology Applied to Biological Sciences<br>
+      <span style="font-size:0.95em; color:#666;">Faculty of Pharmaceutical Sciences, São Paulo State University (UNESP)</span>
+    </li>
+    <li>
+      Visiting Researcher – Department of Entomology, Plant Pathology and Nematology<br>
+      <span style="font-size:0.95em; color:#666;">College of Agricultural and Life Sciences, University of Idaho (UIDAHO)</span>
+    </li>
+    <li>
+      BSc – Biological Sciences<br>
+      <span style="font-size:0.95em; color:#666;">University of Araraquara (UNIARA)</span>
+    </li>
+    <li>
+      Teacher Licensure – Biological Sciences<br>
+      <span style="font-size:0.95em; color:#666;">University of Araraquara (UNIARA)</span>
+    </li>
+  </ul>
+</div>
+
+<div class="section cv-link">
+  <a href="{{ '/assets/images/CV_TiagoBelintani.pdf' | relative_url }}" target="_blank">
+    <img src="{{ '/assets/images/3846805.png' | relative_url }}" alt="CV icon">Access My CV
+  </a>
+</div>
+```
+
+---
+
+## 5) `research.md`
+
+```markdown
+---
+layout: default
+title: Research
+permalink: /research/
+---
+
+# Research
+
+## Focus
+- Evolutionary biology of recent lineages (Neotropical taxa)
+- Phylogenomics, molecular systematics, geometric morphometrics, comparative morphology
+- Model groups: **Triatominae** (Hemiptera: Reduviidae) and **Theraphosidae** (Araneae)
+
+## Current Projects
+1. **Triatominae systematics & diversification**  
+   Integrating genomic datasets with morphology to refine species boundaries and biogeographic history.
+2. **New World tarantulas phylogenomics**  
+   Phylogenomic approaches to resolve relationships and trait evolution across Theraphosidae.
+
+## Methods & Tooling
+- NGS data processing (quality control, assembly, orthology inference)
+- RNA-Seq analyses for gene expression and phylogenetic signal
+- Geometric morphometrics for shape variation and species delimitation
+
+## Collaborations
+- UNESP (Rio Claro) — Department of Zoology and Ecology  
+- University of Idaho — Department of Entomology, Plant Pathology, and Nematology
+
+## Funding
+- FAPESP Postdoctoral Fellowship (Brazil)
+- BEPE/FAPESP International Research Internship
+```
+
+---
+
+## 6) `publications.md`
+
+```markdown
+---
+layout: default
+title: Publications
+permalink: /publications/
+---
+
+# Publications
+
+<!--
+Tip: Keep a simple curated list here for visitors. For a complete record, link to your Google Scholar.
+Later we can automate from a BibTeX or a YAML file.
+-->
+
+**Complete list:** [Google Scholar]({{ site.author.scholar }})
+
+## Selected Papers
+- (Year) **Title of the paper**. *Journal Name*. Authors: A, B, **Tiago Belintani**, C. [DOI/Link]
+- (Year) **Title 2**. *Journal*. Authors. [DOI/Link]
+
+## Preprints & Datasets
+- (Year) **Preprint title**. *bioRxiv*. [Link]
+- (Year) **Dataset name**. *Repository*. [Link]
+```
+
+---
+
+## 7) `repositories.md`
+
+```markdown
+---
+layout: default
+title: Repositories
+permalink: /repositories/
+---
+
+# Repositories
+
+<p>Highlighted projects from <a href="https://github.com/{{ site.github_username }}" target="_blank">github.com/{{ site.github_username }}</a>:</p>
+
+<div id="repo-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;"></div>
+
+<script>
+  async function loadRepos() {
+    const user = '{{ site.github_username }}';
+    const res = await fetch(`https://api.github.com/users/${user}/repos?sort=updated&per_page=100`);
+    const data = await res.json();
+    const list = document.getElementById('repo-list');
+    const highlight = [
+      // Optional: add repo names to pin at the top, e.g. 'phylo-pipeline', 'ngs-tools'
+    ];
+
+    // Sort: pinned first, then by stars
+    data.sort((a,b) => {
+      const pa = highlight.includes(a.name), pb = highlight.includes(b.name);
+      if (pa && !pb) return -1; if (!pa && pb) return 1;
+      return (b.stargazers_count||0) - (a.stargazers_count||0);
+    });
+
+    data.forEach(r => {
+      const card = document.createElement('a');
+      card.href = r.html_url; card.target = '_blank';
+      card.style.background = 'rgba(245,251,251,0.7)';
+      card.style.borderRadius = '12px';
+      card.style.boxShadow = '0 1px 10px rgba(0,124,138,0.07)';
+      card.style.padding = '16px 20px';
+      card.style.textDecoration = 'none';
+      card.style.color = '#004f59';
+      card.innerHTML = `
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:6px;">${r.name}</div>
+        <div style="font-size:0.95em;color:#333;min-height:44px;">${r.description || 'No description'}</div>
+        <div style="font-size:0.85em;color:#666;margin-top:8px;">
+          ★ ${r.stargazers_count} • ⑂ ${r.forks_count} • Updated ${new Date(r.updated_at).toLocaleDateString()}
+        </div>`;
+      list.appendChild(card);
+    });
+  }
+  loadRepos();
+</script>
+```
+
+---
+
+## 8) `contact.md`
+
+```markdown
+---
+layout: default
+title: Contact
+permalink: /contact/
+---
+
+# Contact
+
+**Email:** <a href="mailto:tiagobellintani@gmail.com">tiagobellintani@gmail.com</a>  
+**GitHub:** <a href="https://github.com/{{ site.github_username }}" target="_blank">github.com/{{ site.github_username }}</a>
+
+## Academic Profiles
+- [Google Scholar]({{ site.author.scholar }})
+- [FAPESP]({{ site.author.fapesp }})
+- [ResearchGate]({{ site.author.researchgate }})
+- [ORCID]({{ site.author.orcid }})
+- [Lattes]({{ site.author.lattes }})
+- [ResearcherID]({{ site.author.researcherid }})
+
+---
+
+If you prefer, reach out on any of the platforms above.
+```
+
+---
+
+## 9) Images
+
+Place your existing images in:
+
+```
+assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg
+assets/images/imagem1.jpg
+assets/images/imagem2.jpg
+assets/images/3846805.png          # CV icon
+assets/images/CV_TiagoBelintani.pdf # your CV
+```
+
+---
+
+## 10) Notes
+
+* The **navigation bar** is in the layout, so all pages share the same header/footer.
+* The **active tab** is highlighted automatically with Liquid (`page.url`).
+* The **Repositories** page fetches your public repos live from GitHub’s API (client-side JS). No plugins needed.
+* Customize colors, titles, and links in `_config.yml`.
+* Add more pages by creating new `.md` files with `layout: default` and adding them to the navbar in the layout.
