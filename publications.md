@@ -2,6 +2,7 @@
 ---
 layout: default
 title: Publications
+permalink: /publications/
 ---
 
 # Full Articles Published in Journals
