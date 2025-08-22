@@ -2,33 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }}</title>
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-  <!-- Background Overlay -->
-  <div class="background-overlay"></div>
-
-  <!-- Main container -->
   <div class="container">
-    <!-- Optional page title -->
-    {% if page.title %}
-      <h1>{{ page.title }}<span></span></h1>
-    {% endif %}
+    <!-- Header / Navigation -->
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">Tiago Belintani</a><span></span></h1>
+      <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
+      <nav style="text-align:center; margin: 20px 0;">
+        <a href="{{ '/' | relative_url }}">Home</a> | 
+        <a href="{{ '/publications/' | relative_url }}">Publications</a> | 
+        <a href="{{ '/research/' | relative_url }}">Research</a> | 
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+      </nav>
+    </header>
 
-    <!-- Content from Markdown -->
+    <!-- Page content -->
     {{ content }}
+
+    <!-- Footer -->
+    <div class="footer-banner"></div>
+    <footer>
+      © 2025 Tiago Belintani<br>
+      <span style="font-size:0.85em;color:#aaa;">Sapientia et disciplina</span>
+    </footer>
   </div>
-
-  <!-- Footer -->
-  <div class="footer-banner"></div>
-  <footer>
-    © 2025 Tiago Belintani<br>
-    <span class="footer-subtitle">Sapientia et disciplina</span>
-  </footer>
-
 </body>
 </html>
