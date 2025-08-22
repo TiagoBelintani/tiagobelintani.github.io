@@ -6,47 +6,124 @@
 <title>Contact | Tiago Belintani</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  body::before {
+body::before {
     content: "";
-    position: fixed; top:0; left:0; right:0; bottom:0;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw; height: 100vh;
     background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
     background-size: cover;
     opacity: 0.25;
     z-index: 0;
     pointer-events: none;
-  }
-  body {
-    position: relative; z-index:1;
+}
+body {
+    position: relative;
+    z-index: 1;
     font-family: 'Courier New', monospace;
-    color:#333; background:#fdfdfd;
-    margin:0; padding:0; min-height:100vh;
-  }
-  .container { max-width:1120px; margin:0 auto; padding:40px 20px; position: relative; z-index:1; }
-  h1, h2 { font-family: 'Space Grotesk', sans-serif; text-align:center; color:#111; }
-  h1 { font-size:3em; margin-bottom:0.2em; }
-  h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px solid #007b8a; border-radius:2px; }
-  h2 { font-size:2em; margin-bottom:1em; }
-  p, li { line-height:1.7em; font-size:1.1em; }
-  ul { padding-left:20px; }
-  a { color:#007b8a; font-weight:bold; text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  .section { background: rgba(245,251,251,0.7); border-radius:12px; box-shadow:0 1px 10px rgba(0,124,138,0.07); padding:20px 24px; margin-bottom:20px; }
+    color: #333;
+    background: #fdfdfd;
+    margin: 0; padding: 0;
+    min-height: 100vh;
+}
+
+/* ================= TOP NAVIGATION ================= */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 999;
+}
+.top-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 12px 0;
+    gap: 40px;
+}
+.top-nav ul li a {
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 1em;
+    color: #007b8a;
+    transition: color 0.2s, border-bottom 0.2s;
+    padding-bottom: 2px;
+}
+.top-nav ul li a:hover {
+    color: #004f59;
+    border-bottom: 2px solid #007b8a;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 100px 20px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+h1, h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    text-align: center;
+    color: #111;
+}
+h1 { font-size: 3em; margin-bottom: 0.2em; }
+h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px solid #007b8a; border-radius:2px; }
+h2 { font-size: 2em; margin-bottom: 1em; }
+
+.section {
+    background: rgba(245,251,251,0.7);
+    border-radius: 12px;
+    box-shadow: 0 1px 10px rgba(0,124,138,0.07);
+    padding: 24px;
+    margin-bottom: 30px;
+}
+
+p, li, a { font-size: 1.1em; line-height: 1.7em; text-align: justify; }
+a { color: #007b8a; text-decoration: none; font-weight: bold; }
+a:hover { text-decoration: underline; }
+
+.contact-info ul { padding-left: 20px; }
+.contact-info ul li { margin-bottom: 0.5em; }
 </style>
 </head>
 <body>
+
+<!-- Top Navigation -->
+<nav class="top-nav">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
 <div class="container">
   <h1>Tiago Belintani <span></span></h1>
   <h2>Contact</h2>
 
-  <div class="section">
-    <p>If you wish to get in touch for collaborations, questions about research, or inquiries regarding publications, you can reach me at:</p>
+  <div class="section contact-info">
+    <p>Feel free to reach out via email or professional networks:</p>
     <ul>
-      <li>Email: <a href="mailto:tiago.belintani@example.com">tiago.belintani@example.com</a></li>
-      <li>Phone: +55 11 99999-9999</li>
-      <li>Institution: São Paulo State University (UNESP)</li>
-      <li>Address: Av. Eng. Luiz Edmundo Carrijo Coube, 14-01, Botucatu, SP, Brazil</li>
+        <li>Email: <a href="mailto:tiago.belintani@example.com">tiago.belintani@example.com</a></li>
+        <li>Google Scholar: <a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Profile</a></li>
+        <li>ResearchGate: <a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">Profile</a></li>
+        <li>ORCID: <a href="https://orcid.org/0000-0001-9485-1145" target="_blank">Profile</a></li>
     </ul>
   </div>
+
+  <div class="section">
+    <p>You can also use this form (if implemented) to contact me directly via the website.</p>
+  </div>
 </div>
+
 </body>
 </html>
+
