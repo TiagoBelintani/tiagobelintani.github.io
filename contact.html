@@ -25,6 +25,10 @@ body {
     background: #fdfdfd;
     margin: 0; padding: 0;
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
 }
 
 /* ================= TOP NAVIGATION ================= */
@@ -60,37 +64,53 @@ body {
     border-bottom: 2px solid #007b8a;
 }
 
+/* ================= CONTAINER CENTRALIZADO ================= */
 .container {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 100px 20px 40px;
+    margin: 140px auto 40px auto; /* margem superior maior para menu fixo */
+    padding: 40px;
     position: relative;
     z-index: 1;
+    background: rgba(245,251,251,0.85);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
+/* ================= HEADINGS ================= */
 h1, h2 {
     font-family: 'Space Grotesk', sans-serif;
-    text-align: center;
     color: #111;
 }
 h1 { font-size: 3em; margin-bottom: 0.2em; }
 h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px solid #007b8a; border-radius:2px; }
 h2 { font-size: 2em; margin-bottom: 1em; }
 
+/* ================= SEÇÕES ================= */
 .section {
-    background: rgba(245,251,251,0.7);
-    border-radius: 12px;
-    box-shadow: 0 1px 10px rgba(0,124,138,0.07);
-    padding: 24px;
     margin-bottom: 30px;
 }
-
-p, li, a { font-size: 1.1em; line-height: 1.7em; text-align: justify; }
+p, li, a {
+    font-size: 1.1em;
+    line-height: 1.7em;
+    text-align: center;
+}
 a { color: #007b8a; text-decoration: none; font-weight: bold; }
 a:hover { text-decoration: underline; }
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.contact-info ul li {
+    margin-bottom: 0.5em;
+}
 
-.contact-info ul { padding-left: 20px; }
-.contact-info ul li { margin-bottom: 0.5em; }
+/* ================= RESPONSIVIDADE ================= */
+@media (max-width: 500px) {
+    h1 { font-size: 2.2em; }
+    h2 { font-size: 1.6em; }
+    p, li { font-size: 1em; }
+}
 </style>
 </head>
 <body>
@@ -110,13 +130,13 @@ a:hover { text-decoration: underline; }
   <h2>Contact</h2>
 
   <div class="section contact-info">
-    <p>Contact us via email or professional networks:</p>
+    <p>Contact me via email or professional networks:</p>
     <ul>
         <li>Email: <a href="mailto:tiagobellintani@gmail.com">tiagobellintani@gmail.com</a></li>
-        <li>Email: <a href="mailto:tiago.belintani@unesp.com">tiago.belintani@unesp.br</a></li>
-        <li>Google Scholar: <a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">MyProfile</a></li>
-        <li>ResearchGate: <a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">MyProfile</a></li>
-        <li>ORCID: <a href="https://orcid.org/0000-0001-9485-1145" target="_blank">MyProfile</a></li>
+        <li>Email: <a href="mailto:tiago.belintani@unesp.br">tiago.belintani@unesp.br</a></li>
+        <li>Google Scholar: <a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">My Profile</a></li>
+        <li>ResearchGate: <a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">My Profile</a></li>
+        <li>ORCID: <a href="https://orcid.org/0000-0001-9485-1145" target="_blank">My Profile</a></li>
     </ul>
   </div>
 
@@ -127,4 +147,3 @@ a:hover { text-decoration: underline; }
 
 </body>
 </html>
-
