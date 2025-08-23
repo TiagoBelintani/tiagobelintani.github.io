@@ -67,13 +67,28 @@ body {
 /* ================= CONTAINER CENTRALIZADO ================= */
 .container {
     max-width: 800px;
-    margin: 140px auto 40px auto; /* margem superior maior para menu fixo */
+    margin: 140px auto 40px auto; /* espaço para menu fixo */
     padding: 40px;
     position: relative;
     z-index: 1;
     background: rgba(245,251,251,0.85);
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* ================= FOTO CIRCULAR ================= */
+.profile-photo {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid #007b8a;
+}
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* recorta a imagem proporcionalmente */
 }
 
 /* ================= HEADINGS ================= */
@@ -110,6 +125,7 @@ a:hover { text-decoration: underline; }
     h1 { font-size: 2.2em; }
     h2 { font-size: 1.6em; }
     p, li { font-size: 1em; }
+    .profile-photo { width: 120px; height: 120px; }
 }
 </style>
 </head>
@@ -126,6 +142,11 @@ a:hover { text-decoration: underline; }
 </nav>
 
 <div class="container">
+  <!-- Foto Circular -->
+  <div class="profile-photo">
+      <img src="assets/images/profile.jpg" alt="Tiago Belintani">
+  </div>
+
   <h1>Tiago Belintani <span></span></h1>
   <h2>Contact</h2>
 
@@ -147,3 +168,4 @@ a:hover { text-decoration: underline; }
 
 </body>
 </html>
+
