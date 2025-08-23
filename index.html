@@ -29,17 +29,6 @@ body {
     z-index: 1;
 }
 
-/* ================= HEADER BANNER ================= */
-.header-banner {
-    width: 100%;
-    height: 180px;
-    background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.6), rgba(255,255,255,0)),
-        url('assets/images/arte-expertise.jpg') center center no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    opacity: 0.9;
-}
-
 /* ================= TOP NAVIGATION ================= */
 .top-nav {
     position: fixed;
@@ -89,7 +78,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     gap: 20px;
-    margin-bottom: 40px;
+    margin: 60px auto;
     flex-wrap: wrap;
 }
 .top-images img {
@@ -202,9 +191,6 @@ footer {
 </head>
 <body>
 
-<!-- Header Banner -->
-<div class="header-banner"></div>
-
 <!-- Top Navigation -->
 <nav class="top-nav">
     <ul>
@@ -216,12 +202,6 @@ footer {
 </nav>
 
 <div class="container">
-
-    <!-- Top Images -->
-    <div class="top-images">
-        <img src="assets/images/imagem1.jpg" alt="DNA-themed research illustration">
-        <img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug">
-    </div>
 
     <!-- Name & Title -->
     <h1>Tiago Belintani <span></span></h1>
@@ -242,6 +222,26 @@ footer {
         <a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a> | 
         <a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a> | 
         <a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a> | 
-        <a href="http://lattes.cnpq.br/8948388411348223" target="_blank_
+        <a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a> | 
+        <a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a>
+    </div>
 
+    <!-- Top Images moved to bottom -->
+    <div class="top-images">
+        <img src="assets/images/imagem1.jpg" alt="DNA-themed research illustration">
+        <img src="assets/images/imagem2.jpg" alt="Tarantula and Kissing Bug">
+    </div>
 
+</div>
+
+<!-- Footer Banner -->
+<div class="footer-banner"></div>
+
+<!-- Footer -->
+<footer>
+    © 2025 Tiago Belintani<br>
+    <span style="font-size:0.85em;color:#aaa;">Sapientia et disciplina</span>
+</footer>
+
+</body>
+</html>
