@@ -66,9 +66,10 @@ body {
 .container {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 120px 20px 40px; /* espaço para menu fixo */
+    padding: 120px 20px 40px;
     position: relative;
     z-index: 1;
+    text-align: center;
 }
 
 /* ================= TOP IMAGES ================= */
@@ -105,39 +106,6 @@ h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px
 h2 { font-size: 2em; margin-bottom:0.5em; }
 h3 { font-size: 1.6em; font-weight: 500; }
 
-/* ================= BIOGRAPHY SECTION ================= */
-.bio-container {
-    background: rgba(255,255,255,0.85);
-    padding: 30px 40px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    margin: 40px auto;
-    max-width: 900px;
-    text-align: center;
-}
-.bio-container p {
-    font-size: 1.15em;
-    line-height: 1.8;
-    text-align: justify;
-    text-justify: inter-word;
-}
-
-/* ================= ACADEMIC LINKS ================= */
-.bio-links {
-    margin-top: 20px;
-    font-size: 1em;
-    text-align: center;
-}
-.bio-links a {
-    color: #007b8a;
-    text-decoration: none;
-    font-weight: 600;
-    margin: 0 10px;
-}
-.bio-links a:hover {
-    text-decoration: underline;
-}
-
 /* ================= PROFILE PHOTO ================= */
 .profile-photo {
     display: flex;
@@ -155,6 +123,41 @@ h3 { font-size: 1.6em; font-weight: 500; }
     transition: transform 0.2s, box-shadow 0.2s;
 }
 .profile-photo img:hover { transform: scale(1.04); box-shadow: 0 6px 28px rgba(0,108,123,0.18); }
+
+/* ================= BIOGRAPHY BOX ================= */
+.bio-container {
+    background: rgba(255,255,255,0.85);
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin: 40px auto;
+    max-width: 900px;
+    text-align: justify;
+}
+.bio-container p {
+    font-size: 1.15em;
+    line-height: 1.8;
+}
+
+/* ================= LINKS BOX ================= */
+.links-container {
+    background: rgba(245,251,251,0.9);
+    padding: 25px 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin: 30px auto 50px auto;
+    max-width: 900px;
+    text-align: center;
+}
+.links-container a {
+    color: #007b8a;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 0 10px;
+}
+.links-container a:hover {
+    text-decoration: underline;
+}
 
 /* ================= FOOTER ================= */
 footer {
@@ -210,10 +213,6 @@ footer {
     <h1>Tiago Belintani <span></span></h1>
     <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
 
-    <!-- Profile Photo -->
-    <div class="profile-photo">
-        <img src="assets/images/profile.jpg" alt="Tiago Belintani">
-    </div>
 
     <!-- Biography Section -->
     <div class="bio-container">
@@ -222,14 +221,16 @@ footer {
             My academic path merges classical zoological training with modern bioinformatics and genomic analysis. From dusty entomological collections to high-throughput DNA sequencing, I aim to uncover hidden patterns of diversification, adaptation, and biogeography. I utilize tools such as geometric morphometrics, phylogenetic inference, and comparative genomics to trace evolutionary lineages and resolve complex species relationships.<br><br>
             I see science as both narrative and exploration. Every sequence, specimen, and cladogram contributes to a broader understanding of life’s tangled branches — and I map them with curiosity, rigor, and enthusiasm.
         </p>
-        <div class="bio-links">
-            <a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a> | 
-            <a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a> | 
-            <a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a> | 
-            <a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a> | 
-            <a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a> | 
-            <a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a>
-        </div>
+    </div>
+
+    <!-- Academic Links Section -->
+    <div class="links-container">
+        <a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank">Google Scholar</a> | 
+        <a href="https://bv.fapesp.br/pt/pesquisador/728865/tiago-belintani/" target="_blank">FAPESP</a> | 
+        <a href="https://www.researchgate.net/profile/Tiago-Belintani" target="_blank">ResearchGate</a> | 
+        <a href="https://orcid.org/0000-0001-9485-1145" target="_blank">ORCID</a> | 
+        <a href="http://lattes.cnpq.br/8948388411348223" target="_blank">Lattes</a> | 
+        <a href="https://www.webofscience.com/wos/author/record/AAL-8293-2021" target="_blank">ResearcherID</a>
     </div>
 
 </div>
