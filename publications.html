@@ -1,229 +1,245 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Scientific publications by Tiago Belintani in phylogenomics, evolutionary biology, bioinformatics and vector biology.">
 <title>Publications | Tiago Belintani</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw; height: 100vh;
-    background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
-    background-size: cover;
-    opacity: 0.25;
-    z-index: 0;
-    pointer-events: none;
+:root {
+  --ink:#142428; --muted:#52666b; --accent:#007b8a; --accent-dark:#005965;
+  --surface:rgba(255,255,255,.92); --line:#d9e8ea; --bg:#f5fafb;
 }
-body {
-    position: relative;
-    z-index: 1;
-    font-family: 'Courier New', monospace;
-    color: #333;
-    background: #fdfdfd;
-    margin: 0; padding: 0;
-    min-height: 100vh;
-}
-
-/* ================= TOP NAVIGATION ================= */
-.top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    z-index: 999;
-}
-.top-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 12px 0;
-    gap: 40px;
-}
-.top-nav ul li a {
-    text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 500;
-    font-size: 1em;
-    color: #007b8a;
-    transition: color 0.2s, border-bottom 0.2s;
-    padding-bottom: 2px;
-}
-.top-nav ul li a:hover {
-    color: #004f59;
-    border-bottom: 2px solid #007b8a;
-}
-
-.container {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 100px 20px 40px;
-    position: relative;
-    z-index: 1;
-}
-
-h1, h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    text-align: center;
-    color: #111;
-}
-h1 { font-size: 3em; margin-bottom: 0.2em; }
-h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px solid #007b8a; border-radius:2px; }
-h2 { font-size: 2em; margin-bottom: 1em; }
-
-.publication, .book-chapter {
-    background: rgba(245,251,251,0.7);
-    border-radius: 12px;
-    box-shadow: 0 1px 10px rgba(0,124,138,0.07);
-    padding: 16px 24px;
-    margin-bottom: 20px;
-}
-.publication a, .book-chapter a {
-    color: #007b8a;
-    font-weight: bold;
-    text-decoration: none;
-}
-.publication a:hover, .book-chapter a:hover {
-    text-decoration: underline;
-}
-p { line-height: 1.7em; }
-
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Space Grotesk",Arial,sans-serif;line-height:1.6}
+body::before{content:"";position:fixed;inset:0;background:url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center/cover no-repeat;opacity:.10;z-index:-1}
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
+.top-nav ul{display:flex;justify-content:center;gap:28px;list-style:none;margin:0;padding:13px 18px;flex-wrap:wrap}
+.top-nav a{color:var(--accent);font-weight:700;text-decoration:none}
+.top-nav a:hover,.top-nav a[aria-current="page"]{color:var(--accent-dark);text-decoration:underline;text-underline-offset:5px}
+.container{max-width:1120px;margin:auto;padding:58px 22px 64px}
+.hero{text-align:center;margin-bottom:32px}
+.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);margin:0}
+.hero h1::after{content:"";display:block;width:70px;border-bottom:4px solid var(--accent);margin:14px auto}
+.hero p{max-width:760px;margin:0 auto;color:var(--muted)}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:24px 0 30px}
+.toolbar input,.toolbar select{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:white;font:inherit;min-width:220px}
+.section-title{font-size:1.55rem;margin:38px 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 7px 24px rgba(31,72,78,.06)}
+.card h3{font-size:1.08rem;margin:0 0 8px}
+.card p{margin:7px 0;color:var(--muted)}
+.meta{font-size:.9rem;color:var(--accent-dark);font-weight:700}
+.badge{display:inline-block;padding:3px 9px;border-radius:999px;background:#e7f5f6;color:var(--accent-dark);font-size:.78rem;font-weight:700}
+.button{display:inline-block;margin-top:10px;padding:9px 13px;border-radius:9px;background:var(--accent);color:white;text-decoration:none;font-weight:700}
+.button:hover{background:var(--accent-dark)}
+.publication-list{display:grid;gap:15px}
+.publication{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:17px 20px}
+.publication .year{float:right;background:#e7f5f6;color:var(--accent-dark);border-radius:999px;padding:2px 9px;font-weight:700;font-size:.85rem;margin-left:10px}
+.publication strong{font-size:.94rem}
+.publication .title{margin:6px 0 3px}
+.publication .journal{color:var(--muted)}
+.footer-note{text-align:center;color:var(--muted);margin-top:38px;font-size:.92rem}
+@media(max-width:650px){.top-nav ul{gap:14px;font-size:.92rem}.container{padding-top:36px}.publication .year{float:none;display:inline-block;margin:0 0 7px}}
 </style>
 </head>
 <body>
 
-<!-- Top Navigation -->
-<nav class="top-nav">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="research.html">Research</a></li>
-        <li><a href="collaborators.html">Collaborators</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
+<nav class="top-nav" aria-label="Main navigation">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="publications.html" aria-current="page">Publications</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="repositories.html">Repositories</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
 </nav>
 
-<div class="container">
-  <h1>Tiago Belintani <span></span></h1>
-  <h2>Publications</h2>
-<div class="publications-container">
-
-  <div class="publications-container">
-
-  <h2>Full articles published in journals</h2>
-
-<div class="publications-container">
-
-<div class="publication">
-    <strong>GROPPO, B. B.; MORALES, M. J.; BELINTANI, TIAGO; GADANUCCI, J. P.</strong> High diversity and population structure in a widespread tarantula <em>Sickius longibulbi</em> (Mygalomorphae: Theraphosidae). <em>Zoologischer Anzeiger</em>, 2025.
+<main class="container">
+  <header class="hero">
+    <h1>Publications</h1>
+    <p>Peer-reviewed articles and book chapters in phylogenomics, systematics, evolutionary biology, bioinformatics and Chagas disease vector research.</p>
+  </header>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search title, author or journal" aria-label="Search publications">
+    <select id="yearFilter" aria-label="Filter by year"><option value="">All years</option></select>
   </div>
-    <div class="publications-container">
-
-  <div class="publication">
-    <strong>PAIVA, V. F. ; OLIVEIRA, J. ; BELINTANI, TIAGO ; GALVÃO, CLEBER ; GIL-SANTANA, H. ; ROSA, JOÃO ARISTEU DA .</strong> Hospesneotomae n. gen. of the Triatomini tribe presents a turnaround in the taxonomy of the Triatoma protracta species complex. Scientific Reports, v. 15, p. 8143, 2025. <br>Citações: 2
-  </div>
-
-  <div class="publication">
-    <strong>FONSECA-FERREIRA, R. ; DERKARABETIAN, S. ; MORALES, M. J. ; OPATOVA, V. ; BELINTANI, TIAGO ; LYLE, R. ; GUADANUCCI, J. P. L.</strong> Disconnecting trapdoors: Phylogenomic analyses reveal evolutionary contrasts in trapdoor spiders with intercontinental distribution (Idiopidae, Idiopinae). MOLECULAR PHYLOGENETICS AND EVOLUTION, v. 206, p. 108323, 2025.
-  </div>
-
-  <div class="publication">
-    <strong>SANTOS SANTANA, JOCIEL KLLEYTON ; BELINTANI, TIAGO ; ARISTEU DA ROSA, JOÃO ; DE OLIVEIRA, JADER .</strong> Presence of Rhodnius neglectus Lent, 1954 (Hemiptera: Reduviidae: Triatominae) in Araraquara, São Paulo, Brazil: signals the importance of surveillance for the municipality. Revista Chilena de Entomologia, v. 50, p. 375-381, 2024. <br>Citações: 1
-  </div>
-
-  <div class="publication">
-    <strong>BELINTANI, TIAGO; OLIVEIRA, JADER DE ; PAIVA, VINÍCIUS FERNANDES DE ; SANTANA, JOCIEL KLLEYTON SANTANA ; FERNANDES, ISABELLA MAXWELL PAULINO ; GOMES, JONATHAN SILVESTRE ; HOPPE, ESTEVAM GUILHERME LUX ; ROSA, JOÃO ARISTEU DA .</strong> Triatomines in the city: A study of Rhodnius neglectus in Jaboticabal, São Paulo, Brazil, and its epidemiological implications. Revista da Sociedade Brasileira de Medicina Tropical, v. 57, p. e00422-2024-11, 2024.
-  </div>
-
-  <div class="publication">
-    <strong>PEIXOTO, S. ; BELINTANI, T. ; ROCHA, D. ; FONTES, F. ; GALVÃO, CLEBER .</strong> Characterization of Triatoma infestans (Klug, 1834) from Residual Foci in Bahia and Rio Grande do Sul, Brazil, Using Geometric Morphology. INSECTS, v. 14, p. 325, 2023. <br>Citações: 1
-  </div>
-
-  <div class="publication">
-    <strong>BELINTANI, T.; CONGRAINS, C. ; PINOTTI, HELOISA ; CHAHAD-EHLERS, S. ; BRITO, R. A. ; OLIVEIRA, J. ; FRIAS-LASSERRE, D. ; FONTES, F. M. ; ROSA, J. A. .</strong> Transcriptome-based phylogenomic analysis reveals evidence of ancient hybridization events in the Mepraia genus (Hemiptera: Reduviidae: Triatominae). FRONTIERS IN ECOLOGY AND EVOLUTION, v. 11, p. 1-1, 2023. <br>Citações: 3
-  </div>
-
-  <div class="publication">
-    <strong>KUNII, G. K. W ; FALCONE, R. ; GRAMINHA, M. A. S. ; NASCIMENTO, J. D. ; BELINTANI, T. ; OLIVEIRA, J. ; CLEMENTINO, L. C. ; ROSA, J. A. .</strong> Growth Curve, Morphological and Molecular Characterization of Two Strains of Trypanosoma cruzi isolated from Triatoma sherlocki. SOCIEDADE BRASILEIRA DE MEDICINA TROPICAL. REVISTA, v. 55, p. 55:e05212021, 2022. <br>Citações: 1
-  </div>
-
-  <div class="publication">
-    <strong>CACINI, G. L. ; OLIVEIRA, J. ; BELINTANI, T. ; SOUZA, E. ; OLAIA, N. ; PINTO, M. C. ; ROSA, J. A. .</strong> Immature instars of three species of Rhodnius Stål, 1859: morphology, morphometry and taxonomic implications. Parasites & Vectors, v. 1, p. 1-16, 2022. <br>Citações: 4
-  </div>
-
-  <div class="publication">
-    <strong>BELINTANI, T.; PAIVA, V. F. ; OLIVEIRA, J. ; ROSA, J. A. .</strong> New in morphometry: geometric morphometry of the external female genitalia of Triatominae. ACTA TROPICA, v. 1, p. 106383, 2022. <br>Citações: 6
-  </div>
-
-  <div class="publication">
-    <strong>SILVA, L. A. ; BELINTANI, T. ; PAIVA, V. F. ; NASCIMENTO, JULIANA DAMIELI ; Rimoldi, A ; GARDIM, S. ; MELLO, F. ; OBARA, M. ; OLIVEIRA, J. ; ROSA, J. A. .</strong> Integrative taxonomy and phylogenetic systematics of the Triatoma rubrovaria subcomplex. ACTA TROPICA, v. -, p. 106699, 2022. <br>Citações: 1
-  </div>
-
-  <div class="publication">
-    <strong>KAWASIMA, E. S. ; PAIVA, V. F. ; BELINTANI, T. ; H.H.G, J. ; PINOTTI, HELOISA ; OLIVEIRA, J. ; ROSA, J. A. .</strong> Morphological studies of Cimex lectularius Linnaeus, 1758 (Hemiptera: Cimicidae). Revista Chilena de Entomologia, v. 48, p. 695-705, 2022. <br>Citações: 1
-  </div>
-
-  <div class="publication">
-    <strong>PAIVA, V. F. ; BELINTANI, T. ; OLIVEIRA, JADER ; GALVÃO, CLÉBER ; ROSA, J. A. .</strong> A review of the taxonomy and biology of Triatominae subspecies. PARASITOLOGY RESEARCH, v. 1, p. 1, 2022. <br>Citações: 22
-  </div>
-
-  <div class="publication">
-    <strong>BELINTANI, TIAGO; OLIVEIRA, JADER ; PINOTTI, HELOISA ; ALEVI, KAIO CESAR CHABOLI ; NASCIMENTO, JULIANA DAMIELI ; SASSO-CERRI, ESTELA ; GALVÃO, CLEBER ; ARISTEU DA ROSA, JOÃO .</strong> Characterization of Female External Genitalia and Eggs of Four South American Species of the Triatoma Laporte, 1832 Genus. INSECTS, v. 12, p. 537, 2021. <br>Citações: 8
-  </div>
-
-  <div class="publication">
-    <strong>BELINTANI, T.; PAIVA, V. F. ; OLIVEIRA, J. ; GIL-SANTANA, H. ; ARISTEU DA ROSA, JOÃO .</strong> Wings or hemelytra? brief considerations on terminology in studies with Triatominae. Revista Chilena de Entomologia, v. 4, p. 669-672, 2021.
-  </div>
-
-  <div class="publication">
-    <strong>ROSSETO, L. ; PAIVA, V. F. ; BELINTANI, T. ; OLIVEIRA, J. ; MENDONCA, V. J. ; ROSA, JOÃO ARISTEU DA .</strong> Checklist and phenetics studies of nymphs of two species of triatomines. SOCIEDADE BRASILEIRA DE MEDICINA TROPICAL. REVISTA, v. 54, p. ---, 2021. <br>Citações: 3
-  </div>
-
-  <div class="publication">
-    <strong>BILHEIRO, ADRIANA BENATTI ; DA ROSA, JOÃO ARISTEU ; DE OLIVEIRA, JADER ; BELINTANI, TIAGO ; FONTES, GILBERTO ; MEDEIROS, JANSEN FERNANDES ; JÚNIOR, ANTÔNIO MARQUES PEREIRA ; MENEGUETTI, DIONATAS ULISES DE OLIVEIRA ; CAMARGO, LUÍS MARCELO ARANHA .</strong> Biological Aspects of (Hemiptera, Reduviidae, Triatominae) Under Laboratory Conditions. VECTOR-BORNE AND ZOONOTIC DISEASES, v. 1, p. vbz.2019.2449, 2019. <br>Citações: 1
-  </div>
-
-  <div class="publication">
-    <strong>ALEVI, KAIO CESAR CHABOLI ; AUGUSTO, YURI ; DE OLIVEIRA, JADER ; BELINTANI, TIAGO ; DA SILVA, LUCAS ABRANTES ; DA ROSA, JOÃO ARISTEU ; DE AZEREDO OLIVEIRA, MARIA TERCÍLIA VILELA .</strong> Reproductive aspects of Chagas disease vectors with anatomical teratologies. ACTA TROPICA, v. 185, p. 251-254, 2018. <br>Citações: 1
-  </div>
-
-  <div class="publication">
-    <strong>BILHEIRO, ADRIANA BENATTI ; DA ROSA, JOÃO ARISTEU ; DE OLIVEIRA, JADER ; BELINTANI, TIAGO ; FONTES, GILBERTO ; MEDEIROS, JANSEN FERNANDES ; MENEGUETTI, DIONATAS ULISES DE OLIVEIRA ; CAMARGO, LUÍS MARCELO ARANHA .</strong> First Report of Natural Infection with Trypanosoma cruzi in Rhodnius montenegrensis in Western Amazon, Brazil. VECTOR BORNE AND ZOONOTIC DISEASES, v. 20, p. 1, 2018. <br>Citações: 20
-  </div>
-
-  <div class="publication">
-    <strong>OLIVEIRA, JADER ; MARCET, PAULA L. ; TAKIYA, DANIELA M. ; MENDONÇA, VAGNER J. ; BELINTANI, TIAGO ; BARGUES, MARIA D. ; MATEO, LUCIA ; CHAGAS, VIVIAN ; FOLLY-RAMOS, ELAINE ; CORDEIRO-ESTRELA, PEDRO ; GURGEL-GONÇALVES, RODRIGO ; COSTA, JANE ; DA ROSA, JOÃO A. ; ALMEIDA, CARLOS E. .</strong> Combined phylogenetic and morphometric information to delimit and unify the Triatoma brasiliensis species complex. ACTA TROPICA, v. 170, p. 140-148, 2017. <br>Citações: 46
-  </div>
-
-  <div class="publication">
-    <strong>DA ROSA, JOÃO ARISTEU ; SOUZA, EDER SANTOS ; DA COSTA TEIXEIRA, ADELSON ; BARBOSA, ROSENILDO RIBEIRO ; DE SOUZA, AECILDO JOSÉ ; BELINTANI, TIAGO ; NASCIMENTO, JULIANA DAMIELI ; GIL-SANTANA, HÉLCIO REINALDO ; DE OLIVEIRA, JADER .</strong> Third record of Rhodnius amazonicus and comparative study with R. pictipes. ACTA TROPICA, v. 176, p. 364-372, 2017. <br>Citações: 11
-  </div>
-
-        <h2>Book Chapters Published</h2>
-
-  <div class="publication">
-    <strong>VIGANO, L.; BELINTANI, TIAGO; ROSA, J. A.</strong> Laboratory Strategies for the Diagnosis of Chagas Disease. In: Meneguetti, D. U. de; Oliveira, J.; Ale...</div>
-    <em>Atualidades em Medicina Tropical no Brasil: Interdisciplinarity</em>. 1st ed. Rio Branco: Stricto Sensu, 2023, pp. 1-323.
-  </div>
-
-  <div class="publication">
-    <strong>PAIVA, V. F.; BELINTANI, TIAGO; OLIVEIRA, J.; SILVA, L. A.; ARISTEU DA ROSA, J.</strong> Entomoepidemiology of Chagas Disease in Southern Brazil: Collection of Triatominae in Seven Municipalities of Rio Grande do Sul. In: Oliveira, J.; Ale...</div>
-    <em>Atualidades em Medicina Tropical na América do Sul: Vectors</em>. 1st ed. Rio Branco: Stricto Sensu, 2021, pp. 1-345.
-  </div>
-
-  <div class="publication">
-    <strong>BELINTANI, T.; PAIVA, V. F.; ROSA, J. A.</strong> Phylogeny, Evolution and Dynamics of Parasitic Diseases and Their Vectors. In: Oliveira, J.; Ale...</div>
-    <em>Atualidades em Medicina Tropical no Brasil: Vectors</em>. 1st ed. Rio Branco: Stricto Sensu, 2020, pp. 0-262.
-  </div>
-
-</div>
-
-
+  <h2 class="section-title">Peer-reviewed articles (23)</h2>
+  <section id="articles" class="publication-list"><article class="publication" data-year="2026" data-text="silva, m. c. s. e.; gadanucci, j. p.; belintani, t. mitochondrial genomes from rna-seq reveal phylogeny and selection in mepraia (hemiptera: reduviidae). molecular genetics and genomics">
+      <span class="year">2026</span>
+      <strong>SILVA, M. C. S. E.; GADANUCCI, J. P.; BELINTANI, T.</strong>
+      <div class="title">Mitochondrial genomes from RNA-Seq reveal phylogeny and selection in <em>Mepraia</em> (Hemiptera: Reduviidae).</div>
+      <div class="journal"><em>Molecular Genetics and Genomics</em>, v. 301, 117.</div>
+    </article>
+<article class="publication" data-year="2025" data-text="paiva, v. f.; oliveira, j.; belintani, t.; galvão, c.; gil-santana, h.; rosa, j. a. hospesneotomae n. gen. of the triatomini tribe presents a turnaround in the taxonomy of the triatoma protracta species complex. scientific reports">
+      <span class="year">2025</span>
+      <strong>PAIVA, V. F.; OLIVEIRA, J.; BELINTANI, T.; GALVÃO, C.; GIL-SANTANA, H.; ROSA, J. A.</strong>
+      <div class="title"><em>Hospesneotomae</em> n. gen. of the Triatomini tribe presents a turnaround in the taxonomy of the <em>Triatoma protracta</em> species complex.</div>
+      <div class="journal"><em>Scientific Reports</em>, v. 15, 8143.</div>
+    </article>
+<article class="publication" data-year="2025" data-text="fonseca-ferreira, r.; derkarabetian, s.; morales, m. j.; opatova, v.; belintani, t.; lyle, r.; guadanucci, j. p. l. disconnecting trapdoors: phylogenomic analyses reveal evolutionary contrasts in trapdoor spiders with intercontinental distribution (idiopidae, idiopinae). molecular phylogenetics and evolution">
+      <span class="year">2025</span>
+      <strong>FONSECA-FERREIRA, R.; DERKARABETIAN, S.; MORALES, M. J.; OPATOVA, V.; BELINTANI, T.; LYLE, R.; GUADANUCCI, J. P. L.</strong>
+      <div class="title">Disconnecting trapdoors: Phylogenomic analyses reveal evolutionary contrasts in trapdoor spiders with intercontinental distribution (Idiopidae, Idiopinae).</div>
+      <div class="journal"><em>Molecular Phylogenetics and Evolution</em>, v. 206, 108323.</div>
+    </article>
+<article class="publication" data-year="2025" data-text="groppo, b. b.; morales, m. j.; belintani, t.; gadanucci, j. p. high diversity and population structure in a widespread tarantula sickius longibulbi (mygalomorphae: theraphosidae). zoologischer anzeiger">
+      <span class="year">2025</span>
+      <strong>GROPPO, B. B.; MORALES, M. J.; BELINTANI, T.; GADANUCCI, J. P.</strong>
+      <div class="title">High diversity and population structure in a widespread tarantula <em>Sickius longibulbi</em> (Mygalomorphae: Theraphosidae).</div>
+      <div class="journal"><em>Zoologischer Anzeiger</em>, v. 319, 31–40.</div>
+    </article>
+<article class="publication" data-year="2024" data-text="santos santana, j. k.; belintani, t.; rosa, j. a.; oliveira, j. presence of rhodnius neglectus lent, 1954 (hemiptera: reduviidae: triatominae) in araraquara, são paulo, brazil: signals the importance of surveillance for the municipality. revista chilena de entomología">
+      <span class="year">2024</span>
+      <strong>SANTOS SANTANA, J. K.; BELINTANI, T.; ROSA, J. A.; OLIVEIRA, J.</strong>
+      <div class="title">Presence of <em>Rhodnius neglectus</em> Lent, 1954 (Hemiptera: Reduviidae: Triatominae) in Araraquara, São Paulo, Brazil: signals the importance of surveillance for the municipality.</div>
+      <div class="journal"><em>Revista Chilena de Entomología</em>, v. 50, 375–381.</div>
+    </article>
+<article class="publication" data-year="2024" data-text="belintani, t.; oliveira, j.; paiva, v. f.; santana, j. k. s.; fernandes, i. m. p.; gomes, j. s.; hoppe, e. g. l.; rosa, j. a. triatomines in the city: a study of rhodnius neglectus in jaboticabal, são paulo, brazil, and its epidemiological implications. revista da sociedade brasileira de medicina tropical">
+      <span class="year">2024</span>
+      <strong>BELINTANI, T.; OLIVEIRA, J.; PAIVA, V. F.; SANTANA, J. K. S.; FERNANDES, I. M. P.; GOMES, J. S.; HOPPE, E. G. L.; ROSA, J. A.</strong>
+      <div class="title">Triatomines in the city: A study of <em>Rhodnius neglectus</em> in Jaboticabal, São Paulo, Brazil, and its epidemiological implications.</div>
+      <div class="journal"><em>Revista da Sociedade Brasileira de Medicina Tropical</em>, v. 57, e00422-2024.</div>
+    </article>
+<article class="publication" data-year="2023" data-text="belintani, t.; congrains, c.; pinotti, h.; chahad-ehlers, s.; brito, r. a.; oliveira, j.; frias-lasserre, d.; fontes, f. m.; rosa, j. a. transcriptome-based phylogenomic analysis reveals evidence of ancient hybridization events in the mepraia genus (hemiptera: reduviidae: triatominae). frontiers in ecology and evolution">
+      <span class="year">2023</span>
+      <strong>BELINTANI, T.; CONGRAINS, C.; PINOTTI, H.; CHAHAD-EHLERS, S.; BRITO, R. A.; OLIVEIRA, J.; FRIAS-LASSERRE, D.; FONTES, F. M.; ROSA, J. A.</strong>
+      <div class="title">Transcriptome-based phylogenomic analysis reveals evidence of ancient hybridization events in the <em>Mepraia</em> genus (Hemiptera: Reduviidae: Triatominae).</div>
+      <div class="journal"><em>Frontiers in Ecology and Evolution</em>, v. 11, 1–1.</div>
+    </article>
+<article class="publication" data-year="2023" data-text="peixoto, s.; belintani, t.; rocha, d.; fontes, f.; galvão, c. characterization of triatoma infestans (klug, 1834) from residual foci in bahia and rio grande do sul, brazil, using geometric morphology. insects">
+      <span class="year">2023</span>
+      <strong>PEIXOTO, S.; BELINTANI, T.; ROCHA, D.; FONTES, F.; GALVÃO, C.</strong>
+      <div class="title">Characterization of <em>Triatoma infestans</em> (Klug, 1834) from residual foci in Bahia and Rio Grande do Sul, Brazil, using geometric morphology.</div>
+      <div class="journal"><em>Insects</em>, v. 14, 325.</div>
+    </article>
+<article class="publication" data-year="2023" data-text="da silva, l. a.; belintani, t.; paiva, v. f.; nascimento, j. d.; rimoldi, a.; gardim, s.; rocha, c. s.; mello, f.; obara, m. t.; oliveira, j.; rosa, j. a. integrative taxonomy and phylogenetic systematics of the triatoma rubrovaria subcomplex (hemiptera, triatominae). acta tropica">
+      <span class="year">2023</span>
+      <strong>DA SILVA, L. A.; BELINTANI, T.; PAIVA, V. F.; NASCIMENTO, J. D.; RIMOLDI, A.; GARDIM, S.; ROCHA, C. S.; MELLO, F.; OBARA, M. T.; OLIVEIRA, J.; ROSA, J. A.</strong>
+      <div class="title">Integrative taxonomy and phylogenetic systematics of the <em>Triatoma rubrovaria</em> subcomplex (Hemiptera, Triatominae).</div>
+      <div class="journal"><em>Acta Tropica</em>, v. 237, 106699.</div>
+    </article>
+<article class="publication" data-year="2022" data-text="belintani, t.; paiva, v. f.; oliveira, j.; rosa, j. a. new in morphometry: geometric morphometry of the external female genitalia of triatominae (hemiptera: reduviidae). acta tropica">
+      <span class="year">2022</span>
+      <strong>BELINTANI, T.; PAIVA, V. F.; OLIVEIRA, J.; ROSA, J. A.</strong>
+      <div class="title">New in morphometry: geometric morphometry of the external female genitalia of Triatominae (Hemiptera: Reduviidae).</div>
+      <div class="journal"><em>Acta Tropica</em>, v. 1, 106383.</div>
+    </article>
+<article class="publication" data-year="2022" data-text="paiva, v. f.; belintani, t.; oliveira, j.; galvão, c.; rosa, j. a. a review of the taxonomy and biology of triatominae subspecies (hemiptera: reduviidae). parasitology research">
+      <span class="year">2022</span>
+      <strong>PAIVA, V. F.; BELINTANI, T.; OLIVEIRA, J.; GALVÃO, C.; ROSA, J. A.</strong>
+      <div class="title">A review of the taxonomy and biology of Triatominae subspecies (Hemiptera: Reduviidae).</div>
+      <div class="journal"><em>Parasitology Research</em>, v. 1, 1.</div>
+    </article>
+<article class="publication" data-year="2022" data-text="cacini, g. l.; oliveira, j.; belintani, t.; souza, e.; olaia, n.; pinto, m. c.; rosa, j. a. immature instars of three species of rhodnius stål, 1859 (hemiptera, reduviidae, triatominae): morphology, morphometry and taxonomic implications. parasites &amp; vectors">
+      <span class="year">2022</span>
+      <strong>CACINI, G. L.; OLIVEIRA, J.; BELINTANI, T.; SOUZA, E.; OLAIA, N.; PINTO, M. C.; ROSA, J. A.</strong>
+      <div class="title">Immature instars of three species of <em>Rhodnius</em> Stål, 1859 (Hemiptera, Reduviidae, Triatominae): morphology, morphometry and taxonomic implications.</div>
+      <div class="journal"><em>Parasites &amp; Vectors</em>, v. 1, 1–16.</div>
+    </article>
+<article class="publication" data-year="2022" data-text="kawasima, e. s.; paiva, v. f.; belintani, t.; h. h. g., j.; pinotti, h.; oliveira, j.; rosa, j. a. morphological studies of cimex lectularius linnaeus, 1758 (hemiptera: cimicidae). revista chilena de entomología">
+      <span class="year">2022</span>
+      <strong>KAWASIMA, E. S.; PAIVA, V. F.; BELINTANI, T.; H. H. G., J.; PINOTTI, H.; OLIVEIRA, J.; ROSA, J. A.</strong>
+      <div class="title">Morphological studies of <em>Cimex lectularius</em> Linnaeus, 1758 (Hemiptera: Cimicidae).</div>
+      <div class="journal"><em>Revista Chilena de Entomología</em>, v. 48, 695–705.</div>
+    </article>
+<article class="publication" data-year="2022" data-text="kunii, g. k. w.; falcone, r.; graminha, m. a. s.; nascimento, j. d.; belintani, t.; oliveira, j.; clementino, l. c.; rosa, j. a. growth curve, morphological and molecular characterization of two strains of trypanosoma cruzi isolated from triatoma sherlocki. revista da sociedade brasileira de medicina tropical">
+      <span class="year">2022</span>
+      <strong>KUNII, G. K. W.; FALCONE, R.; GRAMINHA, M. A. S.; NASCIMENTO, J. D.; BELINTANI, T.; OLIVEIRA, J.; CLEMENTINO, L. C.; ROSA, J. A.</strong>
+      <div class="title">Growth curve, morphological and molecular characterization of two strains of <em>Trypanosoma cruzi</em> isolated from <em>Triatoma sherlocki</em>.</div>
+      <div class="journal"><em>Revista da Sociedade Brasileira de Medicina Tropical</em>, v. 55, e05212021.</div>
+    </article>
+<article class="publication" data-year="2021" data-text="belintani, t.; oliveira, j.; pinotti, h.; alevi, k. c. c.; nascimento, j. d.; sasso-cerri, e.; galvão, c.; rosa, j. a. characterization of female external genitalia and eggs of four south american species of the triatoma laporte, 1832 genus. insects">
+      <span class="year">2021</span>
+      <strong>BELINTANI, T.; OLIVEIRA, J.; PINOTTI, H.; ALEVI, K. C. C.; NASCIMENTO, J. D.; SASSO-CERRI, E.; GALVÃO, C.; ROSA, J. A.</strong>
+      <div class="title">Characterization of female external genitalia and eggs of four South American species of the <em>Triatoma</em> Laporte, 1832 genus.</div>
+      <div class="journal"><em>Insects</em>, v. 12, 537.</div>
+    </article>
+<article class="publication" data-year="2021" data-text="rosseto, l.; paiva, v. f.; belintani, t.; oliveira, j.; mendonça, v. j.; rosa, j. a. checklist and phenetics studies of nymphs of two species of triatomines: triatoma lenti and triatoma sherlocki. revista da sociedade brasileira de medicina tropical">
+      <span class="year">2021</span>
+      <strong>ROSSETO, L.; PAIVA, V. F.; BELINTANI, T.; OLIVEIRA, J.; MENDONÇA, V. J.; ROSA, J. A.</strong>
+      <div class="title">Checklist and phenetics studies of nymphs of two species of triatomines: <em>Triatoma lenti</em> and <em>Triatoma sherlocki</em>.</div>
+      <div class="journal"><em>Revista da Sociedade Brasileira de Medicina Tropical</em>, v. 54, —.</div>
+    </article>
+<article class="publication" data-year="2021" data-text="belintani, t.; paiva, v. f.; oliveira, j.; gil-santana, h.; rosa, j. a. wings or hemelytra? brief considerations on terminology in studies with triatominae. revista chilena de entomología">
+      <span class="year">2021</span>
+      <strong>BELINTANI, T.; PAIVA, V. F.; OLIVEIRA, J.; GIL-SANTANA, H.; ROSA, J. A.</strong>
+      <div class="title">Wings or hemelytra? Brief considerations on terminology in studies with Triatominae.</div>
+      <div class="journal"><em>Revista Chilena de Entomología</em>, v. 4, 669–672.</div>
+    </article>
+<article class="publication" data-year="2020" data-text="belintani, t.; oliveira, j.; pinotti, h.; silva, l. a.; alevi, k. c. c.; galvão, c.; rosa, j. a. phylogenetic and phenotypic relationships of the triatoma sordida subcomplex (hemiptera: reduviidae: triatominae). acta tropica">
+      <span class="year">2020</span>
+      <strong>BELINTANI, T.; OLIVEIRA, J.; PINOTTI, H.; SILVA, L. A.; ALEVI, K. C. C.; GALVÃO, C.; ROSA, J. A.</strong>
+      <div class="title">Phylogenetic and phenotypic relationships of the <em>Triatoma sordida</em> subcomplex (Hemiptera: Reduviidae: Triatominae).</div>
+      <div class="journal"><em>Acta Tropica</em>, v. 212, 105679.</div>
+    </article>
+<article class="publication" data-year="2019" data-text="bilheiro, a. b.; rosa, j. a.; oliveira, j.; belintani, t.; fontes, g.; medeiros, j. f.; pereira júnior, a. m.; meneguetti, d. u. o.; camargo, l. m. a. biological aspects of triatominae under laboratory conditions. vector-borne and zoonotic diseases">
+      <span class="year">2019</span>
+      <strong>BILHEIRO, A. B.; ROSA, J. A.; OLIVEIRA, J.; BELINTANI, T.; FONTES, G.; MEDEIROS, J. F.; PEREIRA JÚNIOR, A. M.; MENEGUETTI, D. U. O.; CAMARGO, L. M. A.</strong>
+      <div class="title">Biological aspects of Triatominae under laboratory conditions.</div>
+      <div class="journal"><em>Vector-Borne and Zoonotic Diseases</em>, v. 1, vbz.2019.2449.</div>
+    </article>
+<article class="publication" data-year="2018" data-text="bilheiro, a. b.; rosa, j. a.; oliveira, j.; belintani, t.; fontes, g.; medeiros, j. f.; meneguetti, d. u. o.; camargo, l. m. a. first report of natural infection with trypanosoma cruzi in rhodnius montenegrensis in western amazon, brazil. vector-borne and zoonotic diseases">
+      <span class="year">2018</span>
+      <strong>BILHEIRO, A. B.; ROSA, J. A.; OLIVEIRA, J.; BELINTANI, T.; FONTES, G.; MEDEIROS, J. F.; MENEGUETTI, D. U. O.; CAMARGO, L. M. A.</strong>
+      <div class="title">First report of natural infection with <em>Trypanosoma cruzi</em> in <em>Rhodnius montenegrensis</em> in Western Amazon, Brazil.</div>
+      <div class="journal"><em>Vector-Borne and Zoonotic Diseases</em>, v. 20, 1.</div>
+    </article>
+<article class="publication" data-year="2018" data-text="alevi, k. c. c.; augusto, y.; oliveira, j.; belintani, t.; silva, l. a.; rosa, j. a.; azeredo-oliveira, m. t. v. reproductive aspects of chagas disease vectors with anatomical teratologies. acta tropica">
+      <span class="year">2018</span>
+      <strong>ALEVI, K. C. C.; AUGUSTO, Y.; OLIVEIRA, J.; BELINTANI, T.; SILVA, L. A.; ROSA, J. A.; AZEREDO-OLIVEIRA, M. T. V.</strong>
+      <div class="title">Reproductive aspects of Chagas disease vectors with anatomical teratologies.</div>
+      <div class="journal"><em>Acta Tropica</em>, v. 185, 251–254.</div>
+    </article>
+<article class="publication" data-year="2017" data-text="oliveira, j.; marcet, p. l.; takiya, d. m.; mendonça, v. j.; belintani, t.; bargues, m. d.; mateo, l.; chagas, v.; folly-ramos, e.; cordeiro-estrela, p.; gurgel-gonçalves, r.; costa, j.; rosa, j. a.; almeida, c. e. combined phylogenetic and morphometric information to delimit and unify the triatoma brasiliensis species complex and the brasiliensis subcomplex. acta tropica">
+      <span class="year">2017</span>
+      <strong>OLIVEIRA, J.; MARCET, P. L.; TAKIYA, D. M.; MENDONÇA, V. J.; BELINTANI, T.; BARGUES, M. D.; MATEO, L.; CHAGAS, V.; FOLLY-RAMOS, E.; CORDEIRO-ESTRELA, P.; GURGEL-GONÇALVES, R.; COSTA, J.; ROSA, J. A.; ALMEIDA, C. E.</strong>
+      <div class="title">Combined phylogenetic and morphometric information to delimit and unify the <em>Triatoma brasiliensis</em> species complex and the Brasiliensis subcomplex.</div>
+      <div class="journal"><em>Acta Tropica</em>, v. 170, 140–148.</div>
+    </article>
+<article class="publication" data-year="2017" data-text="rosa, j. a.; souza, e. s.; teixeira, a. c.; barbosa, r. r.; souza, a. j.; belintani, t.; nascimento, j. d.; gil-santana, h. r.; oliveira, j. third record of rhodnius amazonicus and comparative study with r. pictipes. acta tropica">
+      <span class="year">2017</span>
+      <strong>ROSA, J. A.; SOUZA, E. S.; TEIXEIRA, A. C.; BARBOSA, R. R.; SOUZA, A. J.; BELINTANI, T.; NASCIMENTO, J. D.; GIL-SANTANA, H. R.; OLIVEIRA, J.</strong>
+      <div class="title">Third record of <em>Rhodnius amazonicus</em> and comparative study with <em>R. pictipes</em>.</div>
+      <div class="journal"><em>Acta Tropica</em>, v. 176, 364–372.</div>
+    </article></section>
+  <h2 class="section-title">Book chapters (3)</h2>
+  <section id="chapters" class="publication-list"><article class="publication" data-year="2023" data-text="vigano, l.; belintani, t.; rosa, j. a. estratégias laboratoriais para o diagnóstico da doença de chagas. atualidades em medicina tropical no brasil: interdisciplinaridade">
+      <span class="year">2023</span>
+      <strong>VIGANO, L.; BELINTANI, T.; ROSA, J. A.</strong>
+      <div class="title">Estratégias laboratoriais para o diagnóstico da doença de Chagas.</div>
+      <div class="journal">In: <em>Atualidades em Medicina Tropical no Brasil: Interdisciplinaridade</em>. Stricto Sensu.</div>
+    </article>
+<article class="publication" data-year="2021" data-text="paiva, v. f.; belintani, t.; oliveira, j.; silva, l. a.; rosa, j. a. entomoepidemiologia da doença de chagas na região sul do brasil: coletas de triatominae em sete municípios do rio grande do sul. atualidades em medicina tropical na américa do sul: vetores">
+      <span class="year">2021</span>
+      <strong>PAIVA, V. F.; BELINTANI, T.; OLIVEIRA, J.; SILVA, L. A.; ROSA, J. A.</strong>
+      <div class="title">Entomoepidemiologia da doença de Chagas na região Sul do Brasil: coletas de Triatominae em sete municípios do Rio Grande do Sul.</div>
+      <div class="journal">In: <em>Atualidades em Medicina Tropical na América do Sul: Vetores</em>. Stricto Sensu.</div>
+    </article>
+<article class="publication" data-year="2020" data-text="belintani, t.; paiva, v. f.; rosa, j. a. filogenia, evolução e dinâmica das doenças parasitárias e seus vetores. atualidades em medicina tropical no brasil: vetores">
+      <span class="year">2020</span>
+      <strong>BELINTANI, T.; PAIVA, V. F.; ROSA, J. A.</strong>
+      <div class="title">Filogenia, evolução e dinâmica das doenças parasitárias e seus vetores.</div>
+      <div class="journal">In: <em>Atualidades em Medicina Tropical no Brasil: Vetores</em>. Stricto Sensu.</div>
+    </article></section>
+  <p class="footer-note">Publication data updated from the Lattes CV, June 2026.</p>
+</main>
+<script>
+const items=[...document.querySelectorAll('.publication')];
+const years=[...new Set(items.map(x=>x.dataset.year))].sort((a,b)=>b-a);
+const select=document.getElementById('yearFilter');
+years.forEach(y=>select.insertAdjacentHTML('beforeend',`<option value="${y}">${y}</option>`));
+function filter(){
+ const q=document.getElementById('search').value.toLowerCase().trim();
+ const y=select.value;
+ items.forEach(el=>el.hidden=!((!q||el.dataset.text.includes(q))&&(!y||el.dataset.year===y)));
+}
+document.getElementById('search').addEventListener('input',filter);
+select.addEventListener('change',filter);
+</script>
 </body>
 </html>
