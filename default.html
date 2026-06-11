@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="container">
+    <!-- Header / Navigation -->
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">Tiago Belintani</a><span></span></h1>
+      <h3>Researcher | Postdoctoral Fellow | Evolutionary Scientist – Brazil</h3>
+      <nav style="text-align:center; margin: 20px 0;">
+        <a href="{{ '/' | relative_url }}">Home</a> |
+        <a href="{{ '/publications.html' | relative_url }}">Publications</a> |
+        <a href="{{ '/research.html' | relative_url }}">Research</a> |
+        <a href="{{ '/repositories.html' | relative_url }}">Code &amp; Repositories</a> |
+        <a href="{{ '/collaborators.html' | relative_url }}">Collaborators</a> |
+        <a href="{{ '/contact.html' | relative_url }}">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Page content -->
+    {{ content }}
+
+    <!-- Footer -->
+    <div class="footer-banner"></div>
+    <footer>
+      © 2025 Tiago Belintani<br>
+      <span style="font-size:0.85em;color:#aaa;">Sapientia et disciplina</span>
+    </footer>
+  </div>
+</body>
+</html>
