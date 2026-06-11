@@ -6,34 +6,38 @@
 <title>Collaborators | Tiago Belintani</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
+
 body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw; height: 100vh;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
     background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
     background-size: cover;
     opacity: 0.25;
     z-index: 0;
     pointer-events: none;
 }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
     position: relative;
     z-index: 1;
-    font-family: 'Courier New', monospace;
-    color: #333;
-    background: #fdfdfd;
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     min-height: 100vh;
+    background: #fdfdfd;
+    color: #333;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
 }
-
-/* ================= TOP NAVIGATION ================= */
 .top-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.90);
     backdrop-filter: blur(6px);
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     z-index: 999;
@@ -42,90 +46,75 @@ body {
     list-style: none;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     margin: 0;
-    padding: 12px 0;
-    gap: 40px;
+    padding: 12px 16px;
+    gap: 30px;
 }
-.top-nav ul li a {
+.top-nav a {
+    color: #007b8a;
     text-decoration: none;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 500;
     font-size: 1em;
-    color: #007b8a;
-    transition: color 0.2s, border-bottom 0.2s;
     padding-bottom: 2px;
+    transition: color .2s, border-bottom .2s;
 }
-.top-nav ul li a:hover {
+.top-nav a:hover,
+.top-nav a[aria-current="page"] {
     color: #004f59;
     border-bottom: 2px solid #007b8a;
 }
-
 .container {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 100px 20px 40px;
+    padding: 105px 20px 50px;
     position: relative;
     z-index: 1;
 }
-
-h1, h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    text-align: center;
-    color: #111;
-}
-h1 { font-size: 3em; margin-bottom: 0.2em; }
-h1 span { display:block; margin:0.5em auto 0 auto; width:64px; border-bottom:3px solid #007b8a; border-radius:2px; }
-h2 { font-size: 2em; margin-bottom: 1em; }
-
-.team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px;
-}
-
-.member {
-    background: rgba(245,251,251,0.7);
-    border-radius: 12px;
-    box-shadow: 0 1px 10px rgba(0,124,138,0.07);
-    padding: 24px;
-    text-align: center;
-}
-
-.member img {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #e8f6f7;
-    box-shadow: 0 4px 18px rgba(0,108,123,0.13);
-    margin-bottom: 14px;
-    background: #fff;
-}
-
-.member h3 {
+h1, h2, h3 {
     font-family: 'Space Grotesk', sans-serif;
     color: #111;
-    margin: 0 0 10px 0;
-    font-size: 1.3em;
+}
+h1 {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: .2em;
+}
+h1 span {
+    display: block;
+    width: 64px;
+    margin: .5em auto 0;
+    border-bottom: 3px solid #007b8a;
+    border-radius: 2px;
+}
+h2 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 1em;
+}
+a {
+    color: #007b8a;
+}
+footer {
+    text-align: center;
+    font-size: .9em;
+    color: #666;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+@media (max-width: 760px) {
+    .top-nav ul { gap: 14px; font-size: .9rem; }
+    .container { padding-top: 135px; }
 }
 
-.member p {
-    font-size: 1.05em;
-    line-height: 1.7em;
-    margin: 0;
-}
 
-a { color: #007b8a; text-decoration: none; font-weight: bold; }
-a:hover { text-decoration: underline; }
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.member{background:rgba(245,251,251,.70);border-radius:12px;box-shadow:0 1px 10px rgba(0,124,138,.07);padding:24px;text-align:center}
+.member img{width:160px;height:160px;object-fit:cover;border-radius:50%;border:3px solid #e8f6f7;box-shadow:0 4px 18px rgba(0,108,123,.13);margin-bottom:14px;background:#fff}
+.member h3{margin:0 0 10px;font-size:1.3em}
+.member p{font-size:1.05em;line-height:1.7em;margin:0}
 
-@media (max-width: 500px) {
-    h1 { font-size: 2.2em; }
-    h2 { font-size: 1.6em; }
-    .member img {
-        width: 130px;
-        height: 130px;
-    }
-}
 </style>
 </head>
 <body>

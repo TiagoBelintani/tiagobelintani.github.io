@@ -61,6 +61,7 @@ body {
     font-weight: 500;
     font-size: 1em;
     padding-bottom: 2px;
+    transition: color .2s, border-bottom .2s;
 }
 .top-nav a:hover,
 .top-nav a[aria-current="page"] {
@@ -74,56 +75,36 @@ body {
     position: relative;
     z-index: 1;
 }
-.hero {
-    text-align: center;
-    margin-bottom: 32px;
-}
-.hero h1 {
-    margin: 0;
-    color: #111;
+h1, h2, h3 {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.2rem,5vw,3rem);
+    color: #111;
 }
-.hero h1::after {
-    content: "";
+h1 {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: .2em;
+}
+h1 span {
     display: block;
     width: 64px;
-    margin: 14px auto 18px;
+    margin: .5em auto 0;
     border-bottom: 3px solid #007b8a;
+    border-radius: 2px;
 }
-.hero p {
-    max-width: 780px;
-    margin: 0 auto;
-    color: #3f5054;
-}
-.toolbar {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 24px 0 30px;
-}
-.toolbar input,
-.toolbar select {
-    min-width: 220px;
-    padding: 11px 13px;
-    border: 1px solid rgba(0,123,138,0.25);
-    border-radius: 9px;
-    background: rgba(255,255,255,0.45);
-    color: #333;
-    font: inherit;
-}
-.toolbar input:focus,
-.toolbar select:focus {
-    outline: none;
-    border-color: #007b8a;
-    background: rgba(255,255,255,0.72);
-}
-.footer-note {
-    margin-top: 38px;
-    color: #52666b;
+h2 {
+    font-size: 2em;
     text-align: center;
-    font-size: .9rem;
+    margin-bottom: 1em;
+}
+a {
+    color: #007b8a;
+}
+footer {
+    text-align: center;
+    font-size: .9em;
+    color: #666;
+    padding: 20px 0;
+    margin-top: 40px;
 }
 @media (max-width: 760px) {
     .top-nav ul { gap: 14px; font-size: .9rem; }
@@ -131,87 +112,21 @@ body {
 }
 
 
-.hero-link {
-    display: inline-block;
-    margin-top: 18px;
-    padding: 8px 13px;
-    border: 1px solid rgba(0,123,138,0.28);
-    border-radius: 8px;
-    background: rgba(245,251,251,0.32);
-    color: #007b8a;
-    text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-}
-.hero-link:hover {
-    background: rgba(245,251,251,0.55);
-}
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(310px,1fr));
-    gap: 20px;
-}
-.card {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding: 20px 22px;
-    border: 1px solid rgba(0,123,138,0.14);
-    border-left: 4px solid rgba(0,123,138,0.65);
-    border-radius: 12px;
-    background: rgba(245,251,251,0.32);
-    box-shadow: 0 1px 8px rgba(0,124,138,0.04);
-    transition: transform .18s ease, background .18s ease;
-}
-.card:hover {
-    transform: translateY(-2px);
-    background: rgba(245,251,251,0.52);
-}
-.card h3 {
-    margin: 10px 0 8px;
-    color: #111;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.03rem;
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-}
-.card p {
-    flex: 1;
-    margin: 0 0 14px;
-    color: #394c50;
-    font-size: .98rem;
-    line-height: 1.58;
-}
-.badge {
-    align-self: flex-start;
-    padding: 3px 9px;
-    border: 1px solid rgba(0,123,138,0.18);
-    border-radius: 999px;
-    background: rgba(232,246,247,0.32);
-    color: #005965;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: .76rem;
-    font-weight: 700;
-}
-.card .button {
-    align-self: flex-start;
-    margin-top: auto;
-    padding: 7px 0 2px;
-    border-bottom: 1px solid transparent;
-    background: transparent;
-    color: #007b8a;
-    text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-}
-.card .button:hover {
-    color: #004f59;
-    border-bottom-color: #007b8a;
-}
-@media (max-width: 760px) {
-    .grid { grid-template-columns: 1fr; }
-}
+.hero{text-align:center;margin-bottom:32px}
+.hero h1{margin:0;font-size:3em}
+.hero p{max-width:780px;margin:0 auto;color:#46585d}
+.hero-link{display:inline-block;margin-top:18px;padding:8px 13px;border:1px solid rgba(0,123,138,.28);border-radius:8px;background:rgba(245,251,251,.42);color:#007b8a;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700}
+.toolbar{display:flex;justify-content:center;margin:24px 0 30px}
+.toolbar input{width:min(100%,460px);padding:11px 13px;border:1px solid rgba(0,123,138,.25);border-radius:9px;background:rgba(255,255,255,.45);font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;min-width:0;padding:20px 22px;border:1px solid rgba(0,123,138,.16);border-left:4px solid rgba(0,123,138,.68);border-radius:12px;background:rgba(245,251,251,.58);box-shadow:0 1px 10px rgba(0,124,138,.06)}
+.card:hover{background:rgba(245,251,251,.72)}
+.card h3{margin:10px 0 8px;font-size:1.03rem;line-height:1.35;overflow-wrap:anywhere}
+.card p{flex:1;margin:0 0 14px;color:#394c50;font-size:.98rem}
+.badge{align-self:flex-start;padding:3px 9px;border:1px solid rgba(0,123,138,.18);border-radius:999px;background:rgba(232,246,247,.66);color:#005965;font-family:'Space Grotesk',sans-serif;font-size:.76rem;font-weight:700}
+.card .button{align-self:flex-start;margin-top:auto;padding:7px 0 2px;border-bottom:1px solid transparent;background:transparent;color:#007b8a;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700}
+.card .button:hover{color:#004f59;border-bottom-color:#007b8a}
+.footer-note{text-align:center;color:#52666b;margin-top:38px;font-size:.92rem}
 
 </style>
 </head>
@@ -230,9 +145,9 @@ body {
 
 <main class="container">
   <header class="hero">
-    <h1>Code &amp; Repositories</h1>
-    <p>A curated selection of open workflows, scripts and training resources for phylogenomics, comparative genomics, transcriptomics, UCE processing and sequence-data quality control.</p>
-    <a class="hero-link" href="https://github.com/TiagoBelintani?tab=repositories" target="_blank" rel="noopener">View all repositories on GitHub →</a>
+    <h1>Open repositories</h1>
+    <p>Selected reproducible workflows, scripts and teaching resources for phylogenomics, transcriptomics, UCE processing and sequence-data quality control.</p>
+    <a class="button" href="https://github.com/TiagoBelintani?tab=repositories" target="_blank" rel="noopener">View all repositories on GitHub</a>
   </header>
   <div class="toolbar"><input id="repoSearch" type="search" placeholder="Search repositories" aria-label="Search repositories"></div>
   <section id="repoGrid" class="grid"><article class="card">
@@ -355,7 +270,7 @@ body {
       <p>Tutorial for assembling UCE datasets with PHYLUCE on SLURM systems.</p>
       <a class="button" href="https://github.com/TiagoBelintani/assembly_UCE" target="_blank" rel="noopener">Open repository</a>
     </article></section>
-  <p class="footer-note">Selected research software, analytical pipelines and teaching materials developed for evolutionary biology and bioinformatics.</p>
+  <p class="footer-note">Selected from the public GitHub profile of Tiago Belintani. Repository availability and content may change over time.</p>
 </main>
 <script>
 const cards=[...document.querySelectorAll('.card')];
