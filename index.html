@@ -14,12 +14,12 @@
 <meta property="og:title" content="Tiago Belintani | Evolutionary Biology, Phylogenomics & Bioinformatics">
 <meta property="og:description" content="Tiago Belintani is a researcher in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics, with research on Triatominae and Theraphosidae.">
 <meta property="og:url" content="https://tiagobelintani.github.io/">
-<meta property="og:image" content="https://tiagobelintani.github.io/assets/images/imagem1.jpg">
+<meta property="og:image" content="https://tiagobelintani.github.io/assets/images/profile-lab.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tiago Belintani | Evolutionary Biology, Phylogenomics & Bioinformatics">
 <meta name="twitter:description" content="Tiago Belintani is a researcher in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics, with research on Triatominae and Theraphosidae.">
-<meta name="twitter:image" content="https://tiagobelintani.github.io/assets/images/imagem1.jpg">
+<meta name="twitter:image" content="https://tiagobelintani.github.io/assets/images/profile-lab.jpg">
 
 <script type="application/ld+json">
 {
@@ -61,353 +61,467 @@
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
+
 <style>
 :root{
-  --bg:#f3f1ed;
-  --panel:#ece9e3;
-  --panel-2:#e6e4df;
-  --ink:#2f3133;
-  --muted:#696d70;
-  --line:#c9c6c0;
-  --accent:#45484b;
-  --white:#faf9f7;
-  --shadow:0 12px 30px rgba(40,42,44,.08);
+  --bg:#efede9;
+  --surface:#f8f7f4;
+  --panel:#e4e2dd;
+  --panel-soft:#ebe9e4;
+  --ink:#303234;
+  --muted:#67696a;
+  --line:#cac6bf;
+  --ochre:#4E3300;
+  --ochre-soft:#72552a;
+  --white:#ffffff;
+  --shadow:0 10px 26px rgba(44,44,42,.07);
 }
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+
 body{
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-family:'Space Grotesk',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   line-height:1.65;
 }
 
+img{max-width:100%}
 a{color:inherit}
 
 .top-nav{
   position:sticky;
   top:0;
   z-index:100;
-  background:rgba(243,241,237,.92);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(69,72,75,.10);
+  background:rgba(239,237,233,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(48,50,52,.08);
 }
 
 .nav-inner{
-  max-width:1180px;
+  max-width:1160px;
   margin:0 auto;
-  padding:16px 24px;
+  padding:15px 24px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:24px;
+  gap:28px;
 }
 
 .brand{
+  color:var(--ochre);
   font-weight:700;
   text-decoration:none;
   letter-spacing:-.02em;
+  white-space:nowrap;
 }
 
 .top-nav ul{
   list-style:none;
   display:flex;
-  gap:24px;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:20px;
   margin:0;
   padding:0;
-  flex-wrap:wrap;
-  justify-content:flex-end;
 }
 
 .top-nav a{
   text-decoration:none;
-  font-size:.95rem;
-  color:var(--muted);
+  font-size:.92rem;
+  color:#5f6162;
 }
 
 .top-nav a:hover,
 .top-nav a[aria-current="page"]{
-  color:var(--ink);
+  color:var(--ochre);
 }
 
 .page{
-  max-width:1180px;
+  max-width:1160px;
   margin:0 auto;
-  padding:34px 24px 70px;
+  padding:30px 24px 64px;
 }
 
+/* HERO */
 .hero{
   display:grid;
-  grid-template-columns:1.08fr .92fr;
-  min-height:560px;
-  background:var(--white);
-  border:1px solid rgba(69,72,75,.08);
-  border-radius:28px;
+  grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);
+  gap:0;
+  background:var(--surface);
+  border:1px solid rgba(48,50,52,.07);
+  border-radius:24px;
   overflow:hidden;
   box-shadow:var(--shadow);
 }
 
 .hero-copy{
-  padding:68px 58px;
+  padding:58px 54px;
   display:flex;
   flex-direction:column;
   justify-content:center;
 }
 
 .eyebrow{
+  margin-bottom:14px;
+  color:var(--ochre-soft);
+  font-size:.73rem;
+  font-weight:700;
+  letter-spacing:.16em;
   text-transform:uppercase;
-  letter-spacing:.18em;
-  font-size:.75rem;
-  color:var(--muted);
-  margin-bottom:18px;
 }
 
 .hero h1{
-  font-size:clamp(2.8rem,5vw,5rem);
+  margin:0 0 16px;
+  color:var(--ochre);
+  font-size:clamp(2.8rem,5vw,4.7rem);
   line-height:1.02;
   letter-spacing:-.045em;
-  margin:0 0 18px;
 }
 
 .hero .lead{
-  font-size:1.15rem;
-  color:#4f5356;
-  max-width:680px;
-  margin:0 0 28px;
+  max-width:650px;
+  margin:0 0 26px;
+  color:#4e5153;
+  font-size:1.08rem;
 }
 
 .hero-actions{
   display:flex;
-  gap:12px;
   flex-wrap:wrap;
-  margin-top:6px;
+  gap:10px;
 }
 
 .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:12px 18px;
-  border-radius:10px;
+  min-height:42px;
+  padding:9px 15px;
+  border:1px solid #56585a;
+  border-radius:9px;
   text-decoration:none;
+  font-size:.9rem;
   font-weight:600;
-  border:1px solid var(--accent);
-  transition:.2s ease;
+  transition:transform .18s ease, background .18s ease, color .18s ease;
 }
 
 .btn.primary{
-  background:var(--accent);
+  background:#3e4042;
   color:#fff;
 }
 
 .btn.secondary{
   background:transparent;
-  color:var(--ink);
+  color:#454749;
 }
 
-.btn:hover{transform:translateY(-1px)}
+.btn:hover{
+  transform:translateY(-1px);
+  border-color:var(--ochre);
+  color:var(--ochre);
+}
+
+.btn.primary:hover{
+  background:var(--ochre);
+  color:#fff;
+}
 
 .hero-photo{
-  min-height:560px;
-  background:#d8d5cf;
+  background:#ddd9d2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
 }
 
 .hero-photo img{
   width:100%;
-  height:100%;
+  height:auto;
+  max-height:520px;
   display:block;
-  object-fit:cover;
+  object-fit:contain;
   object-position:center;
 }
 
+/* TAG STRIP */
 .quick-tags{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-top:22px;
+  gap:10px;
+  margin:18px 0 0;
 }
 
 .quick-tag{
-  background:rgba(255,255,255,.62);
-  border:1px solid rgba(69,72,75,.08);
-  border-radius:14px;
-  padding:16px 14px;
+  padding:13px 12px;
   text-align:center;
-  font-size:.9rem;
-  color:#505356;
+  border:1px solid rgba(48,50,52,.08);
+  border-radius:12px;
+  background:rgba(248,247,244,.7);
+  color:#55585a;
+  font-size:.86rem;
 }
 
+.quick-tag strong{
+  color:var(--ochre);
+  font-weight:600;
+}
+
+/* SECTIONS */
 .section{
-  margin-top:62px;
+  margin-top:54px;
 }
 
 .section-head{
-  display:flex;
+  display:grid;
+  grid-template-columns:minmax(220px,.75fr) minmax(0,1.25fr);
+  gap:40px;
   align-items:end;
-  justify-content:space-between;
-  gap:20px;
-  margin-bottom:24px;
+  margin-bottom:20px;
 }
 
 .section-head h2{
-  font-size:clamp(2rem,3.5vw,3.2rem);
-  letter-spacing:-.035em;
   margin:0;
+  color:var(--ochre);
+  font-size:clamp(1.9rem,3vw,2.8rem);
+  letter-spacing:-.035em;
+  line-height:1.1;
 }
 
 .section-head p{
-  max-width:620px;
-  color:var(--muted);
   margin:0;
+  max-width:650px;
+  color:var(--muted);
 }
 
 .about{
-  background:var(--panel);
-  border-radius:24px;
-  padding:34px;
-  border:1px solid rgba(69,72,75,.08);
+  padding:28px 30px;
+  border:1px solid rgba(48,50,52,.07);
+  border-radius:18px;
+  background:var(--panel-soft);
 }
 
 .about p{
-  margin:0;
-  font-size:1.08rem;
-  color:#4c5053;
+  max-width:940px;
+  margin:0 auto;
+  color:#4f5254;
+  font-size:1.03rem;
 }
 
+/* RESEARCH */
 .research-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:22px;
+  gap:18px;
 }
 
 .research-card{
-  display:grid;
-  grid-template-columns:1.02fr .98fr;
-  min-height:360px;
-  border-radius:24px;
   overflow:hidden;
-  background:var(--panel);
-  border:1px solid rgba(69,72,75,.08);
+  border:1px solid rgba(48,50,52,.08);
+  border-radius:20px;
+  background:var(--surface);
+  box-shadow:0 5px 16px rgba(40,40,38,.04);
 }
 
-.research-card:nth-child(2){
-  background:var(--panel-2);
-}
-
-.research-copy{
-  padding:34px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.research-copy .kicker{
-  font-size:.72rem;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  color:var(--muted);
-}
-
-.research-copy h3{
-  font-size:2rem;
-  margin:14px 0 12px;
-  letter-spacing:-.03em;
-}
-
-.research-copy p{
-  margin:0 0 20px;
-  color:#55595c;
-}
-
-.text-link{
-  text-decoration:none;
-  font-weight:600;
+.research-image{
+  background:#ddd9d2;
+  border-bottom:1px solid rgba(48,50,52,.07);
 }
 
 .research-image img{
   width:100%;
-  height:100%;
+  height:auto;
+  aspect-ratio:4 / 3;
   display:block;
-  object-fit:cover;
+  object-fit:contain;
+  object-position:center;
 }
 
+.research-copy{
+  padding:25px 27px 28px;
+}
+
+.kicker{
+  color:var(--ochre-soft);
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.research-copy h3{
+  margin:8px 0 8px;
+  color:var(--ochre);
+  font-size:1.75rem;
+  letter-spacing:-.025em;
+}
+
+.research-copy p{
+  margin:0 0 15px;
+  color:#5a5d5f;
+}
+
+.text-link{
+  color:var(--ochre);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.text-link:hover{text-decoration:underline}
+
+/* OPEN SCIENCE */
 .opensource{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:22px;
+  gap:18px;
 }
 
 .os-card{
-  background:var(--white);
-  border-radius:22px;
-  padding:30px;
-  border:1px solid rgba(69,72,75,.08);
+  padding:26px 28px;
+  border:1px solid rgba(48,50,52,.08);
+  border-radius:18px;
+  background:var(--surface);
 }
 
 .os-card h3{
-  margin:0 0 10px;
-  font-size:1.5rem;
+  margin:0 0 8px;
+  color:var(--ochre);
+  font-size:1.35rem;
 }
 
 .os-card p{
-  margin:0 0 18px;
+  margin:0 0 16px;
   color:var(--muted);
 }
 
 .profile-links{
   display:flex;
-  gap:10px;
   flex-wrap:wrap;
+  gap:8px;
 }
 
 .profile-links a{
-  text-decoration:none;
-  padding:10px 14px;
+  padding:8px 12px;
   border:1px solid var(--line);
   border-radius:999px;
-  background:rgba(255,255,255,.55);
-  font-size:.9rem;
+  background:#f4f2ee;
+  color:#515355;
+  text-decoration:none;
+  font-size:.84rem;
+}
+
+.profile-links a:hover{
+  border-color:var(--ochre);
+  color:var(--ochre);
 }
 
 footer{
-  margin-top:64px;
-  padding:26px 0 4px;
-  color:#7a7d80;
+  margin-top:54px;
+  padding:24px 0 2px;
+  border-top:1px solid rgba(48,50,52,.08);
+  color:#77797a;
   text-align:center;
-  font-size:.9rem;
+  font-size:.86rem;
 }
 
-@media (max-width:900px){
-  .hero{grid-template-columns:1fr}
-  .hero-copy{padding:46px 30px}
-  .hero-photo{min-height:380px}
-  .quick-tags{grid-template-columns:repeat(2,1fr)}
-  .research-grid{grid-template-columns:1fr}
-  .opensource{grid-template-columns:1fr}
-  .top-nav ul{gap:14px}
+@media(max-width:900px){
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .hero-copy{
+    padding:42px 32px 34px;
+  }
+
+  .hero-photo{
+    padding:0;
+  }
+
+  .hero-photo img{
+    max-height:none;
+  }
+
+  .section-head{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .research-grid,
+  .opensource{
+    grid-template-columns:1fr;
+  }
 }
 
-@media (max-width:640px){
+@media(max-width:720px){
   .nav-inner{
     align-items:flex-start;
     flex-direction:column;
+    gap:10px;
+    padding:13px 16px;
   }
+
   .top-nav ul{
-    width:100%;
     justify-content:flex-start;
+    gap:10px 14px;
   }
-  .page{padding:22px 14px 50px}
-  .hero{border-radius:20px}
-  .hero-copy{padding:34px 22px}
-  .hero h1{font-size:2.6rem}
-  .quick-tags{grid-template-columns:1fr 1fr}
-  .section{margin-top:46px}
-  .section-head{display:block}
-  .section-head p{margin-top:10px}
-  .research-card{grid-template-columns:1fr}
-  .research-image{min-height:260px}
+
+  .top-nav a{
+    font-size:.84rem;
+  }
+
+  .page{
+    padding:18px 12px 44px;
+  }
+
+  .hero{
+    border-radius:18px;
+  }
+
+  .hero-copy{
+    padding:30px 22px;
+  }
+
+  .hero h1{
+    font-size:2.65rem;
+  }
+
+  .hero .lead{
+    font-size:1rem;
+  }
+
+  .quick-tags{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .section{
+    margin-top:42px;
+  }
+
+  .about{
+    padding:22px;
+  }
+
+  .research-copy,
+  .os-card{
+    padding:22px;
+  }
+}
+
+@media(max-width:430px){
+  .quick-tags{
+    grid-template-columns:1fr;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .btn{
+    width:100%;
+  }
 }
 </style>
 
@@ -435,21 +549,14 @@ footer{
       <div class="eyebrow">Evolutionary biology · phylogenomics · bioinformatics</div>
       <h1>Tiago Belintani</h1>
       <p class="lead">
-        Researcher working on the evolution, systematics and genomics of Neotropical organisms,
-        with a focus on Triatominae and Theraphosidae.
+        Researcher working on evolution, systematics and genomics of Neotropical organisms,
+        with emphasis on Triatominae and Theraphosidae.
       </p>
 
       <div class="hero-actions">
         <a class="btn primary" href="research.html">Explore my research</a>
         <a class="btn secondary" href="publications.html">Publications</a>
-        <a class="btn secondary" href="https://orcid.org/0000-0001-9485-1145" target="_blank" rel="noopener">View on ORCID</a>
-      </div>
-
-      <div class="quick-tags">
-        <div class="quick-tag">Evolutionary Biology</div>
-        <div class="quick-tag">Phylogenomics</div>
-        <div class="quick-tag">Bioinformatics</div>
-        <div class="quick-tag">Open Science</div>
+        <a class="btn secondary" href="https://orcid.org/0000-0001-9485-1145" target="_blank" rel="noopener">ORCID</a>
       </div>
     </div>
 
@@ -458,12 +565,19 @@ footer{
     </div>
   </section>
 
+  <div class="quick-tags" aria-label="Research areas">
+    <div class="quick-tag"><strong>Evolutionary</strong> Biology</div>
+    <div class="quick-tag"><strong>Phylogenomics</strong></div>
+    <div class="quick-tag"><strong>Bioinformatics</strong></div>
+    <div class="quick-tag"><strong>Open</strong> Science</div>
+  </div>
+
   <section class="section">
     <div class="section-head">
       <h2>About</h2>
       <p>
-        My work integrates field biology, systematics, phylogenetic inference and high-throughput sequencing
-        to investigate diversification, adaptation and biogeographic history in Neotropical lineages.
+        My work combines field biology, systematics, phylogenetic inference and high-throughput sequencing
+        to investigate diversification, adaptation and biogeographic history.
       </p>
     </div>
 
@@ -481,35 +595,35 @@ footer{
   <section class="section">
     <div class="section-head">
       <h2>Research focus</h2>
-      <p>Two core systems connect my work in biodiversity, evolution, systematics and comparative genomics.</p>
+      <p>
+        Two core biological systems connect my work in biodiversity, evolution, systematics and comparative genomics.
+      </p>
     </div>
 
     <div class="research-grid">
-
       <article class="research-card">
+        <div class="research-image">
+          <img src="assets/images/triatominae.jpg" alt="Triatominae specimen">
+        </div>
         <div class="research-copy">
           <div class="kicker">Research line</div>
           <h3>Triatominae</h3>
           <p>Evolution, systematics and phylogenomics of Chagas disease vectors.</p>
           <a class="text-link" href="research.html">Learn more →</a>
         </div>
-        <div class="research-image">
-          <img src="assets/images/triatominae.jpg" alt="Triatominae specimen">
-        </div>
       </article>
 
       <article class="research-card">
+        <div class="research-image">
+          <img src="assets/images/theraphosidade.jpg" alt="Theraphosidae tarantula">
+        </div>
         <div class="research-copy">
           <div class="kicker">Research line</div>
           <h3>Theraphosidae</h3>
           <p>Phylogenomics, biogeography and diversification of Neotropical tarantulas.</p>
           <a class="text-link" href="research.html">Learn more →</a>
         </div>
-        <div class="research-image">
-          <img src="assets/images/theraphosidade.jpg" alt="Theraphosidae tarantula">
-        </div>
       </article>
-
     </div>
   </section>
 
@@ -517,20 +631,23 @@ footer{
     <div class="section-head">
       <h2>Bioinformatics &amp; open science</h2>
       <p>
-        Reproducible computational workflows are a central part of my research and teaching.
+        Reproducible computational workflows are a central part of my research, collaboration and teaching.
       </p>
     </div>
 
     <div class="opensource">
       <div class="os-card">
         <h3>Open repositories</h3>
-        <p>Workflows, scripts and training resources for UCEs, phylogenomics, transcriptomics and genomic analyses.</p>
+        <p>
+          Workflows, scripts and training resources for UCEs, phylogenomics,
+          transcriptomics and genomic analyses.
+        </p>
         <a class="text-link" href="repositories.html">See repositories →</a>
       </div>
 
       <div class="os-card">
         <h3>Academic profiles</h3>
-        <p>External profiles, identifiers and research records.</p>
+        <p>Research identifiers, publications and professional profiles.</p>
         <div class="profile-links">
           <a href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR" target="_blank" rel="noopener">Google Scholar</a>
           <a href="https://orcid.org/0000-0001-9485-1145" target="_blank" rel="noopener">ORCID</a>
