@@ -82,26 +82,13 @@ html{scroll-behavior:smooth}
 
 body{
   margin:0;
-  background:var(--bg);
+  background:
+    linear-gradient(rgba(239,237,233,.74), rgba(239,237,233,.74)),
+    url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center / cover fixed no-repeat;
   color:var(--ink);
   font-family:'Space Grotesk',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   line-height:1.65;
   position:relative;
-}
-
-/* Subtle photographic background from the original website */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-  background:
-    linear-gradient(rgba(239,237,233,.72), rgba(239,237,233,.72)),
-    url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center / cover no-repeat;
-  opacity:.18;
-  z-index:-1;
-  pointer-events:none;
 }
 
 img{max-width:100%}
@@ -540,33 +527,80 @@ footer{
   }
 }
 
-/* v4 — vertical Triatominae specimen: full view, no cropping */
-.triatominae-image{
+
+/* v5 — balanced, transparent research images and equal side-by-side cards */
+.research-grid,
+.opensource{
+  align-items:stretch;
+}
+
+.research-card,
+.os-card{
+  height:100%;
+}
+
+.research-card{
+  display:flex;
+  flex-direction:column;
+}
+
+.research-image{
+  height:360px;
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:420px;
-  padding:20px;
-  background:#f4f2ee;
+  padding:24px;
+  background:rgba(248,247,244,.72);
 }
+
+.research-image img,
 .triatominae-image img{
-  width:auto;
+  width:100%;
+  height:100%;
   max-width:100%;
-  height:440px;
+  max-height:100%;
   aspect-ratio:auto;
   object-fit:contain;
   object-position:center;
 }
-@media(max-width:720px){
-  .triatominae-image{
-    min-height:340px;
-    padding:14px;
-  }
-  .triatominae-image img{
-    height:360px;
+
+.research-copy{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+
+.research-copy .text-link{
+  margin-top:auto;
+}
+
+.section-head h2,
+.research-copy h3,
+.os-card h3{
+  white-space:nowrap;
+}
+
+.quick-tag{
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+@media(max-width:900px){
+  .section-head h2,
+  .research-copy h3,
+  .os-card h3{
+    white-space:normal;
   }
 }
 
+@media(max-width:720px){
+  .research-image{
+    height:310px;
+    padding:18px;
+  }
+}
 </style>
 
 </head>
@@ -646,8 +680,8 @@ footer{
 
     <div class="research-grid">
       <article class="research-card">
-        <div class="research-image triatominae-image">
-          <img src="assets/images/triatominae-v4.png" alt="Triatominae specimen in dorsal view">
+        <div class="research-image">
+          <img src="assets/images/triatominae_transparente.png" alt="Triatominae specimen in dorsal view">
         </div>
         <div class="research-copy">
           <div class="kicker">Research line</div>
@@ -659,7 +693,7 @@ footer{
 
       <article class="research-card">
         <div class="research-image">
-          <img src="assets/images/theraphosidade.jpg" alt="Theraphosidae tarantula">
+          <img src="assets/images/theraphosidae_transparente.png" alt="Theraphosidae tarantula">
         </div>
         <div class="research-copy">
           <div class="kicker">Research line</div>
