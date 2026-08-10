@@ -3,8 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Open bioinformatics repositories, phylogenomics workflows and training resources by Tiago Belintani.">
-<title>Repositories | Tiago Belintani</title>
+<title>Bioinformatics Repositories | Tiago Belintani</title>
+<meta name="description" content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://tiagobelintani.github.io/repositories.html">
+
+<meta property="og:site_name" content="Tiago Belintani">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bioinformatics Repositories | Tiago Belintani">
+<meta property="og:description" content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani.">
+<meta property="og:url" content="https://tiagobelintani.github.io/repositories.html">
+<meta property="og:image" content="https://tiagobelintani.github.io/assets/images/imagem1.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bioinformatics Repositories | Tiago Belintani">
+<meta name="twitter:description" content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani.">
+<meta name="twitter:image" content="https://tiagobelintani.github.io/assets/images/imagem1.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
@@ -129,6 +143,226 @@ footer {
 .footer-note{text-align:center;color:#52666b;margin-top:38px;font-size:.92rem}
 
 </style>
+
+<style>
+/* =========================================================
+   Visual theme sync with homepage v6.2
+   Color-only / surface-only overrides; content/layout preserved
+   ========================================================= */
+:root{
+  --glass:rgba(29,33,39,.76);
+  --glass-strong:rgba(22,26,31,.84);
+  --glass-soft:rgba(43,48,55,.68);
+  --glass-faint:rgba(255,255,255,.055);
+  --text:#f3f5f7;
+  --muted:#c6ccd2;
+  --accent:#9fb3c8;
+  --accent-strong:#c3d2e0;
+  --border:rgba(255,255,255,.15);
+  --shadow:0 12px 32px rgba(8,12,17,.16);
+}
+
+/* Background: same visible cool photographic treatment as the new Home */
+body{
+  background:transparent !important;
+  color:var(--text) !important;
+  font-family:'Space Grotesk',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;
+}
+
+body::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  background:
+    linear-gradient(rgba(210,215,220,.42),rgba(210,215,220,.42)),
+    url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center / cover no-repeat !important;
+  opacity:1 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+}
+
+/* Navigation */
+.top-nav{
+  background:rgba(22,26,31,.80) !important;
+  border-bottom:1px solid rgba(255,255,255,.12) !important;
+  box-shadow:0 8px 24px rgba(10,14,18,.10) !important;
+  backdrop-filter:blur(18px) saturate(135%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(135%) !important;
+}
+
+.top-nav a{
+  color:#d7dde3 !important;
+}
+
+.top-nav a:hover,
+.top-nav a[aria-current="page"]{
+  color:var(--accent-strong) !important;
+  border-bottom-color:var(--accent) !important;
+}
+
+/* Typography */
+h1,h2,h3{
+  color:#f3f6f8 !important;
+}
+
+h1 span{
+  border-bottom-color:var(--accent) !important;
+}
+
+a{
+  color:var(--accent-strong) !important;
+}
+
+p,li{
+  color:#d5dbe0;
+}
+
+/* Generic glass surfaces already present in existing pages */
+.section,
+.member,
+.publication,
+.card{
+  background:var(--glass) !important;
+  color:var(--text) !important;
+  border-color:var(--border) !important;
+  box-shadow:var(--shadow) !important;
+  backdrop-filter:blur(16px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(16px) saturate(120%) !important;
+}
+
+.section:hover,
+.member:hover,
+.publication:hover,
+.card:hover{
+  background:rgba(35,40,47,.82) !important;
+}
+
+/* Research */
+.section p,
+.section li{
+  color:#d5dbe0 !important;
+}
+
+/* Publications */
+.hero p,
+.footer-note,
+.publication .journal{
+  color:var(--muted) !important;
+}
+
+.publication{
+  border-left-color:var(--accent) !important;
+}
+
+.publication .year{
+  background:rgba(159,179,200,.15) !important;
+  color:#e0e9f1 !important;
+  border:1px solid rgba(195,210,224,.18);
+}
+
+.section-title{
+  color:#f3f6f8 !important;
+}
+
+.toolbar input,
+.toolbar select{
+  background:rgba(24,28,33,.70) !important;
+  color:#eef2f5 !important;
+  border-color:rgba(255,255,255,.18) !important;
+  backdrop-filter:blur(12px) !important;
+  -webkit-backdrop-filter:blur(12px) !important;
+}
+
+.toolbar input::placeholder{
+  color:#aeb7bf !important;
+}
+
+.toolbar select option{
+  background:#22272d;
+  color:#eef2f5;
+}
+
+/* Repositories */
+.card{
+  border-left-color:var(--accent) !important;
+}
+
+.card p{
+  color:#d2d8de !important;
+}
+
+.badge{
+  background:rgba(159,179,200,.15) !important;
+  border-color:rgba(195,210,224,.18) !important;
+  color:#e0e9f1 !important;
+}
+
+.card .button,
+.hero-link{
+  color:var(--accent-strong) !important;
+}
+
+.hero-link{
+  background:rgba(24,28,33,.68) !important;
+  border-color:rgba(255,255,255,.18) !important;
+  backdrop-filter:blur(12px) !important;
+  -webkit-backdrop-filter:blur(12px) !important;
+}
+
+.card .button:hover,
+.hero-link:hover{
+  color:#ffffff !important;
+  border-color:var(--accent) !important;
+}
+
+/* Collaborators */
+.member img{
+  border-color:rgba(195,210,224,.38) !important;
+  box-shadow:0 6px 20px rgba(8,12,17,.20) !important;
+  background:rgba(255,255,255,.08) !important;
+}
+
+.member p{
+  color:#d2d8de !important;
+}
+
+/* Contact — keeps the existing dimensions/alignment */
+body .container{
+  color:var(--text);
+}
+
+body .container[style],
+.contact-info{
+  color:var(--text);
+}
+
+.profile-photo{
+  border-color:var(--accent) !important;
+}
+
+/* Contact page has its glass background on .container */
+body:has(.contact-info) .container{
+  background:rgba(29,33,39,.76) !important;
+  border:1px solid var(--border) !important;
+  box-shadow:var(--shadow) !important;
+  backdrop-filter:blur(18px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(120%) !important;
+}
+
+/* Footer */
+footer{
+  color:#cbd2d8 !important;
+}
+
+@media(max-width:760px){
+  .top-nav ul{
+    gap:14px !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
