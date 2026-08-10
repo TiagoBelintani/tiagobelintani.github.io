@@ -539,6 +539,34 @@ footer{
     width:100%;
   }
 }
+
+/* v4 — vertical Triatominae specimen: full view, no cropping */
+.triatominae-image{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:420px;
+  padding:20px;
+  background:#f4f2ee;
+}
+.triatominae-image img{
+  width:auto;
+  max-width:100%;
+  height:440px;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+}
+@media(max-width:720px){
+  .triatominae-image{
+    min-height:340px;
+    padding:14px;
+  }
+  .triatominae-image img{
+    height:360px;
+  }
+}
+
 </style>
 
 </head>
@@ -618,8 +646,8 @@ footer{
 
     <div class="research-grid">
       <article class="research-card">
-        <div class="research-image">
-          <img src="assets/images/triatominae.jpg" alt="Triatominae specimen">
+        <div class="research-image triatominae-image">
+          <img src="assets/images/triatominae-v4.png" alt="Triatominae specimen in dorsal view">
         </div>
         <div class="research-copy">
           <div class="kicker">Research line</div>
