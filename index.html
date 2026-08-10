@@ -86,6 +86,22 @@ body{
   color:var(--ink);
   font-family:'Space Grotesk',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   line-height:1.65;
+  position:relative;
+}
+
+/* Subtle photographic background from the original website */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  background:
+    linear-gradient(rgba(239,237,233,.72), rgba(239,237,233,.72)),
+    url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center / cover no-repeat;
+  opacity:.18;
+  z-index:-1;
+  pointer-events:none;
 }
 
 img{max-width:100%}
