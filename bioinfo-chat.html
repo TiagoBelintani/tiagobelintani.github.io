@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BioInfo Chat | Tiago Belintani</title>
+
+  <meta
+    name="description"
+    content="BioInfo Chat is an experimental academic tool for Bioinformatics, Omics and Evolution, developed to support students, educators and researchers."
+  >
+
+  <meta name="robots" content="index, follow">
+
+  <link
+    rel="canonical"
+    href="https://tiagobelintani.github.io/bioinfo-chat.html"
+  >
+
+
+  <!-- Open Graph -->
+
+  <meta
+    property="og:title"
+    content="BioInfo Chat | Bioinformatics, Omics & Evolution"
+  >
+
+  <meta
+    property="og:description"
+    content="An experimental academic tool supporting teaching, study and scientific exploration in Bioinformatics, Omics and Evolution."
+  >
+
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <meta
+    property="og:url"
+    content="https://tiagobelintani.github.io/bioinfo-chat.html"
+  >
+
+
+  <!-- Fonts -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <style>
+
+    :root{
+
+      --bg:#d9dde2;
+
+      --surface:rgba(31,35,41,.79);
+      --surface-strong:rgba(24,28,33,.88);
+      --surface-soft:rgba(43,48,55,.68);
+
+      --text:#f3f5f7;
+      --muted:#c7ccd1;
+
+      --line:rgba(255,255,255,.15);
+
+      --accent:#d97757;
+      --accent-hover:#e18463;
+      --accent-light:#edb29d;
+      --accent-soft:rgba(217,119,87,.13);
+
+      --cool:#9fb3c8;
+      --cool-light:#c3d2e0;
+
+      --shadow:
+        0 14px 38px rgba(8,12,17,.18);
+
+    }
+
+
+    *{
+      box-sizing:border-box;
+    }
+
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+
+    body{
+
+      margin:0;
+
+      background:
+        linear-gradient(
+          rgba(210,215,220,.42),
+          rgba(210,215,220,.42)
+        ),
+        url(
+          'assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg'
+        )
+        center center / cover fixed no-repeat;
+
+      color:var(--text);
+
+      font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        sans-serif;
+
+      line-height:1.65;
+
+    }
+
+
+    a{
+      color:inherit;
+    }
+
+
+    h1,
+    h2,
+    h3{
+
+      font-family:
+        'Instrument Serif',
+        Georgia,
+        'Times New Roman',
+        serif;
+
+      font-weight:400;
+
+    }
+
+
+    /* ======================================================
+       NAVIGATION
+       ====================================================== */
+
+    .top-nav{
+
+      position:sticky;
+
+      top:0;
+
+      z-index:100;
+
+      background:
+        rgba(22,26,31,.80);
+
+      border-bottom:
+        1px solid rgba(255,255,255,.12);
+
+      backdrop-filter:
+        blur(18px) saturate(135%);
+
+      -webkit-backdrop-filter:
+        blur(18px) saturate(135%);
+
+      box-shadow:
+        0 8px 24px rgba(10,14,18,.10);
+
+    }
+
+
+    .nav-inner{
+
+      max-width:1160px;
+
+      margin:0 auto;
+
+      padding:15px 24px;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      gap:28px;
+
+    }
+
+
+    .brand{
+
+      color:var(--cool-light);
+
+      font-family:
+        'Instrument Serif',
+        Georgia,
+        serif;
+
+      font-size:1.35rem;
+
+      letter-spacing:-.02em;
+
+      text-decoration:none;
+
+      white-space:nowrap;
+
+    }
+
+
+    .top-nav ul{
+
+      list-style:none;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:flex-end;
+
+      flex-wrap:wrap;
+
+      gap:20px;
+
+      margin:0;
+
+      padding:0;
+
+    }
+
+
+    .top-nav a{
+
+      text-decoration:none;
+
+      font-size:.92rem;
+
+      color:#d7dde3;
+
+    }
+
+
+    .top-nav a:hover{
+
+      color:var(--cool-light);
+
+    }
+
+
+    .top-nav a[aria-current="page"]{
+
+      color:var(--accent-light);
+
+    }
+
+
+    /* ======================================================
+       PAGE
+       ====================================================== */
+
+    .page{
+
+      max-width:1160px;
+
+      margin:0 auto;
+
+      padding:30px 24px 64px;
+
+    }
+
+
+    /* ======================================================
+       HERO
+       ====================================================== */
+
+    .project-hero{
+
+      position:relative;
+
+      overflow:hidden;
+
+      padding:76px 64px;
+
+      border:
+        1px solid rgba(237,178,157,.28);
+
+      border-radius:24px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(27,29,31,.95),
+          rgba(42,37,34,.91)
+        );
+
+      box-shadow:var(--shadow);
+
+      text-align:center;
+
+      backdrop-filter:
+        blur(18px) saturate(120%);
+
+      -webkit-backdrop-filter:
+        blur(18px) saturate(120%);
+
+    }
+
+
+    .project-hero::before{
+
+      content:"";
+
+      position:absolute;
+
+      width:460px;
+
+      height:460px;
+
+      right:-220px;
+
+      top:-260px;
+
+      border-radius:50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(217,119,87,.18),
+          transparent 67%
+        );
+
+      pointer-events:none;
+
+    }
+
+
+    .project-kicker{
+
+      position:relative;
+
+      z-index:1;
+
+      color:var(--accent-light);
+
+      font-size:.72rem;
+
+      font-weight:700;
+
+      letter-spacing:.16em;
+
+      text-transform:uppercase;
+
+    }
+
+
+    .project-hero h1{
+
+      position:relative;
+
+      z-index:1;
+
+      margin:14px 0 12px;
+
+      color:#f7f2ec;
+
+      font-size:
+        clamp(4rem,8vw,6.5rem);
+
+      line-height:.92;
+
+      letter-spacing:-.04em;
+
+    }
+
+
+    .project-subtitle{
+
+      position:relative;
+
+      z-index:1;
+
+      margin:0;
+
+      color:#d8d1ca;
+
+      font-size:1.18rem;
+
+    }
+
+
+    .project-intro{
+
+      position:relative;
+
+      z-index:1;
+
+      max-width:760px;
+
+      margin:28px auto 0;
+
+      color:#cbc4bd;
+
+      font-size:1rem;
+
+    }
+
+
+    /* ======================================================
+       BUTTONS
+       ====================================================== */
+
+    .hero-actions{
+
+      position:relative;
+
+      z-index:1;
+
+      margin-top:30px;
+
+      display:flex;
+
+      justify-content:center;
+
+      flex-wrap:wrap;
+
+      gap:10px;
+
+    }
+
+
+    .btn{
+
+      display:inline-flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      min-height:44px;
+
+      padding:10px 17px;
+
+      border:
+        1px solid rgba(255,255,255,.16);
+
+      border-radius:9px;
+
+      text-decoration:none;
+
+      font-size:.9rem;
+
+      font-weight:600;
+
+      transition:
+        transform .18s ease,
+        background .18s ease,
+        color .18s ease,
+        border-color .18s ease;
+
+    }
+
+
+    .btn:hover{
+
+      transform:translateY(-1px);
+
+    }
+
+
+    .btn.primary{
+
+      background:var(--accent);
+
+      border-color:var(--accent);
+
+      color:white;
+
+    }
+
+
+    .btn.primary:hover{
+
+      background:var(--accent-hover);
+
+      border-color:var(--accent-hover);
+
+    }
+
+
+    .btn.secondary{
+
+      background:
+        rgba(255,255,255,.05);
+
+      color:#eee9e3;
+
+    }
+
+
+    .btn.secondary:hover{
+
+      border-color:var(--accent-light);
+
+      color:var(--accent-light);
+
+    }
+
+
+    /* ======================================================
+       SECTIONS
+       ====================================================== */
+
+    .section{
+
+      margin-top:52px;
+
+    }
+
+
+    .section-head{
+
+      display:grid;
+
+      grid-template-columns:
+        minmax(280px,.8fr)
+        minmax(0,1.2fr);
+
+      gap:30px;
+
+      align-items:center;
+
+      margin-bottom:17px;
+
+      padding:21px 25px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:16px;
+
+      background:
+        rgba(27,31,36,.74);
+
+      backdrop-filter:
+        blur(16px);
+
+      -webkit-backdrop-filter:
+        blur(16px);
+
+    }
+
+
+    .section-head h2{
+
+      margin:0;
+
+      color:#f3f5f7;
+
+      font-size:
+        clamp(2rem,4vw,3rem);
+
+      line-height:1;
+
+      letter-spacing:-.025em;
+
+    }
+
+
+    .section-head p{
+
+      max-width:760px;
+
+      margin:0;
+
+      color:var(--muted);
+
+    }
+
+
+    /* ======================================================
+       INTRO
+       ====================================================== */
+
+    .intro-card{
+
+      padding:30px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:18px;
+
+      background:
+        rgba(32,37,43,.74);
+
+      backdrop-filter:
+        blur(16px);
+
+      -webkit-backdrop-filter:
+        blur(16px);
+
+    }
+
+
+    .intro-card p{
+
+      max-width:900px;
+
+      margin:0;
+
+      color:#d8dde2;
+
+      font-size:1.02rem;
+
+    }
+
+
+    .intro-card p + p{
+
+      margin-top:16px;
+
+    }
+
+
+    /* ======================================================
+       FEATURES
+       ====================================================== */
+
+    .feature-grid{
+
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:17px;
+
+    }
+
+
+    .feature-card{
+
+      padding:27px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:18px;
+
+      background:
+        rgba(31,35,40,.75);
+
+      box-shadow:
+        0 10px 26px rgba(8,12,17,.10);
+
+      transition:
+        transform .18s ease,
+        border-color .18s ease;
+
+    }
+
+
+    .feature-card:hover{
+
+      transform:translateY(-2px);
+
+      border-color:
+        rgba(237,178,157,.25);
+
+    }
+
+
+    .feature-label{
+
+      color:var(--accent-light);
+
+      font-size:.67rem;
+
+      font-weight:700;
+
+      letter-spacing:.12em;
+
+      text-transform:uppercase;
+
+    }
+
+
+    .feature-card h3{
+
+      margin:8px 0 9px;
+
+      color:#f3f5f7;
+
+      font-size:1.75rem;
+
+      line-height:1.05;
+
+    }
+
+
+    .feature-card p{
+
+      margin:0;
+
+      color:var(--muted);
+
+    }
+
+
+    /* ======================================================
+       AUDIENCE
+       ====================================================== */
+
+    .audience-grid{
+
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:16px;
+
+    }
+
+
+    .audience-card{
+
+      padding:24px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:16px;
+
+      background:
+        rgba(31,35,41,.72);
+
+    }
+
+
+    .audience-card h3{
+
+      margin:0 0 7px;
+
+      color:#f2f5f7;
+
+      font-size:1.5rem;
+
+    }
+
+
+    .audience-card p{
+
+      margin:0;
+
+      color:var(--muted);
+
+      font-size:.91rem;
+
+    }
+
+
+    /* ======================================================
+       WORKFLOW / AREAS
+       ====================================================== */
+
+    .topic-grid{
+
+      display:grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap:12px;
+
+    }
+
+
+    .topic{
+
+      padding:17px 15px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:12px;
+
+      background:
+        rgba(31,35,41,.68);
+
+      color:#d8dde2;
+
+      text-align:center;
+
+      font-size:.82rem;
+
+    }
+
+
+    /* ======================================================
+       LIMITATIONS
+       ====================================================== */
+
+    .academic-note{
+
+      padding:28px 30px;
+
+      border:
+        1px solid rgba(217,119,87,.28);
+
+      border-radius:18px;
+
+      background:
+        rgba(44,36,32,.77);
+
+    }
+
+
+    .academic-note h2{
+
+      margin:0 0 12px;
+
+      color:#f4eee8;
+
+      font-size:2.1rem;
+
+    }
+
+
+    .academic-note p{
+
+      max-width:900px;
+
+      margin:0;
+
+      color:#d6cec7;
+
+    }
+
+
+    /* ======================================================
+       DEVELOPMENT
+       ====================================================== */
+
+    .development{
+
+      display:grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:17px;
+
+    }
+
+
+    .development-card{
+
+      padding:26px 28px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius:17px;
+
+      background:
+        rgba(30,34,39,.75);
+
+    }
+
+
+    .development-card h3{
+
+      margin:0 0 8px;
+
+      color:#f2f5f7;
+
+      font-size:1.55rem;
+
+    }
+
+
+    .development-card p{
+
+      margin:0 0 16px;
+
+      color:var(--muted);
+
+    }
+
+
+    .text-link{
+
+      color:var(--cool-light);
+
+      font-weight:600;
+
+      text-decoration:none;
+
+    }
+
+
+    .text-link:hover{
+
+      text-decoration:underline;
+
+    }
+
+
+    /* ======================================================
+       FINAL CTA
+       ====================================================== */
+
+    .final-cta{
+
+      margin-top:52px;
+
+      padding:46px;
+
+      text-align:center;
+
+      border:
+        1px solid rgba(237,178,157,.25);
+
+      border-radius:20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(31,31,29,.92),
+          rgba(44,37,33,.89)
+        );
+
+    }
+
+
+    .final-cta h2{
+
+      margin:0 0 9px;
+
+      color:#f5f0ea;
+
+      font-size:
+        clamp(2.3rem,5vw,3.8rem);
+
+      line-height:1;
+
+    }
+
+
+    .final-cta p{
+
+      max-width:620px;
+
+      margin:0 auto 22px;
+
+      color:#cac3bc;
+
+    }
+
+
+    /* ======================================================
+       FOOTER
+       ====================================================== */
+
+    footer{
+
+      margin-top:52px;
+
+      padding:18px;
+
+      border:
+        1px solid rgba(255,255,255,.12);
+
+      border-radius:14px;
+
+      background:
+        rgba(24,28,33,.60);
+
+      color:#cbd2d8;
+
+      text-align:center;
+
+      font-size:.85rem;
+
+      backdrop-filter:
+        blur(14px);
+
+    }
+
+
+    /* ======================================================
+       RESPONSIVE
+       ====================================================== */
+
+    @media(max-width:900px){
+
+      .section-head{
+
+        grid-template-columns:1fr;
+
+        gap:10px;
+
+      }
+
+
+      .feature-grid,
+      .development{
+
+        grid-template-columns:1fr;
+
+      }
+
+
+      .audience-grid{
+
+        grid-template-columns:1fr;
+
+      }
+
+
+      .topic-grid{
+
+        grid-template-columns:
+          repeat(2,1fr);
+
+      }
+
+    }
+
+
+    @media(max-width:720px){
+
+      .nav-inner{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:10px;
+
+        padding:13px 16px;
+
+      }
+
+
+      .top-nav ul{
+
+        justify-content:flex-start;
+
+        gap:10px 14px;
+
+      }
+
+
+      .top-nav a{
+
+        font-size:.84rem;
+
+      }
+
+
+      .page{
+
+        padding:18px 12px 44px;
+
+      }
+
+
+      .project-hero{
+
+        padding:50px 24px;
+
+        border-radius:18px;
+
+      }
+
+
+      .project-hero h1{
+
+        font-size:4rem;
+
+      }
+
+
+      .hero-actions{
+
+        flex-direction:column;
+
+      }
+
+
+      .btn{
+
+        width:100%;
+
+      }
+
+
+      .topic-grid{
+
+        grid-template-columns:1fr;
+
+      }
+
+
+      .final-cta{
+
+        padding:34px 22px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       NAVIGATION
+       ===================================================== -->
+
+  <nav class="top-nav">
+
+    <div class="nav-inner">
+
+      <a
+        class="brand"
+        href="index.html">
+
+        Tiago Belintani
+
+      </a>
+
+
+      <ul>
+
+        <li>
+          <a href="index.html">
+            Home
+          </a>
+        </li>
+
+
+        <li>
+          <a href="publications.html">
+            Publications
+          </a>
+        </li>
+
+
+        <li>
+          <a href="research.html">
+            Research
+          </a>
+        </li>
+
+
+        <li>
+          <a
+            href="bioinfo-chat.html"
+            aria-current="page">
+
+            BioInfo Chat
+
+          </a>
+        </li>
+
+
+        <li>
+          <a href="repositories.html">
+            Code &amp; Repositories
+          </a>
+        </li>
+
+
+        <li>
+          <a href="collaborators.html">
+            Collaborators
+          </a>
+        </li>
+
+
+        <li>
+          <a href="contact.html">
+            Contact
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </nav>
+
+
+
+  <main class="page">
+
+
+    <!-- ===================================================
+         HERO
+         =================================================== -->
+
+    <section class="project-hero">
+
+      <div class="project-kicker">
+        Academic tool · Bioinformatics · Education
+      </div>
+
+
+      <h1>
+        BioInfo Chat
+      </h1>
+
+
+      <p class="project-subtitle">
+        Bioinformatics, Omics &amp; Evolution
+      </p>
+
+
+      <p class="project-intro">
+
+        An experimental academic conversational tool developed
+        to support learning, teaching and scientific exploration
+        in bioinformatics, omics and evolutionary biology.
+
+      </p>
+
+
+      <div class="hero-actions">
+
+        <a
+          class="btn primary"
+          href="https://bioinfo-chat.vercel.app/"
+          target="_blank"
+          rel="noopener">
+
+          Open BioInfo Chat
+
+        </a>
+
+
+        <a
+          class="btn secondary"
+          href="https://github.com/TiagoBelintani/bioinfo-chat"
+          target="_blank"
+          rel="noopener">
+
+          View source code
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         ABOUT
+         =================================================== -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          What is BioInfo Chat?
+        </h2>
+
+
+        <p>
+
+          A specialized academic interface designed to make
+          bioinformatics concepts, analytical workflows and
+          scientific reasoning easier to explore.
+
+        </p>
+
+      </div>
+
+
+      <div class="intro-card">
+
+        <p>
+
+          BioInfo Chat is an experimental academic tool developed
+          to assist students, educators and researchers in exploring
+          concepts and methods used in Bioinformatics, Omics and
+          Evolution.
+
+        </p>
+
+
+        <p>
+
+          The project combines a specialized conversational interface
+          with structured academic prompts to support conceptual
+          questions, methodological discussions, analytical workflows
+          and selected academic tasks.
+
+        </p>
+
+
+        <p>
+
+          Its primary purpose is not to replace scientific literature,
+          specialized software documentation or expert judgment, but
+          to provide a practical starting point for exploration,
+          teaching and scientific discussion.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         MAIN FUNCTIONS
+         =================================================== -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          Main functions
+        </h2>
+
+
+        <p>
+
+          Different tools and response modes allow the interface
+          to adapt to different academic activities.
+
+        </p>
+
+      </div>
+
+
+      <div class="feature-grid">
+
+
+        <!-- CHAT -->
+
+        <article class="feature-card">
+
+          <div class="feature-label">
+            Conversational tool
+          </div>
+
+          <h3>
+            Chat
+          </h3>
+
+          <p>
+
+            Ask conceptual and methodological questions related
+            to bioinformatics, genomics, transcriptomics,
+            phylogenetics, evolutionary biology and associated
+            computational workflows.
+
+          </p>
+
+        </article>
+
+
+
+        <!-- JOURNALS -->
+
+        <article class="feature-card">
+
+          <div class="feature-label">
+            Editorial exploration
+          </div>
+
+          <h3>
+            Journals
+          </h3>
+
+          <p>
+
+            Provide a manuscript abstract to explore possible
+            scientific journals based on thematic compatibility
+            and editorial scope. Suggestions should always be
+            confirmed using official journal information.
+
+          </p>
+
+        </article>
+
+
+
+        <!-- FREE -->
+
+        <article class="feature-card">
+
+          <div class="feature-label">
+            Exploratory mode
+          </div>
+
+          <h3>
+            Free
+          </h3>
+
+          <p>
+
+            Designed for direct questions and flexible scientific
+            discussion, allowing users to explore concepts, methods,
+            tools and computational strategies.
+
+          </p>
+
+        </article>
+
+
+
+        <!-- DISCIPLINE -->
+
+        <article class="feature-card">
+
+          <div class="feature-label">
+            Teaching mode
+          </div>
+
+          <h3>
+            Discipline
+          </h3>
+
+          <p>
+
+            Generates more structured responses emphasizing
+            definitions, scientific context, practical examples
+            and methodological limitations, making it particularly
+            useful for teaching and guided study.
+
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         TOPICS
+         =================================================== -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          Areas of exploration
+        </h2>
+
+
+        <p>
+
+          The interface is designed primarily around biological
+          data analysis, computational biology and evolutionary
+          research.
+
+        </p>
+
+      </div>
+
+
+      <div class="topic-grid">
+
+        <div class="topic">
+          Genomics
+        </div>
+
+        <div class="topic">
+          Transcriptomics
+        </div>
+
+        <div class="topic">
+          Phylogenetics
+        </div>
+
+        <div class="topic">
+          Phylogenomics
+        </div>
+
+        <div class="topic">
+          Molecular evolution
+        </div>
+
+        <div class="topic">
+          Sequence analysis
+        </div>
+
+        <div class="topic">
+          Bioinformatics pipelines
+        </div>
+
+        <div class="topic">
+          Scientific workflows
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         AUDIENCE
+         =================================================== -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          Who is it for?
+        </h2>
+
+
+        <p>
+
+          BioInfo Chat was designed primarily for academic
+          and educational contexts.
+
+        </p>
+
+      </div>
+
+
+      <div class="audience-grid">
+
+
+        <article class="audience-card">
+
+          <h3>
+            Students
+          </h3>
+
+          <p>
+
+            Support for understanding concepts, methods,
+            software, analytical strategies and computational
+            workflows.
+
+          </p>
+
+        </article>
+
+
+        <article class="audience-card">
+
+          <h3>
+            Educators
+          </h3>
+
+          <p>
+
+            A complementary resource for teaching, classroom
+            discussion, guided study and exploration of
+            computational biology topics.
+
+          </p>
+
+        </article>
+
+
+        <article class="audience-card">
+
+          <h3>
+            Researchers
+          </h3>
+
+          <p>
+
+            Rapid conceptual exploration and discussion of
+            workflows, methodological alternatives, analytical
+            tools and research strategies.
+
+          </p>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         ACADEMIC LIMITATIONS
+         =================================================== -->
+
+    <section class="section">
+
+      <div class="academic-note">
+
+        <h2>
+          Academic use &amp; limitations
+        </h2>
+
+
+        <p>
+
+          BioInfo Chat is an experimental academic support tool.
+          Its responses do not replace scientific literature,
+          peer review, specialized software documentation,
+          methodological validation, expert judgment or editorial
+          decisions. Scientific information generated by the system
+          should always be critically evaluated and checked against
+          primary and specialized sources.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         DEVELOPMENT
+         =================================================== -->
+
+    <section class="section">
+
+      <div class="section-head">
+
+        <h2>
+          Development &amp; open science
+        </h2>
+
+
+        <p>
+
+          BioInfo Chat is part of my broader work with
+          bioinformatics, reproducible computational workflows,
+          teaching and academic communication.
+
+        </p>
+
+      </div>
+
+
+      <div class="development">
+
+
+        <div class="development-card">
+
+          <h3>
+            Created by Tiago Belintani
+          </h3>
+
+          <p>
+
+            Researcher and Visiting Professor working in
+            evolutionary biology, systematics, genomics,
+            phylogenomics and bioinformatics.
+
+          </p>
+
+
+          <a
+            class="text-link"
+            href="index.html">
+
+            Academic profile →
+
+          </a>
+
+        </div>
+
+
+
+        <div class="development-card">
+
+          <h3>
+            Open development
+          </h3>
+
+          <p>
+
+            Source files and the development history of
+            BioInfo Chat are maintained through GitHub.
+
+          </p>
+
+
+          <a
+            class="text-link"
+            href="https://github.com/TiagoBelintani/bioinfo-chat"
+            target="_blank"
+            rel="noopener">
+
+            GitHub repository →
+
+          </a>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         FINAL CTA
+         =================================================== -->
+
+    <section class="final-cta">
+
+      <h2>
+        Explore BioInfo Chat
+      </h2>
+
+
+      <p>
+
+        Ask questions, explore concepts and investigate
+        methods in Bioinformatics, Omics and Evolution.
+
+      </p>
+
+
+      <a
+        class="btn primary"
+        href="https://bioinfo-chat.vercel.app/"
+        target="_blank"
+        rel="noopener">
+
+        Launch BioInfo Chat
+
+      </a>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         FOOTER
+         =================================================== -->
+
+    <footer>
+
+      © 2026 Tiago Belintani · BioInfo Chat · Sapientia et disciplina
+
+    </footer>
+
+
+  </main>
+
+
+</body>
+
+</html>
