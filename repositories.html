@@ -1,517 +1,1621 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Bioinformatics Repositories | Tiago Belintani</title>
-<meta name="description" content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani.">
-<meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="https://tiagobelintani.github.io/repositories.html">
 
-<meta property="og:site_name" content="Tiago Belintani">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Bioinformatics Repositories | Tiago Belintani">
-<meta property="og:description" content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani.">
-<meta property="og:url" content="https://tiagobelintani.github.io/repositories.html">
-<meta property="og:image" content="https://tiagobelintani.github.io/assets/images/imagem1.jpg">
+<meta
+  name="description"
+  content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani."
+>
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Bioinformatics Repositories | Tiago Belintani">
-<meta name="twitter:description" content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani.">
-<meta name="twitter:image" content="https://tiagobelintani.github.io/assets/images/imagem1.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<meta
+  name="robots"
+  content="index, follow, max-image-preview:large"
+>
+
+<link
+  rel="canonical"
+  href="https://tiagobelintani.github.io/repositories.html"
+>
+
+
+<!-- =========================================================
+     OPEN GRAPH
+     ========================================================= -->
+
+<meta
+  property="og:site_name"
+  content="Tiago Belintani"
+>
+
+<meta
+  property="og:type"
+  content="website"
+>
+
+<meta
+  property="og:title"
+  content="Bioinformatics Repositories | Tiago Belintani"
+>
+
+<meta
+  property="og:description"
+  content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani."
+>
+
+<meta
+  property="og:url"
+  content="https://tiagobelintani.github.io/repositories.html"
+>
+
+<meta
+  property="og:image"
+  content="https://tiagobelintani.github.io/assets/images/imagem1.jpg"
+>
+
+
+<!-- =========================================================
+     TWITTER
+     ========================================================= -->
+
+<meta
+  name="twitter:card"
+  content="summary_large_image"
+>
+
+<meta
+  name="twitter:title"
+  content="Bioinformatics Repositories | Tiago Belintani"
+>
+
+<meta
+  name="twitter:description"
+  content="Open bioinformatics repositories, reproducible phylogenomics workflows, UCE pipelines, transcriptomics scripts and training resources by Tiago Belintani."
+>
+
+<meta
+  name="twitter:image"
+  content="https://tiagobelintani.github.io/assets/images/imagem1.jpg"
+>
+
+
+<!-- =========================================================
+     FONTS
+     ========================================================= -->
+
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+>
+
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
+
 <style>
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
-    background-size: cover;
-    opacity: 0.25;
-    z-index: 0;
-    pointer-events: none;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: #fdfdfd;
-    color: #333;
-    font-family: 'Courier New', monospace;
-    line-height: 1.6;
-}
-.top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(255,255,255,0.90);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    z-index: 999;
-}
-.top-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0;
-    padding: 12px 16px;
-    gap: 30px;
-}
-.top-nav a {
-    color: #007b8a;
-    text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 500;
-    font-size: 1em;
-    padding-bottom: 2px;
-    transition: color .2s, border-bottom .2s;
-}
-.top-nav a:hover,
-.top-nav a[aria-current="page"] {
-    color: #004f59;
-    border-bottom: 2px solid #007b8a;
-}
-.container {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 105px 20px 50px;
-    position: relative;
-    z-index: 1;
-}
-h1, h2, h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    color: #111;
-}
-h1 {
-    font-size: 3em;
-    text-align: center;
-    margin-bottom: .2em;
-}
-h1 span {
-    display: block;
-    width: 64px;
-    margin: .5em auto 0;
-    border-bottom: 3px solid #007b8a;
-    border-radius: 2px;
-}
-h2 {
-    font-size: 2em;
-    text-align: center;
-    margin-bottom: 1em;
-}
-a {
-    color: #007b8a;
-}
-footer {
-    text-align: center;
-    font-size: .9em;
-    color: #666;
-    padding: 20px 0;
-    margin-top: 40px;
-}
-@media (max-width: 760px) {
-    .top-nav ul { gap: 14px; font-size: .9rem; }
-    .container { padding-top: 135px; }
-}
 
-
-.hero{text-align:center;margin-bottom:32px}
-.hero h1{margin:0;font-size:3em}
-.hero p{max-width:780px;margin:0 auto;color:#46585d}
-.hero-link{display:inline-block;margin-top:18px;padding:8px 13px;border:1px solid rgba(0,123,138,.28);border-radius:8px;background:rgba(245,251,251,.42);color:#007b8a;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700}
-.toolbar{display:flex;justify-content:center;margin:24px 0 30px}
-.toolbar input{width:min(100%,460px);padding:11px 13px;border:1px solid rgba(0,123,138,.25);border-radius:9px;background:rgba(255,255,255,.45);font:inherit}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:20px}
-.card{display:flex;flex-direction:column;min-width:0;padding:20px 22px;border:1px solid rgba(0,123,138,.16);border-left:4px solid rgba(0,123,138,.68);border-radius:12px;background:rgba(245,251,251,.58);box-shadow:0 1px 10px rgba(0,124,138,.06)}
-.card:hover{background:rgba(245,251,251,.72)}
-.card h3{margin:10px 0 8px;font-size:1.03rem;line-height:1.35;overflow-wrap:anywhere}
-.card p{flex:1;margin:0 0 14px;color:#394c50;font-size:.98rem}
-.badge{align-self:flex-start;padding:3px 9px;border:1px solid rgba(0,123,138,.18);border-radius:999px;background:rgba(232,246,247,.66);color:#005965;font-family:'Space Grotesk',sans-serif;font-size:.76rem;font-weight:700}
-.card .button{align-self:flex-start;margin-top:auto;padding:7px 0 2px;border-bottom:1px solid transparent;background:transparent;color:#007b8a;text-decoration:none;font-family:'Space Grotesk',sans-serif;font-weight:700}
-.card .button:hover{color:#004f59;border-bottom-color:#007b8a}
-.footer-note{text-align:center;color:#52666b;margin-top:38px;font-size:.92rem}
-
-</style>
-
-<style>
 /* =========================================================
-   Visual theme sync with homepage v6.2
-   Color-only / surface-only overrides; content/layout preserved
+   VARIABLES
    ========================================================= */
+
 :root{
+
   --glass:rgba(29,33,39,.76);
+
   --glass-strong:rgba(22,26,31,.84);
+
   --glass-soft:rgba(43,48,55,.68);
-  --glass-faint:rgba(255,255,255,.055);
+
   --text:#f3f5f7;
+
   --muted:#c6ccd2;
+
   --accent:#9fb3c8;
+
   --accent-strong:#c3d2e0;
+
   --border:rgba(255,255,255,.15);
+
   --shadow:0 12px 32px rgba(8,12,17,.16);
+
 }
 
-/* Background: same visible cool photographic treatment as the new Home */
-body{
-  background:transparent !important;
-  color:var(--text) !important;
-  font-family:'Space Grotesk',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+*{
+  box-sizing:border-box;
 }
+
+
+html{
+  scroll-behavior:smooth;
+}
+
+
+body{
+
+  position:relative;
+
+  z-index:1;
+
+  margin:0;
+
+  padding:0;
+
+  min-height:100vh;
+
+  background:transparent;
+
+  color:var(--text);
+
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  line-height:1.6;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
 
 body::before{
-  content:"" !important;
-  position:fixed !important;
-  inset:0 !important;
-  width:100vw !important;
-  height:100vh !important;
+
+  content:"";
+
+  position:fixed;
+
+  inset:0;
+
+  width:100vw;
+
+  height:100vh;
+
   background:
-    linear-gradient(rgba(210,215,220,.42),rgba(210,215,220,.42)),
-    url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center / cover no-repeat !important;
-  opacity:1 !important;
-  z-index:0 !important;
-  pointer-events:none !important;
+
+    linear-gradient(
+      rgba(210,215,220,.42),
+      rgba(210,215,220,.42)
+    ),
+
+    url(
+      'assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg'
+    )
+
+    center center / cover no-repeat;
+
+  opacity:1;
+
+  z-index:0;
+
+  pointer-events:none;
+
 }
 
-/* Navigation */
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
 .top-nav{
-  background:rgba(22,26,31,.80) !important;
-  border-bottom:1px solid rgba(255,255,255,.12) !important;
-  box-shadow:0 8px 24px rgba(10,14,18,.10) !important;
-  backdrop-filter:blur(18px) saturate(135%) !important;
-  -webkit-backdrop-filter:blur(18px) saturate(135%) !important;
+
+  position:fixed;
+
+  top:0;
+
+  left:0;
+
+  width:100%;
+
+  background:
+    rgba(22,26,31,.80);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.12);
+
+  box-shadow:
+    0 8px 24px rgba(10,14,18,.10);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(135%);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(135%);
+
+  z-index:999;
+
 }
+
+
+.top-nav ul{
+
+  list-style:none;
+
+  display:flex;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  margin:0;
+
+  padding:12px 16px;
+
+  gap:30px;
+
+}
+
 
 .top-nav a{
-  color:#d7dde3 !important;
+
+  color:#d7dde3;
+
+  text-decoration:none;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-weight:500;
+
+  font-size:1em;
+
+  padding-bottom:2px;
+
+  transition:
+    color .2s,
+    border-bottom .2s;
+
 }
+
 
 .top-nav a:hover,
 .top-nav a[aria-current="page"]{
-  color:var(--accent-strong) !important;
-  border-bottom-color:var(--accent) !important;
+
+  color:var(--accent-strong);
+
+  border-bottom:
+    2px solid var(--accent);
+
 }
 
-/* Typography */
-h1,h2,h3{
-  color:#f3f6f8 !important;
+
+/* =========================================================
+   PAGE CONTAINER
+   ========================================================= */
+
+.container{
+
+  max-width:1120px;
+
+  margin:0 auto;
+
+  padding:
+    105px 20px 50px;
+
+  position:relative;
+
+  z-index:1;
+
 }
 
-h1 span{
-  border-bottom-color:var(--accent) !important;
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3{
+
+  font-family:
+    'Instrument Serif',
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-weight:400;
+
+  color:#f3f6f8;
+
 }
 
-a{
-  color:var(--accent-strong) !important;
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero{
+
+  text-align:center;
+
+  margin-bottom:32px;
+
 }
 
-p,li{
-  color:#d5dbe0;
+
+.hero h1{
+
+  margin:0;
+
+  font-size:
+    clamp(3.2rem,6vw,5.2rem);
+
+  line-height:.98;
+
+  letter-spacing:-.035em;
+
 }
 
-/* Generic glass surfaces already present in existing pages */
-.section,
-.member,
-.publication,
-.card{
-  background:var(--glass) !important;
-  color:var(--text) !important;
-  border-color:var(--border) !important;
-  box-shadow:var(--shadow) !important;
-  backdrop-filter:blur(16px) saturate(120%) !important;
-  -webkit-backdrop-filter:blur(16px) saturate(120%) !important;
+
+.hero p{
+
+  max-width:780px;
+
+  margin:
+    14px auto 0;
+
+  color:var(--muted);
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-size:1.02rem;
+
+  line-height:1.7;
+
 }
 
-.section:hover,
-.member:hover,
-.publication:hover,
-.card:hover{
-  background:rgba(35,40,47,.82) !important;
+
+.hero .button{
+
+  display:inline-block;
+
+  margin-top:18px;
+
+  padding:
+    9px 14px;
+
+  border:
+    1px solid rgba(255,255,255,.18);
+
+  border-radius:9px;
+
+  background:
+    rgba(24,28,33,.68);
+
+  color:var(--accent-strong);
+
+  text-decoration:none;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-weight:600;
+
+  font-size:.92rem;
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+  transition:
+    color .18s ease,
+    border-color .18s ease,
+    background .18s ease,
+    transform .18s ease;
+
 }
 
-/* Research */
-.section p,
-.section li{
-  color:#d5dbe0 !important;
+
+.hero .button:hover{
+
+  color:#ffffff;
+
+  border-color:var(--accent);
+
+  background:
+    rgba(35,40,47,.82);
+
+  transform:
+    translateY(-1px);
+
 }
 
-/* Publications */
-.hero p,
-.footer-note,
-.publication .journal{
-  color:var(--muted) !important;
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.toolbar{
+
+  display:flex;
+
+  justify-content:center;
+
+  margin:
+    24px 0 30px;
+
 }
 
-.publication{
-  border-left-color:var(--accent) !important;
+
+.toolbar input{
+
+  width:
+    min(100%,460px);
+
+  padding:
+    11px 13px;
+
+  border:
+    1px solid rgba(255,255,255,.18);
+
+  border-radius:9px;
+
+  background:
+    rgba(24,28,33,.70);
+
+  color:#eef2f5;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-size:.95rem;
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
 }
 
-.publication .year{
-  background:rgba(159,179,200,.15) !important;
-  color:#e0e9f1 !important;
-  border:1px solid rgba(195,210,224,.18);
-}
-
-.section-title{
-  color:#f3f6f8 !important;
-}
-
-.toolbar input,
-.toolbar select{
-  background:rgba(24,28,33,.70) !important;
-  color:#eef2f5 !important;
-  border-color:rgba(255,255,255,.18) !important;
-  backdrop-filter:blur(12px) !important;
-  -webkit-backdrop-filter:blur(12px) !important;
-}
 
 .toolbar input::placeholder{
-  color:#aeb7bf !important;
+
+  color:#aeb7bf;
+
 }
 
-.toolbar select option{
-  background:#22272d;
-  color:#eef2f5;
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(310px,1fr)
+    );
+
+  gap:20px;
+
 }
 
-/* Repositories */
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
 .card{
-  border-left-color:var(--accent) !important;
+
+  display:flex;
+
+  flex-direction:column;
+
+  min-width:0;
+
+  padding:
+    22px 24px;
+
+  border:
+    1px solid var(--border);
+
+  border-left:
+    4px solid var(--accent);
+
+  border-radius:14px;
+
+  background:
+    var(--glass);
+
+  color:var(--text);
+
+  box-shadow:
+    var(--shadow);
+
+  backdrop-filter:
+    blur(16px)
+    saturate(120%);
+
+  -webkit-backdrop-filter:
+    blur(16px)
+    saturate(120%);
+
+  transition:
+    background .18s ease,
+    transform .18s ease;
+
 }
+
+
+.card:hover{
+
+  background:
+    rgba(35,40,47,.82);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+/* =========================================================
+   CARD TITLES
+   ========================================================= */
+
+.card h3{
+
+  margin:
+    12px 0 9px;
+
+  font-family:
+    'Instrument Serif',
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size:
+    clamp(1.45rem,2.4vw,1.8rem);
+
+  font-weight:400;
+
+  line-height:1.15;
+
+  letter-spacing:-.015em;
+
+  color:#f3f6f8;
+
+  overflow-wrap:anywhere;
+
+}
+
+
+/* =========================================================
+   CARD TEXT
+   ========================================================= */
 
 .card p{
-  color:#d2d8de !important;
+
+  flex:1;
+
+  margin:
+    0 0 14px;
+
+  color:#d2d8de;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-size:.98rem;
+
+  line-height:1.65;
+
 }
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
 
 .badge{
-  background:rgba(159,179,200,.15) !important;
-  border-color:rgba(195,210,224,.18) !important;
-  color:#e0e9f1 !important;
+
+  align-self:flex-start;
+
+  padding:
+    3px 9px;
+
+  border:
+    1px solid rgba(195,210,224,.18);
+
+  border-radius:999px;
+
+  background:
+    rgba(159,179,200,.15);
+
+  color:#e0e9f1;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-size:.76rem;
+
+  font-weight:700;
+
 }
 
-.card .button,
-.hero-link{
-  color:var(--accent-strong) !important;
+
+/* =========================================================
+   REPOSITORY BUTTON
+   ========================================================= */
+
+.card .button{
+
+  align-self:flex-start;
+
+  margin-top:auto;
+
+  padding:
+    7px 0 2px;
+
+  border-bottom:
+    1px solid transparent;
+
+  background:transparent;
+
+  color:var(--accent-strong);
+
+  text-decoration:none;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-weight:600;
+
 }
 
-.hero-link{
-  background:rgba(24,28,33,.68) !important;
-  border-color:rgba(255,255,255,.18) !important;
-  backdrop-filter:blur(12px) !important;
-  -webkit-backdrop-filter:blur(12px) !important;
+
+.card .button:hover{
+
+  color:#ffffff;
+
+  border-bottom-color:
+    var(--accent);
+
 }
 
-.card .button:hover,
-.hero-link:hover{
-  color:#ffffff !important;
-  border-color:var(--accent) !important;
+
+/* =========================================================
+   FOOTER NOTE
+   ========================================================= */
+
+.footer-note{
+
+  text-align:center;
+
+  color:var(--muted);
+
+  margin-top:38px;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-size:.92rem;
+
 }
 
-/* Collaborators */
-.member img{
-  border-color:rgba(195,210,224,.38) !important;
-  box-shadow:0 6px 20px rgba(8,12,17,.20) !important;
-  background:rgba(255,255,255,.08) !important;
+
+/* =========================================================
+   GENERAL LINKS
+   ========================================================= */
+
+a{
+
+  color:var(--accent-strong);
+
 }
 
-.member p{
-  color:#d2d8de !important;
-}
 
-/* Contact — keeps the existing dimensions/alignment */
-body .container{
-  color:var(--text);
-}
-
-body .container[style],
-.contact-info{
-  color:var(--text);
-}
-
-.profile-photo{
-  border-color:var(--accent) !important;
-}
-
-/* Contact page has its glass background on .container */
-body:has(.contact-info) .container{
-  background:rgba(29,33,39,.76) !important;
-  border:1px solid var(--border) !important;
-  box-shadow:var(--shadow) !important;
-  backdrop-filter:blur(18px) saturate(120%) !important;
-  -webkit-backdrop-filter:blur(18px) saturate(120%) !important;
-}
-
-/* Footer */
-footer{
-  color:#cbd2d8 !important;
-}
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media(max-width:760px){
+
+
   .top-nav ul{
-    gap:14px !important;
+
+    gap:14px;
+
+    font-size:.9rem;
+
   }
+
+
+  .container{
+
+    padding:
+      135px 16px 40px;
+
+  }
+
+
+  .hero h1{
+
+    font-size:
+      3rem;
+
+  }
+
+
+  .grid{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+
+  .card{
+
+    padding:
+      20px;
+
+  }
+
+
+  .card h3{
+
+    font-size:
+      1.6rem;
+
+  }
+
 }
+
+
+@media(max-width:430px){
+
+
+  .hero h1{
+
+    font-size:
+      2.6rem;
+
+  }
+
+
+  .container{
+
+    padding-left:
+      12px;
+
+    padding-right:
+      12px;
+
+  }
+
+
+  .hero .button{
+
+    width:100%;
+
+  }
+
+}
+
+
 </style>
 
 </head>
+
+
 <body>
 
+
+<!-- =========================================================
+     NAVIGATION
+     ========================================================= -->
+
 <nav class="top-nav">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="research.html">Research</a></li>
-        <li><a href="repositories.html" aria-current="page">Code &amp; Repositories</a></li>
-        <li><a href="collaborators.html">Collaborators</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
+
+  <ul>
+
+    <li>
+      <a href="index.html">
+        Home
+      </a>
+    </li>
+
+    <li>
+      <a href="publications.html">
+        Publications
+      </a>
+    </li>
+
+    <li>
+      <a href="research.html">
+        Research
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="repositories.html"
+        aria-current="page"
+      >
+        Code &amp; Repositories
+      </a>
+    </li>
+
+    <li>
+      <a href="collaborators.html">
+        Collaborators
+      </a>
+    </li>
+
+    <li>
+      <a href="contact.html">
+        Contact
+      </a>
+    </li>
+
+  </ul>
+
 </nav>
 
+
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
 <main class="container">
-  <header class="hero">
-    <h1>Open repositories</h1>
-    <p>Selected reproducible workflows, scripts and teaching resources for phylogenomics, transcriptomics, UCE processing and sequence-data quality control.</p>
-    <a class="button" href="https://github.com/TiagoBelintani?tab=repositories" target="_blank" rel="noopener">View all repositories on GitHub</a>
-  </header>
-  <div class="toolbar"><input id="repoSearch" type="search" placeholder="Search repositories" aria-label="Search repositories"></div>
-  <section id="repoGrid" class="grid"><article class="card">
-      <span class="badge">Python</span>
-      <h3>Alignment_static_recovery</h3>
-      <p>Recovery and validation utilities for static phylogenomic alignments.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Alignment_static_recovery" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+
+<header class="hero">
+
+  <h1>
+    Open repositories
+  </h1>
+
+  <p>
+    Selected reproducible workflows, scripts and teaching resources
+    for phylogenomics, transcriptomics, UCE processing and
+    sequence-data quality control.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani?tab=repositories"
+    target="_blank"
+    rel="noopener"
+  >
+    View all repositories on GitHub
+  </a>
+
+</header>
+
+
+
+<!-- =========================================================
+     SEARCH
+     ========================================================= -->
+
+<div class="toolbar">
+
+  <input
+    id="repoSearch"
+    type="search"
+    placeholder="Search repositories"
+    aria-label="Search repositories"
+  >
+
+</div>
+
+
+
+<!-- =========================================================
+     REPOSITORIES
+     ========================================================= -->
+
+<section
+  id="repoGrid"
+  class="grid"
+>
+
+
+<!-- 1 -->
+
 <article class="card">
-      <span class="badge">Pipeline</span>
-      <h3>COI_Recovery_Pipeline_using_MitoGeneExtractor_and_ORF-based_Filtering</h3>
-      <p>Reproducible workflow to recover mitochondrial COI sequences with ORF-based filtering.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/COI_Recovery_Pipeline_using_MitoGeneExtractor_and_ORF-based_Filtering" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Python
+  </span>
+
+  <h3>
+    Alignment_static_recovery
+  </h3>
+
+  <p>
+    Recovery and validation utilities for static phylogenomic alignments.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Alignment_static_recovery"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 2 -->
+
 <article class="card">
-      <span class="badge">Shell</span>
-      <h3>Treinamento_Processamento_UCE_UNESP_2025</h3>
-      <p>Training material for bioinformatics and processing of ultraconserved elements (UCEs).</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Treinamento_Processamento_UCE_UNESP_2025" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Pipeline
+  </span>
+
+  <h3>
+    COI_Recovery_Pipeline_using_MitoGeneExtractor_and_ORF-based_Filtering
+  </h3>
+
+  <p>
+    Reproducible workflow to recover mitochondrial COI sequences
+    with ORF-based filtering.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/COI_Recovery_Pipeline_using_MitoGeneExtractor_and_ORF-based_Filtering"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 3 -->
+
 <article class="card">
-      <span class="badge">Shell</span>
-      <h3>Trim_UCE_reads_trimmmomatic</h3>
-      <p>Tutorial and scripts for trimming UCE reads with Trimmomatic.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Trim_UCE_reads_trimmmomatic" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Shell
+  </span>
+
+  <h3>
+    Treinamento_Processamento_UCE_UNESP_2025
+  </h3>
+
+  <p>
+    Training material for bioinformatics and processing of
+    ultraconserved elements (UCEs).
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Treinamento_Processamento_UCE_UNESP_2025"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 4 -->
+
 <article class="card">
-      <span class="badge">Shell</span>
-      <h3>Ortholog-Identification-and-Positive-Selection-Analysis-in-Single-Copy-Genes</h3>
-      <p>Workflow for ortholog identification and positive-selection analyses in single-copy genes.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Ortholog-Identification-and-Positive-Selection-Analysis-in-Single-Copy-Genes" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Shell
+  </span>
+
+  <h3>
+    Trim_UCE_reads_trimmmomatic
+  </h3>
+
+  <p>
+    Tutorial and scripts for trimming UCE reads with Trimmomatic.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Trim_UCE_reads_trimmmomatic"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 5 -->
+
 <article class="card">
-      <span class="badge">Tutorial</span>
-      <h3>Transdecoder_tutorial</h3>
-      <p>Practical guide for coding-region prediction with TransDecoder.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Transdecoder_tutorial" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Shell
+  </span>
+
+  <h3>
+    Ortholog-Identification-and-Positive-Selection-Analysis-in-Single-Copy-Genes
+  </h3>
+
+  <p>
+    Workflow for ortholog identification and positive-selection
+    analyses in single-copy genes.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Ortholog-Identification-and-Positive-Selection-Analysis-in-Single-Copy-Genes"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 6 -->
+
 <article class="card">
-      <span class="badge">Shell</span>
-      <h3>Comparative_Transcriptomics_Triatominae</h3>
-      <p>Reusable workflow for comparative transcriptomics in Triatominae.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Comparative_Transcriptomics_Triatominae" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Tutorial
+  </span>
+
+  <h3>
+    Transdecoder_tutorial
+  </h3>
+
+  <p>
+    Practical guide for coding-region prediction with TransDecoder.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Transdecoder_tutorial"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 7 -->
+
 <article class="card">
-      <span class="badge">R</span>
-      <h3>tanglegram-methods</h3>
-      <p>R methods and examples for comparing phylogenetic trees with tanglegrams.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/tanglegram-methods" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Shell
+  </span>
+
+  <h3>
+    Comparative_Transcriptomics_Triatominae
+  </h3>
+
+  <p>
+    Reusable workflow for comparative transcriptomics in Triatominae.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Comparative_Transcriptomics_Triatominae"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 8 -->
+
 <article class="card">
-      <span class="badge">Pipeline</span>
-      <h3>mitogenomas_PCGs_pipeline</h3>
-      <p>Pipeline for mitogenome and protein-coding gene phylogenomics.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/mitogenomas_PCGs_pipeline" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    R
+  </span>
+
+  <h3>
+    tanglegram-methods
+  </h3>
+
+  <p>
+    R methods and examples for comparing phylogenetic trees
+    with tanglegrams.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/tanglegram-methods"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 9 -->
+
 <article class="card">
-      <span class="badge">Python</span>
-      <h3>Charset-converter-for-IQ-TREE-</h3>
-      <p>Utility for converting charset/partition definitions for IQ-TREE workflows.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Charset-converter-for-IQ-TREE-" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Pipeline
+  </span>
+
+  <h3>
+    mitogenomas_PCGs_pipeline
+  </h3>
+
+  <p>
+    Pipeline for mitogenome and protein-coding gene phylogenomics.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/mitogenomas_PCGs_pipeline"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 10 -->
+
 <article class="card">
-      <span class="badge">Python</span>
-      <h3>Alinhament_view</h3>
-      <p>Presence–absence matrices and heatmaps for phylogenomic alignments.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Alinhament_view" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Python
+  </span>
+
+  <h3>
+    Charset-converter-for-IQ-TREE-
+  </h3>
+
+  <p>
+    Utility for converting charset/partition definitions
+    for IQ-TREE workflows.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Charset-converter-for-IQ-TREE-"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 11 -->
+
 <article class="card">
-      <span class="badge">Workflow</span>
-      <h3>Genes_tree_with_Asteroid</h3>
-      <p>Workflow for species-tree inference with Asteroid from gene trees.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Genes_tree_with_Asteroid" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Python
+  </span>
+
+  <h3>
+    Alinhament_view
+  </h3>
+
+  <p>
+    Presence–absence matrices and heatmaps for
+    phylogenomic alignments.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Alinhament_view"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 12 -->
+
 <article class="card">
-      <span class="badge">QC</span>
-      <h3>Check_FastQC_MultiQC</h3>
-      <p>Quality-control workflow using FastQC and MultiQC.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Check_FastQC_MultiQC" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Workflow
+  </span>
+
+  <h3>
+    Genes_tree_with_Asteroid
+  </h3>
+
+  <p>
+    Workflow for species-tree inference with Asteroid
+    from gene trees.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Genes_tree_with_Asteroid"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 13 -->
+
 <article class="card">
-      <span class="badge">Shell</span>
-      <h3>assembly_quality</h3>
-      <p>Scripts for summarizing and checking sequence-assembly quality.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/assembly_quality" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    QC
+  </span>
+
+  <h3>
+    Check_FastQC_MultiQC
+  </h3>
+
+  <p>
+    Quality-control workflow using FastQC and MultiQC.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Check_FastQC_MultiQC"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 14 -->
+
 <article class="card">
-      <span class="badge">Python</span>
-      <h3>make_astral_map</h3>
-      <p>Python utility to generate ASTRAL-compatible map files from FASTA and NEXUS datasets.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/make_astral_map" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Shell
+  </span>
+
+  <h3>
+    assembly_quality
+  </h3>
+
+  <p>
+    Scripts for summarizing and checking sequence-assembly quality.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/assembly_quality"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 15 -->
+
 <article class="card">
-      <span class="badge">Python</span>
-      <h3>generate_assembly_conf.md</h3>
-      <p>Generates PHYLUCE assembly.conf files from cleaned-read directories.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/generate_assembly_conf.md" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Python
+  </span>
+
+  <h3>
+    make_astral_map
+  </h3>
+
+  <p>
+    Python utility to generate ASTRAL-compatible map files
+    from FASTA and NEXUS datasets.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/make_astral_map"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 16 -->
+
 <article class="card">
-      <span class="badge">Workflow</span>
-      <h3>ML-with-iqtree3</h3>
-      <p>Guidelines and scripts for maximum-likelihood phylogenetic inference with IQ-TREE 3.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/ML-with-iqtree3" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Python
+  </span>
+
+  <h3>
+    generate_assembly_conf.md
+  </h3>
+
+  <p>
+    Generates PHYLUCE assembly.conf files from
+    cleaned-read directories.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/generate_assembly_conf.md"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 17 -->
+
 <article class="card">
-      <span class="badge">Python</span>
-      <h3>Cluster_Occupancy_Analyzer</h3>
-      <p>Evaluates taxon occupancy in ortholog clusters from phylogenomic pipelines.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Cluster_Occupancy_Analyzer" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Workflow
+  </span>
+
+  <h3>
+    ML-with-iqtree3
+  </h3>
+
+  <p>
+    Guidelines and scripts for maximum-likelihood
+    phylogenetic inference with IQ-TREE 3.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/ML-with-iqtree3"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 18 -->
+
 <article class="card">
-      <span class="badge">Python</span>
-      <h3>Alignments_metrics</h3>
-      <p>Quantifies multispecies FASTA alignments and produces summary tables.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/Alignments_metrics" target="_blank" rel="noopener">Open repository</a>
-    </article>
+
+  <span class="badge">
+    Python
+  </span>
+
+  <h3>
+    Cluster_Occupancy_Analyzer
+  </h3>
+
+  <p>
+    Evaluates taxon occupancy in ortholog clusters
+    from phylogenomic pipelines.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Cluster_Occupancy_Analyzer"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 19 -->
+
 <article class="card">
-      <span class="badge">Shell</span>
-      <h3>assembly_UCE</h3>
-      <p>Tutorial for assembling UCE datasets with PHYLUCE on SLURM systems.</p>
-      <a class="button" href="https://github.com/TiagoBelintani/assembly_UCE" target="_blank" rel="noopener">Open repository</a>
-    </article></section>
-  <p class="footer-note">Selected from the public GitHub profile of Tiago Belintani. Repository availability and content may change over time.</p>
+
+  <span class="badge">
+    Python
+  </span>
+
+  <h3>
+    Alignments_metrics
+  </h3>
+
+  <p>
+    Quantifies multispecies FASTA alignments and
+    produces summary tables.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/Alignments_metrics"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+
+<!-- 20 -->
+
+<article class="card">
+
+  <span class="badge">
+    Shell
+  </span>
+
+  <h3>
+    assembly_UCE
+  </h3>
+
+  <p>
+    Tutorial for assembling UCE datasets with PHYLUCE
+    on SLURM systems.
+  </p>
+
+  <a
+    class="button"
+    href="https://github.com/TiagoBelintani/assembly_UCE"
+    target="_blank"
+    rel="noopener"
+  >
+    Open repository
+  </a>
+
+</article>
+
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER NOTE
+     ========================================================= -->
+
+<p class="footer-note">
+  Selected from the public GitHub profile of Tiago Belintani.
+  Repository availability and content may change over time.
+</p>
+
+
 </main>
+
+
+
+<!-- =========================================================
+     SEARCH SCRIPT
+     ========================================================= -->
+
 <script>
-const cards=[...document.querySelectorAll('.card')];
-document.getElementById('repoSearch').addEventListener('input',e=>{
- const q=e.target.value.toLowerCase().trim();
- cards.forEach(c=>c.hidden=q&&!c.innerText.toLowerCase().includes(q));
-});
+
+const cards =
+  [...document.querySelectorAll('.card')];
+
+
+document
+  .getElementById('repoSearch')
+  .addEventListener(
+    'input',
+    event => {
+
+      const query =
+        event.target.value
+          .toLowerCase()
+          .trim();
+
+
+      cards.forEach(
+        card => {
+
+          card.hidden =
+            query &&
+            !card
+              .innerText
+              .toLowerCase()
+              .includes(query);
+
+        }
+      );
+
+    }
+  );
+
 </script>
+
+
 </body>
+
 </html>
