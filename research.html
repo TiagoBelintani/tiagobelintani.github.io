@@ -1,394 +1,735 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Research | Tiago Belintani — Evolutionary Biology & Phylogenomics</title>
-<meta name="description" content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses.">
+
+<meta
+  name="description"
+  content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses."
+>
+
 <meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="https://tiagobelintani.github.io/research.html">
+
+<link
+  rel="canonical"
+  href="https://tiagobelintani.github.io/research.html"
+>
+
+
+<!-- Open Graph -->
 
 <meta property="og:site_name" content="Tiago Belintani">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Research | Tiago Belintani — Evolutionary Biology & Phylogenomics">
-<meta property="og:description" content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses.">
-<meta property="og:url" content="https://tiagobelintani.github.io/research.html">
-<meta property="og:image" content="https://tiagobelintani.github.io/assets/images/imagem2.jpg">
+
+<meta
+  property="og:title"
+  content="Research | Tiago Belintani — Evolutionary Biology & Phylogenomics"
+>
+
+<meta
+  property="og:description"
+  content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses."
+>
+
+<meta
+  property="og:url"
+  content="https://tiagobelintani.github.io/research.html"
+>
+
+<meta
+  property="og:image"
+  content="https://tiagobelintani.github.io/assets/images/imagem2.jpg"
+>
+
+
+<!-- Twitter -->
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Research | Tiago Belintani — Evolutionary Biology & Phylogenomics">
-<meta name="twitter:description" content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses.">
-<meta name="twitter:image" content="https://tiagobelintani.github.io/assets/images/imagem2.jpg">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+<meta
+  name="twitter:title"
+  content="Research | Tiago Belintani — Evolutionary Biology & Phylogenomics"
+>
+
+<meta
+  name="twitter:description"
+  content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses."
+>
+
+<meta
+  name="twitter:image"
+  content="https://tiagobelintani.github.io/assets/images/imagem2.jpg"
+>
+
+
+<!-- Fonts -->
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
+
 <style>
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center no-repeat;
-    background-size: cover;
-    opacity: 0.25;
-    z-index: 0;
-    pointer-events: none;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: #fdfdfd;
-    color: #333;
-    font-family: 'Courier New', monospace;
-    line-height: 1.6;
-}
-.top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(255,255,255,0.90);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    z-index: 999;
-}
-.top-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0;
-    padding: 12px 16px;
-    gap: 30px;
-}
-.top-nav a {
-    color: #007b8a;
-    text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 500;
-    font-size: 1em;
-    padding-bottom: 2px;
-    transition: color .2s, border-bottom .2s;
-}
-.top-nav a:hover,
-.top-nav a[aria-current="page"] {
-    color: #004f59;
-    border-bottom: 2px solid #007b8a;
-}
-.container {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 105px 20px 50px;
-    position: relative;
-    z-index: 1;
-}
-h1, h2, h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    color: #111;
-}
-h1 {
-    font-size: 3em;
-    text-align: center;
-    margin-bottom: .2em;
-}
-h1 span {
-    display: block;
-    width: 64px;
-    margin: .5em auto 0;
-    border-bottom: 3px solid #007b8a;
-    border-radius: 2px;
-}
-h2 {
-    font-size: 2em;
-    text-align: center;
-    margin-bottom: 1em;
-}
-a {
-    color: #007b8a;
-}
-footer {
-    text-align: center;
-    font-size: .9em;
-    color: #666;
-    padding: 20px 0;
-    margin-top: 40px;
-}
-@media (max-width: 760px) {
-    .top-nav ul { gap: 14px; font-size: .9rem; }
-    .container { padding-top: 135px; }
-}
 
-
-.section{background:rgba(245,251,251,.70);border-radius:12px;box-shadow:0 1px 10px rgba(0,124,138,.07);padding:24px;margin-bottom:30px}
-p,li{font-size:1.1em;line-height:1.7em;text-align:justify}
-
-</style>
-
-<style>
 /* =========================================================
-   Visual theme sync with homepage v6.2
-   Color-only / surface-only overrides; content/layout preserved
+   VARIABLES
    ========================================================= */
+
 :root{
+
   --glass:rgba(29,33,39,.76);
   --glass-strong:rgba(22,26,31,.84);
   --glass-soft:rgba(43,48,55,.68);
-  --glass-faint:rgba(255,255,255,.055);
+
   --text:#f3f5f7;
   --muted:#c6ccd2;
+
   --accent:#9fb3c8;
   --accent-strong:#c3d2e0;
+
   --border:rgba(255,255,255,.15);
+
   --shadow:0 12px 32px rgba(8,12,17,.16);
+
 }
 
-/* Background: same visible cool photographic treatment as the new Home */
-body{
-  background:transparent !important;
-  color:var(--text) !important;
-  font-family:'Space Grotesk',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif !important;
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+*{
+  box-sizing:border-box;
 }
+
+
+html{
+  scroll-behavior:smooth;
+}
+
+
+body{
+
+  position:relative;
+
+  z-index:1;
+
+  margin:0;
+  padding:0;
+
+  min-height:100vh;
+
+  background:transparent;
+
+  color:var(--text);
+
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  line-height:1.6;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
 
 body::before{
-  content:"" !important;
-  position:fixed !important;
-  inset:0 !important;
-  width:100vw !important;
-  height:100vh !important;
+
+  content:"";
+
+  position:fixed;
+
+  inset:0;
+
+  width:100vw;
+  height:100vh;
+
   background:
-    linear-gradient(rgba(210,215,220,.42),rgba(210,215,220,.42)),
-    url('assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg') center center / cover no-repeat !important;
-  opacity:1 !important;
-  z-index:0 !important;
-  pointer-events:none !important;
+
+    linear-gradient(
+      rgba(210,215,220,.42),
+      rgba(210,215,220,.42)
+    ),
+
+    url(
+      'assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg'
+    )
+
+    center center / cover no-repeat;
+
+  opacity:1;
+
+  z-index:0;
+
+  pointer-events:none;
+
 }
 
-/* Navigation */
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
 .top-nav{
-  background:rgba(22,26,31,.80) !important;
-  border-bottom:1px solid rgba(255,255,255,.12) !important;
-  box-shadow:0 8px 24px rgba(10,14,18,.10) !important;
-  backdrop-filter:blur(18px) saturate(135%) !important;
-  -webkit-backdrop-filter:blur(18px) saturate(135%) !important;
+
+  position:fixed;
+
+  top:0;
+  left:0;
+
+  width:100%;
+
+  background:
+    rgba(22,26,31,.80);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.12);
+
+  box-shadow:
+    0 8px 24px rgba(10,14,18,.10);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(135%);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(135%);
+
+  z-index:999;
+
 }
+
+
+.top-nav ul{
+
+  list-style:none;
+
+  display:flex;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  margin:0;
+
+  padding:12px 16px;
+
+  gap:30px;
+
+}
+
 
 .top-nav a{
-  color:#d7dde3 !important;
+
+  color:#d7dde3;
+
+  text-decoration:none;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-weight:500;
+
+  font-size:1em;
+
+  padding-bottom:2px;
+
+  transition:
+    color .2s,
+    border-bottom .2s;
+
 }
+
 
 .top-nav a:hover,
 .top-nav a[aria-current="page"]{
-  color:var(--accent-strong) !important;
-  border-bottom-color:var(--accent) !important;
+
+  color:var(--accent-strong);
+
+  border-bottom:
+    2px solid var(--accent);
+
 }
 
-/* Typography */
-h1,h2,h3{
-  color:#f3f6f8 !important;
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.container{
+
+  max-width:1120px;
+
+  margin:0 auto;
+
+  padding:
+    105px 20px 50px;
+
+  position:relative;
+
+  z-index:1;
+
 }
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3{
+
+  font-family:
+    'Instrument Serif',
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-weight:400;
+
+  color:#f3f6f8;
+
+}
+
+
+/* Main name */
+
+h1{
+
+  font-size:
+    clamp(3.2rem,6vw,5.2rem);
+
+  line-height:.98;
+
+  letter-spacing:-.035em;
+
+  text-align:center;
+
+  margin:
+    0 0 .2em;
+
+}
+
+
+/* Decorative line */
 
 h1 span{
-  border-bottom-color:var(--accent) !important;
+
+  display:block;
+
+  width:64px;
+
+  margin:
+    .5em auto 0;
+
+  border-bottom:
+    3px solid var(--accent);
+
+  border-radius:2px;
+
 }
+
+
+/* Page title */
+
+h2{
+
+  font-size:
+    clamp(2rem,4vw,3rem);
+
+  line-height:1.05;
+
+  letter-spacing:-.025em;
+
+  text-align:center;
+
+  margin:
+    .35em 0 1em;
+
+}
+
+
+/* Research topic titles */
+
+h3{
+
+  font-size:
+    clamp(1.7rem,3vw,2.25rem);
+
+  line-height:1.08;
+
+  letter-spacing:-.02em;
+
+  margin:
+    0 0 14px;
+
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
 
 a{
-  color:var(--accent-strong) !important;
+
+  color:var(--accent-strong);
+
 }
 
-p,li{
+
+/* =========================================================
+   RESEARCH SECTIONS
+   ========================================================= */
+
+.section{
+
+  background:
+    var(--glass);
+
+  color:var(--text);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:18px;
+
+  box-shadow:
+    var(--shadow);
+
+  padding:
+    28px 30px;
+
+  margin-bottom:
+    22px;
+
+  backdrop-filter:
+    blur(16px)
+    saturate(120%);
+
+  -webkit-backdrop-filter:
+    blur(16px)
+    saturate(120%);
+
+  transition:
+    background .18s ease,
+    transform .18s ease;
+
+}
+
+
+.section:hover{
+
+  background:
+    rgba(35,40,47,.82);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+.section p{
+
+  margin:0;
+
   color:#d5dbe0;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-size:1.03rem;
+
+  line-height:1.75;
+
+  text-align:justify;
+
 }
 
-/* Generic glass surfaces already present in existing pages */
-.section,
-.member,
-.publication,
-.card{
-  background:var(--glass) !important;
-  color:var(--text) !important;
-  border-color:var(--border) !important;
-  box-shadow:var(--shadow) !important;
-  backdrop-filter:blur(16px) saturate(120%) !important;
-  -webkit-backdrop-filter:blur(16px) saturate(120%) !important;
-}
 
-.section:hover,
-.member:hover,
-.publication:hover,
-.card:hover{
-  background:rgba(35,40,47,.82) !important;
-}
+/* =========================================================
+   FOOTER
+   ========================================================= */
 
-/* Research */
-.section p,
-.section li{
-  color:#d5dbe0 !important;
-}
-
-/* Publications */
-.hero p,
-.footer-note,
-.publication .journal{
-  color:var(--muted) !important;
-}
-
-.publication{
-  border-left-color:var(--accent) !important;
-}
-
-.publication .year{
-  background:rgba(159,179,200,.15) !important;
-  color:#e0e9f1 !important;
-  border:1px solid rgba(195,210,224,.18);
-}
-
-.section-title{
-  color:#f3f6f8 !important;
-}
-
-.toolbar input,
-.toolbar select{
-  background:rgba(24,28,33,.70) !important;
-  color:#eef2f5 !important;
-  border-color:rgba(255,255,255,.18) !important;
-  backdrop-filter:blur(12px) !important;
-  -webkit-backdrop-filter:blur(12px) !important;
-}
-
-.toolbar input::placeholder{
-  color:#aeb7bf !important;
-}
-
-.toolbar select option{
-  background:#22272d;
-  color:#eef2f5;
-}
-
-/* Repositories */
-.card{
-  border-left-color:var(--accent) !important;
-}
-
-.card p{
-  color:#d2d8de !important;
-}
-
-.badge{
-  background:rgba(159,179,200,.15) !important;
-  border-color:rgba(195,210,224,.18) !important;
-  color:#e0e9f1 !important;
-}
-
-.card .button,
-.hero-link{
-  color:var(--accent-strong) !important;
-}
-
-.hero-link{
-  background:rgba(24,28,33,.68) !important;
-  border-color:rgba(255,255,255,.18) !important;
-  backdrop-filter:blur(12px) !important;
-  -webkit-backdrop-filter:blur(12px) !important;
-}
-
-.card .button:hover,
-.hero-link:hover{
-  color:#ffffff !important;
-  border-color:var(--accent) !important;
-}
-
-/* Collaborators */
-.member img{
-  border-color:rgba(195,210,224,.38) !important;
-  box-shadow:0 6px 20px rgba(8,12,17,.20) !important;
-  background:rgba(255,255,255,.08) !important;
-}
-
-.member p{
-  color:#d2d8de !important;
-}
-
-/* Contact — keeps the existing dimensions/alignment */
-body .container{
-  color:var(--text);
-}
-
-body .container[style],
-.contact-info{
-  color:var(--text);
-}
-
-.profile-photo{
-  border-color:var(--accent) !important;
-}
-
-/* Contact page has its glass background on .container */
-body:has(.contact-info) .container{
-  background:rgba(29,33,39,.76) !important;
-  border:1px solid var(--border) !important;
-  box-shadow:var(--shadow) !important;
-  backdrop-filter:blur(18px) saturate(120%) !important;
-  -webkit-backdrop-filter:blur(18px) saturate(120%) !important;
-}
-
-/* Footer */
 footer{
-  color:#cbd2d8 !important;
+
+  text-align:center;
+
+  font-family:
+    'Inter',
+    system-ui,
+    sans-serif;
+
+  font-size:.9em;
+
+  color:#cbd2d8;
+
+  padding:
+    20px 0;
+
+  margin-top:
+    40px;
+
 }
+
+
+/* =========================================================
+   TABLET / MOBILE
+   ========================================================= */
 
 @media(max-width:760px){
+
+
   .top-nav ul{
-    gap:14px !important;
+
+    gap:14px;
+
+    font-size:.9rem;
+
   }
+
+
+  .container{
+
+    padding:
+      135px 16px 40px;
+
+  }
+
+
+  h1{
+
+    font-size:
+      3.15rem;
+
+  }
+
+
+  h2{
+
+    font-size:
+      2.25rem;
+
+  }
+
+
+  h3{
+
+    font-size:
+      1.75rem;
+
+  }
+
+
+  .section{
+
+    padding:
+      22px;
+
+  }
+
+
+  .section p{
+
+    font-size:
+      1rem;
+
+  }
+
 }
+
+
+@media(max-width:430px){
+
+
+  h1{
+
+    font-size:
+      2.7rem;
+
+  }
+
+
+  h2{
+
+    font-size:
+      2rem;
+
+  }
+
+
+  .container{
+
+    padding-left:
+      12px;
+
+    padding-right:
+      12px;
+
+  }
+
+}
+
+
 </style>
 
 </head>
+
+
 <body>
 
-<!-- Top Navigation -->
+
+<!-- =====================================================
+     TOP NAVIGATION
+     ===================================================== -->
+
 <nav class="top-nav">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="research.html" aria-current="page">Research</a></li>
-        <li><a href="repositories.html">Code &amp; Repositories</a></li>
-        <li><a href="collaborators.html">Collaborators</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
+
+  <ul>
+
+    <li>
+      <a href="index.html">
+        Home
+      </a>
+    </li>
+
+    <li>
+      <a href="publications.html">
+        Publications
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="research.html"
+        aria-current="page"
+      >
+        Research
+      </a>
+    </li>
+
+    <li>
+      <a href="repositories.html">
+        Code &amp; Repositories
+      </a>
+    </li>
+
+    <li>
+      <a href="collaborators.html">
+        Collaborators
+      </a>
+    </li>
+
+    <li>
+      <a href="contact.html">
+        Contact
+      </a>
+    </li>
+
+  </ul>
+
 </nav>
 
+
+
+<!-- =====================================================
+     PAGE CONTENT
+     ===================================================== -->
+
 <div class="container">
-  <h1>Tiago Belintani <span></span></h1>
-  <h2>Research</h2>
+
+
+  <h1>
+    Tiago Belintani
+    <span></span>
+  </h1>
+
+
+  <h2>
+    Research
+  </h2>
+
+
+
+  <!-- TRIATOMINAE -->
 
   <div class="section">
-    <h3>Evolutionary Biology of Triatominae</h3>
+
+    <h3>
+      Evolutionary Biology of Triatominae
+    </h3>
+
     <p>
-        My research on Triatominae focuses on evolutionary patterns, species delimitation, and phylogenomics of blood-feeding insects. Combining morphological analysis and genomic data, I investigate their diversification and vector potential for Chagas disease.
+      My research on Triatominae focuses on evolutionary patterns,
+      species delimitation, and phylogenomics of blood-feeding insects.
+      Combining morphological analysis and genomic data, I investigate
+      their diversification and vector potential for Chagas disease.
     </p>
+
   </div>
 
-  <div class="section">
-    <h3>Theraphosidae Systematics</h3>
-    <p>
-        This work explores tarantula taxonomy, morphology, and biogeography. Using geometric morphometrics, molecular phylogenetics, and comparative genomics, I aim to resolve complex species boundaries and evolutionary histories of Neotropical spiders.
-    </p>
-  </div>
+
+
+  <!-- THERAPHOSIDAE -->
 
   <div class="section">
-    <h3>Bioinformatics & Genomic Analyses</h3>
+
+    <h3>
+      Theraphosidae Systematics
+    </h3>
+
     <p>
-        I integrate high-throughput DNA sequencing, genome assembly, and phylogenomic methods to study evolutionary processes. These approaches help uncover patterns of hybridization, adaptation, and diversification in Neotropical organisms.
+      This work explores tarantula taxonomy, morphology, and
+      biogeography. Using geometric morphometrics, molecular
+      phylogenetics, and comparative genomics, I aim to resolve
+      complex species boundaries and evolutionary histories of
+      Neotropical spiders.
     </p>
+
   </div>
+
+
+
+  <!-- BIOINFORMATICS -->
+
+  <div class="section">
+
+    <h3>
+      Bioinformatics &amp; Genomic Analyses
+    </h3>
+
+    <p>
+      I integrate high-throughput DNA sequencing, genome assembly,
+      and phylogenomic methods to study evolutionary processes.
+      These approaches help uncover patterns of hybridization,
+      adaptation, and diversification in Neotropical organisms.
+    </p>
+
+  </div>
+
 
 </div>
 
+
 </body>
+
 </html>
