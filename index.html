@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +9,7 @@
 
   <meta
     name="description"
-    content="Tiago Belintani is a researcher in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics, with research on Triatominae and Theraphosidae."
+    content="Tiago Belintani is a researcher and Visiting Professor working in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics, with research on Triatominae and Theraphosidae."
   >
 
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -26,21 +25,26 @@
   <meta property="og:site_name" content="Tiago Belintani">
   <meta property="og:type" content="profile">
   <meta property="og:title" content="Tiago Belintani | Evolutionary Biology, Phylogenomics & Bioinformatics">
+
   <meta
     property="og:description"
-    content="Tiago Belintani is a researcher in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics, with research on Triatominae and Theraphosidae."
+    content="Research in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics, with emphasis on Triatominae and Theraphosidae."
   >
+
   <meta property="og:url" content="https://tiagobelintani.github.io/">
   <meta property="og:image" content="https://tiagobelintani.github.io/assets/images/profile-lab.jpg">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tiago Belintani | Evolutionary Biology, Phylogenomics & Bioinformatics">
+
   <meta
     name="twitter:description"
-    content="Tiago Belintani is a researcher in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics, with research on Triatominae and Theraphosidae."
+    content="Research in evolutionary biology, phylogenomics, bioinformatics, systematics and genomics."
   >
+
   <meta name="twitter:image" content="https://tiagobelintani.github.io/assets/images/profile-lab.jpg">
+
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -54,11 +58,11 @@
       "@id": "https://tiagobelintani.github.io/#person",
       "name": "Tiago Belintani",
       "url": "https://tiagobelintani.github.io/",
-      "jobTitle": "Researcher in Evolutionary Biology and Phylogenomics",
+      "jobTitle": "Visiting Professor and Researcher in Evolutionary Biology, Phylogenomics and Bioinformatics",
       "description": "Researcher working in evolutionary biology, systematics, phylogenomics, bioinformatics and genomics, with research on Triatominae and Theraphosidae.",
       "affiliation": {
         "@type": "Organization",
-        "name": "São Paulo State University (UNESP)"
+        "name": "Federal Institute of Santa Catarina (IFSC), Câmpus Lages"
       },
       "sameAs": [
         "https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR",
@@ -82,37 +86,57 @@
   }
   </script>
 
+
   <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
+
   <style>
 
     :root{
       --bg:#d9dde2;
+
       --surface:rgba(31,35,41,.78);
       --surface-strong:rgba(24,28,33,.88);
       --surface-soft:rgba(43,48,55,.68);
+
       --panel:rgba(37,42,49,.72);
       --panel-soft:rgba(48,54,62,.62);
+
       --ink:#f3f5f7;
       --muted:#c6ccd2;
+
       --line:rgba(255,255,255,.16);
+
       --accent:#9fb3c8;
       --accent-strong:#c3d2e0;
+
+      --bioinfo:#d97757;
+      --bioinfo-light:#edb29d;
+      --bioinfo-soft:rgba(217,119,87,.12);
+
       --white:#ffffff;
-      --shadow:0 14px 38px rgba(8,12,17,.18);
+
+      --shadow:
+        0 14px 38px rgba(8,12,17,.18);
     }
+
 
     *{
       box-sizing:border-box;
     }
 
+
     html{
       scroll-behavior:smooth;
     }
+
 
     body{
       margin:0;
@@ -139,13 +163,16 @@
       position:relative;
     }
 
+
     img{
       max-width:100%;
     }
 
+
     a{
       color:inherit;
     }
+
 
     h1,
     h2,
@@ -174,22 +201,27 @@
       backdrop-filter:blur(18px) saturate(135%);
       -webkit-backdrop-filter:blur(18px) saturate(135%);
 
-      border-bottom:1px solid rgba(255,255,255,.12);
+      border-bottom:
+        1px solid rgba(255,255,255,.12);
 
       box-shadow:
         0 8px 24px rgba(10,14,18,.10);
     }
 
+
     .nav-inner{
       max-width:1160px;
       margin:0 auto;
+
       padding:15px 24px;
 
       display:flex;
       align-items:center;
       justify-content:space-between;
+
       gap:28px;
     }
+
 
     .brand{
       color:var(--accent-strong);
@@ -200,12 +232,13 @@
         serif;
 
       font-size:1.35rem;
-      font-weight:400;
 
       text-decoration:none;
+
       letter-spacing:-.02em;
       white-space:nowrap;
     }
+
 
     .top-nav ul{
       list-style:none;
@@ -221,15 +254,29 @@
       padding:0;
     }
 
+
     .top-nav a{
       text-decoration:none;
+
       font-size:.92rem;
+
       color:#d7dde3;
     }
+
 
     .top-nav a:hover,
     .top-nav a[aria-current="page"]{
       color:var(--accent-strong);
+    }
+
+
+    .top-nav .bioinfo-nav{
+      color:var(--bioinfo-light);
+    }
+
+
+    .top-nav .bioinfo-nav:hover{
+      color:#ffd2c3;
     }
 
 
@@ -239,7 +286,9 @@
 
     .page{
       max-width:1160px;
+
       margin:0 auto;
+
       padding:30px 24px 64px;
     }
 
@@ -259,15 +308,22 @@
 
       background:rgba(27,31,37,.76);
 
-      border:1px solid rgba(255,255,255,.15);
+      border:
+        1px solid rgba(255,255,255,.15);
+
       border-radius:24px;
+
       overflow:hidden;
 
       box-shadow:var(--shadow);
 
-      backdrop-filter:blur(18px) saturate(120%);
-      -webkit-backdrop-filter:blur(18px) saturate(120%);
+      backdrop-filter:
+        blur(18px) saturate(120%);
+
+      -webkit-backdrop-filter:
+        blur(18px) saturate(120%);
     }
+
 
     .hero-copy{
       padding:58px 54px;
@@ -277,41 +333,34 @@
       justify-content:center;
     }
 
+
     .eyebrow{
       margin-bottom:14px;
 
       color:var(--accent);
 
-      font-family:
-        'Inter',
-        system-ui,
-        sans-serif;
-
       font-size:.73rem;
       font-weight:700;
 
       letter-spacing:.16em;
+
       text-transform:uppercase;
     }
+
 
     .hero h1{
       margin:0 0 16px;
 
       color:var(--accent-strong);
 
-      font-family:
-        'Instrument Serif',
-        Georgia,
-        serif;
-
-      font-weight:400;
-
       font-size:
         clamp(3.2rem,6vw,5.4rem);
 
       line-height:.98;
+
       letter-spacing:-.035em;
     }
+
 
     .hero .lead{
       max-width:650px;
@@ -323,9 +372,11 @@
       font-size:1.08rem;
     }
 
+
     .hero-actions{
       display:flex;
       flex-wrap:wrap;
+
       gap:10px;
     }
 
@@ -349,41 +400,71 @@
 
       text-decoration:none;
 
-      font-family:
-        'Inter',
-        system-ui,
-        sans-serif;
-
       font-size:.9rem;
       font-weight:600;
 
       transition:
         transform .18s ease,
         background .18s ease,
-        color .18s ease;
+        color .18s ease,
+        border-color .18s ease;
     }
+
 
     .btn.primary{
       background:rgba(10,13,17,.76);
+
       color:#f6f8fa;
-      border-color:rgba(255,255,255,.20);
+
+      border-color:
+        rgba(255,255,255,.20);
     }
+
 
     .btn.secondary{
       background:rgba(255,255,255,.06);
+
       color:#eef2f5;
-      border-color:rgba(255,255,255,.22);
+
+      border-color:
+        rgba(255,255,255,.22);
     }
+
+
+    .btn.bioinfo{
+      background:var(--bioinfo);
+
+      color:white;
+
+      border-color:var(--bioinfo);
+    }
+
 
     .btn:hover{
       transform:translateY(-1px);
-      border-color:var(--accent-strong);
-      color:var(--accent-strong);
+
+      border-color:
+        var(--accent-strong);
+
+      color:
+        var(--accent-strong);
     }
 
+
     .btn.primary:hover{
-      background:var(--accent-strong);
-      color:#fff;
+      background:
+        var(--accent-strong);
+
+      color:#1c2228;
+    }
+
+
+    .btn.bioinfo:hover{
+      background:#e18463;
+
+      border-color:#e18463;
+
+      color:white;
     }
 
 
@@ -392,9 +473,11 @@
        ========================= */
 
     .hero-photo{
-      background:rgba(20,23,27,.28);
+      background:
+        rgba(20,23,27,.28);
 
       display:flex;
+
       align-items:center;
       justify-content:center;
 
@@ -404,14 +487,18 @@
         1px solid rgba(255,255,255,.10);
     }
 
+
     .hero-photo img{
       width:100%;
+
       height:auto;
+
       max-height:520px;
 
       display:block;
 
       object-fit:contain;
+
       object-position:center;
     }
 
@@ -431,6 +518,7 @@
       margin:18px 0 0;
     }
 
+
     .quick-tag{
       min-height:52px;
 
@@ -445,26 +533,29 @@
 
       text-align:center;
 
-      border:1px solid rgba(255,255,255,.14);
+      border:
+        1px solid rgba(255,255,255,.14);
+
       border-radius:12px;
 
-      background:rgba(31,35,41,.68);
+      background:
+        rgba(31,35,41,.68);
 
       color:#e2e7eb;
 
-      font-family:
-        'Inter',
-        system-ui,
-        sans-serif;
-
       font-size:.86rem;
 
-      backdrop-filter:blur(14px) saturate(120%);
-      -webkit-backdrop-filter:blur(14px) saturate(120%);
+      backdrop-filter:
+        blur(14px) saturate(120%);
+
+      -webkit-backdrop-filter:
+        blur(14px) saturate(120%);
     }
+
 
     .quick-tag strong{
       color:var(--accent-strong);
+
       font-weight:600;
     }
 
@@ -476,6 +567,7 @@
     .section{
       margin-top:54px;
     }
+
 
     .section-head{
       display:grid;
@@ -492,46 +584,44 @@
 
       padding:20px 24px;
 
-      border:1px solid rgba(255,255,255,.14);
+      border:
+        1px solid rgba(255,255,255,.14);
+
       border-radius:16px;
 
-      background:rgba(26,30,36,.72);
+      background:
+        rgba(26,30,36,.72);
 
       box-shadow:
         0 8px 24px rgba(8,12,17,.10);
 
-      backdrop-filter:blur(16px) saturate(125%);
-      -webkit-backdrop-filter:blur(16px) saturate(125%);
+      backdrop-filter:
+        blur(16px) saturate(125%);
+
+      -webkit-backdrop-filter:
+        blur(16px) saturate(125%);
     }
+
 
     .section-head h2{
       margin:0;
 
       color:#f3f6f8;
 
-      font-family:
-        'Instrument Serif',
-        Georgia,
-        serif;
-
       font-size:
         clamp(1.9rem,3vw,2.8rem);
 
-      font-weight:400;
-
       letter-spacing:-.025em;
+
       line-height:1.05;
-
-      max-width:100%;
-
-      white-space:normal;
-      overflow-wrap:normal;
     }
+
 
     .section-head p{
       margin:0;
 
       max-width:650px;
+
       min-width:0;
 
       color:#ccd3d9;
@@ -545,36 +635,38 @@
     .about{
       padding:28px 30px;
 
-      border:1px solid rgba(255,255,255,.14);
+      border:
+        1px solid rgba(255,255,255,.14);
+
       border-radius:18px;
 
-      background:rgba(34,39,46,.72);
+      background:
+        rgba(34,39,46,.72);
 
       box-shadow:
         0 8px 24px rgba(8,12,17,.09);
 
-      backdrop-filter:blur(16px) saturate(120%);
-      -webkit-backdrop-filter:blur(16px) saturate(120%);
+      backdrop-filter:
+        blur(16px) saturate(120%);
+
+      -webkit-backdrop-filter:
+        blur(16px) saturate(120%);
     }
+
 
     .about h2{
       margin:0 0 20px;
 
       color:#f3f6f8;
 
-      font-family:
-        'Instrument Serif',
-        Georgia,
-        serif;
-
       font-size:
         clamp(1.9rem,3vw,2.8rem);
 
-      font-weight:400;
-
       line-height:1.05;
+
       letter-spacing:-.025em;
     }
+
 
     .about p{
       max-width:940px;
@@ -588,8 +680,186 @@
       text-align:justify;
     }
 
+
     .about p + p{
       margin-top:18px;
+    }
+
+
+    /* =========================
+       BIOINFO CHAT FEATURE
+       ========================= */
+
+    .bioinfo-feature{
+      position:relative;
+
+      overflow:hidden;
+
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1.3fr)
+        minmax(260px,.7fr);
+
+      gap:26px;
+
+      padding:34px 36px;
+
+      border:
+        1px solid rgba(237,178,157,.30);
+
+      border-radius:22px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(31,31,29,.92),
+          rgba(39,36,33,.88)
+        );
+
+      box-shadow:
+        0 14px 36px rgba(8,12,17,.15);
+
+      backdrop-filter:
+        blur(18px) saturate(120%);
+
+      -webkit-backdrop-filter:
+        blur(18px) saturate(120%);
+    }
+
+
+    .bioinfo-feature::before{
+      content:"";
+
+      position:absolute;
+
+      width:280px;
+      height:280px;
+
+      right:-110px;
+      top:-130px;
+
+      border-radius:50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(217,119,87,.14),
+          transparent 67%
+        );
+
+      pointer-events:none;
+    }
+
+
+    .bioinfo-kicker{
+      margin-bottom:7px;
+
+      color:var(--bioinfo-light);
+
+      font-size:.7rem;
+      font-weight:700;
+
+      letter-spacing:.15em;
+
+      text-transform:uppercase;
+    }
+
+
+    .bioinfo-feature h2{
+      margin:0 0 13px;
+
+      color:#f5f1eb;
+
+      font-size:
+        clamp(2.3rem,4vw,3.5rem);
+
+      line-height:1;
+
+      letter-spacing:-.03em;
+    }
+
+
+    .bioinfo-lead{
+      max-width:680px;
+
+      margin:0 0 12px;
+
+      color:#eee8e1;
+
+      font-size:1.08rem;
+
+      line-height:1.65;
+    }
+
+
+    .bioinfo-feature-copy > p:not(.bioinfo-lead){
+      max-width:720px;
+
+      margin:0;
+
+      color:#cfc9c2;
+    }
+
+
+    .bioinfo-actions{
+      display:flex;
+
+      flex-wrap:wrap;
+
+      gap:10px;
+
+      margin-top:22px;
+    }
+
+
+    .bioinfo-meta{
+      position:relative;
+
+      z-index:2;
+
+      display:flex;
+
+      flex-direction:column;
+
+      justify-content:center;
+
+      gap:12px;
+    }
+
+
+    .bioinfo-meta-item{
+      padding:14px 15px;
+
+      border:
+        1px solid rgba(255,255,255,.09);
+
+      border-radius:11px;
+
+      background:
+        rgba(255,255,255,.035);
+
+      color:#ddd7d0;
+
+      font-size:.83rem;
+
+      line-height:1.5;
+    }
+
+
+    .bioinfo-meta-item span{
+      display:block;
+
+      margin-bottom:3px;
+
+      color:var(--bioinfo-light);
+
+      font-size:.65rem;
+      font-weight:700;
+
+      letter-spacing:.08em;
+
+      text-transform:uppercase;
     }
 
 
@@ -608,25 +878,33 @@
       align-items:stretch;
     }
 
+
     .research-card{
       overflow:hidden;
 
-      border:1px solid rgba(255,255,255,.14);
+      border:
+        1px solid rgba(255,255,255,.14);
+
       border-radius:20px;
 
-      background:rgba(29,33,39,.74);
+      background:
+        rgba(29,33,39,.74);
 
       box-shadow:
         0 10px 28px rgba(8,12,17,.12);
 
-      backdrop-filter:blur(16px) saturate(120%);
-      -webkit-backdrop-filter:blur(16px) saturate(120%);
+      backdrop-filter:
+        blur(16px) saturate(120%);
+
+      -webkit-backdrop-filter:
+        blur(16px) saturate(120%);
 
       height:100%;
 
       display:flex;
       flex-direction:column;
     }
+
 
     .research-image{
       height:360px;
@@ -638,21 +916,20 @@
 
       padding:24px;
 
-      background:rgba(248,247,244,.72);
+      background:
+        rgba(248,247,244,.72);
 
       border-bottom:
         1px solid rgba(255,255,255,.10);
     }
 
-    .research-image img,
-    .triatominae-image img{
+
+    .research-image img{
       width:100%;
       height:100%;
 
       max-width:100%;
       max-height:100%;
-
-      aspect-ratio:auto;
 
       display:block;
 
@@ -660,69 +937,64 @@
       object-position:center;
     }
 
+
     .research-copy{
       padding:25px 27px 28px;
 
       display:flex;
       flex-direction:column;
+
       flex:1;
     }
 
+
     .kicker{
       color:var(--accent);
-
-      font-family:
-        'Inter',
-        system-ui,
-        sans-serif;
 
       font-size:.7rem;
       font-weight:700;
 
       letter-spacing:.14em;
+
       text-transform:uppercase;
     }
+
 
     .research-copy h3{
       margin:8px 0 8px;
 
       color:#f3f6f8;
 
-      font-family:
-        'Instrument Serif',
-        Georgia,
-        serif;
-
       font-size:1.9rem;
-      font-weight:400;
 
       line-height:1.05;
+
       letter-spacing:-.015em;
 
       white-space:nowrap;
     }
 
+
     .research-copy p{
       margin:0 0 15px;
+
       color:#d2d8de;
     }
+
 
     .research-copy .text-link{
       margin-top:auto;
     }
+
 
     .text-link{
       color:var(--accent-strong);
 
       text-decoration:none;
 
-      font-family:
-        'Inter',
-        system-ui,
-        sans-serif;
-
       font-weight:600;
     }
+
 
     .text-link:hover{
       text-decoration:underline;
@@ -744,43 +1016,47 @@
       align-items:stretch;
     }
 
+
     .os-card{
       padding:26px 28px;
 
-      border:1px solid rgba(255,255,255,.14);
+      border:
+        1px solid rgba(255,255,255,.14);
+
       border-radius:18px;
 
-      background:rgba(30,34,40,.74);
+      background:
+        rgba(30,34,40,.74);
 
       box-shadow:
         0 10px 26px rgba(8,12,17,.10);
 
-      backdrop-filter:blur(16px) saturate(120%);
-      -webkit-backdrop-filter:blur(16px) saturate(120%);
+      backdrop-filter:
+        blur(16px) saturate(120%);
+
+      -webkit-backdrop-filter:
+        blur(16px) saturate(120%);
 
       height:100%;
     }
+
 
     .os-card h3{
       margin:0 0 8px;
 
       color:#f3f6f8;
 
-      font-family:
-        'Instrument Serif',
-        Georgia,
-        serif;
-
       font-size:1.55rem;
-      font-weight:400;
 
       letter-spacing:-.015em;
 
       white-space:nowrap;
     }
 
+
     .os-card p{
       margin:0 0 16px;
+
       color:var(--muted);
     }
 
@@ -791,33 +1067,38 @@
 
     .profile-links{
       display:flex;
+
       flex-wrap:wrap;
+
       gap:8px;
     }
+
 
     .profile-links a{
       padding:8px 12px;
 
-      border:1px solid rgba(255,255,255,.16);
+      border:
+        1px solid rgba(255,255,255,.16);
+
       border-radius:999px;
 
-      background:rgba(255,255,255,.06);
+      background:
+        rgba(255,255,255,.06);
 
       color:#dce2e7;
 
       text-decoration:none;
 
-      font-family:
-        'Inter',
-        system-ui,
-        sans-serif;
-
       font-size:.84rem;
     }
 
+
     .profile-links a:hover{
-      border-color:var(--accent-strong);
-      color:var(--accent-strong);
+      border-color:
+        var(--accent-strong);
+
+      color:
+        var(--accent-strong);
     }
 
 
@@ -830,24 +1111,25 @@
 
       padding:18px 20px;
 
-      border:1px solid rgba(255,255,255,.12);
+      border:
+        1px solid rgba(255,255,255,.12);
+
       border-radius:14px;
 
-      background:rgba(24,28,33,.60);
+      background:
+        rgba(24,28,33,.60);
 
       color:#cbd2d8;
 
       text-align:center;
 
-      font-family:
-        'Inter',
-        system-ui,
-        sans-serif;
-
       font-size:.86rem;
 
-      backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
+      backdrop-filter:
+        blur(14px);
+
+      -webkit-backdrop-filter:
+        blur(14px);
     }
 
 
@@ -861,9 +1143,11 @@
         grid-template-columns:1fr;
       }
 
+
       .hero-copy{
         padding:42px 32px 34px;
       }
+
 
       .hero-photo{
         padding:0;
@@ -874,25 +1158,31 @@
           1px solid rgba(255,255,255,.10);
       }
 
+
       .hero-photo img{
         max-height:none;
       }
 
+
       .section-head{
         grid-template-columns:1fr;
+
         row-gap:10px;
       }
 
+
       .research-grid,
-      .opensource{
+      .opensource,
+      .bioinfo-feature{
         grid-template-columns:1fr;
       }
 
-      .section-head h2,
+
       .research-copy h3,
       .os-card h3{
         white-space:normal;
       }
+
     }
 
 
@@ -904,6 +1194,7 @@
 
       .nav-inner{
         align-items:flex-start;
+
         flex-direction:column;
 
         gap:10px;
@@ -911,68 +1202,92 @@
         padding:13px 16px;
       }
 
+
       .top-nav ul{
         justify-content:flex-start;
 
         gap:10px 14px;
       }
 
+
       .top-nav a{
         font-size:.84rem;
       }
+
 
       .brand{
         font-size:1.3rem;
       }
 
+
       .page{
         padding:18px 12px 44px;
       }
+
 
       .hero{
         border-radius:18px;
       }
 
+
       .hero-copy{
         padding:30px 22px;
       }
+
 
       .hero h1{
         font-size:3.2rem;
         line-height:.96;
       }
 
+
       .hero .lead{
         font-size:1rem;
       }
 
+
       .quick-tags{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:
+          1fr 1fr;
       }
+
 
       .section{
         margin-top:42px;
       }
 
+
       .about{
         padding:22px;
       }
+
+
+      .bioinfo-feature{
+        padding:26px 22px;
+
+        border-radius:18px;
+      }
+
+
+      .bioinfo-feature h2{
+        font-size:2.7rem;
+      }
+
 
       .research-copy,
       .os-card{
         padding:22px;
       }
 
+
       .research-image{
         height:310px;
+
         padding:18px;
       }
+
     }
 
-
-    /* =========================
-       SMALL MOBILE
-       ========================= */
 
     @media(max-width:430px){
 
@@ -980,17 +1295,22 @@
         grid-template-columns:1fr;
       }
 
-      .hero-actions{
+
+      .hero-actions,
+      .bioinfo-actions{
         flex-direction:column;
       }
+
 
       .btn{
         width:100%;
       }
 
+
       .hero h1{
         font-size:2.85rem;
       }
+
     }
 
   </style>
@@ -1006,14 +1326,19 @@
 
     <div class="nav-inner">
 
-      <a class="brand" href="index.html">
+      <a
+        class="brand"
+        href="index.html">
         Tiago Belintani
       </a>
+
 
       <ul>
 
         <li>
-          <a href="index.html" aria-current="page">
+          <a
+            href="index.html"
+            aria-current="page">
             Home
           </a>
         </li>
@@ -1027,6 +1352,14 @@
         <li>
           <a href="research.html">
             Research
+          </a>
+        </li>
+
+        <li>
+          <a
+            class="bioinfo-nav"
+            href="bioinfo-chat.html">
+            BioInfo Chat
           </a>
         </li>
 
@@ -1058,7 +1391,7 @@
   <main class="page">
 
 
-    <!-- Hero -->
+    <!-- HERO -->
     <section class="hero">
 
       <div class="hero-copy">
@@ -1072,23 +1405,23 @@
         </h1>
 
         <p class="lead">
-          Researcher working on evolution, systematics and genomics of Neotropical organisms,
-          with emphasis on Triatominae and Theraphosidae.
+          Researcher working on evolution, systematics and genomics
+          of Neotropical organisms, with emphasis on Triatominae
+          and Theraphosidae.
         </p>
+
 
         <div class="hero-actions">
 
           <a
             class="btn primary"
-            href="research.html"
-          >
+            href="research.html">
             Explore my research
           </a>
 
           <a
             class="btn secondary"
-            href="publications.html"
-          >
+            href="publications.html">
             Publications
           </a>
 
@@ -1096,8 +1429,7 @@
             class="btn secondary"
             href="https://orcid.org/0000-0001-9485-1145"
             target="_blank"
-            rel="noopener"
-          >
+            rel="noopener">
             ORCID
           </a>
 
@@ -1110,8 +1442,7 @@
 
         <img
           src="assets/images/profile-lab.jpg"
-          alt="Tiago Belintani working at a bioinformatics workstation"
-        >
+          alt="Tiago Belintani working at a bioinformatics workstation">
 
       </div>
 
@@ -1121,8 +1452,7 @@
     <!-- Research areas -->
     <div
       class="quick-tags"
-      aria-label="Research areas"
-    >
+      aria-label="Research areas">
 
       <div class="quick-tag">
         <strong>Evolutionary</strong>
@@ -1145,7 +1475,7 @@
     </div>
 
 
-    <!-- About me -->
+    <!-- ABOUT -->
     <section class="section">
 
       <div class="about">
@@ -1155,11 +1485,24 @@
         </h2>
 
         <p>
-          I am a Visiting Professor at the Federal Institute of Santa Catarina (IFSC), Câmpus Lages, where I work across Biotechnology, Biology, and Chemical Engineering. My research lies at the intersection of evolutionary biology, systematics, genomics, phylogenomics, and bioinformatics, with particular emphasis on Triatominae—vectors of Chagas disease—and Neotropical Theraphosidae (tarantulas).
+          I am a Visiting Professor at the Federal Institute of
+          Santa Catarina (IFSC), Câmpus Lages, where I work across
+          Biotechnology, Biology, and Chemical Engineering. My
+          research lies at the intersection of evolutionary biology,
+          systematics, genomics, phylogenomics, and bioinformatics,
+          with particular emphasis on Triatominae—vectors of Chagas
+          disease—and Neotropical Theraphosidae (tarantulas).
         </p>
 
         <p>
-          My work combines field biology, systematics, phylogenetic inference, and high-throughput sequencing to investigate diversification, adaptation, and biogeographic history. I combine integrative taxonomy, morphological analyses, geometric morphometrics, molecular and genomic data, phylogenomics, and computational approaches to investigate species boundaries, evolutionary relationships, diversification, and genomic variation.
+          My work combines field biology, systematics, phylogenetic
+          inference, and high-throughput sequencing to investigate
+          diversification, adaptation, and biogeographic history.
+          I combine integrative taxonomy, morphological analyses,
+          geometric morphometrics, molecular and genomic data,
+          phylogenomics, and computational approaches to investigate
+          species boundaries, evolutionary relationships,
+          diversification, and genomic variation.
         </p>
 
       </div>
@@ -1167,7 +1510,87 @@
     </section>
 
 
-    <!-- Research focus -->
+    <!-- BIOINFO CHAT -->
+    <section class="section">
+
+      <div class="bioinfo-feature">
+
+        <div class="bioinfo-feature-copy">
+
+          <div class="bioinfo-kicker">
+            Academic tool · Bioinformatics · Education
+          </div>
+
+          <h2>
+            BioInfo Chat
+          </h2>
+
+          <p class="bioinfo-lead">
+            An experimental academic tool for exploring
+            Bioinformatics, Omics and Evolution through a
+            specialized conversational interface.
+          </p>
+
+          <p>
+            Developed to support students, educators and researchers,
+            BioInfo Chat provides structured assistance with scientific
+            concepts, analytical workflows, computational methods and
+            journal-selection questions while emphasizing critical use
+            and validation against the scientific literature.
+          </p>
+
+
+          <div class="bioinfo-actions">
+
+            <a
+              class="btn bioinfo"
+              href="https://bioinfo-chat.vercel.app/"
+              target="_blank"
+              rel="noopener">
+              Open BioInfo Chat
+            </a>
+
+            <a
+              class="btn secondary"
+              href="bioinfo-chat.html">
+              About the project
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="bioinfo-meta">
+
+          <div class="bioinfo-meta-item">
+            <span>Focus</span>
+            Bioinformatics, Omics &amp; Evolution
+          </div>
+
+          <div class="bioinfo-meta-item">
+            <span>Tools</span>
+            Chat · Journal recommendations
+          </div>
+
+          <div class="bioinfo-meta-item">
+            <span>Modes</span>
+            Free · Discipline
+          </div>
+
+          <div class="bioinfo-meta-item">
+            <span>Purpose</span>
+            Academic and educational support
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RESEARCH FOCUS -->
     <section class="section">
 
       <div class="section-head">
@@ -1187,17 +1610,16 @@
       <div class="research-grid">
 
 
-        <!-- Triatominae -->
         <article class="research-card">
 
           <div class="research-image">
 
             <img
               src="assets/images/triatominae_transparente.png"
-              alt="Triatominae specimen in dorsal view"
-            >
+              alt="Triatominae specimen in dorsal view">
 
           </div>
+
 
           <div class="research-copy">
 
@@ -1210,13 +1632,13 @@
             </h3>
 
             <p>
-              Evolution, systematics and phylogenomics of Chagas disease vectors.
+              Evolution, systematics and phylogenomics of
+              Chagas disease vectors.
             </p>
 
             <a
               class="text-link"
-              href="research.html"
-            >
+              href="research.html">
               Learn more →
             </a>
 
@@ -1225,17 +1647,16 @@
         </article>
 
 
-        <!-- Theraphosidae -->
         <article class="research-card">
 
           <div class="research-image">
 
             <img
               src="assets/images/theraphosidae_transparente.png"
-              alt="Theraphosidae tarantula"
-            >
+              alt="Theraphosidae tarantula">
 
           </div>
+
 
           <div class="research-copy">
 
@@ -1248,13 +1669,13 @@
             </h3>
 
             <p>
-              Phylogenomics, biogeography and diversification of Neotropical tarantulas.
+              Phylogenomics, biogeography and diversification
+              of Neotropical tarantulas.
             </p>
 
             <a
               class="text-link"
-              href="research.html"
-            >
+              href="research.html">
               Learn more →
             </a>
 
@@ -1267,7 +1688,7 @@
     </section>
 
 
-    <!-- Bioinformatics & Open Science -->
+    <!-- OPEN SCIENCE -->
     <section class="section">
 
       <div class="section-head">
@@ -1277,8 +1698,8 @@
         </h2>
 
         <p>
-          Reproducible computational workflows are a central part of my
-          research, collaboration and teaching.
+          Reproducible computational workflows are a central
+          part of my research, collaboration and teaching.
         </p>
 
       </div>
@@ -1286,8 +1707,6 @@
 
       <div class="opensource">
 
-
-        <!-- Repositories -->
         <div class="os-card">
 
           <h3>
@@ -1301,15 +1720,13 @@
 
           <a
             class="text-link"
-            href="repositories.html"
-          >
+            href="repositories.html">
             See repositories →
           </a>
 
         </div>
 
 
-        <!-- Academic profiles -->
         <div class="os-card">
 
           <h3>
@@ -1317,56 +1734,52 @@
           </h3>
 
           <p>
-            Research identifiers, publications and professional profiles.
+            Research identifiers, publications and
+            professional profiles.
           </p>
+
 
           <div class="profile-links">
 
             <a
               href="https://scholar.google.com/citations?user=Ah8QjuIAAAAJ&hl=pt-BR"
               target="_blank"
-              rel="noopener"
-            >
+              rel="noopener">
               Google Scholar
             </a>
 
             <a
               href="https://orcid.org/0000-0001-9485-1145"
               target="_blank"
-              rel="noopener"
-            >
+              rel="noopener">
               ORCID
             </a>
 
             <a
               href="https://github.com/TiagoBelintani"
               target="_blank"
-              rel="noopener"
-            >
+              rel="noopener">
               GitHub
             </a>
 
             <a
               href="http://lattes.cnpq.br/8948388411348223"
               target="_blank"
-              rel="noopener"
-            >
+              rel="noopener">
               Lattes
             </a>
 
             <a
               href="https://www.researchgate.net/profile/Tiago-Belintani"
               target="_blank"
-              rel="noopener"
-            >
+              rel="noopener">
               ResearchGate
             </a>
 
             <a
               href="https://integra.ifsc.edu.br/p/tiago-belintani"
               target="_blank"
-              rel="noopener"
-            >
+              rel="noopener">
               INTEGRA — IFSC Lages
             </a>
 
@@ -1379,7 +1792,6 @@
     </section>
 
 
-    <!-- Footer -->
     <footer>
       © 2026 Tiago Belintani · Sapientia et disciplina
     </footer>
@@ -1390,4 +1802,3 @@
 </body>
 
 </html>
-```
