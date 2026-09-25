@@ -4,7 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FASTA, FASTQ e SRA | Bioinformática e Biologia Molecular</title>
-<meta http-equiv="refresh" content="0; url=index.html">
+<meta name="description" content="Compreender a estrutura dos dados brutos de sequenciamento e obter uma fração real dos reads de Hypochilus depositados no SRA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+.tutorial-page{
+  width:min(980px,calc(100% - 42px));
+  margin:0 auto;
+  padding:112px 0 82px;
+}
+.breadcrumb{
+  margin-bottom:24px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none;}
+.tutorial-header{max-width:850px;margin-bottom:38px;}
+.tutorial-kicker{
+  margin-bottom:9px;font:600 .74rem/1.2 "Inter",sans-serif;
+  letter-spacing:.14em;text-transform:uppercase;color:#3478C9;
+}
+.tutorial-header h1{
+  margin:0 0 14px;font-family:"Cormorant Garamond",serif;
+  font-size:clamp(3rem,6vw,5rem)!important;line-height:.96!important;
+  font-weight:600;color:#172231;
+}
+.tutorial-header .lead{
+  margin:0;max-width:800px;font:400 1.04rem/1.68 "Inter",sans-serif!important;color:#526174;
+}
+.tutorial-card{
+  margin:0 0 24px;padding:26px 28px;background:rgba(255,255,255,.88);
+  border:1px solid rgba(23,34,49,.10);border-radius:16px;
+  box-shadow:0 12px 32px rgba(31,50,70,.06);
+}
+.tutorial-card h2{
+  margin:0 0 14px;font-family:"Cormorant Garamond",serif;
+  font-size:2rem!important;line-height:1.08!important;color:#172231;
+}
+.tutorial-card h3{
+  margin:26px 0 10px;font-family:"Inter",sans-serif!important;
+  font-size:1.05rem!important;font-weight:600;color:#25374A;
+}
+.tutorial-card p,.tutorial-card li{
+  font:400 .98rem/1.68 "Inter",sans-serif!important;color:#526174;
+}
+.tutorial-card ul,.tutorial-card ol{margin:10px 0 4px 1.25rem;padding:0;}
+.tutorial-card li+li{margin-top:6px;}
+.concept{
+  margin:18px 0;padding:16px 18px;background:#F3F7FB;
+  border-left:4px solid #3478C9;border-radius:0 10px 10px 0;
+  color:#526174;font:400 .94rem/1.65 "Inter",sans-serif;
+}
+.concept strong{color:#25374A;}
+.action-row{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px;}
+.action{
+  display:inline-flex;align-items:center;justify-content:center;min-height:42px;
+  padding:10px 15px;background:#3478C9;border:1px solid #3478C9;border-radius:9px;
+  color:#fff!important;font:600 .88rem/1.2 "Inter",sans-serif;text-decoration:none;
+}
+.action.secondary{background:#fff;color:#3478C9!important;}
+.flow-box{
+  margin:16px 0;padding:18px 20px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;color:#31465B;font:500 .92rem/1.7 "Inter",sans-serif;
+}
+.flow-arrow{color:#3478C9;font-weight:700;padding:0 5px;}
+.question{
+  margin:12px 0;padding:13px 15px;background:#FBFCFD;border:1px solid rgba(23,34,49,.08);
+  border-radius:10px;color:#42566B;font:500 .92rem/1.55 "Inter",sans-serif;
+}
+.guided-steps{
+  counter-reset:guided;list-style:none;margin:18px 0 0!important;padding:0!important;
+}
+.guided-steps li{
+  counter-increment:guided;position:relative;margin:0 0 12px!important;
+  padding:14px 16px 14px 52px;background:#F8FAFC;border:1px solid rgba(23,34,49,.08);
+  border-radius:11px;
+}
+.guided-steps li::before{
+  content:counter(guided);position:absolute;left:15px;top:13px;display:flex;
+  align-items:center;justify-content:center;width:25px;height:25px;border-radius:50%;
+  background:#3478C9;color:#fff;font:600 .78rem/1 "Inter",sans-serif;
+}
+.record-fields{
+  width:100%;border-collapse:collapse;margin:16px 0 4px;
+  font-family:"Inter",sans-serif;font-size:.90rem;
+}
+.record-fields th,.record-fields td{
+  padding:10px 12px;border-bottom:1px solid rgba(23,34,49,.09);
+  text-align:left;vertical-align:top;
+}
+.record-fields th{color:#25374A;font-weight:600;background:#F8FAFC;}
+.record-fields td{color:#526174;}
+.code-sample{
+  margin:14px 0;padding:16px 18px;overflow-x:auto;background:#18212B;
+  border-radius:10px;color:#EEF4F8;font:400 .85rem/1.6 "SFMono-Regular",Consolas,monospace;
+  white-space:pre-wrap;
+}
+.dataset-box{
+  display:grid;grid-template-columns:160px 1fr;gap:9px 16px;margin:18px 0;
+  padding:18px 20px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:12px;
+}
+.dataset-box dt{font:600 .84rem/1.4 "Inter",sans-serif;color:#64748B;}
+.dataset-box dd{margin:0;font:500 .90rem/1.4 "Inter",sans-serif;color:#25374A;}
+.deliverable{background:#F5F9FC;}
+.next-step{
+  margin-top:28px;padding:21px 24px;background:rgba(52,120,201,.08);
+  border:1px solid rgba(52,120,201,.18);border-radius:14px;
+}
+.next-step strong{color:#25374A;}
+.references a{color:#3478C9;}
+.tutorial-nav{
+  display:flex;justify-content:space-between;gap:16px;margin-top:30px;
+  padding-top:20px;border-top:1px solid rgba(23,34,49,.10);
+}
+.tutorial-nav a{font:600 .90rem/1.3 "Inter",sans-serif;color:#3478C9;text-decoration:none;}
+@media(max-width:700px){
+  .dataset-box{grid-template-columns:1fr;}
+  .record-fields{font-size:.82rem;}
+}
+</style>
 </head>
-<body></body>
+<body>
+
+<nav class="top-nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="tutorial-page">
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">Bioinformática e Biologia Molecular</a> /
+    FASTA, FASTQ e SRA
+  </div>
+  <header class="tutorial-header">
+    <div class="tutorial-kicker">Roteiro prático</div>
+    <h1>FASTA, FASTQ e SRA</h1>
+    <p class="lead">Compreender a estrutura dos dados brutos de sequenciamento e obter uma fração real dos reads de Hypochilus depositados no SRA.</p>
+    <div class="action-row">
+      <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/03_FASTA_FASTQ_SRA.ipynb" target="_blank" rel="noopener noreferrer">
+        Abrir notebook no Google Colab
+      </a>
+      <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">
+        Repositório da disciplina
+      </a>
+    </div>
+  </header>
+
+<section class="tutorial-card">
+<h2>Objetivos</h2>
+<ul>
+<li>distinguir FASTA e FASTQ;</li>
+<li>compreender a organização do Sequence Read Archive (SRA);</li>
+<li>reconhecer BioProject, BioSample, Experiment e Run;</li>
+<li>baixar uma fração de reads paired-end do nosso dataset de <em>Hypochilus</em>;</li>
+<li>inspecionar R1 e R2 e contar reads.</li>
+</ul>
+</section>
+<section class="tutorial-card">
+<h2>1. Entrando no dataset da disciplina</h2>
+
+<dl class="dataset-box">
+  <dt>Estudo-modelo</dt><dd>Ciaccio, Debray &amp; Hedin (2022)</dd>
+  <dt>BioProject</dt><dd><strong>PRJNA760946</strong></dd>
+  <dt>Run principal</dt><dd><strong>SRR15736591</strong> — <em>Hypochilus petrunkevitchi</em></dd>
+  <dt>Sequenciamento</dt><dd>Illumina HiSeq 2500, paired-end, Targeted-Capture / Hybrid Selection</dd>
+  <dt>UCEs</dt><dd>Dados gerados com o conjunto Arachnida 1.1Kv1; 1.120 loci-alvo no desenho de sondas</dd>
+</dl>
+
+<div class="concept"><strong>Importante:</strong> um Run do SRA representa dados de sequenciamento associados a um experimento. O accession <strong>SRR15736591</strong> será nosso ponto de entrada para os reads brutos.</div>
+</section>
+<section class="tutorial-card">
+<h2>2. FASTA × FASTQ</h2>
+<table class="record-fields">
+<thead><tr><th>Característica</th><th>FASTA</th><th>FASTQ</th></tr></thead>
+<tbody>
+<tr><td>Sequência</td><td>sim</td><td>sim</td></tr>
+<tr><td>Qualidade por base</td><td>não</td><td>sim</td></tr>
+<tr><td>Estrutura típica</td><td>cabeçalho + sequência</td><td>4 linhas por read</td></tr>
+<tr><td>Uso aqui</td><td>contigs e loci</td><td>reads brutos do sequenciamento</td></tr>
+</tbody>
+</table>
+<div class="code-sample">@read_001
+ACTGACTG...
++
+FFFFFFFF...</div>
+</section>
+<section class="tutorial-card">
+<h2>3. O que significa paired-end?</h2>
+<p>O mesmo fragmento de biblioteca é lido a partir de suas duas extremidades. Por isso, os dados são organizados em pares, normalmente chamados <strong>R1</strong> e <strong>R2</strong>.</p>
+<div class="flow-box">fragmento <span class="flow-arrow">→</span> R1 ←────────→ R2</div>
+</section>
+<section class="tutorial-card">
+<h2>4. Prática guiada no Colab</h2>
+<ol class="guided-steps">
+<li>consultar o run SRR15736591 e revisar seus metadados;</li>
+<li>instalar SRA Toolkit;</li>
+<li>baixar uma fração didática dos reads, evitando transferir o conjunto inteiro;</li>
+<li>gerar arquivos paired-end R1 e R2;</li>
+<li>compactar os FASTQ com gzip;</li>
+<li>visualizar os primeiros registros;</li>
+<li>contar o número de reads;</li>
+<li>salvar tudo no Google Drive para reutilização nas práticas seguintes.</li>
+</ol>
+<div class="concept"><strong>Escala didática:</strong> o notebook usa inicialmente 200.000 spots. O valor pode ser reduzido em conexões lentas ou aumentado quando precisarmos recuperar mais UCEs.</div>
+</section>
+<section class="tutorial-card deliverable">
+<h2>Resultado esperado</h2>
+<div class="code-sample">Bioinformatica_Biologia_Molecular/
+└── 03_sra_fastq/
+    ├── SRR15736591_1.fastq.gz
+    └── SRR15736591_2.fastq.gz</div>
+<div class="next-step"><strong>Próximo passo:</strong> avaliar se esses reads apresentam qualidade adequada antes da montagem.</div>
+</section>
+
+  <nav class="tutorial-nav">
+    <a href="aula08.html">← BLAST</a>
+    <a href="aula10.html">Controle de qualidade e trimming →</a>
+  </nav>
+</main>
+</body>
 </html>

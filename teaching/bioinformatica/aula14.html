@@ -4,7 +4,242 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Integração do pipeline | Bioinformática e Biologia Molecular</title>
-<meta http-equiv="refresh" content="0; url=index.html">
+<meta name="description" content="Reunir o percurso completo dos dados, do SRA aos loci UCE, verificando as entradas, saídas, métricas e decisões de cada etapa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+.tutorial-page{
+  width:min(980px,calc(100% - 42px));
+  margin:0 auto;
+  padding:112px 0 82px;
+}
+.breadcrumb{
+  margin-bottom:24px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none;}
+.tutorial-header{max-width:850px;margin-bottom:38px;}
+.tutorial-kicker{
+  margin-bottom:9px;font:600 .74rem/1.2 "Inter",sans-serif;
+  letter-spacing:.14em;text-transform:uppercase;color:#3478C9;
+}
+.tutorial-header h1{
+  margin:0 0 14px;font-family:"Cormorant Garamond",serif;
+  font-size:clamp(3rem,6vw,5rem)!important;line-height:.96!important;
+  font-weight:600;color:#172231;
+}
+.tutorial-header .lead{
+  margin:0;max-width:800px;font:400 1.04rem/1.68 "Inter",sans-serif!important;color:#526174;
+}
+.tutorial-card{
+  margin:0 0 24px;padding:26px 28px;background:rgba(255,255,255,.88);
+  border:1px solid rgba(23,34,49,.10);border-radius:16px;
+  box-shadow:0 12px 32px rgba(31,50,70,.06);
+}
+.tutorial-card h2{
+  margin:0 0 14px;font-family:"Cormorant Garamond",serif;
+  font-size:2rem!important;line-height:1.08!important;color:#172231;
+}
+.tutorial-card h3{
+  margin:26px 0 10px;font-family:"Inter",sans-serif!important;
+  font-size:1.05rem!important;font-weight:600;color:#25374A;
+}
+.tutorial-card p,.tutorial-card li{
+  font:400 .98rem/1.68 "Inter",sans-serif!important;color:#526174;
+}
+.tutorial-card ul,.tutorial-card ol{margin:10px 0 4px 1.25rem;padding:0;}
+.tutorial-card li+li{margin-top:6px;}
+.concept{
+  margin:18px 0;padding:16px 18px;background:#F3F7FB;
+  border-left:4px solid #3478C9;border-radius:0 10px 10px 0;
+  color:#526174;font:400 .94rem/1.65 "Inter",sans-serif;
+}
+.concept strong{color:#25374A;}
+.action-row{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px;}
+.action{
+  display:inline-flex;align-items:center;justify-content:center;min-height:42px;
+  padding:10px 15px;background:#3478C9;border:1px solid #3478C9;border-radius:9px;
+  color:#fff!important;font:600 .88rem/1.2 "Inter",sans-serif;text-decoration:none;
+}
+.action.secondary{background:#fff;color:#3478C9!important;}
+.flow-box{
+  margin:16px 0;padding:18px 20px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;color:#31465B;font:500 .92rem/1.7 "Inter",sans-serif;
+}
+.flow-arrow{color:#3478C9;font-weight:700;padding:0 5px;}
+.question{
+  margin:12px 0;padding:13px 15px;background:#FBFCFD;border:1px solid rgba(23,34,49,.08);
+  border-radius:10px;color:#42566B;font:500 .92rem/1.55 "Inter",sans-serif;
+}
+.guided-steps{
+  counter-reset:guided;list-style:none;margin:18px 0 0!important;padding:0!important;
+}
+.guided-steps li{
+  counter-increment:guided;position:relative;margin:0 0 12px!important;
+  padding:14px 16px 14px 52px;background:#F8FAFC;border:1px solid rgba(23,34,49,.08);
+  border-radius:11px;
+}
+.guided-steps li::before{
+  content:counter(guided);position:absolute;left:15px;top:13px;display:flex;
+  align-items:center;justify-content:center;width:25px;height:25px;border-radius:50%;
+  background:#3478C9;color:#fff;font:600 .78rem/1 "Inter",sans-serif;
+}
+.record-fields{
+  width:100%;border-collapse:collapse;margin:16px 0 4px;
+  font-family:"Inter",sans-serif;font-size:.90rem;
+}
+.record-fields th,.record-fields td{
+  padding:10px 12px;border-bottom:1px solid rgba(23,34,49,.09);
+  text-align:left;vertical-align:top;
+}
+.record-fields th{color:#25374A;font-weight:600;background:#F8FAFC;}
+.record-fields td{color:#526174;}
+.code-sample{
+  margin:14px 0;padding:16px 18px;overflow-x:auto;background:#18212B;
+  border-radius:10px;color:#EEF4F8;font:400 .85rem/1.6 "SFMono-Regular",Consolas,monospace;
+  white-space:pre-wrap;
+}
+.dataset-box{
+  display:grid;grid-template-columns:160px 1fr;gap:9px 16px;margin:18px 0;
+  padding:18px 20px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:12px;
+}
+.dataset-box dt{font:600 .84rem/1.4 "Inter",sans-serif;color:#64748B;}
+.dataset-box dd{margin:0;font:500 .90rem/1.4 "Inter",sans-serif;color:#25374A;}
+.deliverable{background:#F5F9FC;}
+.next-step{
+  margin-top:28px;padding:21px 24px;background:rgba(52,120,201,.08);
+  border:1px solid rgba(52,120,201,.18);border-radius:14px;
+}
+.next-step strong{color:#25374A;}
+.references a{color:#3478C9;}
+.tutorial-nav{
+  display:flex;justify-content:space-between;gap:16px;margin-top:30px;
+  padding-top:20px;border-top:1px solid rgba(23,34,49,.10);
+}
+.tutorial-nav a{font:600 .90rem/1.3 "Inter",sans-serif;color:#3478C9;text-decoration:none;}
+@media(max-width:700px){
+  .dataset-box{grid-template-columns:1fr;}
+  .record-fields{font-size:.82rem;}
+}
+</style>
 </head>
-<body></body>
+<body>
+
+<nav class="top-nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="tutorial-page">
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">Bioinformática e Biologia Molecular</a> /
+    Integração do pipeline
+  </div>
+  <header class="tutorial-header">
+    <div class="tutorial-kicker">Roteiro prático</div>
+    <h1>Integração do pipeline</h1>
+    <p class="lead">Reunir o percurso completo dos dados, do SRA aos loci UCE, verificando as entradas, saídas, métricas e decisões de cada etapa.</p>
+    <div class="action-row">
+      <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/08_Integracao_Pipeline_UCE.ipynb" target="_blank" rel="noopener noreferrer">
+        Abrir notebook no Google Colab
+      </a>
+      <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">
+        Repositório da disciplina
+      </a>
+    </div>
+  </header>
+
+<section class="tutorial-card">
+<h2>Objetivos</h2>
+<ul>
+<li>reconstruir mentalmente e computacionalmente todo o pipeline;</li>
+<li>verificar entradas e saídas de cada etapa;</li>
+<li>reutilizar os resultados produzidos nas aulas anteriores;</li>
+<li>gerar um resumo final com métricas do processamento;</li>
+<li>discutir reprodutibilidade e limitações da análise didática.</li>
+</ul>
+</section>
+<section class="tutorial-card">
+<h2>1. O pipeline completo</h2>
+<div class="flow-box">
+NCBI / SRA <span class="flow-arrow">→</span>
+FASTQ <span class="flow-arrow">→</span>
+FastQC / MultiQC <span class="flow-arrow">→</span>
+Trimmomatic <span class="flow-arrow">→</span>
+SPAdes <span class="flow-arrow">→</span>
+contigs <span class="flow-arrow">→</span>
+PHYLUCE <span class="flow-arrow">→</span>
+loci UCE em FASTA
+</div>
+</section>
+<section class="tutorial-card">
+<h2>2. Entradas e saídas</h2>
+<table class="record-fields">
+<thead><tr><th>Etapa</th><th>Entrada</th><th>Saída principal</th></tr></thead>
+<tbody>
+<tr><td>SRA</td><td>SRR accession</td><td>FASTQ R1/R2</td></tr>
+<tr><td>QC</td><td>FASTQ</td><td>relatórios FastQC/MultiQC</td></tr>
+<tr><td>Trimming</td><td>FASTQ bruto</td><td>FASTQ processado</td></tr>
+<tr><td>SPAdes</td><td>reads paired</td><td>contigs.fasta</td></tr>
+<tr><td>Match UCE</td><td>contigs + probes</td><td>probe.matches.sqlite</td></tr>
+<tr><td>Extração</td><td>matches + contigs</td><td>FASTA de loci UCE</td></tr>
+</tbody>
+</table>
+</section>
+<section class="tutorial-card">
+<h2>3. Prática guiada no Colab</h2>
+<p>O notebook final não precisa recalcular todas as etapas pesadas. Ele funciona como um <strong>auditor do projeto</strong>: verifica os arquivos produzidos, calcula métricas e mostra o percurso completo.</p>
+<ol class="guided-steps">
+<li>montar o Drive e localizar as pastas de cada prática;</li>
+<li>confirmar presença dos FASTQ brutos;</li>
+<li>comparar número de reads antes/depois do trimming;</li>
+<li>ler as estatísticas da montagem;</li>
+<li>confirmar o banco de matches do PHYLUCE;</li>
+<li>contar loci UCE extraídos;</li>
+<li>gerar uma tabela-resumo do pipeline;</li>
+<li>salvar um relatório CSV final;</li>
+<li>discutir o que mudaria se utilizássemos todos os reads e várias amostras.</li>
+</ol>
+</section>
+<section class="tutorial-card">
+<h2>4. Reprodutibilidade</h2>
+<ul>
+<li>registrar accession dos dados;</li>
+<li>manter nomes padronizados de amostras;</li>
+<li>registrar versões de ferramentas;</li>
+<li>registrar parâmetros usados;</li>
+<li>preservar arquivos intermediários importantes;</li>
+<li>separar resultado observado de interpretação biológica.</li>
+</ul>
+<div class="concept"><strong>Nosso pipeline é didático.</strong> Ele demonstra a lógica de processamento. Para um estudo definitivo, usaríamos todos os dados relevantes, múltiplas amostras, parâmetros validados e controles adicionais.</div>
+</section>
+<section class="tutorial-card deliverable">
+<h2>Produto final</h2>
+<div class="code-sample">08_integracao/
+└── resumo_pipeline_SRR15736591.csv</div>
+<p>Ao concluir esta sequência, o estudante deverá conseguir explicar de onde vieram os dados, como foram transformados e qual é a relação entre reads, contigs e loci UCE.</p>
+<div class="next-step"><strong>Mensagem central:</strong> uma pergunta biológica gera dados; cada etapa computacional transforma esses dados; a interpretação só é confiável quando entendemos e documentamos essas transformações.</div>
+</section>
+
+  <nav class="tutorial-nav">
+    <a href="aula13.html">← Extração de UCEs</a>
+    <a href="index.html">Voltar à disciplina →</a>
+  </nav>
+</main>
+</body>
 </html>
