@@ -54,7 +54,7 @@ body::before {
   height: 100vh !important;
   background:
     linear-gradient(rgba(245,248,251,.34), rgba(247,249,251,.56)),
-    url('../images/background-soft.jpg')
+    url('../images/background-mountains-final.jpg')
     center center / cover no-repeat !important;
   opacity: 1 !important;
   z-index: 0 !important;

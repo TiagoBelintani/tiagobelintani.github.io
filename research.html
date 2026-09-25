@@ -1,702 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Research | Tiago Belintani — Evolutionary Biology & Phylogenomics</title>
-
-<meta
-  name="description"
-  content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses."
->
-
+<meta name="description" content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses.">
 <meta name="robots" content="index, follow, max-image-preview:large">
-
-<link
-  rel="canonical"
-  href="https://tiagobelintani.github.io/research.html"
->
-
-
-<!-- Open Graph -->
+<link rel="canonical" href="https://tiagobelintani.github.io/research.html">
 
 <meta property="og:site_name" content="Tiago Belintani">
 <meta property="og:type" content="website">
+<meta property="og:title" content="Research | Tiago Belintani">
+<meta property="og:description" content="Evolutionary biology, systematics, phylogenomics and genomic analyses.">
+<meta property="og:url" content="https://tiagobelintani.github.io/research.html">
+<meta property="og:image" content="https://tiagobelintani.github.io/assets/images/imagem2.jpg">
 
-<meta
-  property="og:title"
-  content="Research | Tiago Belintani — Evolutionary Biology & Phylogenomics"
->
-
-<meta
-  property="og:description"
-  content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses."
->
-
-<meta
-  property="og:url"
-  content="https://tiagobelintani.github.io/research.html"
->
-
-<meta
-  property="og:image"
-  content="https://tiagobelintani.github.io/assets/images/imagem2.jpg"
->
-
-
-<!-- Twitter -->
-
-<meta name="twitter:card" content="summary_large_image">
-
-<meta
-  name="twitter:title"
-  content="Research | Tiago Belintani — Evolutionary Biology & Phylogenomics"
->
-
-<meta
-  name="twitter:description"
-  content="Research by Tiago Belintani on Triatominae, Theraphosidae, evolutionary biology, phylogenomics, systematics, bioinformatics and genomic analyses."
->
-
-<meta
-  name="twitter:image"
-  content="https://tiagobelintani.github.io/assets/images/imagem2.jpg"
->
-
-
-<!-- Fonts -->
-
-<link
-  href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
-  rel="stylesheet"
->
-
-
-<style>
-
-
-/* =========================================================
-   VARIABLES
-   ========================================================= */
-
-:root{
-
-  --glass:rgba(29,33,39,.76);
-  --glass-strong:rgba(22,26,31,.84);
-  --glass-soft:rgba(43,48,55,.68);
-
-  --text:#f3f5f7;
-  --muted:#c6ccd2;
-
-  --accent:#9fb3c8;
-  --accent-strong:#c3d2e0;
-
-  --border:rgba(255,255,255,.15);
-
-  --shadow:0 12px 32px rgba(8,12,17,.16);
-
-}
-
-
-/* =========================================================
-   BASE
-   ========================================================= */
-
-*{
-  box-sizing:border-box;
-}
-
-
-html{
-  scroll-behavior:smooth;
-}
-
-
-body{
-
-  position:relative;
-
-  z-index:1;
-
-  margin:0;
-  padding:0;
-
-  min-height:100vh;
-
-  background:transparent;
-
-  color:var(--text);
-
-  font-family:
-    'Inter',
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
-
-  line-height:1.6;
-
-}
-
-
-/* =========================================================
-   BACKGROUND
-   ========================================================= */
-
-body::before{
-
-  content:"";
-
-  position:fixed;
-
-  inset:0;
-
-  width:100vw;
-  height:100vh;
-
-  background:
-
-    linear-gradient(
-      rgba(210,215,220,.42),
-      rgba(210,215,220,.42)
-    ),
-
-    url(
-      'assets/images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg'
-    )
-
-    center center / cover no-repeat;
-
-  opacity:1;
-
-  z-index:0;
-
-  pointer-events:none;
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-.top-nav{
-
-  position:fixed;
-
-  top:0;
-  left:0;
-
-  width:100%;
-
-  background:
-    rgba(22,26,31,.80);
-
-  border-bottom:
-    1px solid rgba(255,255,255,.12);
-
-  box-shadow:
-    0 8px 24px rgba(10,14,18,.10);
-
-  backdrop-filter:
-    blur(18px)
-    saturate(135%);
-
-  -webkit-backdrop-filter:
-    blur(18px)
-    saturate(135%);
-
-  z-index:999;
-
-}
-
-
-.top-nav ul{
-
-  list-style:none;
-
-  display:flex;
-
-  justify-content:center;
-
-  flex-wrap:wrap;
-
-  margin:0;
-
-  padding:12px 16px;
-
-  gap:30px;
-
-}
-
-
-.top-nav a{
-
-  color:#d7dde3;
-
-  text-decoration:none;
-
-  font-family:
-    'Inter',
-    system-ui,
-    sans-serif;
-
-  font-weight:500;
-
-  font-size:1em;
-
-  padding-bottom:2px;
-
-  transition:
-    color .2s,
-    border-bottom .2s;
-
-}
-
-
-.top-nav a:hover,
-.top-nav a[aria-current="page"]{
-
-  color:var(--accent-strong);
-
-  border-bottom:
-    2px solid var(--accent);
-
-}
-
-
-/* =========================================================
-   CONTAINER
-   ========================================================= */
-
-.container{
-
-  max-width:1120px;
-
-  margin:0 auto;
-
-  padding:
-    105px 20px 50px;
-
-  position:relative;
-
-  z-index:1;
-
-}
-
-
-/* =========================================================
-   TYPOGRAPHY
-   ========================================================= */
-
-h1,
-h2,
-h3{
-
-  font-family:
-    'Instrument Serif',
-    Georgia,
-    'Times New Roman',
-    serif;
-
-  font-weight:400;
-
-  color:#f3f6f8;
-
-}
-
-
-/* Main name */
-
-h1{
-
-  font-size:
-    clamp(3.2rem,6vw,5.2rem);
-
-  line-height:.98;
-
-  letter-spacing:-.035em;
-
-  text-align:center;
-
-  margin:
-    0 0 .2em;
-
-}
-
-
-/* Decorative line */
-
-h1 span{
-
-  display:block;
-
-  width:64px;
-
-  margin:
-    .5em auto 0;
-
-  border-bottom:
-    3px solid var(--accent);
-
-  border-radius:2px;
-
-}
-
-
-/* Page title */
-
-h2{
-
-  font-size:
-    clamp(2rem,4vw,3rem);
-
-  line-height:1.05;
-
-  letter-spacing:-.025em;
-
-  text-align:center;
-
-  margin:
-    .35em 0 1em;
-
-}
-
-
-/* Research topic titles */
-
-h3{
-
-  font-size:
-    clamp(1.7rem,3vw,2.25rem);
-
-  line-height:1.08;
-
-  letter-spacing:-.02em;
-
-  margin:
-    0 0 14px;
-
-}
-
-
-/* =========================================================
-   LINKS
-   ========================================================= */
-
-a{
-
-  color:var(--accent-strong);
-
-}
-
-
-/* =========================================================
-   RESEARCH SECTIONS
-   ========================================================= */
-
-.section{
-
-  background:
-    var(--glass);
-
-  color:var(--text);
-
-  border:
-    1px solid var(--border);
-
-  border-radius:18px;
-
-  box-shadow:
-    var(--shadow);
-
-  padding:
-    28px 30px;
-
-  margin-bottom:
-    22px;
-
-  backdrop-filter:
-    blur(16px)
-    saturate(120%);
-
-  -webkit-backdrop-filter:
-    blur(16px)
-    saturate(120%);
-
-  transition:
-    background .18s ease,
-    transform .18s ease;
-
-}
-
-
-.section:hover{
-
-  background:
-    rgba(35,40,47,.82);
-
-  transform:
-    translateY(-1px);
-
-}
-
-
-.section p{
-
-  margin:0;
-
-  color:#d5dbe0;
-
-  font-family:
-    'Inter',
-    system-ui,
-    sans-serif;
-
-  font-size:1.03rem;
-
-  line-height:1.75;
-
-  text-align:justify;
-
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-footer{
-
-  text-align:center;
-
-  font-family:
-    'Inter',
-    system-ui,
-    sans-serif;
-
-  font-size:.9em;
-
-  color:#cbd2d8;
-
-  padding:
-    20px 0;
-
-  margin-top:
-    40px;
-
-}
-
-
-/* =========================================================
-   TABLET / MOBILE
-   ========================================================= */
-
-@media(max-width:760px){
-
-
-  .top-nav ul{
-
-    gap:14px;
-
-    font-size:.9rem;
-
-  }
-
-
-  .container{
-
-    padding:
-      135px 16px 40px;
-
-  }
-
-
-  h1{
-
-    font-size:
-      3.15rem;
-
-  }
-
-
-  h2{
-
-    font-size:
-      2.25rem;
-
-  }
-
-
-  h3{
-
-    font-size:
-      1.75rem;
-
-  }
-
-
-  .section{
-
-    padding:
-      22px;
-
-  }
-
-
-  .section p{
-
-    font-size:
-      1rem;
-
-  }
-
-}
-
-
-@media(max-width:430px){
-
-
-  h1{
-
-    font-size:
-      2.7rem;
-
-  }
-
-
-  h2{
-
-    font-size:
-      2rem;
-
-  }
-
-
-  .container{
-
-    padding-left:
-      12px;
-
-    padding-right:
-      12px;
-
-  }
-
-}
-
-
-</style>
-
-
-<!-- Unified site typography and theme -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/theme-soft.css">
+
+<style>
+.research-page{
+  width:min(1120px,calc(100% - 44px));
+  margin:0 auto;
+  padding:112px 0 78px;
+}
+
+.research-intro{
+  max-width:780px;
+  margin-bottom:38px;
+}
+
+.research-intro h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(3.2rem,6vw,5.4rem);
+  line-height:.96;
+  font-weight:600;
+  color:#1d2a38;
+}
+
+.research-intro p{
+  margin:0;
+  max-width:720px;
+  font:400 1.03rem/1.68 "Inter",sans-serif;
+  color:#536477;
+}
+
+.research-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+}
+
+.research-panel{
+  padding:28px;
+  min-height:290px;
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(29,42,56,.10);
+  border-radius:18px;
+  box-shadow:0 14px 34px rgba(52,74,96,.08);
+}
+
+.research-number{
+  margin-bottom:18px;
+  font:600 .72rem/1 "Inter",sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#4c7fae;
+}
+
+.research-panel h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:2rem !important;
+  line-height:1.05 !important;
+  color:#1d2a38;
+}
+
+.research-panel p{
+  margin:0;
+  font:400 .96rem/1.65 "Inter",sans-serif !important;
+  color:#617083;
+}
+
+.research-footer{
+  margin-top:28px;
+  padding:22px 26px;
+  background:rgba(255,255,255,.70);
+  border:1px solid rgba(29,42,56,.09);
+  border-radius:16px;
+  color:#617083;
+  font:400 .94rem/1.6 "Inter",sans-serif;
+}
+
+.research-footer a{
+  font-weight:600;
+}
+
+@media(max-width:900px){
+  .research-grid{grid-template-columns:1fr;}
+  .research-panel{min-height:auto;}
+}
+</style>
 </head>
-
-
 <body>
 
-
-<!-- =====================================================
-     TOP NAVIGATION
-     ===================================================== -->
 
 <nav class="top-nav" aria-label="Primary navigation">
   <div class="nav-inner">
     <a class="brand" href="index.html">Tiago Belintani</a>
     <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="publications.html">Publications</a></li>
-        <li><a href="research.html" aria-current="page">Research</a></li>
-        <li><a class="bioinfo-nav" href="bioinfo-chat.html">BioInfo Chat</a></li>
-        <li><a href="teaching.html">Teaching</a></li>
-        <li><a href="repositories.html">Code &amp; Repositories</a></li>
-        <li><a href="collaborators.html">Collaborators</a></li>
-        <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="research.html" aria-current="page">Research</a></li>
+      <li><a class="bioinfo-nav" href="bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="teaching.html">Teaching</a></li>
+      <li><a href="repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="collaborators.html">Collaborators</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </div>
 </nav>
 
 
+<main class="research-page">
 
-<!-- =====================================================
-     PAGE CONTENT
-     ===================================================== -->
-
-<div class="container">
-
-
-  <header class="simple-hero"><p class="page-kicker">Research</p><h1>Research</h1><p>Evolutionary biology, systematics, phylogenomics and genomic analyses.</p></header>
-
-
-
-  <!-- TRIATOMINAE -->
-
-  <div class="section">
-
-    <h3>
-      Evolutionary Biology of Triatominae
-    </h3>
-
+  <header class="research-intro">
+    <div class="page-kicker">Research</div>
+    <h1>Research</h1>
     <p>
-      My research on Triatominae focuses on evolutionary patterns,
-      species delimitation, and phylogenomics of blood-feeding insects.
-      Combining morphological analysis and genomic data, I investigate
-      their diversification and vector potential for Chagas disease.
+      Evolutionary biology, systematics, phylogenomics and genomic analyses,
+      with emphasis on Neotropical arthropods and reproducible computational workflows.
     </p>
+  </header>
 
+  <section class="research-grid">
+
+    <article class="research-panel">
+      <div class="research-number">Research line</div>
+      <h2>Evolutionary Biology of Triatominae</h2>
+      <p>
+        My research on Triatominae focuses on evolutionary patterns, species delimitation,
+        and phylogenomics of blood-feeding insects. Combining morphological analysis and
+        genomic data, I investigate their diversification and vector potential for Chagas disease.
+      </p>
+    </article>
+
+    <article class="research-panel">
+      <div class="research-number">Research line</div>
+      <h2>Theraphosidae Systematics</h2>
+      <p>
+        This work explores tarantula taxonomy, morphology, and biogeography. Using geometric
+        morphometrics, molecular phylogenetics, and comparative genomics, I aim to resolve
+        complex species boundaries and evolutionary histories of Neotropical spiders.
+      </p>
+    </article>
+
+    <article class="research-panel">
+      <div class="research-number">Methods &amp; computation</div>
+      <h2>Bioinformatics &amp; Genomic Analyses</h2>
+      <p>
+        I integrate high-throughput DNA sequencing, genome assembly, and phylogenomic methods
+        to study evolutionary processes. These approaches help uncover patterns of hybridization,
+        adaptation, and diversification in Neotropical organisms.
+      </p>
+    </article>
+
+  </section>
+
+  <div class="research-footer">
+    Related outputs are available in
+    <a href="publications.html">Publications</a> and
+    <a href="repositories.html">Code &amp; Repositories</a>.
   </div>
 
-
-
-  <!-- THERAPHOSIDAE -->
-
-  <div class="section">
-
-    <h3>
-      Theraphosidae Systematics
-    </h3>
-
-    <p>
-      This work explores tarantula taxonomy, morphology, and
-      biogeography. Using geometric morphometrics, molecular
-      phylogenetics, and comparative genomics, I aim to resolve
-      complex species boundaries and evolutionary histories of
-      Neotropical spiders.
-    </p>
-
-  </div>
-
-
-
-  <!-- BIOINFORMATICS -->
-
-  <div class="section">
-
-    <h3>
-      Bioinformatics &amp; Genomic Analyses
-    </h3>
-
-    <p>
-      I integrate high-throughput DNA sequencing, genome assembly,
-      and phylogenomic methods to study evolutionary processes.
-      These approaches help uncover patterns of hybridization,
-      adaptation, and diversification in Neotropical organisms.
-    </p>
-
-  </div>
-
-
-</div>
-
+</main>
 
 </body>
-
 </html>

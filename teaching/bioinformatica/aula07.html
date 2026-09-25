@@ -3,8 +3,813 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bancos biológicos | Bioinformática e Biologia Molecular</title>
-<meta http-equiv="refresh" content="0; url=index.html">
+
+<title>Bancos biológicos e registros de sequência | Bioinformática e Biologia Molecular</title>
+
+<meta name="description"
+      content="Roteiro prático para consulta ao NCBI, interpretação de registros GenBank, obtenção de sequências FASTA e introdução guiada ao Google Colab.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.tutorial-page{
+  width:min(980px,calc(100% - 42px));
+  margin:0 auto;
+  padding:112px 0 82px;
+}
+
+.breadcrumb{
+  margin-bottom:24px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+
+.breadcrumb a{
+  color:#3478C9;
+  text-decoration:none;
+}
+
+.tutorial-header{
+  max-width:840px;
+  margin-bottom:38px;
+}
+
+.tutorial-kicker{
+  margin-bottom:9px;
+  font:600 .74rem/1.2 "Inter",sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+
+.tutorial-header h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(3rem,6vw,5rem) !important;
+  line-height:.96 !important;
+  font-weight:600;
+  color:#172231;
+}
+
+.tutorial-header .lead{
+  margin:0;
+  max-width:790px;
+  font:400 1.04rem/1.68 "Inter",sans-serif !important;
+  color:#526174;
+}
+
+.class-flow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin:26px 0 0;
+}
+
+.class-block{
+  padding:16px 18px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+
+.class-block strong{
+  display:block;
+  margin-bottom:4px;
+  color:#25374A;
+  font:600 .92rem/1.3 "Inter",sans-serif;
+}
+
+.class-block span{
+  color:#64748B;
+  font:400 .88rem/1.5 "Inter",sans-serif;
+}
+
+.tutorial-card{
+  margin:0 0 24px;
+  padding:26px 28px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(23,34,49,.10);
+  border-radius:16px;
+  box-shadow:0 12px 32px rgba(31,50,70,.06);
+}
+
+.tutorial-card h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:2rem !important;
+  line-height:1.08 !important;
+  color:#172231;
+}
+
+.tutorial-card h3{
+  margin:26px 0 10px;
+  font-family:"Inter",sans-serif !important;
+  font-size:1.05rem !important;
+  font-weight:600;
+  color:#25374A;
+}
+
+.tutorial-card p,
+.tutorial-card li{
+  font:400 .98rem/1.68 "Inter",sans-serif !important;
+  color:#526174;
+}
+
+.tutorial-card ul,
+.tutorial-card ol{
+  margin:10px 0 4px 1.25rem;
+  padding:0;
+}
+
+.tutorial-card li + li{
+  margin-top:6px;
+}
+
+.concept{
+  margin:18px 0;
+  padding:16px 18px;
+  background:#F3F7FB;
+  border-left:4px solid #3478C9;
+  border-radius:0 10px 10px 0;
+  color:#526174;
+  font:400 .94rem/1.65 "Inter",sans-serif;
+}
+
+.concept strong{
+  color:#25374A;
+}
+
+.example-record{
+  display:grid;
+  grid-template-columns:150px 1fr;
+  gap:9px 18px;
+  margin:18px 0;
+  padding:18px 20px;
+  background:#F8FAFC;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+
+.example-record dt{
+  font:600 .84rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+
+.example-record dd{
+  margin:0;
+  font:500 .90rem/1.4 "Inter",sans-serif;
+  color:#25374A;
+}
+
+.action-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:18px 0 8px;
+}
+
+.action{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:10px 15px;
+  background:#3478C9;
+  border:1px solid #3478C9;
+  border-radius:9px;
+  color:#fff !important;
+  font:600 .88rem/1.2 "Inter",sans-serif;
+  text-decoration:none;
+}
+
+.action.secondary{
+  background:#fff;
+  color:#3478C9 !important;
+}
+
+.action.placeholder{
+  background:#EEF3F7;
+  border-color:#D6E0E9;
+  color:#718096 !important;
+  cursor:default;
+}
+
+.record-fields{
+  width:100%;
+  border-collapse:collapse;
+  margin:16px 0 4px;
+  font-family:"Inter",sans-serif;
+  font-size:.90rem;
+}
+
+.record-fields th,
+.record-fields td{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(23,34,49,.09);
+  text-align:left;
+  vertical-align:top;
+}
+
+.record-fields th{
+  color:#25374A;
+  font-weight:600;
+  background:#F8FAFC;
+}
+
+.record-fields td{
+  color:#526174;
+}
+
+.flow-box{
+  margin:16px 0;
+  padding:18px 20px;
+  background:#F8FAFC;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  color:#31465B;
+  font:500 .92rem/1.7 "Inter",sans-serif;
+}
+
+.flow-arrow{
+  color:#3478C9;
+  font-weight:700;
+  padding:0 5px;
+}
+
+.question{
+  margin:12px 0;
+  padding:13px 15px;
+  background:#FBFCFD;
+  border:1px solid rgba(23,34,49,.08);
+  border-radius:10px;
+  color:#42566B;
+  font:500 .92rem/1.55 "Inter",sans-serif;
+}
+
+.guided-steps{
+  counter-reset:guided;
+  list-style:none;
+  margin:18px 0 0 !important;
+  padding:0 !important;
+}
+
+.guided-steps li{
+  counter-increment:guided;
+  position:relative;
+  margin:0 0 12px !important;
+  padding:14px 16px 14px 52px;
+  background:#F8FAFC;
+  border:1px solid rgba(23,34,49,.08);
+  border-radius:11px;
+}
+
+.guided-steps li::before{
+  content:counter(guided);
+  position:absolute;
+  left:15px;
+  top:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#3478C9;
+  color:#fff;
+  font:600 .78rem/1 "Inter",sans-serif;
+}
+
+.deliverable{
+  background:#F5F9FC;
+}
+
+.next-step{
+  margin-top:28px;
+  padding:21px 24px;
+  background:rgba(52,120,201,.08);
+  border:1px solid rgba(52,120,201,.18);
+  border-radius:14px;
+}
+
+.next-step strong{
+  color:#25374A;
+}
+
+.references a{
+  color:#3478C9;
+}
+
+.tutorial-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:30px;
+  padding-top:20px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+
+.tutorial-nav a{
+  font:600 .90rem/1.3 "Inter",sans-serif;
+  color:#3478C9;
+  text-decoration:none;
+}
+
+@media(max-width:700px){
+  .class-flow,
+  .example-record{
+    grid-template-columns:1fr;
+  }
+
+  .record-fields{
+    font-size:.82rem;
+  }
+}
+</style>
 </head>
-<body></body>
+
+<body>
+
+<nav class="top-nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="tutorial-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">Bioinformática e Biologia Molecular</a> /
+    Bancos biológicos
+  </div>
+
+  <header class="tutorial-header">
+    <div class="tutorial-kicker">Roteiro prático</div>
+    <h1>Bancos biológicos e registros de sequência</h1>
+    <p class="lead">
+      Nesta prática vamos localizar um registro biológico no NCBI, interpretar
+      um registro GenBank, obter uma sequência em formato FASTA e, em seguida,
+      reproduzir parte desse processo em uma prática guiada no Google Colab.
+    </p>
+
+    <div class="class-flow">
+      <div class="class-block">
+        <strong>Primeiro bloco</strong>
+        <span>NCBI, GenBank, accession, campos do registro e FASTA.</span>
+      </div>
+      <div class="class-block">
+        <strong>Segundo bloco</strong>
+        <span>Prática guiada no Google Colab, realizada em conjunto com o professor.</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="tutorial-card">
+    <h2>Objetivos</h2>
+    <p>Ao final da prática, você deverá ser capaz de:</p>
+    <ul>
+      <li>localizar um registro de sequência no NCBI Nucleotide;</li>
+      <li>distinguir organismo, gene, descrição, accession e versão;</li>
+      <li>interpretar os principais campos de um registro GenBank;</li>
+      <li>visualizar e salvar uma sequência no formato FASTA;</li>
+      <li>compreender como um accession pode ser utilizado para recuperar uma sequência computacionalmente;</li>
+      <li>reconhecer a estrutura básica de um arquivo FASTA;</li>
+      <li>obter informações simples de uma sequência utilizando Python.</li>
+    </ul>
+  </section>
+
+  <section class="tutorial-card">
+    <h2>1. O que estamos procurando?</h2>
+
+    <p>
+      Um banco de dados biológico organiza informações produzidas por estudos
+      experimentais e computacionais. Um registro de sequência contém mais do
+      que as letras A, C, G e T: ele também guarda informações sobre organismo,
+      gene, origem da amostra, anotações e referências.
+    </p>
+
+    <div class="concept">
+      <strong>NCBI ≠ GenBank.</strong>
+      O NCBI é uma plataforma que fornece acesso a diversas bases e ferramentas.
+      O GenBank é uma base de sequências nucleotídicas. Nesta prática,
+      acessaremos um registro GenBank pela base <em>NCBI Nucleotide</em>.
+    </div>
+
+    <p>Vamos trabalhar inicialmente com o registro:</p>
+
+    <dl class="example-record">
+      <dt>Organismo</dt>
+      <dd><em>Grammostola pulchripes</em></dd>
+
+      <dt>Gene</dt>
+      <dd>cytochrome c oxidase subunit 1 — COI</dd>
+
+      <dt>Tipo</dt>
+      <dd>sequência mitocondrial, CDS parcial</dd>
+
+      <dt>Accession.Version</dt>
+      <dd><strong>MK270576.1</strong></dd>
+    </dl>
+
+    <div class="action-row">
+      <a class="action"
+         href="https://www.ncbi.nlm.nih.gov/nuccore/MK270576.1"
+         target="_blank" rel="noopener noreferrer">
+        Abrir registro no NCBI
+      </a>
+
+      <a class="action secondary"
+         href="https://www.ncbi.nlm.nih.gov/nuccore/MK270576.1?report=fasta"
+         target="_blank" rel="noopener noreferrer">
+        Abrir em FASTA
+      </a>
+    </div>
+  </section>
+
+  <section class="tutorial-card">
+    <h2>2. Explorando o registro GenBank</h2>
+
+    <p>Observe o registro e responda:</p>
+
+    <div class="question">Qual é o nome científico do organismo?</div>
+    <div class="question">Qual gene foi sequenciado?</div>
+    <div class="question">A sequência corresponde ao gene completo ou a uma região parcial?</div>
+    <div class="question">Existe informação de voucher ou espécime associado?</div>
+
+    <p>Agora altere a visualização para <strong>GenBank</strong>.</p>
+
+    <table class="record-fields">
+      <thead>
+        <tr>
+          <th>Campo</th>
+          <th>O que observar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>LOCUS</td><td>identificação resumida e características gerais da sequência;</td></tr>
+        <tr><td>DEFINITION</td><td>descrição biológica do que foi sequenciado;</td></tr>
+        <tr><td>ACCESSION</td><td>identificador estável do registro;</td></tr>
+        <tr><td>VERSION</td><td>accession associado à versão atual da sequência;</td></tr>
+        <tr><td>SOURCE / ORGANISM</td><td>organismo e classificação taxonômica;</td></tr>
+        <tr><td>REFERENCE</td><td>trabalho ou submissão associada ao registro;</td></tr>
+        <tr><td>FEATURES</td><td>anotações como gene, CDS, voucher e produto;</td></tr>
+        <tr><td>ORIGIN</td><td>sequência de nucleotídeos.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="tutorial-card">
+    <h2>3. Accession e versão</h2>
+
+    <p>O identificador <strong>MK270576.1</strong> possui duas partes:</p>
+
+    <div class="concept">
+      <strong>MK270576</strong> = accession do registro.<br>
+      <strong>.1</strong> = versão da sequência.
+    </div>
+
+    <p>
+      O accession identifica o registro. Se a sequência nucleotídica for
+      modificada, a versão é incrementada. Por isso, é útil registrar o
+      identificador completo <strong>Accession.Version</strong> em análises
+      reprodutíveis.
+    </p>
+  </section>
+
+  <section class="tutorial-card">
+    <h2>4. Do GenBank ao FASTA</h2>
+
+    <p>
+      Selecione a visualização <strong>FASTA</strong> e compare com o registro
+      GenBank.
+    </p>
+
+    <p>O FASTA possui essencialmente:</p>
+
+    <ol>
+      <li>uma linha de identificação iniciada por <strong>&gt;</strong>;</li>
+      <li>a sequência de nucleotídeos nas linhas seguintes.</li>
+    </ol>
+
+    <div class="concept">
+      <strong>Importante:</strong> o FASTA preserva a sequência e um cabeçalho,
+      mas não toda a riqueza de anotações exibida pelo formato GenBank.
+    </div>
+
+    <div class="question">
+      Compare a visualização GenBank e a visualização FASTA. Que informações
+      desaparecem quando utilizamos apenas o FASTA?
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <div class="tutorial-kicker">Dataset da disciplina</div>
+    <h2>5. De uma sequência a um conjunto filogenômico</h2>
+
+    <p>
+      Até este ponto trabalhamos com um registro individual e com uma sequência
+      em formato FASTA. Nas próximas práticas vamos avançar para dados de
+      sequenciamento de alto rendimento e utilizar um conjunto real de
+      <strong>Ultraconserved Elements (UCEs)</strong> como modelo para acompanhar
+      todo o fluxo bioinformático da disciplina.
+    </p>
+
+    <h3>O estudo que gerou os dados</h3>
+
+    <p>
+      O conjunto de dados foi produzido no estudo de
+      <strong>Ciaccio, Debray e Hedin (2022)</strong>:
+      <em>Phylogenomics of paleoendemic lampshade spiders (Araneae,
+      Hypochilidae, Hypochilus), with the description of a new species from
+      montane California</em>, publicado na revista <em>ZooKeys</em>.
+    </p>
+
+    <div class="concept">
+      <strong>Por que esse estudo é interessante?</strong>
+      <em>Hypochilus</em> é uma linhagem antiga de aranhas norte-americanas,
+      com populações distribuídas em regiões montanhosas geograficamente
+      separadas. A morfologia é relativamente conservada, mas existe forte
+      estruturação genética, tornando o grupo adequado para discutir
+      filogenômica, delimitação de espécies e biogeografia.
+    </div>
+
+    <p>
+      Os autores reuniram dados filogenômicos de <strong>43 espécimes de
+      <em>Hypochilus</em></strong>, representando as dez espécies descritas no
+      momento do estudo. Para investigar as relações entre essas linhagens,
+      foram utilizados loci UCE obtidos por captura direcionada e
+      sequenciamento Illumina.
+    </p>
+
+    <div class="example-record">
+      <dt>Artigo</dt>
+      <dd>Ciaccio, Debray &amp; Hedin (2022)</dd>
+
+      <dt>Organismo</dt>
+      <dd><em>Hypochilus</em> spp. — Hypochilidae</dd>
+
+      <dt>Amostragem</dt>
+      <dd>43 espécimes representando 10 espécies descritas</dd>
+
+      <dt>Tipo de dado</dt>
+      <dd>UCE — captura direcionada, reads Illumina paired-end</dd>
+
+      <dt>BioProject</dt>
+      <dd><strong>PRJNA760946</strong></dd>
+
+      <dt>Run modelo</dt>
+      <dd><strong>SRR15736591</strong> — <em>Hypochilus petrunkevitchi</em></dd>
+    </div>
+
+    <div class="action-row">
+      <a class="action"
+         href="https://doi.org/10.3897/zookeys.1086.77190"
+         target="_blank" rel="noopener noreferrer">
+        Abrir artigo
+      </a>
+
+      <a class="action secondary"
+         href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA760946"
+         target="_blank" rel="noopener noreferrer">
+        Abrir BioProject
+      </a>
+
+      <a class="action secondary"
+         href="https://www.ncbi.nlm.nih.gov/sra/SRX12029888"
+         target="_blank" rel="noopener noreferrer">
+        Abrir amostra modelo no SRA
+      </a>
+    </div>
+
+    <h3>O que os autores obtiveram?</h3>
+
+    <p>
+      A matriz inicial do estudo reuniu <strong>623 loci UCE</strong>.
+      Após filtragem, os autores trabalharam com uma matriz de
+      <strong>550 loci</strong>. Esses dados permitiram reconstruir as relações
+      filogenéticas do gênero e investigar linhagens geográficas e limites
+      entre espécies.
+    </p>
+
+    <div class="concept">
+      <strong>Nosso objetivo será diferente.</strong>
+      Não vamos tentar reproduzir todo o artigo nem chegar à árvore
+      filogenética final. O estudo será nosso <strong>modelo de dados</strong>:
+      utilizaremos os reads públicos disponibilizados pelos autores para
+      aprender, passo a passo, como um conjunto de UCEs é processado.
+    </div>
+
+    <h3>Como esse dataset aparecerá nas próximas práticas?</h3>
+
+    <div class="flow-box">
+      NCBI / SRA
+      <span class="flow-arrow">→</span>
+      FASTQ paired-end
+      <span class="flow-arrow">→</span>
+      controle de qualidade
+      <span class="flow-arrow">→</span>
+      trimming
+      <span class="flow-arrow">→</span>
+      montagem de novo
+      <span class="flow-arrow">→</span>
+      contigs
+      <span class="flow-arrow">→</span>
+      identificação de UCEs
+      <span class="flow-arrow">→</span>
+      FASTA de loci UCE
+    </div>
+
+    <p>
+      O primeiro run que utilizaremos será <strong>SRR15736591</strong>, de
+      <em>Hypochilus petrunkevitchi</em>. Nas atividades didáticas poderemos
+      trabalhar inicialmente com uma fração dos reads para que as análises
+      sejam executadas em tempo compatível com o Google Colab e com o período
+      de aula.
+    </p>
+
+    <div class="question">
+      Ao ler o resumo do artigo, identifique: qual problema biológico motivou
+      o uso de dados filogenômicos e por que centenas de loci UCE podem ser
+      mais informativos que uma única sequência de COI?
+    </div>
+  </section>
+
+  <section class="tutorial-card">
+    <h2>6. Prática guiada no Google Colab</h2>
+
+    <p>
+      A partir deste ponto, a atividade será realizada em conjunto com o
+      professor no Google Colab. Os comandos serão construídos e executados
+      durante a aula.
+    </p>
+
+    <div class="action-row">
+      <a class="action placeholder"
+         href=""
+         aria-disabled="true"
+         onclick="return false;">
+        Abrir notebook no Google Colab
+      </a>
+    </div>
+
+    <p>Durante a prática vamos:</p>
+
+    <ol class="guided-steps">
+      <li>conectar o Google Drive ao ambiente do Colab;</li>
+      <li>criar o diretório de trabalho da disciplina;</li>
+      <li>utilizar o accession <strong>MK270576.1</strong> para recuperar a sequência diretamente do NCBI;</li>
+      <li>verificar se o arquivo FASTA foi criado corretamente;</li>
+      <li>visualizar o cabeçalho e a sequência;</li>
+      <li>ler o arquivo FASTA utilizando Python;</li>
+      <li>determinar o comprimento da sequência;</li>
+      <li>contar as bases A, C, G e T;</li>
+      <li>calcular o conteúdo GC;</li>
+      <li>repetir o procedimento utilizando outro accession.</li>
+    </ol>
+
+    <div class="concept">
+      O objetivo desta etapa não é memorizar comandos. O objetivo é entender
+      como uma informação consultada manualmente em um banco de dados pode ser
+      recuperada, organizada e analisada por um procedimento computacional
+      reproduzível.
+    </div>
+  </section>
+
+  <section class="tutorial-card">
+    <h2>7. Atividade orientada</h2>
+
+    <p>
+      No NCBI Nucleotide, faça uma busca utilizando:
+      <strong>Grammostola COI</strong>.
+    </p>
+
+    <p>
+      Escolha <strong>outro registro</strong> do gênero <em>Grammostola</em>.
+      Não utilize MK270576.1.
+    </p>
+
+    <table class="record-fields">
+      <thead>
+        <tr>
+          <th>Informação</th>
+          <th>Resposta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Espécie</td><td>____________________________</td></tr>
+        <tr><td>Accession.Version</td><td>____________________________</td></tr>
+        <tr><td>Gene</td><td>____________________________</td></tr>
+        <tr><td>Sequência completa ou parcial?</td><td>____________________________</td></tr>
+        <tr><td>Voucher / amostra, se disponível</td><td>____________________________</td></tr>
+        <tr><td>Comprimento</td><td>____________________________</td></tr>
+        <tr><td>GC (%)</td><td>____________________________</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="tutorial-card deliverable">
+    <h2>Resultado esperado</h2>
+
+    <p>
+      Ao final da prática, a estrutura de trabalho deverá conter os arquivos
+      FASTA obtidos durante a aula:
+    </p>
+
+    <div class="flow-box">
+      Bioinformatica_Biologia_Molecular/<br>
+      └── 01_bancos/<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;├── MK270576.1.fasta<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;└── outro_accession.fasta
+    </div>
+
+    <p>
+      A ideia central da prática pode ser resumida em dois caminhos:
+    </p>
+
+    <div class="flow-box">
+      <strong>Acesso manual</strong><br>
+      NCBI <span class="flow-arrow">→</span> registro
+      <span class="flow-arrow">→</span> FASTA
+      <br><br>
+      <strong>Acesso computacional</strong><br>
+      Accession <span class="flow-arrow">→</span> NCBI
+      <span class="flow-arrow">→</span> FASTA
+      <span class="flow-arrow">→</span> Python
+    </div>
+
+    <div class="next-step">
+      <strong>Próximo passo:</strong>
+      utilizar uma sequência FASTA como consulta para buscar sequências
+      semelhantes e interpretar resultados de BLAST.
+    </div>
+  </section>
+
+  <section class="tutorial-card references">
+    <h2>Referências e documentação</h2>
+    <ul>
+      <li>
+        Ciaccio E, Debray A, Hedin M (2022).
+        <a href="https://doi.org/10.3897/zookeys.1086.77190"
+           target="_blank" rel="noopener noreferrer">
+          Phylogenomics of paleoendemic lampshade spiders (Araneae, Hypochilidae,
+          Hypochilus), with the description of a new species from montane California.
+        </a>
+        <em>ZooKeys</em> 1086: 163–204.
+      </li>
+      <li>
+        <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA760946"
+           target="_blank" rel="noopener noreferrer">
+          NCBI BioProject — PRJNA760946
+        </a>
+      </li>
+      <li>
+        <a href="https://www.ncbi.nlm.nih.gov/sra/SRX12029888"
+           target="_blank" rel="noopener noreferrer">
+          NCBI SRA — SRR15736591 / SRX12029888
+        </a>
+      </li>
+      <li>
+        <a href="https://www.ncbi.nlm.nih.gov/genbank/samplerecord/"
+           target="_blank" rel="noopener noreferrer">
+          NCBI — Sample GenBank Record
+        </a>
+      </li>
+      <li>
+        <a href="https://www.ncbi.nlm.nih.gov/genbank/sequenceids/"
+           target="_blank" rel="noopener noreferrer">
+          NCBI — Sequence Identifiers
+        </a>
+      </li>
+      <li>
+        <a href="https://www.ncbi.nlm.nih.gov/nuccore/MK270576.1"
+           target="_blank" rel="noopener noreferrer">
+          NCBI Nucleotide — MK270576.1
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <nav class="tutorial-nav">
+    <a href="index.html">← Voltar à disciplina</a>
+    <a href="aula08.html">BLAST →</a>
+  </nav>
+
+</main>
+
+</body>
 </html>
