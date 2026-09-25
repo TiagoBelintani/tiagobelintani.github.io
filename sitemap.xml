@@ -44,4 +44,10 @@
     <priority>0.6</priority>
   </url>
 
+  <url>
+    <loc>https://tiagobelintani.github.io/teaching.html</loc>
+  </url>
+  <url>
+    <loc>https://tiagobelintani.github.io/teaching/bioinformatica/</loc>
+  </url>
 </urlset>

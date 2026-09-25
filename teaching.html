@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Teaching | Tiago Belintani</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/theme-soft.css">
+
+<style>
+.page-teaching{
+  max-width:1180px;
+  margin:0 auto;
+  padding:130px 28px 70px;
+}
+
+.teaching-hero{
+  max-width:760px;
+  margin-bottom:48px;
+}
+
+.teaching-hero h1{
+  margin:0 0 12px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(3rem,6vw,5rem);
+  font-weight:600;
+  line-height:.95;
+  color:#172231;
+}
+
+.teaching-hero p{
+  margin:0;
+  max-width:680px;
+  font-family:"Inter",sans-serif;
+  font-size:1.05rem;
+  line-height:1.75;
+  color:#526174;
+}
+
+.course-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+
+.course-card{
+  display:block;
+  padding:28px;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.10);
+  border-radius:18px;
+  box-shadow:0 12px 32px rgba(31,50,70,.07);
+  text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.course-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 38px rgba(31,50,70,.10);
+}
+
+.course-kicker{
+  margin-bottom:8px;
+  font:600 .78rem/1.2 "Inter",sans-serif;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+
+.course-card h2{
+  margin:0 0 10px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:2rem;
+  font-weight:600;
+  color:#172231;
+}
+
+.course-card p{
+  margin:0;
+  font:400 .95rem/1.65 "Inter",sans-serif;
+  color:#64748B;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">Tiago Belintani</a>
+
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="collaborators.html">Collaborators</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="page-teaching">
+
+  <header class="teaching-hero">
+    <h1>Teaching</h1>
+    <p>
+      Practical resources, computational workflows and teaching materials
+      developed for courses in biotechnology, molecular biology and bioinformatics.
+    </p>
+  </header>
+
+  <section class="course-list">
+
+    <a class="course-card" href="teaching/bioinformatica/">
+      <div class="course-kicker">2026 · IFSC Campus Lages</div>
+      <h2>Bioinformática e Biologia Molecular</h2>
+      <p>
+        Practical tutorials covering biological databases, BLAST,
+        sequencing data, quality control, assembly and UCE recovery.
+      </p>
+    </a>
+
+  </section>
+
+</main>
+
+</body>
+</html>
