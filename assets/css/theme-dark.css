@@ -1,0 +1,57 @@
+/* =========================================================
+   Tiago Belintani — Global Dark Theme
+   ========================================================= */
+
+:root {
+  --bg: #0E1116;
+
+  --surface: rgba(26, 31, 39, 0.90);
+  --surface-strong: rgba(18, 23, 30, 0.94);
+  --surface-soft: rgba(31, 38, 48, 0.82);
+
+  --panel: rgba(26, 31, 39, 0.90);
+  --panel-soft: rgba(36, 43, 53, 0.80);
+
+  --ink: #E5E7EB;
+  --muted: #9CA3AF;
+
+  --line: rgba(255, 255, 255, 0.12);
+
+  --accent: #60A5FA;
+  --accent-strong: #93C5FD;
+
+  --bioinfo: #60A5FA;
+  --bioinfo-light: #93C5FD;
+  --bioinfo-soft: rgba(96, 165, 250, 0.13);
+
+  --white: #FFFFFF;
+
+  --shadow:
+    0 14px 38px rgba(0, 0, 0, 0.30);
+}
+
+
+/* Background geral */
+
+body {
+  background:
+    linear-gradient(
+      rgba(7, 12, 19, 0.68),
+      rgba(7, 12, 19, 0.82)
+    ),
+    url('../images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg')
+    center center / cover fixed no-repeat;
+
+  color: var(--ink);
+}
+
+
+/* Links */
+
+a {
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-strong);
+}

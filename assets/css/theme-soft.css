@@ -1,0 +1,517 @@
+/* =========================================================
+   Tiago Belintani — Soft Minimal Theme
+   teste inicial apenas na Home
+   ========================================================= */
+
+:root {
+  --bg: #F4F7FA;
+  --surface: rgba(255,255,255,.82);
+  --surface-strong: rgba(255,255,255,.92);
+
+  --ink: #172231;
+  --muted: #64748B;
+
+  --accent: #3478C9;
+  --accent-strong: #1F67B8;
+
+  --line: rgba(23,34,49,.11);
+
+  --bioinfo: #3478C9;
+  --bioinfo-light: #3478C9;
+
+  --shadow: 0 16px 40px rgba(31,50,70,.08);
+}
+
+
+/* ---------- BACKGROUND ---------- */
+
+body {
+  background:
+    linear-gradient(
+      rgba(244,247,250,.80),
+      rgba(244,247,250,.88)
+    ),
+    url('../images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg')
+    center center / cover fixed no-repeat;
+
+  color: var(--ink);
+}
+
+
+/* ---------- NAVIGATION ---------- */
+
+.top-nav {
+  background: rgba(248,250,252,.88);
+
+  border-bottom:
+    1px solid rgba(23,34,49,.08);
+
+  box-shadow: none;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+
+.brand {
+  color: var(--ink);
+}
+
+
+.top-nav a {
+  color: #374151;
+}
+
+
+.top-nav a:hover,
+.top-nav a[aria-current="page"],
+.top-nav .bioinfo-nav,
+.top-nav .bioinfo-nav:hover {
+  color: var(--accent);
+}
+
+
+/* ---------- PAGE ---------- */
+
+.page {
+  padding-top: 48px;
+}
+
+
+/* ---------- HERO ---------- */
+
+.hero {
+  display: block;
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 0;
+
+  box-shadow: none;
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  overflow: visible;
+}
+
+
+.hero-copy {
+  max-width: 760px;
+
+  padding: 42px 28px 46px 28px;
+}
+
+
+.hero-photo {
+  display: none;
+}
+
+
+.eyebrow {
+  color: #516477;
+}
+
+
+.hero h1 {
+  color: var(--ink);
+
+  font-size:
+    clamp(3.6rem,7vw,6rem);
+}
+
+
+.hero .lead {
+  color: #334155;
+
+  max-width: 630px;
+}
+
+
+/* ---------- BUTTONS ---------- */
+
+.btn {
+  border-color: rgba(23,34,49,.25);
+}
+
+
+.btn.primary {
+  background: var(--accent);
+
+  color: white;
+
+  border-color: var(--accent);
+}
+
+
+.btn.primary:hover {
+  background: var(--accent-strong);
+
+  color: white;
+
+  border-color: var(--accent-strong);
+}
+
+
+.btn.secondary {
+  background: rgba(255,255,255,.40);
+
+  color: var(--ink);
+
+  border-color: rgba(23,34,49,.26);
+}
+
+
+.btn.secondary:hover {
+  background: rgba(255,255,255,.80);
+
+  color: var(--accent-strong);
+}
+
+
+/* ---------- QUICK TOPICS ---------- */
+
+.quick-tags {
+  margin-top: 0;
+
+  padding: 14px 10px 22px;
+}
+
+
+.quick-tag {
+  background: transparent;
+
+  color: #334155;
+
+  border: 0;
+
+  border-radius: 0;
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+
+.quick-tag:not(:last-child) {
+  border-right:
+    1px solid rgba(23,34,49,.13);
+}
+
+
+.quick-tag strong {
+  color: var(--accent);
+}
+
+
+/* ---------- GENERAL SECTIONS ---------- */
+
+.section {
+  margin-top: 42px;
+}
+
+
+.section-head {
+  background: rgba(255,255,255,.74);
+
+  border:
+    1px solid var(--line);
+
+  box-shadow: var(--shadow);
+}
+
+
+.section-head h2 {
+  color: var(--ink);
+}
+
+
+.section-head p {
+  color: #526174;
+}
+
+
+/* ---------- ABOUT ---------- */
+
+.about {
+  background: rgba(255,255,255,.82);
+
+  border:
+    1px solid var(--line);
+
+  box-shadow: var(--shadow);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  padding: 32px 34px;
+}
+
+
+.about h2 {
+  color: var(--ink);
+}
+
+
+.about p {
+  color: #344255;
+
+  text-align: left;
+}
+
+
+/* ---------- BIOINFO ---------- */
+
+.bioinfo-feature {
+  background: rgba(255,255,255,.82);
+
+  border:
+    1px solid var(--line);
+
+  box-shadow: var(--shadow);
+}
+
+
+.bioinfo-feature::before {
+  display: none;
+}
+
+
+.bioinfo-feature h2 {
+  color: var(--ink);
+}
+
+
+.bioinfo-lead,
+.bioinfo-feature-copy > p:not(.bioinfo-lead) {
+  color: #465568;
+}
+
+
+.bioinfo-kicker {
+  color: var(--accent);
+}
+
+
+.bioinfo-meta-item {
+  background: rgba(244,247,250,.70);
+
+  border:
+    1px solid var(--line);
+
+  color: #465568;
+}
+
+
+.bioinfo-meta-item span {
+  color: var(--accent);
+}
+
+
+/* ---------- RESEARCH ---------- */
+
+.research-card {
+  background: rgba(255,255,255,.82);
+
+  border:
+    1px solid var(--line);
+
+  box-shadow: var(--shadow);
+}
+
+
+.research-copy h3 {
+  color: var(--ink);
+}
+
+
+.research-copy p {
+  color: #526174;
+}
+
+
+.kicker,
+.text-link {
+  color: var(--accent);
+}
+
+
+/* ---------- OPEN SCIENCE ---------- */
+
+.os-card {
+  background: rgba(255,255,255,.82);
+
+  border:
+    1px solid var(--line);
+
+  box-shadow: var(--shadow);
+}
+
+
+.os-card h3 {
+  color: var(--ink);
+}
+
+
+.os-card p {
+  color: #526174;
+}
+
+
+.profile-links a {
+  background: rgba(255,255,255,.55);
+
+  border:
+    1px solid var(--line);
+
+  color: #334155;
+}
+
+
+.profile-links a:hover {
+  color: var(--accent);
+
+  border-color: var(--accent);
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 760px) {
+
+  body {
+    background-attachment: scroll;
+  }
+
+  .hero-copy {
+    padding:
+      32px 6px 34px;
+  }
+
+  .quick-tag:not(:last-child) {
+    border-right: 0;
+  }
+
+}
+
+/* =========================================================
+   OVERRIDES PARA PÁGINAS INTERNAS
+   ========================================================= */
+
+:root {
+  --glass: rgba(255,255,255,.82);
+  --glass-strong: rgba(255,255,255,.92);
+  --glass-soft: rgba(248,250,252,.78);
+
+  --text: #172231;
+  --muted: #64748B;
+
+  --accent: #3478C9;
+  --accent-strong: #1F67B8;
+
+  --border: rgba(23,34,49,.11);
+  --shadow: 0 16px 40px rgba(31,50,70,.08);
+}
+
+
+/* Fundo usado pelas páginas internas */
+
+body::before {
+  background:
+    linear-gradient(
+      rgba(244,247,250,.82),
+      rgba(244,247,250,.90)
+    ),
+    url('../images/vinicius-henrique-photography-A7GwggrhXm4-unsplash.jpg')
+    center center / cover no-repeat !important;
+}
+
+
+/* Navegação */
+
+.top-nav {
+  background: rgba(248,250,252,.90) !important;
+  border-bottom: 1px solid rgba(23,34,49,.08) !important;
+  box-shadow: none !important;
+}
+
+.top-nav a {
+  color: #374151 !important;
+}
+
+.top-nav a:hover,
+.top-nav a[aria-current="page"] {
+  color: var(--accent) !important;
+}
+
+
+/* Títulos */
+
+h1,
+h2,
+h3,
+.hero h1,
+.section-title {
+  color: #172231 !important;
+}
+
+
+/* Texto */
+
+p,
+.section p,
+.hero p {
+  color: #526174;
+}
+
+
+/* Cards e seções */
+
+.section,
+.card,
+.member,
+.publication {
+  background: rgba(255,255,255,.82) !important;
+  border-color: rgba(23,34,49,.11) !important;
+  color: #172231 !important;
+  box-shadow: var(--shadow) !important;
+}
+
+
+/* Hover */
+
+.section:hover,
+.card:hover,
+.member:hover,
+.publication:hover {
+  background: rgba(255,255,255,.94) !important;
+}
+
+
+/* Campos de busca */
+
+.toolbar input,
+.toolbar select {
+  background: rgba(255,255,255,.82) !important;
+  color: #172231 !important;
+  border-color: rgba(23,34,49,.16) !important;
+}
+
+.toolbar input::placeholder {
+  color: #7A8796 !important;
+}
+
+.toolbar select option {
+  background: #ffffff !important;
+  color: #172231 !important;
+}
+
+
+/* Botões */
+
+.hero .button {
+  background: rgba(255,255,255,.60) !important;
+  color: var(--accent) !important;
+  border-color: rgba(23,34,49,.18) !important;
+}
+
