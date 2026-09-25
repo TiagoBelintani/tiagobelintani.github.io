@@ -405,7 +405,7 @@ h2{
   grid-template-columns:
     repeat(
       auto-fit,
-      minmax(240px,1fr)
+      minmax(260px,1fr)
     );
 
   gap:24px;
@@ -431,9 +431,15 @@ h2{
     var(--shadow);
 
   padding:
-    28px 24px;
+    24px 22px;
 
   text-align:center;
+
+  min-height:96px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   backdrop-filter:
     blur(16px)
@@ -461,33 +467,6 @@ h2{
 }
 
 
-/* =========================================================
-   MEMBER IMAGE
-   ========================================================= */
-
-.member img{
-
-  width:160px;
-
-  height:160px;
-
-  object-fit:cover;
-
-  border-radius:50%;
-
-  border:
-    3px solid rgba(195,210,224,.38);
-
-  box-shadow:
-    0 6px 20px rgba(8,12,17,.20);
-
-  margin-bottom:16px;
-
-  background:
-    rgba(255,255,255,.08);
-
-}
-
 
 /* =========================================================
    MEMBER NAME
@@ -496,7 +475,7 @@ h2{
 .member h3{
 
   margin:
-    0 0 10px;
+    0;
 
   color:#f3f6f8;
 
@@ -517,27 +496,6 @@ h2{
 
 }
 
-
-/* =========================================================
-   MEMBER DETAILS
-   ========================================================= */
-
-.member p{
-
-  font-family:
-    'Inter',
-    system-ui,
-    sans-serif;
-
-  font-size:1rem;
-
-  line-height:1.7;
-
-  margin:0;
-
-  color:#d2d8de;
-
-}
 
 
 /* =========================================================
@@ -609,15 +567,6 @@ a{
 
   }
 
-
-  .member img{
-
-    width:145px;
-
-    height:145px;
-
-  }
-
 }
 
 
@@ -658,76 +607,431 @@ a{
 
   }
 
-
-  .member img{
-
-    width:150px;
-
-    height:150px;
-
-  }
-
 }
 
 
+/* =========================================================
+   COLLABORATING INSTITUTIONS — SINGLE WHITE BOX
+   ========================================================= */
+
+.institutions-section{
+  margin-top:42px;
+}
+
+.institutions-section h2{
+  margin-bottom:18px;
+}
+
+.institutions-single-box{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:28px 34px;
+
+  width:100%;
+  padding:28px 30px;
+
+  background:#ffffff;
+  border:1px solid rgba(23,34,49,.10);
+  border-radius:18px;
+  box-shadow:0 12px 32px rgba(31,50,70,.08);
+}
+
+.institution-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  width:145px;
+  min-height:150px;
+
+  color:#526174;
+  text-decoration:none;
+  text-align:center;
+}
+
+.institution-item img{
+  display:block;
+  width:100%;
+  height:92px;
+  object-fit:contain;
+}
+
+.institution-item span{
+  font-family:"Inter",sans-serif;
+  font-size:.82rem;
+  line-height:1.25;
+  color:#526174;
+}
+
+.institution-item:hover span{
+  color:#3478C9;
+}
+
+@media (max-width:900px){
+  .institutions-single-box{
+    gap:24px;
+    padding:24px 20px;
+  }
+
+  .institution-item{
+    width:130px;
+  }
+}
+
+@media (max-width:600px){
+  .institutions-single-box{
+    justify-content:center;
+    gap:22px 18px;
+  }
+
+  .institution-item{
+    width:112px;
+    min-height:130px;
+  }
+
+  .institution-item img{
+    height:78px;
+  }
+
+  .institution-item span{
+    font-size:.76rem;
+  }
+}
+/* Exact supplied Fiocruz negative logo */
+.fiocruz-item img{
+  background:#000;
+  border-radius:8px;
+  padding:10px 12px;
+}
+
+/* Keep all institutions aligned in the single shared white panel */
+.institutions-single-box{
+  align-items:flex-start;
+}
+
+.institution-item img{
+  height:96px;
+  max-width:150px;
+  object-fit:contain;
+}
+
+.institution-item{
+  width:150px;
+}
+/* =========================================================
+   COLLABORATING INSTITUTIONS — FINAL LOGO LAYOUT
+   ========================================================= */
+
+.institutions-single-box{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(125px,1fr));
+  align-items:start;
+  gap:30px 24px;
+
+  width:100%;
+  padding:34px 32px;
+
+  background:#ffffff;
+  border:1px solid rgba(23,34,49,.10);
+  border-radius:18px;
+  box-shadow:0 12px 32px rgba(31,50,70,.08);
+}
+
+.institution-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+
+  min-width:0;
+  text-align:center;
+  text-decoration:none;
+}
+
+.institution-item img{
+  display:block;
+  width:100%;
+  max-width:165px;
+  height:105px;
+  object-fit:contain;
+}
+
+.institution-item span{
+  max-width:180px;
+  font-family:"Inter",sans-serif;
+  font-size:.82rem;
+  line-height:1.3;
+  color:#526174;
+}
+
+.institution-item:hover span{
+  color:#3478C9;
+}
+
+/* Logos supplied with dark backgrounds stay exactly as supplied. */
+.fiocruz-item img{
+  background:#000;
+}
+
+/* LARC/Hamilton artwork may also contain a dark canvas; keep original file appearance. */
+
+@media (max-width:1200px){
+  .institutions-single-box{
+    grid-template-columns:repeat(4,minmax(125px,1fr));
+  }
+}
+
+@media (max-width:760px){
+  .institutions-single-box{
+    grid-template-columns:repeat(2,minmax(110px,1fr));
+    gap:26px 18px;
+    padding:26px 18px;
+  }
+
+  .institution-item img{
+    height:90px;
+  }
+
+  .institution-item span{
+    font-size:.76rem;
+  }
+}
 </style>
 
-  <link rel="stylesheet" href="assets/css/theme-soft.css">
+
+<!-- Unified site typography and theme -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme-soft.css">
+
+<style>
+/* =========================================================
+   COLLABORATORS — PAGE-SPECIFIC LAYOUT
+   ========================================================= */
+
+body.collaborators-page .simple-hero{
+  max-width:780px;
+  margin:0 auto 34px;
+  text-align:center;
+}
+
+body.collaborators-page .simple-hero h1{
+  margin-bottom:10px;
+}
+
+body.collaborators-page .simple-hero > p:last-child{
+  max-width:720px;
+  margin:0 auto;
+  color:#526174;
+}
+
+body.collaborators-page .team-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:16px !important;
+}
+
+body.collaborators-page .member{
+  min-height:0 !important;
+  display:block !important;
+  text-align:left !important;
+  padding:19px 20px !important;
+  border-radius:14px !important;
+  background:rgba(255,255,255,.78) !important;
+}
+
+body.collaborators-page .member:hover{
+  transform:translateY(-1px) !important;
+  background:rgba(255,255,255,.92) !important;
+}
+
+.member-role{
+  margin:0 0 5px;
+  font-family:"Inter",sans-serif;
+  font-size:.68rem;
+  line-height:1.2;
+  font-weight:700;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478c9;
+}
+
+body.collaborators-page .member h3{
+  margin:0 0 5px !important;
+  font-family:"Cormorant Garamond",serif !important;
+  font-size:1.42rem !important;
+  line-height:1.08 !important;
+  font-weight:600 !important;
+  letter-spacing:-.01em !important;
+  color:#172231 !important;
+}
+
+.member-affiliation{
+  margin:0 !important;
+  font-size:.84rem !important;
+  line-height:1.4 !important;
+  font-weight:500;
+  color:#40546a !important;
+}
+
+.member-area{
+  margin:8px 0 0 !important;
+  font-size:.76rem !important;
+  line-height:1.42 !important;
+  color:#718096 !important;
+}
+
+.institutions-section{
+  margin-top:52px;
+  padding-top:30px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+
+.institutions-section h2{
+  margin:0 0 6px !important;
+  text-align:left !important;
+  font-family:"Cormorant Garamond",serif !important;
+  font-size:clamp(2rem,4vw,2.75rem) !important;
+  font-weight:600 !important;
+  color:#172231 !important;
+}
+
+.institutions-intro{
+  max-width:720px;
+  margin:0 0 26px !important;
+  color:#64748b !important;
+  font-size:.92rem !important;
+}
+
+.institution-group-title{
+  margin:26px 0 14px;
+  font-family:"Inter",sans-serif;
+  font-size:.68rem;
+  line-height:1.2;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:#718096;
+}
+
+.institution-logo-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:22px 28px;
+  align-items:start;
+}
+
+.institution-logo-grid.international{
+  grid-template-columns:repeat(2,minmax(0,240px));
+}
+
+.institution-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  min-width:0;
+  text-decoration:none;
+  color:inherit;
+}
+
+.institution-logo img{
+  display:block;
+  width:100%;
+  height:138px;
+  object-fit:contain;
+  background:#ffffff;
+  border:1px solid rgba(23,34,49,.10);
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 6px 18px rgba(31,50,70,.08);
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+}
+
+.institution-logo span{
+  display:block;
+  max-width:230px;
+  text-align:center;
+  color:#526174;
+  font-size:.92rem;
+  line-height:1.35;
+  transition:color .18s ease;
+}
+
+.institution-logo:hover img{
+  transform:translateY(-2px);
+  border-color:rgba(52,120,201,.28);
+  box-shadow:0 10px 24px rgba(31,50,70,.11);
+}
+
+.institution-logo:hover span{
+  color:#3478C9;
+}
+
+.logo-note{
+  margin:24px 0 0;
+  font-size:.72rem;
+  line-height:1.45;
+  color:#8793a3;
+}
+
+@media(max-width:900px){
+  body.collaborators-page .team-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+
+  .institution-logo-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:620px){
+  body.collaborators-page .team-grid,
+  .institution-logo-grid,
+  .institution-logo-grid.international{
+    grid-template-columns:1fr !important;
+  }
+
+  .institution-logo img{
+    max-width:185px;
+  }
+}
+</style>
+
 </head>
 
 
-<body>
+<body class="collaborators-page">
 
 
 <!-- =========================================================
      NAVIGATION
      ========================================================= -->
 
-<nav class="top-nav">
-
-  <ul>
-
-    <li>
-      <a href="index.html">
-        Home
-      </a>
-    </li>
-
-    <li>
-      <a href="publications.html">
-        Publications
-      </a>
-    </li>
-
-    <li>
-      <a href="research.html">
-        Research
-      </a>
-    </li>
-
-    <li>
-      <a href="repositories.html">
-        Code &amp; Repositories
-      </a>
-    </li>
-
-    <li>
-      <a
-        href="collaborators.html"
-        aria-current="page"
-      >
-        Collaborators
-      </a>
-    </li>
-
-    <li>
-      <a href="contact.html">
-        Contact
-      </a>
-    </li>
-
-  </ul>
-
+<nav class="top-nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">Tiago Belintani</a>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a class="bioinfo-nav" href="bioinfo-chat.html">BioInfo Chat</a></li>
+        <li><a href="teaching.html">Teaching</a></li>
+        <li><a href="repositories.html">Code &amp; Repositories</a></li>
+        <li><a href="collaborators.html" aria-current="page">Collaborators</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
 </nav>
 
 
@@ -739,229 +1043,145 @@ a{
 <div class="container">
 
 
-<h1>
-
-  Tiago Belintani
-
-  <span></span>
-
-</h1>
-
-
-<h2>
-  Collaborators
-</h2>
-
-
+<header class="simple-hero">
+  <p class="page-kicker">Network</p>
+  <h1>Collaborators</h1>
+  <p>Researchers and institutions connected through evolutionary biology, systematics, genomics, phylogenomics and bioinformatics.</p>
+</header>
 
 <!-- =========================================================
-     TEAM
+     COLLABORATORS
      ========================================================= -->
 
 <div class="team-grid">
 
+  <article class="member">
+    <p class="member-role">Prof. Dr.</p>
+    <h3>José Paulo Leite Guadanucci</h3>
+    <p class="member-affiliation">UNESP · Instituto de Biociências, Rio Claro</p>
+    <p class="member-area">Arachnology · Systematics · Theraphosidae</p>
+  </article>
 
-<!-- José Paulo Leite Guadanucci -->
+  <article class="member">
+    <p class="member-role">Prof. Dr.</p>
+    <h3>João Aristeu da Rosa</h3>
+    <p class="member-affiliation">UNESP · Faculdade de Ciências Farmacêuticas, Araraquara</p>
+    <p class="member-area">Triatominae · Vector biology · Taxonomy</p>
+  </article>
 
-<div class="member">
+  <article class="member">
+    <p class="member-role">Dr.</p>
+    <h3>Cleber Galvão</h3>
+    <p class="member-affiliation">Instituto Oswaldo Cruz / Fiocruz · LNIRTT</p>
+    <p class="member-area">Triatominae · Taxonomy · Vector biology</p>
+  </article>
 
-  <img
-    src="assets/images/jose.png"
-    alt="José Paulo Leite Guadanucci"
-  >
+  <article class="member">
+    <p class="member-role">Prof. Dr.</p>
+    <h3>Reinaldo A. de Brito</h3>
+    <p class="member-affiliation">UFSCar · Departamento de Genética e Evolução</p>
+    <p class="member-area">Population genetics · Evolutionary genomics</p>
+  </article>
 
-  <h3>
-    José Paulo Leite Guadanucci
-  </h3>
+  <article class="member">
+    <p class="member-role">Dr.</p>
+    <h3>Arthur Galleti-Lima</h3>
+    <p class="member-affiliation">Instituto Butantan · Laboratório de Coleções Zoológicas</p>
+    <p class="member-area">Arachnology · Systematics · Morphology</p>
+  </article>
 
-  <p>
-    Assistant Professor
-    <br>
-    São Paulo State University
-    <br>
-    Rio Claro, Brazil
-  </p>
+  <article class="member">
+    <p class="member-role">Dr.</p>
+    <h3>Samira Chahad-Ehlers</h3>
+    <p class="member-affiliation">UFSCar · Departamento de Genética e Evolução</p>
+    <p class="member-area">Entomology · Molecular evolution · Chronobiology</p>
+  </article>
 
-</div>
+  <article class="member">
+    <p class="member-role">Assoc. Prof. Dr.</p>
+    <h3>Chris A. Hamilton</h3>
+    <p class="member-affiliation">University of Idaho · Entomology, Plant Pathology &amp; Nematology</p>
+    <p class="member-area">Arachnology · Phylogenomics · Evolution</p>
+  </article>
 
-
-
-<!-- João Aristeu da Rosa -->
-
-<div class="member">
-
-  <img
-    src="assets/images/aristeu.png"
-    alt="João Aristeu da Rosa"
-  >
-
-  <h3>
-    João Aristeu da Rosa
-  </h3>
-
-  <p>
-    Professor
-    <br>
-    São Paulo State University
-    <br>
-    Brazil
-  </p>
-
-</div>
-
-
-
-<!-- Chris A. Hamilton -->
-
-<div class="member">
-
-  <img
-    src="assets/images/chris.png"
-    alt="Chris A. Hamilton"
-  >
-
-  <h3>
-    Chris A. Hamilton
-  </h3>
-
-  <p>
-    Assistant Professor
-    <br>
-    University of Idaho
-    <br>
-    United States
-  </p>
+  <article class="member">
+    <p class="member-role">Dr.</p>
+    <h3>Carlos Congrains</h3>
+    <p class="member-affiliation">University of Hawaiʻi at Mānoa · PEPS</p>
+    <p class="member-area">Evolutionary genomics · Phylogenomics · Bioinformatics</p>
+  </article>
 
 </div>
 
+<!-- =========================================================
+     COLLABORATING INSTITUTIONS
+     ========================================================= -->
 
+<section class="institutions-section">
+  <h2>Collaborating Institutions</h2>
 
-<!-- Cleber Galvão -->
+  <div class="institutions-single-box">
 
-<div class="member">
+    <!-- Brazilian institutions -->
 
-  <img
-    src="assets/images/cleber.png"
-    alt="Cleber Galvão"
-  >
+    <a class="institution-item" href="https://www.fcfar.unesp.br/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/fcfar.png"
+           alt="Faculdade de Ciências Farmacêuticas da UNESP, Araraquara">
+      <span>UNESP · FCFAr · Araraquara</span>
+    </a>
 
-  <h3>
-    Cleber Galvão
-  </h3>
+    <a class="institution-item" href="https://ib.rc.unesp.br/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/ib_rio_claro.png"
+           alt="Instituto de Biociências da UNESP, Rio Claro">
+      <span>UNESP · Instituto de Biociências · Rio Claro</span>
+    </a>
 
-  <p>
-    Researcher
-    <br>
-    Oswaldo Cruz Foundation (Fiocruz)
-    <br>
-    Rio de Janeiro, Brazil
-  </p>
+    <div class="institution-item">
+      <img src="assets/images/collaborators/larc.png"
+           alt="LARC">
+      <span>LARC</span>
+    </div>
 
-</div>
+    <a class="institution-item" href="https://www.ufscar.br/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/ufscar.png"
+           alt="Universidade Federal de São Carlos">
+      <span>UFSCar</span>
+    </a>
 
+    <a class="institution-item" href="https://www.fsp.usp.br/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/usp_fsp.png"
+           alt="Faculdade de Saúde Pública da Universidade de São Paulo">
+      <span>USP · Faculdade de Saúde Pública</span>
+    </a>
 
+    <a class="institution-item fiocruz-item" href="https://portal.fiocruz.br/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/fiocruz.png"
+           alt="Fiocruz">
+      <span>Fiocruz</span>
+    </a>
 
-<!-- Reinaldo A. de Brito -->
+    <!-- International institutions -->
 
-<div class="member">
+    <a class="institution-item" href="https://thehamiltonlab.github.io/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/hamilton_lab.png"
+           alt="Hamilton Lab, University of Idaho">
+      <span>Hamilton Lab · University of Idaho</span>
+    </a>
 
-  <img
-    src="assets/images/reinaldo.png"
-    alt="Reinaldo A. de Brito"
-  >
+    <a class="institution-item" href="https://www.uidaho.edu/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/idaho.png"
+           alt="University of Idaho">
+      <span>University of Idaho</span>
+    </a>
 
-  <h3>
-    Reinaldo A. de Brito
-  </h3>
+    <a class="institution-item" href="https://manoa.hawaii.edu/" target="_blank" rel="noopener noreferrer">
+      <img src="assets/images/collaborators/hawaii_manoa.png"
+           alt="University of Hawaiʻi at Mānoa">
+      <span>University of Hawaiʻi at Mānoa</span>
+    </a>
 
-  <p>
-    Associate Professor
-    <br>
-    Federal University of São Carlos
-    <br>
-    São Carlos, Brazil
-  </p>
-
-</div>
-
-
-
-<!-- Arthur Galleti-Lima -->
-
-<div class="member">
-
-  <img
-    src="assets/images/arthur.png"
-    alt="Arthur Galleti-Lima"
-  >
-
-  <h3>
-    Arthur Galleti-Lima
-  </h3>
-
-  <p>
-    PhD Researcher
-    <br>
-    São Paulo State University
-    <br>
-    Brazil
-  </p>
-
-</div>
-
-
-
-<!-- Samira Chahad-Ehlers -->
-
-<div class="member">
-
-  <img
-    src="assets/images/samira.png"
-    alt="Samira Chahad-Ehlers"
-  >
-
-  <h3>
-    Samira Chahad-Ehlers
-  </h3>
-
-  <p>
-    Postdoctoral Researcher
-    <br>
-    Federal University of São Carlos
-    <br>
-    São Carlos, Brazil
-  </p>
-
-</div>
-
-
-
-<!-- Carlos Congrains -->
-
-<div class="member">
-
-  <img
-    src="assets/images/carlos.png"
-    alt="Carlos Congrains"
-  >
-
-  <h3>
-    Carlos Congrains
-  </h3>
-
-  <p>
-    Junior Researcher
-    <br>
-    University of Hawaiʻi at Mānoa
-    <br>
-    Honolulu, USA
-  </p>
-
-</div>
-
-
-</div>
-
+  </div>
+</section>
 
 </div>
 

@@ -592,7 +592,12 @@ footer{
 
 </style>
 
-  <link rel="stylesheet" href="assets/css/theme-soft.css">
+
+<!-- Unified site typography and theme -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme-soft.css">
 </head>
 
 
@@ -603,51 +608,20 @@ footer{
      TOP NAVIGATION
      ===================================================== -->
 
-<nav class="top-nav">
-
-  <ul>
-
-    <li>
-      <a href="index.html">
-        Home
-      </a>
-    </li>
-
-    <li>
-      <a href="publications.html">
-        Publications
-      </a>
-    </li>
-
-    <li>
-      <a
-        href="research.html"
-        aria-current="page"
-      >
-        Research
-      </a>
-    </li>
-
-    <li>
-      <a href="repositories.html">
-        Code &amp; Repositories
-      </a>
-    </li>
-
-    <li>
-      <a href="collaborators.html">
-        Collaborators
-      </a>
-    </li>
-
-    <li>
-      <a href="contact.html">
-        Contact
-      </a>
-    </li>
-
-  </ul>
-
+<nav class="top-nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">Tiago Belintani</a>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="research.html" aria-current="page">Research</a></li>
+        <li><a class="bioinfo-nav" href="bioinfo-chat.html">BioInfo Chat</a></li>
+        <li><a href="teaching.html">Teaching</a></li>
+        <li><a href="repositories.html">Code &amp; Repositories</a></li>
+        <li><a href="collaborators.html">Collaborators</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
 </nav>
 
 
@@ -659,15 +633,7 @@ footer{
 <div class="container">
 
 
-  <h1>
-    Tiago Belintani
-    <span></span>
-  </h1>
-
-
-  <h2>
-    Research
-  </h2>
+  <header class="simple-hero"><p class="page-kicker">Research</p><h1>Research</h1><p>Evolutionary biology, systematics, phylogenomics and genomic analyses.</p></header>
 
 
 
