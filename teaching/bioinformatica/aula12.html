@@ -125,6 +125,14 @@
   .record-fields{font-size:.82rem;}
 }
 </style>
+
+<style>
+.path-grid{display:grid;grid-template-columns:150px 1fr;gap:9px 14px;margin:16px 0}
+.path-grid dt{font:600 .84rem/1.4 "Inter",sans-serif;color:#64748B}
+.path-grid dd{margin:0;font:500 .88rem/1.45 "Inter",sans-serif;color:#25374A;overflow-wrap:anywhere}
+.start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
+</style>
+
 </head>
 <body>
 
@@ -163,6 +171,23 @@
       </a>
     </div>
   </header>
+
+<section class="tutorial-card">
+<h2>Antes de começar — retomar o projeto</h2>
+<p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
+<div class="code-sample">/content/drive/MyDrive/Bioinformatica_Biologia_Molecular</div>
+<div class="start-sequence">runtime → Drive → raiz do projeto → verificar entrada → acessar saída → executar a etapa</div>
+<dl class="path-grid">
+<dt>Entrada</dt><dd>05_spades/spades-assemblies/contigs/*.contigs.fasta</dd>
+<dt>Saída</dt><dd>06_uce_match/uce-search-results/</dd>
+<dt>Ambiente</dt><dd>phyluce-1.7.3</dd>
+<dt>Pré-requisito</dt><dd>Os contigs montados na Aula 5.</dd>
+</dl>
+<p>Daqui em diante, a organização <code>contigs → uce-search-results → taxon-sets</code> acompanha a lógica do tutorial oficial do PHYLUCE.</p>
+<p>O notebook começa mostrando o diretório atual, os caminhos usados e se o arquivo obrigatório da etapa anterior foi encontrado. Se faltar uma entrada, a execução é interrompida com uma mensagem clara.</p>
+</section>
+
+
 
 <section class="tutorial-card">
 <h2>Objetivos</h2>

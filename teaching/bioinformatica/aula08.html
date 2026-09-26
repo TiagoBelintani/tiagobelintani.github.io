@@ -28,6 +28,14 @@
 .next-step{margin-top:28px;padding:21px 24px;background:rgba(52,120,201,.08);border:1px solid rgba(52,120,201,.18);border-radius:14px}
 .tutorial-nav{display:flex;justify-content:space-between;gap:16px;margin-top:30px;padding-top:20px;border-top:1px solid rgba(23,34,49,.10)}.tutorial-nav a{font:600 .90rem/1.3 "Inter",sans-serif;color:#3478C9;text-decoration:none}
 </style>
+
+<style>
+.path-grid{display:grid;grid-template-columns:150px 1fr;gap:9px 14px;margin:16px 0}
+.path-grid dt{font:600 .84rem/1.4 "Inter",sans-serif;color:#64748B}
+.path-grid dd{margin:0;font:500 .88rem/1.45 "Inter",sans-serif;color:#25374A;overflow-wrap:anywhere}
+.start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
+</style>
+
 </head>
 <body>
 <nav class="top-nav" aria-label="Primary navigation">
@@ -49,6 +57,23 @@
 <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
 </div>
 </header>
+
+<section class="tutorial-card">
+<h2>Antes de começar — retomar o projeto</h2>
+<p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
+<div class="code-sample">/content/drive/MyDrive/Bioinformatica_Biologia_Molecular</div>
+<div class="start-sequence">runtime → Drive → raiz do projeto → verificar entrada → acessar saída → executar a etapa</div>
+<dl class="path-grid">
+<dt>Entrada</dt><dd>01_bancos/MK270576.1.fasta</dd>
+<dt>Saída</dt><dd>02_blast/</dd>
+<dt>Ambiente</dt><dd>bioinfo + BLAST</dd>
+<dt>Pré-requisito</dt><dd>A sequência produzida na prática de Bancos biológicos.</dd>
+</dl>
+
+<p>O notebook começa mostrando o diretório atual, os caminhos usados e se o arquivo obrigatório da etapa anterior foi encontrado. Se faltar uma entrada, a execução é interrompida com uma mensagem clara.</p>
+</section>
+
+
 
 <section class="tutorial-card"><h2>Objetivos</h2><ul>
 <li>compreender o que Conda gerencia;</li>
