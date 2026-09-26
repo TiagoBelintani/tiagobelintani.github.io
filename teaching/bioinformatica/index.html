@@ -119,9 +119,93 @@
   color:#3478C9;
 }
 
+
+
+.project-section{
+  margin-top:56px;
+  padding-top:34px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+
+.project-kicker{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+
+.project-section h2{
+  margin:0 0 10px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.15rem,4vw,3.25rem);
+  font-weight:600;
+  line-height:1.05;
+  color:#172231;
+}
+
+.project-section > p{
+  max-width:800px;
+  margin:0 0 22px;
+  font:400 .96rem/1.7 "Inter",sans-serif;
+  color:#526174;
+}
+
+.project-card{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:28px;
+  align-items:center;
+  padding:28px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:18px;
+}
+
+.project-card strong{
+  display:block;
+  margin-bottom:8px;
+  font:600 1.08rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+
+.project-card p{
+  margin:0 0 12px;
+  font:400 .9rem/1.6 "Inter",sans-serif;
+  color:#526174;
+}
+
+.project-flow{
+  font:500 .84rem/1.55 "Inter",sans-serif;
+  color:#465568;
+}
+
+.project-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:150px;
+  padding:12px 18px;
+  border-radius:10px;
+  background:#3478C9;
+  color:#fff;
+  text-decoration:none;
+  font:600 .86rem/1.2 "Inter",sans-serif;
+}
+
+.project-button:hover{opacity:.92;}
+
 @media(max-width:650px){
   .lesson{
     grid-template-columns:1fr auto;
+  }
+
+  .project-card{
+    grid-template-columns:1fr;
+  }
+
+  .project-button{
+    width:100%;
   }
 
 }
@@ -243,6 +327,31 @@
       <div class="lesson-arrow">→</div>
     </a>
 
+  </section>
+
+
+  <section class="project-section" aria-labelledby="projeto-didatico">
+    <div class="project-kicker">Projeto integrador</div>
+    <h2 id="projeto-didatico">Projeto Didático-Prático</h2>
+    <p>
+      Em três grupos, os estudantes irão reconstruir parte do pipeline de artigos científicos reais,
+      trabalhando com arquivos FASTQ fornecidos pelo professor até a montagem de novo e geração de contigs.
+      O projeto termina com relatório técnico-científico e seminário com foco em Materials and Methods.
+    </p>
+
+    <div class="project-card">
+      <div>
+        <strong>Reprodução parcial de pipelines publicados</strong>
+        <p>
+          Cada grupo trabalhará com um artigo e um conjunto de dados distinto. Os materiais da prática,
+          arquivos de entrada, tutorial, notebook e orientações de entrega ficam reunidos em uma área própria.
+        </p>
+        <div class="project-flow">
+          Artigo → FASTQ → FastQC / MultiQC → trimming → SPAdes → contigs → relatório → seminário
+        </div>
+      </div>
+      <a class="project-button" href="projeto/index.html">Acessar projeto →</a>
+    </div>
   </section>
 
 </main>
