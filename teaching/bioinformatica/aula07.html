@@ -517,140 +517,10 @@
   </section>
 
 
-  <section class="tutorial-card">
-    <div class="tutorial-kicker">Dataset da disciplina</div>
-    <h2>5. De uma sequência a um conjunto filogenômico</h2>
-
-    <p>
-      Até este ponto trabalhamos com um registro individual e com uma sequência
-      em formato FASTA. Nas próximas práticas vamos avançar para dados de
-      sequenciamento de alto rendimento e utilizar um conjunto real de
-      <strong>Ultraconserved Elements (UCEs)</strong> como modelo para acompanhar
-      todo o fluxo bioinformático da disciplina.
-    </p>
-
-    <h3>O estudo que gerou os dados</h3>
-
-    <p>
-      O conjunto de dados foi produzido no estudo de
-      <strong>Ciaccio, Debray e Hedin (2022)</strong>:
-      <em>Phylogenomics of paleoendemic lampshade spiders (Araneae,
-      Hypochilidae, Hypochilus), with the description of a new species from
-      montane California</em>, publicado na revista <em>ZooKeys</em>.
-    </p>
-
-    <div class="concept">
-      <strong>Por que esse estudo é interessante?</strong>
-      <em>Hypochilus</em> é uma linhagem antiga de aranhas norte-americanas,
-      com populações distribuídas em regiões montanhosas geograficamente
-      separadas. A morfologia é relativamente conservada, mas existe forte
-      estruturação genética, tornando o grupo adequado para discutir
-      filogenômica, delimitação de espécies e biogeografia.
-    </div>
-
-    <p>
-      Os autores reuniram dados filogenômicos de <strong>43 espécimes de
-      <em>Hypochilus</em></strong>, representando as dez espécies descritas no
-      momento do estudo. Para investigar as relações entre essas linhagens,
-      foram utilizados loci UCE obtidos por captura direcionada e
-      sequenciamento Illumina.
-    </p>
-
-    <div class="example-record">
-      <dt>Artigo</dt>
-      <dd>Ciaccio, Debray &amp; Hedin (2022)</dd>
-
-      <dt>Organismo</dt>
-      <dd><em>Hypochilus</em> spp. — Hypochilidae</dd>
-
-      <dt>Amostragem</dt>
-      <dd>43 espécimes representando 10 espécies descritas</dd>
-
-      <dt>Tipo de dado</dt>
-      <dd>UCE — captura direcionada, reads Illumina paired-end</dd>
-
-      <dt>BioProject</dt>
-      <dd><strong>PRJNA760946</strong></dd>
-
-      <dt>Run modelo</dt>
-      <dd><strong>SRR15736591</strong> — <em>Hypochilus petrunkevitchi</em></dd>
-    </div>
-
-    <div class="action-row">
-      <a class="action"
-         href="https://doi.org/10.3897/zookeys.1086.77190"
-         target="_blank" rel="noopener noreferrer">
-        Abrir artigo
-      </a>
-
-      <a class="action secondary"
-         href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA760946"
-         target="_blank" rel="noopener noreferrer">
-        Abrir BioProject
-      </a>
-
-      <a class="action secondary"
-         href="https://www.ncbi.nlm.nih.gov/sra/SRX12029888"
-         target="_blank" rel="noopener noreferrer">
-        Abrir amostra modelo no SRA
-      </a>
-    </div>
-
-    <h3>O que os autores obtiveram?</h3>
-
-    <p>
-      A matriz inicial do estudo reuniu <strong>623 loci UCE</strong>.
-      Após filtragem, os autores trabalharam com uma matriz de
-      <strong>550 loci</strong>. Esses dados permitiram reconstruir as relações
-      filogenéticas do gênero e investigar linhagens geográficas e limites
-      entre espécies.
-    </p>
-
-    <div class="concept">
-      <strong>Nosso objetivo será diferente.</strong>
-      Não vamos tentar reproduzir todo o artigo nem chegar à árvore
-      filogenética final. O estudo será nosso <strong>modelo de dados</strong>:
-      utilizaremos os reads públicos disponibilizados pelos autores para
-      aprender, passo a passo, como um conjunto de UCEs é processado.
-    </div>
-
-    <h3>Como esse dataset aparecerá nas próximas práticas?</h3>
-
-    <div class="flow-box">
-      NCBI / SRA
-      <span class="flow-arrow">→</span>
-      FASTQ paired-end
-      <span class="flow-arrow">→</span>
-      controle de qualidade
-      <span class="flow-arrow">→</span>
-      trimming
-      <span class="flow-arrow">→</span>
-      montagem de novo
-      <span class="flow-arrow">→</span>
-      contigs
-      <span class="flow-arrow">→</span>
-      identificação de UCEs
-      <span class="flow-arrow">→</span>
-      FASTA de loci UCE
-    </div>
-
-    <p>
-      O primeiro run que utilizaremos será <strong>SRR15736591</strong>, de
-      <em>Hypochilus petrunkevitchi</em>. Nas atividades didáticas poderemos
-      trabalhar inicialmente com uma fração dos reads para que as análises
-      sejam executadas em tempo compatível com o Google Colab e com o período
-      de aula.
-    </p>
-
-    <div class="question">
-      Ao ler o resumo do artigo, identifique: qual problema biológico motivou
-      o uso de dados filogenômicos e por que centenas de loci UCE podem ser
-      mais informativos que uma única sequência de COI?
-    </div>
-  </section>
+  
 
   <section class="tutorial-card">
-    <h2>6. Prática guiada no Google Colab</h2>
+    <h2>5. Prática guiada no Google Colab</h2>
 
     <p>
       A partir deste ponto, a atividade será realizada em conjunto com o
@@ -686,7 +556,7 @@
   </section>
 
   <section class="tutorial-card">
-    <h2>7. Atividade orientada</h2>
+    <h2>6. Atividade orientada</h2>
 
     <p>
       No NCBI Nucleotide, faça uma busca utilizando:
