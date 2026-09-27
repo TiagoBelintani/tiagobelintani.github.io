@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ambientes Conda e BLAST | Bioinformática e Biologia Molecular</title>
-<meta name="description" content="Introdução a ambientes Conda, instalação reprodutível de ferramentas e busca de similaridade com BLAST.">
+<title>Alinhamento e BLAST | Bioinformática e Biologia Molecular</title>
+<meta name="description" content="Introdução ao alinhamento de sequências e ao BLAST, com interpretação de identidade, cobertura, E-value, bit score e execução de BLAST+ local.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -47,98 +47,884 @@
 </div>
 </nav>
 <main class="tutorial-page">
-<div class="breadcrumb"><a href="../../teaching.html">Teaching</a> / <a href="index.html">Bioinformática e Biologia Molecular</a> / Ambientes Conda e BLAST</div>
-<header class="tutorial-header">
-<div class="tutorial-kicker">Prática 2</div>
-<h1>Ambientes Conda e BLAST</h1>
-<p class="lead">Preparar um ambiente computacional reproduzível, instalar uma ferramenta quando ela se torna necessária e utilizar BLAST para investigar similaridade entre sequências.</p>
-<div class="action-row">
-<a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/02_BLAST.ipynb" target="_blank" rel="noopener noreferrer">Abrir notebook no Google Colab</a>
-<a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
-</div>
-</header>
 
-<section class="tutorial-card">
-<h2>Antes de começar — retomar o projeto</h2>
-<p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
-<div class="code-sample">/content/drive/MyDrive/Bioinformatica_Biologia_Molecular</div>
-<div class="start-sequence">runtime → Drive → raiz do projeto → verificar entrada → acessar saída → executar a etapa</div>
-<dl class="path-grid">
-<dt>Entrada</dt><dd>01_bancos/MK270576.1.fasta</dd>
-<dt>Saída</dt><dd>02_blast/</dd>
-<dt>Ambiente</dt><dd>bioinfo + BLAST</dd>
-<dt>Pré-requisito</dt><dd>A sequência produzida na prática de Bancos biológicos.</dd>
-</dl>
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">Bioinformática e Biologia Molecular</a> /
+    Alinhamento e BLAST
+  </div>
 
-<p>O notebook começa mostrando o diretório atual, os caminhos usados e se o arquivo obrigatório da etapa anterior foi encontrado. Se faltar uma entrada, a execução é interrompida com uma mensagem clara.</p>
-</section>
+  <header class="tutorial-header">
+    <div class="tutorial-kicker">Comparação de sequências</div>
+
+    <h1>Alinhamento e BLAST</h1>
+
+    <p class="lead">
+      Agora que sabemos localizar e interpretar uma sequência em um banco
+      biológico, podemos fazer uma nova pergunta: como determinar se duas
+      sequências são semelhantes?
+    </p>
+
+    <div class="class-flow">
+      <div class="class-block">
+        <strong>Primeiro bloco</strong>
+        <span>Alinhamento, similaridade, identidade, homologia e fundamentos do BLAST.</span>
+      </div>
+
+      <div class="class-block">
+        <strong>Segundo bloco</strong>
+        <span>BLAST+, banco local, execução de blastn e interpretação dos resultados.</span>
+      </div>
+    </div>
+  </header>
 
 
+  <section class="tutorial-card">
+    <h2>1. Por que comparar sequências?</h2>
 
-<section class="tutorial-card"><h2>Objetivos</h2><ul>
-<li>compreender o que Conda gerencia;</li>
-<li>entender por que utilizamos ambientes isolados;</li>
-<li>conhecer conda-forge e Bioconda;</li>
-<li>criar o ambiente <strong>bioinfo</strong>;</li>
-<li>instalar e verificar NCBI BLAST+;</li>
-<li>executar BLASTn e interpretar a saída.</li>
-</ul></section>
+    <p>
+      Na aula anterior utilizamos o registro <strong>MH029697.1</strong>,
+      correspondente a uma sequência parcial do gene mitocondrial
+      <strong>COI</strong> de <em>Triatoma sordida</em>.
+    </p>
 
-<section class="tutorial-card"><h2>1. Ferramentas precisam de um ambiente</h2>
-<p>Ao longo da disciplina utilizaremos programas desenvolvidos por diferentes grupos, escritos em linguagens distintas e dependentes de bibliotecas diferentes. Ambientes isolados reduzem conflitos e tornam o processamento mais reprodutível.</p>
-<div class="flow-box">Google Colab <span class="flow-arrow">→</span> Conda <span class="flow-arrow">→</span> ambiente <strong>bioinfo</strong> <span class="flow-arrow">→</span> ferramentas</div>
-<div class="concept"><strong>Ambiente:</strong> espaço isolado no qual instalamos programas e dependências de uma análise.</div>
-</section>
+    <p>
+      Conhecer o organismo, o gene e os metadados do registro é fundamental,
+      mas ainda não responde a perguntas como:
+    </p>
 
-<section class="tutorial-card"><h2>2. Conda, conda-forge e Bioconda</h2>
-<table class="record-fields"><thead><tr><th>Elemento</th><th>Função</th></tr></thead><tbody>
-<tr><td>Conda</td><td>gerencia pacotes, dependências e ambientes;</td></tr>
-<tr><td>conda-forge</td><td>canal comunitário de bibliotecas e ferramentas;</td></tr>
-<tr><td>Bioconda</td><td>canal especializado em software de bioinformática;</td></tr>
-<tr><td>ambiente</td><td>instalação isolada para uma análise ou conjunto de ferramentas.</td></tr>
-</tbody></table></section>
+    <ul>
+      <li>quais outras sequências são parecidas com esta?</li>
+      <li>quais regiões das sequências são semelhantes?</li>
+      <li>qual é a porcentagem de identidade?</li>
+      <li>quanto da nossa sequência foi comparado?</li>
+      <li>a semelhança observada poderia ocorrer ao acaso?</li>
+    </ul>
 
-<section class="tutorial-card"><h2>3. Estratégia da disciplina</h2>
-<p>Não instalaremos tudo no primeiro dia. Cada programa será instalado quando surgir uma necessidade analítica.</p>
-<div class="flow-box">necessidade <span class="flow-arrow">→</span> instalar <span class="flow-arrow">→</span> verificar <span class="flow-arrow">→</span> executar <span class="flow-arrow">→</span> interpretar</div>
-<p>Usaremos um ambiente geral chamado <strong>bioinfo</strong>. Quando chegarmos aos UCEs, criaremos um ambiente específico para <strong>PHYLUCE</strong>.</p></section>
+    <div class="flow-box">
+      MH029697.1<br>
+      ↓<br>
+      sequência de COI<br>
+      ↓<br>
+      comparação com outras sequências<br>
+      ↓<br>
+      alinhamento<br>
+      ↓<br>
+      interpretação biológica
+    </div>
+  </section>
 
-<section class="tutorial-card"><h2>4. Conda no Google Colab</h2>
-<p>Em um terminal comum, a ativação seria:</p><div class="code-sample">conda activate bioinfo</div>
-<p>No Colab, comandos iniciados por <code>!</code> rodam em shells independentes. Por isso, o notebook demonstra a ativação, mas executa ferramentas entre células usando:</p><div class="code-sample">conda run -n bioinfo comando</div>
-</section>
 
-<section class="tutorial-card"><h2>5. Agora precisamos do BLAST</h2>
-<p>Temos uma sequência FASTA e queremos procurar sequências semelhantes nos bancos públicos. Somente agora instalaremos NCBI BLAST+.</p>
-<div class="flow-box">FASTA <span class="flow-arrow">→</span> BLASTn <span class="flow-arrow">→</span> banco nt <span class="flow-arrow">→</span> hits <span class="flow-arrow">→</span> interpretação</div>
-</section>
+  <section class="tutorial-card">
+    <h2>2. O que é um alinhamento de sequências?</h2>
 
-<section class="tutorial-card"><h2>6. O que interpretar?</h2>
-<table class="record-fields"><thead><tr><th>Campo</th><th>Leitura</th></tr></thead><tbody>
-<tr><td>Identity</td><td>porcentagem de posições idênticas no alinhamento;</td></tr>
-<tr><td>Query coverage</td><td>quanto da sequência consulta participa do alinhamento;</td></tr>
-<tr><td>E-value</td><td>expectativa de obter alinhamento semelhante ao acaso;</td></tr>
-<tr><td>Bit score</td><td>força normalizada do alinhamento.</td></tr>
-</tbody></table>
-<div class="concept"><strong>BLAST não identifica uma espécie sozinho.</strong> Similaridade deve ser interpretada junto com cobertura, marcador, banco consultado e contexto biológico.</div></section>
+    <p>
+      Um alinhamento organiza duas ou mais sequências de forma que posições
+      potencialmente correspondentes sejam colocadas umas sobre as outras.
+    </p>
 
-<section class="tutorial-card"><h2>7. Prática guiada no Colab</h2>
-<ol class="guided-steps">
-<li>instalar Conda no runtime;</li>
-<li>configurar conda-forge e Bioconda;</li>
-<li>criar o ambiente <strong>bioinfo</strong>;</li>
-<li>demonstrar a ativação e listar ambientes;</li>
-<li>instalar BLAST somente quando necessário;</li>
-<li>verificar a versão instalada;</li>
-<li>recuperar MK270576.1;</li>
-<li>executar BLASTn remoto;</li>
-<li>interpretar identidade, cobertura, E-value e bit score;</li>
-<li>exportar o ambiente para YAML.</li>
-</ol></section>
+    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Sequência 1   ATGCTACGTA
+             ||||| ||||
+Sequência 2   ATGCTTCGTA</code></pre>
 
-<section class="tutorial-card"><h2>Resultado esperado</h2>
-<p>Ao final, o estudante deverá compreender a diferença entre gerenciador, ambiente e pacote e conseguir instalar, verificar e executar uma ferramenta de bioinformática no ambiente correto.</p>
-<div class="next-step"><strong>Próxima aula:</strong> SRA e FASTQ. O mesmo princípio de ambientes será mantido e novas ferramentas serão acrescentadas conforme a necessidade.</div></section>
+    <p>
+      Nesse exemplo, nove das dez posições apresentadas são idênticas.
+    </p>
 
-<nav class="tutorial-nav"><a href="aula07.html">← Bancos biológicos</a><a href="aula09.html">FASTA, FASTQ e SRA →</a></nav>
+    <p>
+      Durante um alinhamento também podem ser introduzidas lacunas
+      (<em>gaps</em>) para representar inserções ou deleções.
+    </p>
+
+    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Sequência 1   ATGCTA-CGTA
+             |||||  ||||
+Sequência 2   ATGCTTACGTA</code></pre>
+
+    <div class="concept">
+      O alinhamento é uma hipótese de correspondência entre posições das
+      sequências. A qualidade dessa correspondência depende do método e
+      dos parâmetros utilizados.
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>3. Alinhamento global e alinhamento local</h2>
+
+    <h3>Alinhamento global</h3>
+
+    <p>
+      Tenta alinhar as sequências ao longo de praticamente toda a sua extensão.
+      É particularmente útil quando as sequências possuem tamanho e
+      relacionamento comparáveis.
+    </p>
+
+    <div class="flow-box">
+      sequência inteira<br>
+      ↕<br>
+      sequência inteira
+    </div>
+
+    <h3>Alinhamento local</h3>
+
+    <p>
+      Procura regiões de alta similaridade dentro de sequências que podem
+      diferir em tamanho ou possuir apenas determinados trechos relacionados.
+    </p>
+
+    <div class="flow-box">
+      ───────────████████───────────<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;████████
+    </div>
+
+    <p>
+      O BLAST utiliza uma estratégia de
+      <strong>busca por similaridade local</strong>.
+    </p>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>4. Identidade, similaridade e homologia</h2>
+
+    <h3>Identidade</h3>
+
+    <p>
+      Identidade descreve posições que possuem exatamente o mesmo
+      nucleotídeo ou aminoácido em um alinhamento.
+    </p>
+
+    <pre><code>A  =  A
+G  =  G
+T  =  T</code></pre>
+
+    <h3>Similaridade</h3>
+
+    <p>
+      Similaridade é um conceito utilizado para descrever o grau de
+      semelhança observado entre sequências.
+    </p>
+
+    <h3>Homologia</h3>
+
+    <p>
+      Homologia descreve uma relação de ancestralidade comum.
+      Portanto, é preferível falar que duas sequências são
+      <strong>homólogas ou não homólogas</strong>, em vez de utilizar
+      expressões como “80% homólogas”.
+    </p>
+
+    <div class="concept">
+      <strong>Identidade é uma medida do alinhamento.</strong><br>
+      <strong>Homologia é uma interpretação evolutiva.</strong>
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>5. O que é BLAST?</h2>
+
+    <p>
+      <strong>BLAST</strong> significa
+      <strong>Basic Local Alignment Search Tool</strong>.
+    </p>
+
+    <p>
+      O BLAST procura regiões de similaridade entre uma sequência de consulta
+      e sequências armazenadas em um banco.
+    </p>
+
+    <div class="flow-box">
+      QUERY<br>
+      sequência que queremos investigar<br>
+      ↓<br>
+      BLAST<br>
+      ↓<br>
+      DATABASE<br>
+      conjunto de sequências de comparação<br>
+      ↓<br>
+      HITS<br>
+      sequências com alinhamentos relevantes
+    </div>
+
+    <p>
+      O BLAST é uma ferramenta heurística. Isso permite realizar buscas
+      rapidamente em bancos que podem conter milhões de sequências,
+      sem calcular exaustivamente todos os alinhamentos possíveis.
+    </p>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>6. Query, database e hit</h2>
+
+    <table class="record-fields">
+      <thead>
+        <tr>
+          <th>Termo</th>
+          <th>Significado</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><strong>Query</strong></td>
+          <td>a sequência utilizada como consulta.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Database</strong></td>
+          <td>o conjunto de sequências contra o qual a query será comparada.</td>
+        </tr>
+
+        <tr>
+          <td><strong>Hit</strong></td>
+          <td>uma sequência do banco que produziu um alinhamento com a query.</td>
+        </tr>
+
+        <tr>
+          <td><strong>HSP</strong></td>
+          <td>
+            High-scoring Segment Pair — região local de alta pontuação
+            encontrada pelo BLAST.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="flow-box">
+      MH029697.1<br>
+      QUERY<br>
+      ↓<br>
+      banco de sequências COI<br>
+      DATABASE<br>
+      ↓<br>
+      sequências semelhantes<br>
+      HITS
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>7. A família BLAST</h2>
+
+    <p>
+      BLAST não é um único programa. Existem diferentes ferramentas
+      dependendo do tipo de sequência utilizada como consulta e como banco.
+    </p>
+
+    <table class="record-fields">
+      <thead>
+        <tr>
+          <th>Programa</th>
+          <th>Query</th>
+          <th>Database</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><strong>blastn</strong></td>
+          <td>nucleotídeo</td>
+          <td>nucleotídeo</td>
+        </tr>
+
+        <tr>
+          <td><strong>blastp</strong></td>
+          <td>proteína</td>
+          <td>proteína</td>
+        </tr>
+
+        <tr>
+          <td><strong>blastx</strong></td>
+          <td>nucleotídeo traduzido</td>
+          <td>proteína</td>
+        </tr>
+
+        <tr>
+          <td><strong>tblastn</strong></td>
+          <td>proteína</td>
+          <td>nucleotídeo traduzido</td>
+        </tr>
+
+        <tr>
+          <td><strong>tblastx</strong></td>
+          <td>nucleotídeo traduzido</td>
+          <td>nucleotídeo traduzido</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Como nossa sequência <strong>MH029697.1</strong> é nucleotídica
+      e será comparada com outras sequências nucleotídicas, utilizaremos
+      <strong>blastn</strong>.
+    </p>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>8. Como o BLAST encontra regiões semelhantes?</h2>
+
+    <p>
+      De forma simplificada, o BLAST não começa tentando alinhar toda a
+      query com todas as sequências do banco.
+    </p>
+
+    <p>O processo pode ser entendido em etapas:</p>
+
+    <div class="flow-box">
+      QUERY<br>
+      ↓<br>
+      pequenas palavras da sequência<br>
+      ↓<br>
+      busca de correspondências no banco<br>
+      ↓<br>
+      extensão das regiões promissoras<br>
+      ↓<br>
+      alinhamentos locais<br>
+      ↓<br>
+      cálculo das pontuações e estatísticas
+    </div>
+
+    <p>
+      Essa estratégia torna a busca muito mais rápida que uma comparação
+      exaustiva de todas as sequências.
+    </p>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>9. Percent identity</h2>
+
+    <p>
+      <strong>Percent identity</strong> representa a proporção de posições
+      idênticas dentro da região alinhada.
+    </p>
+
+    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Query   ATGCTACGTA
+        ||||| ||||
+Hit     ATGCTTCGTA</code></pre>
+
+    <p>
+      Nesse exemplo:
+    </p>
+
+    <div class="flow-box">
+      9 posições idênticas<br>
+      ÷<br>
+      10 posições alinhadas<br>
+      =<br>
+      90% de identidade
+    </div>
+
+    <div class="concept">
+      Uma identidade alta deve ser interpretada junto com o tamanho
+      e a cobertura do alinhamento.
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>10. Query coverage</h2>
+
+    <p>
+      <strong>Query coverage</strong> informa quanto da sequência utilizada
+      como consulta está representado no alinhamento.
+    </p>
+
+    <p>
+      Imagine uma query com 500 nucleotídeos.
+    </p>
+
+    <div class="flow-box">
+      query = 500 nt<br>
+      região alinhada = 100 nt<br>
+      ↓<br>
+      cobertura aproximada = 20%
+    </div>
+
+    <p>
+      Um resultado pode apresentar identidade muito alta, mas cobrir
+      apenas uma pequena parte da query.
+    </p>
+
+    <div class="concept">
+      <strong>99% de identidade em 20% da query</strong> não representa
+      a mesma evidência que <strong>99% de identidade em praticamente
+      toda a query</strong>.
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>11. E-value</h2>
+
+    <p>
+      O <strong>E-value</strong> está relacionado ao número de alinhamentos
+      com determinada pontuação que poderiam ser esperados ao acaso em uma
+      busca daquele tipo.
+    </p>
+
+    <p>De forma prática:</p>
+
+    <div class="flow-box">
+      E-value menor<br>
+      ↓<br>
+      menor expectativa de observar um alinhamento daquela qualidade ao acaso
+    </div>
+
+    <p>Podemos encontrar valores como:</p>
+
+    <pre><code>2e-20
+4e-80
+1e-120
+0.0</code></pre>
+
+    <p>
+      Quanto menor o E-value, mais estatisticamente significativo é o
+      alinhamento naquele contexto de busca.
+    </p>
+
+    <div class="concept">
+      O E-value não deve ser interpretado isoladamente. Ele depende,
+      entre outros fatores, da pontuação do alinhamento e do espaço de busca.
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>12. Bit score</h2>
+
+    <p>
+      O <strong>bit score</strong> é uma pontuação normalizada que representa
+      a qualidade do alinhamento.
+    </p>
+
+    <div class="flow-box">
+      melhor alinhamento<br>
+      ↓<br>
+      maior pontuação<br>
+      ↓<br>
+      maior bit score
+    </div>
+
+    <p>
+      Em uma mesma busca, hits com bit scores maiores representam
+      alinhamentos com maior pontuação.
+    </p>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>13. Não interprete uma coluna isoladamente</h2>
+
+    <p>
+      A interpretação de um resultado BLAST deve combinar diferentes
+      informações.
+    </p>
+
+    <table class="record-fields">
+      <thead>
+        <tr>
+          <th>Informação</th>
+          <th>Pergunta</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Identity</td>
+          <td>quanto da região alinhada é idêntico?</td>
+        </tr>
+
+        <tr>
+          <td>Query coverage</td>
+          <td>quanto da minha query está representado?</td>
+        </tr>
+
+        <tr>
+          <td>E-value</td>
+          <td>qual é a significância estatística do alinhamento?</td>
+        </tr>
+
+        <tr>
+          <td>Bit score</td>
+          <td>qual é a força relativa do alinhamento?</td>
+        </tr>
+
+        <tr>
+          <td>Descrição do hit</td>
+          <td>o que é a sequência encontrada?</td>
+        </tr>
+
+        <tr>
+          <td>Accession</td>
+          <td>qual registro específico produziu o hit?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="concept">
+      <strong>BLAST não identifica uma espécie automaticamente.</strong><br>
+      O resultado precisa ser interpretado considerando o marcador,
+      a cobertura, a identidade, os metadados do registro e o contexto
+      biológico da análise.
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>14. Como ler um alinhamento BLAST?</h2>
+
+    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Query   1    ATGCTACGTAGCTACGTA    18
+             |||||||||| |||||||
+Sbjct   40   ATGCTACGTAACTACGTA    57</code></pre>
+
+    <p>
+      Os elementos principais são:
+    </p>
+
+    <ul>
+      <li><strong>Query</strong> — sequência utilizada na consulta;</li>
+      <li><strong>Sbjct</strong> — sequência encontrada no banco;</li>
+      <li>números — posições correspondentes nas sequências;</li>
+      <li>barras verticais — posições idênticas;</li>
+      <li>espaços — diferenças entre as sequências;</li>
+      <li>hífens, quando presentes — gaps introduzidos no alinhamento.</li>
+    </ul>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>15. BLAST na interface do NCBI</h2>
+
+    <p>
+      O NCBI disponibiliza uma interface web para executar diferentes
+      modalidades de BLAST.
+    </p>
+
+    <p>
+      Nela podemos fornecer uma sequência, selecionar o tipo de BLAST
+      e escolher bancos de dados públicos.
+    </p>
+
+    <div class="flow-box">
+      sequência<br>
+      ↓<br>
+      NCBI BLAST<br>
+      ↓<br>
+      banco público<br>
+      ↓<br>
+      lista de hits<br>
+      ↓<br>
+      alinhamentos
+    </div>
+
+    <div class="action-row">
+      <a class="action"
+         href="https://blast.ncbi.nlm.nih.gov/Blast.cgi"
+         target="_blank" rel="noopener noreferrer">
+        Abrir NCBI BLAST
+      </a>
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>16. NCBI BLAST+ em linha de comando</h2>
+
+    <p>
+      Além da interface web, o NCBI distribui o conjunto de programas
+      <strong>BLAST+</strong>, que permite executar buscas diretamente
+      em linha de comando.
+    </p>
+
+    <p>Entre os executáveis estão:</p>
+
+    <pre><code>blastn
+blastp
+blastx
+tblastn
+tblastx
+makeblastdb</code></pre>
+
+    <p>
+      Essa forma de execução é importante porque pode ser incorporada
+      a análises reprodutíveis e pipelines bioinformáticos.
+    </p>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>17. Por que utilizar Conda?</h2>
+
+    <p>
+      BLAST+ é um programa externo. Para instalar e organizar ferramentas
+      bioinformáticas utilizaremos <strong>Conda</strong>.
+    </p>
+
+    <div class="flow-box">
+      Conda<br>
+      ↓<br>
+      ambiente bioinfo<br>
+      ↓<br>
+      BLAST+<br>
+      ↓<br>
+      blastn / makeblastdb
+    </div>
+
+    <p>
+      Um ambiente permite reunir versões de programas e dependências
+      sem alterar todo o sistema computacional.
+    </p>
+
+    <p>
+      O <strong>Bioconda</strong> é um canal amplamente utilizado para
+      distribuição de softwares de bioinformática.
+    </p>
+
+    <div class="concept">
+      Conda é a infraestrutura. BLAST é a ferramenta biológica que
+      realmente queremos utilizar.
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>18. Banco BLAST local</h2>
+
+    <p>
+      Em vez de consultar um banco enorme pela internet, também podemos
+      criar um banco BLAST com um conjunto pequeno de sequências.
+    </p>
+
+    <div class="flow-box">
+      sequências FASTA<br>
+      ↓<br>
+      makeblastdb<br>
+      ↓<br>
+      banco BLAST local<br>
+      ↓<br>
+      blastn<br>
+      ↓<br>
+      resultados
+    </div>
+
+    <p>
+      Essa estratégia será utilizada na prática porque permite observar
+      claramente quais sequências fazem parte do banco e torna a execução
+      rápida e reproduzível durante a aula.
+    </p>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>19. makeblastdb</h2>
+
+    <p>
+      <code>makeblastdb</code> transforma um arquivo FASTA em uma estrutura
+      que pode ser consultada pelos programas BLAST+.
+    </p>
+
+    <p>A estrutura geral de um comando é:</p>
+
+    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>makeblastdb \
+  -in sequencias.fasta \
+  -dbtype nucl \
+  -out meu_banco</code></pre>
+
+    <table class="record-fields">
+      <tbody>
+        <tr>
+          <td><code>-in</code></td>
+          <td>arquivo FASTA contendo as sequências do banco.</td>
+        </tr>
+
+        <tr>
+          <td><code>-dbtype nucl</code></td>
+          <td>informa que o banco contém nucleotídeos.</td>
+        </tr>
+
+        <tr>
+          <td><code>-out</code></td>
+          <td>nome utilizado para os arquivos do banco BLAST.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>20. blastn</h2>
+
+    <p>
+      Depois que o banco foi criado, podemos comparar uma query
+      nucleotídica usando <code>blastn</code>.
+    </p>
+
+    <p>Estrutura geral:</p>
+
+    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>blastn \
+  -query query.fasta \
+  -db meu_banco \
+  -out resultado.tsv \
+  -outfmt 6</code></pre>
+
+    <table class="record-fields">
+      <tbody>
+        <tr>
+          <td><code>-query</code></td>
+          <td>arquivo contendo a sequência que queremos investigar.</td>
+        </tr>
+
+        <tr>
+          <td><code>-db</code></td>
+          <td>banco BLAST contra o qual a query será comparada.</td>
+        </tr>
+
+        <tr>
+          <td><code>-out</code></td>
+          <td>arquivo onde os resultados serão gravados.</td>
+        </tr>
+
+        <tr>
+          <td><code>-outfmt</code></td>
+          <td>define o formato da saída.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>21. O formato tabular do BLAST</h2>
+
+    <p>
+      O formato <code>6</code> produz uma saída tabular, adequada para
+      inspeção e processamento posterior.
+    </p>
+
+    <p>Por padrão, encontramos colunas como:</p>
+
+    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>qseqid
+sseqid
+pident
+length
+mismatch
+gapopen
+qstart
+qend
+sstart
+send
+evalue
+bitscore</code></pre>
+
+    <table class="record-fields">
+      <tbody>
+        <tr>
+          <td><code>qseqid</code></td>
+          <td>identificador da query.</td>
+        </tr>
+
+        <tr>
+          <td><code>sseqid</code></td>
+          <td>identificador da sequência do banco.</td>
+        </tr>
+
+        <tr>
+          <td><code>pident</code></td>
+          <td>porcentagem de identidade.</td>
+        </tr>
+
+        <tr>
+          <td><code>length</code></td>
+          <td>comprimento do alinhamento.</td>
+        </tr>
+
+        <tr>
+          <td><code>evalue</code></td>
+          <td>E-value do alinhamento.</td>
+        </tr>
+
+        <tr>
+          <td><code>bitscore</code></td>
+          <td>bit score.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>22. Prática em aula</h2>
+
+    <p>
+      A execução será construída passo a passo durante a aula.
+      Cada estudante começará com um notebook vazio no Google Colab.
+    </p>
+
+    <p>O roteiro prático será:</p>
+
+    <ol class="guided-steps">
+      <li>criar um notebook novo;</li>
+      <li>conectar o Google Drive;</li>
+      <li>criar a pasta de trabalho da análise BLAST;</li>
+      <li>preparar o ambiente Conda;</li>
+      <li>criar o ambiente <code>bioinfo</code>;</li>
+      <li>instalar NCBI BLAST+;</li>
+      <li>verificar a instalação;</li>
+      <li>obter a sequência query;</li>
+      <li>preparar um pequeno conjunto de sequências de referência;</li>
+      <li>criar o banco local com <code>makeblastdb</code>;</li>
+      <li>executar <code>blastn</code>;</li>
+      <li>visualizar os resultados tabulares;</li>
+      <li>interpretar identidade, cobertura, E-value e bit score;</li>
+      <li>examinar um alinhamento em detalhe.</li>
+    </ol>
+
+    <div class="action-row">
+      <a class="action"
+         href="https://colab.research.google.com/#create=true"
+         target="_blank" rel="noopener noreferrer">
+        Abrir Google Colab em branco
+      </a>
+    </div>
+  </section>
+
+
+  <section class="tutorial-card">
+    <h2>Referências e documentação</h2>
+
+    <ul>
+      <li>
+        <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi"
+           target="_blank" rel="noopener noreferrer">
+          NCBI BLAST
+        </a>
+      </li>
+
+      <li>
+        <a href="https://www.ncbi.nlm.nih.gov/books/NBK279690/"
+           target="_blank" rel="noopener noreferrer">
+          NCBI BLAST+ Command Line Applications User Manual
+        </a>
+      </li>
+
+      <li>
+        <a href="https://blast.ncbi.nlm.nih.gov/doc/blast-help/"
+           target="_blank" rel="noopener noreferrer">
+          NCBI BLAST Help
+        </a>
+      </li>
+
+      <li>
+        <a href="https://bioconda.github.io/"
+           target="_blank" rel="noopener noreferrer">
+          Bioconda
+        </a>
+      </li>
+    </ul>
+  </section>
+
 </main></body></html>
