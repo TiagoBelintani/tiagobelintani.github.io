@@ -4,11 +4,855 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alinhamento e BLAST | Bioinformática e Biologia Molecular</title>
-<meta name="description" content="Introdução ao alinhamento de sequências e ao BLAST, com interpretação de identidade, cobertura, E-value, bit score e execução de BLAST+ local.">
+<meta name="description" content="Aula teórica detalhada sobre alinhamento, tipos de BLAST, interface on-line, identidade, cobertura, E-value e interpretação biológica.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+/* =========================================================
+   Tiago Belintani — Unified Soft Academic Theme
+   ========================================================= */
+
+:root {
+  --tb-bg: #eef3f7;
+  --tb-bg-2: #f7f9fb;
+  --tb-surface: rgba(255, 255, 255, 0.84);
+  --tb-surface-solid: #ffffff;
+  --tb-text: #1d2a38;
+  --tb-muted: #617083;
+  --tb-accent: #4c7fae;
+  --tb-accent-dark: #345f87;
+  --tb-line: rgba(29, 42, 56, 0.12);
+  --tb-shadow: 0 16px 42px rgba(52, 74, 96, 0.10);
+  --tb-radius: 18px;
+
+  /* aliases for legacy page styles */
+  --glass: var(--tb-surface);
+  --glass-strong: rgba(255,255,255,.93);
+  --glass-soft: rgba(247,249,251,.80);
+  --text: var(--tb-text);
+  --muted: var(--tb-muted);
+  --accent: var(--tb-accent);
+  --accent-strong: var(--tb-accent-dark);
+  --border: var(--tb-line);
+  --shadow: var(--tb-shadow);
+  --ink: var(--tb-text);
+  --bioinfo: var(--tb-accent);
+  --bioinfo-light: #6f9cc4;
+  --bioinfo-soft: rgba(76, 127, 174, 0.10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0 !important;
+  min-height: 100vh;
+  color: var(--tb-text) !important;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  line-height: 1.65;
+  background: var(--tb-bg) !important;
+  position: relative;
+}
+
+/* A low-contrast landscape: present, but never dominant. */
+body::before {
+  content: "" !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background:
+    linear-gradient(rgba(245,248,251,.34), rgba(247,249,251,.56)),
+    url('../images/background-mountains-final.jpg')
+    center center / cover no-repeat !important;
+  opacity: 1 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+body > * { position: relative; z-index: 1; }
+
+a { color: var(--tb-accent-dark); text-decoration: none; }
+a:hover { color: var(--tb-accent); }
+
+h1, h2, h3, h4, .brand {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  color: var(--tb-text) !important;
+  letter-spacing: -0.018em;
+}
+
+h1 { font-weight: 600 !important; }
+h2, h3 { font-weight: 600 !important; }
+
+p, li { color: var(--tb-muted); }
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.top-nav {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  min-height: 64px;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+  background: rgba(248, 250, 252, .90) !important;
+  border-bottom: 1px solid rgba(29,42,56,.08) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(18px) saturate(125%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+  z-index: 9999 !important;
+}
+
+.nav-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.brand {
+  flex: 0 0 auto;
+  font-size: 1.58rem !important;
+  line-height: 1;
+  font-weight: 600 !important;
+  color: var(--tb-text) !important;
+  white-space: nowrap;
+}
+
+.top-nav ul {
+  list-style: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-wrap: nowrap;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+.top-nav li { margin: 0 !important; padding: 0 !important; }
+
+.top-nav a:not(.brand) {
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 9px !important;
+  color: #455467 !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: .84rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  white-space: nowrap;
+}
+
+.top-nav a:not(.brand):hover,
+.top-nav a[aria-current="page"] {
+  color: var(--tb-accent-dark) !important;
+}
+
+.top-nav a[aria-current="page"]::after { display: none !important; }
+
+.top-nav .bioinfo-nav {
+  color: var(--tb-accent-dark) !important;
+}
+
+/* =========================================================
+   COMMON PAGE GEOMETRY
+   ========================================================= */
+
+.page,
+.container,
+.tutorial-shell {
+  width: min(1120px, calc(100% - 44px)) !important;
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding-top: 112px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  position: relative;
+}
+
+.container { padding-bottom: 72px !important; }
+.page { padding-bottom: 72px !important; }
+
+.simple-hero,
+.hero:not(.project-hero) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  padding: 22px 0 28px !important;
+  margin: 0 0 28px !important;
+  text-align: left !important;
+}
+
+.simple-hero h1,
+.hero:not(.project-hero) h1 {
+  margin: 0 0 12px !important;
+  color: var(--tb-text) !important;
+  font-size: clamp(3.2rem, 7vw, 5.6rem) !important;
+  line-height: .94 !important;
+  text-align: left !important;
+}
+
+.simple-hero > p:last-child,
+.hero:not(.project-hero) > p {
+  max-width: 760px;
+  margin: 0 !important;
+  color: #536477 !important;
+  font-size: 1.02rem !important;
+  text-align: left !important;
+}
+
+.page-kicker,
+.eyebrow,
+.kicker,
+.bioinfo-kicker,
+.project-kicker {
+  margin: 0 0 10px !important;
+  color: var(--tb-accent-dark) !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: .76rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .13em !important;
+  text-transform: uppercase !important;
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+
+.page .hero {
+  display: block !important;
+  overflow: visible !important;
+}
+
+.hero-copy {
+  max-width: 780px !important;
+  padding: 34px 0 42px !important;
+}
+
+.hero-photo { display: none !important; }
+
+.hero .lead {
+  max-width: 690px !important;
+  color: #415267 !important;
+  font-size: 1.08rem !important;
+}
+
+.hero-actions { gap: 10px !important; }
+
+.btn,
+.button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 42px;
+  padding: 10px 16px !important;
+  border-radius: 999px !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: .9rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+.btn.primary,
+.hero .button {
+  background: var(--tb-accent) !important;
+  color: #fff !important;
+  border: 1px solid var(--tb-accent) !important;
+}
+
+.btn.primary:hover,
+.hero .button:hover {
+  background: var(--tb-accent-dark) !important;
+  border-color: var(--tb-accent-dark) !important;
+}
+
+.btn.secondary {
+  background: rgba(255,255,255,.56) !important;
+  color: var(--tb-text) !important;
+  border: 1px solid rgba(29,42,56,.18) !important;
+}
+
+.quick-tags {
+  margin: 4px 0 38px !important;
+  padding: 12px 0 20px !important;
+  border-top: 1px solid var(--tb-line);
+  border-bottom: 1px solid var(--tb-line);
+  background: transparent !important;
+}
+
+.quick-tag {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #4f6072 !important;
+}
+
+.quick-tag strong { color: var(--tb-accent-dark) !important; }
+
+.section-head,
+.about,
+.bioinfo-feature,
+.research-card,
+.os-card,
+.section,
+.card,
+.member,
+.publication,
+.intro-card,
+.feature-card,
+.audience-card,
+.development-card,
+.final-cta,
+.lesson-placeholder,
+.course-card {
+  background: var(--tb-surface) !important;
+  border: 1px solid var(--tb-line) !important;
+  box-shadow: var(--tb-shadow) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.section-head,
+.about,
+.bioinfo-feature,
+.research-card,
+.os-card,
+.section,
+.card,
+.member,
+.publication,
+.intro-card,
+.feature-card,
+.audience-card,
+.development-card,
+.final-cta {
+  border-radius: var(--tb-radius) !important;
+}
+
+.about { padding: 32px 34px !important; }
+.about p { text-align: left !important; color: #47596c !important; }
+
+.section-head h2,
+.about h2,
+.bioinfo-feature h2,
+.research-card h3,
+.os-card h3,
+.section h3,
+.card h3,
+.member h3,
+.publication strong {
+  color: var(--tb-text) !important;
+}
+
+.bioinfo-feature::before { display: none !important; }
+
+.bioinfo-lead,
+.bioinfo-feature-copy > p,
+.research-copy p,
+.os-card p,
+.section p,
+.card p,
+.member p,
+.publication,
+.intro-card p,
+.feature-card p,
+.audience-card p,
+.development-card p {
+  color: #566779 !important;
+}
+
+.bioinfo-meta-item,
+.profile-links a,
+.badge {
+  background: rgba(246,249,251,.82) !important;
+  border: 1px solid var(--tb-line) !important;
+  color: #526477 !important;
+}
+
+/* =========================================================
+   RESEARCH / COLLABORATORS / CONTACT
+   ========================================================= */
+
+.container > h1,
+.container > h2 {
+  text-align: left !important;
+}
+
+.container > h1 { font-size: clamp(3rem,6vw,5rem) !important; margin-bottom: 4px !important; }
+.container > h2 { color: var(--tb-muted) !important; }
+.container > h1 span { display: none !important; }
+
+.section {
+  padding: 26px 28px !important;
+  margin: 0 0 18px !important;
+}
+
+.team-grid,
+.grid,
+.publication-list { gap: 18px !important; }
+
+.member {
+  padding: 24px !important;
+  text-align: left !important;
+}
+
+.member img {
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.profile-photo img {
+  border-radius: 18px !important;
+  box-shadow: var(--tb-shadow) !important;
+  border: 1px solid var(--tb-line) !important;
+}
+
+.contact-info a { color: var(--tb-accent-dark) !important; }
+
+/* =========================================================
+   PUBLICATIONS
+   ========================================================= */
+
+.toolbar {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 0 30px !important;
+}
+
+.toolbar input,
+.toolbar select {
+  background: rgba(255,255,255,.82) !important;
+  color: var(--tb-text) !important;
+  border: 1px solid var(--tb-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.toolbar input::placeholder { color: #8693a1 !important; }
+.toolbar select option { background: #fff !important; color: var(--tb-text) !important; }
+
+.section-title {
+  color: var(--tb-text) !important;
+  font-size: 2rem !important;
+}
+
+.publication {
+  padding: 22px 24px !important;
+  margin-bottom: 14px !important;
+}
+
+.publication .year,
+.publication .journal { color: var(--tb-muted) !important; }
+.publication .title { color: #405266 !important; }
+
+/* =========================================================
+   REPOSITORIES
+   ========================================================= */
+
+.grid { align-items: stretch !important; }
+.card { padding: 24px !important; }
+.card .button { margin-top: auto !important; }
+.badge { color: var(--tb-accent-dark) !important; }
+
+/* =========================================================
+   BIOINFO CHAT
+   ========================================================= */
+
+.project-hero {
+  background: rgba(255,255,255,.70) !important;
+  color: var(--tb-text) !important;
+  border: 1px solid var(--tb-line) !important;
+  border-radius: 24px !important;
+  box-shadow: var(--tb-shadow) !important;
+  overflow: hidden;
+}
+
+.project-hero::before { opacity: .06 !important; }
+.project-hero h1 { color: var(--tb-text) !important; }
+.project-subtitle,
+.project-intro { color: #536477 !important; }
+.topic { color: var(--tb-accent-dark) !important; }
+
+/* =========================================================
+   TEACHING
+   ========================================================= */
+
+.teaching-page { min-height: 75vh; }
+
+.teaching-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.course-card {
+  display: block;
+  padding: 28px;
+  border-radius: var(--tb-radius);
+  transition: transform .18s ease, background .18s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.94) !important;
+}
+
+.course-card h2 {
+  margin: 8px 0 10px;
+  font-size: 2rem;
+}
+
+.course-card p { margin: 0 0 18px; }
+.course-meta { color: var(--tb-muted); font-size: .82rem; }
+.course-link { color: var(--tb-accent-dark); font-weight: 700; font-size: .9rem; }
+
+.tutorial-shell {
+  max-width: 920px !important;
+  padding-bottom: 72px !important;
+}
+
+.breadcrumb {
+  display: inline-block;
+  margin: 0 0 28px;
+  color: var(--tb-accent-dark);
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.tutorial-header {
+  margin: 0 0 34px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--tb-line);
+}
+
+.tutorial-header h1 {
+  margin: 0 0 12px;
+  font-size: clamp(3rem, 7vw, 5rem);
+  line-height: .98;
+}
+
+.tutorial-header > p:last-child {
+  max-width: 760px;
+  margin: 0;
+  color: #536477;
+}
+
+.lesson-list {
+  display: grid;
+  gap: 10px;
+}
+
+.lesson-list a {
+  display: grid;
+  grid-template-columns: 82px 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,.70);
+  border: 1px solid var(--tb-line);
+  border-radius: 12px;
+  color: var(--tb-text);
+}
+
+.lesson-list a:hover { background: rgba(255,255,255,.94); }
+.lesson-list span { color: var(--tb-accent-dark); font-size: .82rem; font-weight: 700; }
+.lesson-list strong { font-weight: 600; }
+.lesson-list small { color: var(--tb-muted); }
+
+.lesson-placeholder {
+  padding: 28px;
+  border-radius: var(--tb-radius);
+}
+
+.lesson-placeholder h2 { margin-top: 0; font-size: 2rem; }
+.placeholder-note { color: var(--tb-muted) !important; }
+
+.lesson-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--tb-line);
+}
+
+.lesson-nav a { font-weight: 600; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+  .nav-inner {
+    width: min(100% - 28px, 1120px);
+    gap: 14px;
+  }
+  .top-nav a:not(.brand) { padding: 0 6px !important; font-size: .78rem !important; }
+  .brand { font-size: 1.42rem !important; }
+}
+
+@media (max-width: 860px) {
+  .top-nav {
+    position: sticky !important;
+    min-height: auto;
+    padding: 10px 0 !important;
+  }
+  .nav-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .top-nav ul {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    overflow-x: auto;
+    padding-bottom: 2px !important;
+  }
+  .top-nav a:not(.brand) { min-height: 34px; }
+  .page, .container, .tutorial-shell { padding-top: 46px !important; }
+  body::before { background-attachment: scroll !important; }
+}
+
+@media (max-width: 650px) {
+  .page, .container, .tutorial-shell {
+    width: min(100% - 28px, 1120px) !important;
+  }
+  .simple-hero h1,
+  .hero:not(.project-hero) h1,
+  .tutorial-header h1 { font-size: clamp(2.7rem, 14vw, 4rem) !important; }
+  .about, .section, .card, .member, .publication { padding: 22px !important; }
+  .lesson-list a {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+  .lesson-list small { margin-top: 4px; }
+}
+
+/* =========================================================
+   GLOBAL TYPOGRAPHY — MATCH HOME PAGE
+   ========================================================= */
+
+:root{
+  --tb-font-body: 1rem;
+  --tb-font-small: .84rem;
+  --tb-font-caption: .82rem;
+  --tb-font-card: .95rem;
+
+  --tb-font-h1: clamp(3.2rem, 6vw, 5.4rem);
+  --tb-font-h2: clamp(1.9rem, 3vw, 2.8rem);
+  --tb-font-h3: 1.55rem;
+
+  --tb-line-body: 1.65;
+}
+
+/* Base */
+html{
+  font-size:16px !important;
+}
+
+body{
+  font-size:var(--tb-font-body) !important;
+  line-height:var(--tb-line-body) !important;
+}
+
+/* Navigation — same as Home */
+.brand{
+  font-size:1.35rem !important;
+  line-height:1 !important;
+}
+
+.top-nav a:not(.brand),
+.top-nav a{
+  font-size:.92rem !important;
+  line-height:1.2 !important;
+}
+
+/* Main headings */
+h1,
+.simple-hero h1,
+.hero:not(.project-hero) h1,
+.hero h1,
+.teaching-hero h1,
+.course-head h1{
+  font-size:var(--tb-font-h1) !important;
+  line-height:.98 !important;
+  letter-spacing:-.035em !important;
+}
+
+/* Section headings */
+h2,
+.section-head h2,
+.about h2,
+.bioinfo-feature h2,
+.institutions-section h2{
+  font-size:var(--tb-font-h2) !important;
+  line-height:1.05 !important;
+  letter-spacing:-.025em !important;
+}
+
+/* Card / subsection headings */
+h3,
+.research-copy h3,
+.os-card h3,
+.course-card h2{
+  font-size:var(--tb-font-h3) !important;
+  line-height:1.15 !important;
+}
+
+/* Paragraphs */
+p,
+.about p,
+.course-head p,
+.teaching-hero p,
+.section-head p,
+.bioinfo-lead,
+.research-copy p,
+.os-card p{
+  font-family:"Inter",sans-serif !important;
+  font-size:1.03rem !important;
+  line-height:1.65 !important;
+}
+
+/* Hero lead on all pages */
+.hero .lead,
+.simple-hero > p:last-child,
+.hero:not(.project-hero) > p{
+  font-size:1.08rem !important;
+  line-height:1.6 !important;
+}
+
+/* Labels / eyebrow */
+.eyebrow,
+.page-kicker,
+.kicker,
+.bioinfo-kicker,
+.project-kicker,
+.course-kicker{
+  font-size:.73rem !important;
+  line-height:1.25 !important;
+  letter-spacing:.16em !important;
+}
+
+/* Buttons */
+.btn,
+.button{
+  font-size:.90rem !important;
+  line-height:1.2 !important;
+}
+
+/* Cards and list items */
+.course-card p,
+.lesson-main strong,
+.lesson-main span,
+.member-affiliation,
+.member-field,
+.institution-item span,
+.profile-links a,
+.bioinfo-meta-item,
+.research-card,
+.os-card{
+  font-family:"Inter",sans-serif !important;
+}
+
+.lesson-main strong,
+.member-name{
+  font-size:1rem !important;
+  line-height:1.35 !important;
+}
+
+.lesson-main span,
+.member-affiliation,
+.member-field,
+.course-card p{
+  font-size:.92rem !important;
+  line-height:1.5 !important;
+}
+
+.institution-item span{
+  font-size:.82rem !important;
+  line-height:1.3 !important;
+}
+
+/* Tables/forms/searches */
+table,
+input,
+select,
+textarea,
+button{
+  font-family:"Inter",sans-serif !important;
+  font-size:.92rem !important;
+}
+
+/* Keep code/tutorial text readable without becoming oversized */
+pre,
+code,
+kbd,
+samp{
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace !important;
+}
+
+pre{
+  font-size:.88rem !important;
+  line-height:1.55 !important;
+}
+
+code{
+  font-size:.92em !important;
+}
+
+/* =========================================================
+   RESPONSIVE TYPOGRAPHY
+   ========================================================= */
+
+@media (max-width:760px){
+
+  :root{
+    --tb-font-h1: clamp(2.75rem, 12vw, 3.35rem);
+    --tb-font-h2: clamp(1.75rem, 8vw, 2.35rem);
+    --tb-font-h3:1.4rem;
+  }
+
+  .brand{
+    font-size:1.30rem !important;
+  }
+
+  .top-nav a:not(.brand),
+  .top-nav a{
+    font-size:.84rem !important;
+  }
+
+  p,
+  .about p,
+  .course-head p,
+  .teaching-hero p{
+    font-size:1rem !important;
+  }
+
+}
+
+</style>
 <style>
 .tutorial-page{width:min(980px,calc(100% - 42px));margin:0 auto;padding:112px 0 82px}
 .breadcrumb{margin-bottom:24px;font:500 .86rem/1.4 "Inter",sans-serif;color:#64748B}.breadcrumb a{color:#3478C9;text-decoration:none}
@@ -36,895 +880,189 @@
 .start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
 </style>
 
-</head>
+<style>
+html{scroll-behavior:smooth}section[id]{scroll-margin-top:95px}.table-wrap{overflow-x:auto}.record-fields{min-width:540px}.record-fields caption{text-align:left;color:#526174;font-size:.86rem;padding-bottom:10px}.tutorial-card h3{font:600 1.1rem/1.5 Inter,sans-serif;color:#25374A;margin-top:24px}.contents a{color:#3478C9}.code-sample{white-space:pre}.tutorial-nav{flex-wrap:wrap}p{overflow-wrap:break-word}@media(max-width:600px){.tutorial-page{width:calc(100% - 24px);padding-top:100px}.tutorial-card{padding:22px 17px}.tutorial-header h1{font-size:3rem!important}.tutorial-nav a{max-width:45%}}@media print{.top-nav,.contents,.tutorial-nav{display:none}.tutorial-page{width:100%;padding:0}.tutorial-card{box-shadow:none;break-inside:auto}h2,h3{break-after:avoid}.table-wrap{overflow:visible}.record-fields{min-width:0}pre{white-space:pre-wrap!important}body{background:#fff}}
+</style></head>
 <body>
 <nav class="top-nav" aria-label="Primary navigation">
 <div class="nav-inner">
-<a class="brand" href="../../index.html">Tiago Belintani</a>
+<a class="brand" href="https://tiagobelintani.github.io/index.html">Tiago Belintani</a>
 <ul>
-<li><a href="../../index.html">Home</a></li><li><a href="../../publications.html">Publications</a></li><li><a href="../../research.html">Research</a></li><li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li><li><a href="../../teaching.html" aria-current="page">Teaching</a></li><li><a href="../../repositories.html">Code &amp; Repositories</a></li><li><a href="../../collaborators.html">Collaborators</a></li><li><a href="../../contact.html">Contact</a></li>
+<li><a href="https://tiagobelintani.github.io/index.html">Home</a></li><li><a href="https://tiagobelintani.github.io/publications.html">Publications</a></li><li><a href="https://tiagobelintani.github.io/research.html">Research</a></li><li><a href="https://tiagobelintani.github.io/bioinfo-chat.html">BioInfo Chat</a></li><li><a href="https://tiagobelintani.github.io/teaching.html" aria-current="page">Teaching</a></li><li><a href="https://tiagobelintani.github.io/repositories.html">Code &amp; Repositories</a></li><li><a href="https://tiagobelintani.github.io/collaborators.html">Collaborators</a></li><li><a href="https://tiagobelintani.github.io/contact.html">Contact</a></li>
 </ul>
 </div>
 </nav>
 <main class="tutorial-page">
 
   <div class="breadcrumb">
-    <a href="../../teaching.html">Teaching</a> /
-    <a href="index.html">Bioinformática e Biologia Molecular</a> /
+    <a href="https://tiagobelintani.github.io/teaching.html">Teaching</a> /
+    <a href="https://tiagobelintani.github.io/teaching/bioinformatica/index.html">Bioinformática e Biologia Molecular</a> /
     Alinhamento e BLAST
   </div>
 
-  <header class="tutorial-header">
-    <div class="tutorial-kicker">Comparação de sequências</div>
-
-    <h1>Alinhamento e BLAST</h1>
-
-    <p class="lead">
-      Agora que sabemos localizar e interpretar uma sequência em um banco
-      biológico, podemos fazer uma nova pergunta: como determinar se duas
-      sequências são semelhantes?
-    </p>
-
-    <div class="class-flow">
-      <div class="class-block">
-        <strong>Primeiro bloco</strong>
-        <span>Alinhamento, similaridade, identidade, homologia e fundamentos do BLAST.</span>
-      </div>
-
-      <div class="class-block">
-        <strong>Segundo bloco</strong>
-        <span>BLAST+, banco local, execução de blastn e interpretação dos resultados.</span>
-      </div>
-    </div>
-  </header>
-
-
-  <section class="tutorial-card">
-    <h2>1. Por que comparar sequências?</h2>
-
-    <p>
-      Na aula anterior utilizamos o registro <strong>MH029697.1</strong>,
-      correspondente a uma sequência parcial do gene mitocondrial
-      <strong>COI</strong> de <em>Triatoma sordida</em>.
-    </p>
-
-    <p>
-      Conhecer o organismo, o gene e os metadados do registro é fundamental,
-      mas ainda não responde a perguntas como:
-    </p>
-
-    <ul>
-      <li>quais outras sequências são parecidas com esta?</li>
-      <li>quais regiões das sequências são semelhantes?</li>
-      <li>qual é a porcentagem de identidade?</li>
-      <li>quanto da nossa sequência foi comparado?</li>
-      <li>a semelhança observada poderia ocorrer ao acaso?</li>
-    </ul>
-
-    <div class="flow-box">
-      MH029697.1<br>
-      ↓<br>
-      sequência de COI<br>
-      ↓<br>
-      comparação com outras sequências<br>
-      ↓<br>
-      alinhamento<br>
-      ↓<br>
-      interpretação biológica
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>2. O que é um alinhamento de sequências?</h2>
-
-    <p>
-      Um alinhamento organiza duas ou mais sequências de forma que posições
-      potencialmente correspondentes sejam colocadas umas sobre as outras.
-    </p>
-
-    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Sequência 1   ATGCTACGTA
+<header class="tutorial-header">
+<div class="tutorial-kicker">Aula 2 · Fundamentos e interpretação</div>
+<h1>Alinhamento e BLAST</h1>
+<p class="lead">Como comparar sequências biológicas, reconhecer regiões semelhantes e interpretar as evidências apresentadas pelo BLAST on-line.</p>
+<div class="concept">Esta aula desenvolve os conceitos de alinhamento, identidade, similaridade e homologia; apresenta a família BLAST e explica como os bancos, os parâmetros e as estatísticas influenciam a interpretação de uma busca.</div>
+</header>
+<nav class="tutorial-card contents" aria-label="Conteúdo da aula"><h2>Nesta aula</h2><p><a href="#alinhamento">Alinhamento e pontuação</a> · <a href="#homologia">Identidade e homologia</a> · <a href="#blast">Funcionamento do BLAST</a> · <a href="#tipos">Tipos de BLAST</a> · <a href="#online">BLAST on-line</a> · <a href="#metricas">Interpretação dos resultados</a> · <a href="#limites">Limites das conclusões</a></p></nav>
+<section class="tutorial-card" id="contexto"><h2>1. Da sequência à comparação</h2>
+<p>Na Aula 1, o registro <strong>MK270576.1</strong>, apresentado como uma sequência parcial do gene mitocondrial <strong>COI de <em>Grammostola pulchripes</em></strong>, serviu para compreender accession, anotações e formato FASTA. O registro informa o que foi depositado; a comparação com outras sequências permite investigar como esse material se relaciona com as referências disponíveis.</p>
+<p>Comparar sequências ajuda a reconhecer genes, localizar regiões conservadas, investigar possíveis funções e avaliar relações evolutivas. Essas aplicações dependem de uma correspondência entre posições. Duas sequências podem ter comprimentos diferentes, conter substituições ou compartilhar apenas uma região. Por isso, comparar apenas o número total de bases iguais, sem um alinhamento, pode produzir uma interpretação inadequada.</p>
+<p>O COI permanece aqui como exemplo de sequência nucleotídica. Mais adiante, a disciplina aborda dados de <em>Hypochilus</em> e recuperação de UCEs. A comparação por similaridade fornece fundamentos para esse percurso, embora a busca de COI no BLAST não seja uma etapa obrigatória do processamento dos reads.</p></section>
+<section class="tutorial-card" id="alinhamento"><h2>2. O que significa alinhar sequências?</h2>
+<p>Um <strong>alinhamento</strong> organiza sequências em colunas, colocando posições potencialmente correspondentes umas sobre as outras. Ele pode envolver DNA, RNA ou proteínas. As sequências originais são preservadas, mas lacunas podem ser introduzidas na representação para acomodar diferenças de comprimento.</p>
+<pre class="code-sample" aria-label="Exemplo de alinhamento com uma diferença">Sequência A  ATGCTACGTA
              ||||| ||||
-Sequência 2   ATGCTTCGTA</code></pre>
-
-    <p>
-      Nesse exemplo, nove das dez posições apresentadas são idênticas.
-    </p>
-
-    <p>
-      Durante um alinhamento também podem ser introduzidas lacunas
-      (<em>gaps</em>) para representar inserções ou deleções.
-    </p>
-
-    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Sequência 1   ATGCTA-CGTA
-             |||||  ||||
-Sequência 2   ATGCTTACGTA</code></pre>
-
-    <div class="concept">
-      O alinhamento é uma hipótese de correspondência entre posições das
-      sequências. A qualidade dessa correspondência depende do método e
-      dos parâmetros utilizados.
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>3. Alinhamento global e alinhamento local</h2>
-
-    <h3>Alinhamento global</h3>
-
-    <p>
-      Tenta alinhar as sequências ao longo de praticamente toda a sua extensão.
-      É particularmente útil quando as sequências possuem tamanho e
-      relacionamento comparáveis.
-    </p>
-
-    <div class="flow-box">
-      sequência inteira<br>
-      ↕<br>
-      sequência inteira
-    </div>
-
-    <h3>Alinhamento local</h3>
-
-    <p>
-      Procura regiões de alta similaridade dentro de sequências que podem
-      diferir em tamanho ou possuir apenas determinados trechos relacionados.
-    </p>
-
-    <div class="flow-box">
-      ───────────████████───────────<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;████████
-    </div>
-
-    <p>
-      O BLAST utiliza uma estratégia de
-      <strong>busca por similaridade local</strong>.
-    </p>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>4. Identidade, similaridade e homologia</h2>
-
-    <h3>Identidade</h3>
-
-    <p>
-      Identidade descreve posições que possuem exatamente o mesmo
-      nucleotídeo ou aminoácido em um alinhamento.
-    </p>
-
-    <pre><code>A  =  A
-G  =  G
-T  =  T</code></pre>
-
-    <h3>Similaridade</h3>
-
-    <p>
-      Similaridade é um conceito utilizado para descrever o grau de
-      semelhança observado entre sequências.
-    </p>
-
-    <h3>Homologia</h3>
-
-    <p>
-      Homologia descreve uma relação de ancestralidade comum.
-      Portanto, é preferível falar que duas sequências são
-      <strong>homólogas ou não homólogas</strong>, em vez de utilizar
-      expressões como “80% homólogas”.
-    </p>
-
-    <div class="concept">
-      <strong>Identidade é uma medida do alinhamento.</strong><br>
-      <strong>Homologia é uma interpretação evolutiva.</strong>
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>5. O que é BLAST?</h2>
-
-    <p>
-      <strong>BLAST</strong> significa
-      <strong>Basic Local Alignment Search Tool</strong>.
-    </p>
-
-    <p>
-      O BLAST procura regiões de similaridade entre uma sequência de consulta
-      e sequências armazenadas em um banco.
-    </p>
-
-    <div class="flow-box">
-      QUERY<br>
-      sequência que queremos investigar<br>
-      ↓<br>
-      BLAST<br>
-      ↓<br>
-      DATABASE<br>
-      conjunto de sequências de comparação<br>
-      ↓<br>
-      HITS<br>
-      sequências com alinhamentos relevantes
-    </div>
-
-    <p>
-      O BLAST é uma ferramenta heurística. Isso permite realizar buscas
-      rapidamente em bancos que podem conter milhões de sequências,
-      sem calcular exaustivamente todos os alinhamentos possíveis.
-    </p>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>6. Query, database e hit</h2>
-
-    <table class="record-fields">
-      <thead>
-        <tr>
-          <th>Termo</th>
-          <th>Significado</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td><strong>Query</strong></td>
-          <td>a sequência utilizada como consulta.</td>
-        </tr>
-
-        <tr>
-          <td><strong>Database</strong></td>
-          <td>o conjunto de sequências contra o qual a query será comparada.</td>
-        </tr>
-
-        <tr>
-          <td><strong>Hit</strong></td>
-          <td>uma sequência do banco que produziu um alinhamento com a query.</td>
-        </tr>
-
-        <tr>
-          <td><strong>HSP</strong></td>
-          <td>
-            High-scoring Segment Pair — região local de alta pontuação
-            encontrada pelo BLAST.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="flow-box">
-      MH029697.1<br>
-      QUERY<br>
-      ↓<br>
-      banco de sequências COI<br>
-      DATABASE<br>
-      ↓<br>
-      sequências semelhantes<br>
-      HITS
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>7. A família BLAST</h2>
-
-    <p>
-      BLAST não é um único programa. Existem diferentes ferramentas
-      dependendo do tipo de sequência utilizada como consulta e como banco.
-    </p>
-
-    <table class="record-fields">
-      <thead>
-        <tr>
-          <th>Programa</th>
-          <th>Query</th>
-          <th>Database</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td><strong>blastn</strong></td>
-          <td>nucleotídeo</td>
-          <td>nucleotídeo</td>
-        </tr>
-
-        <tr>
-          <td><strong>blastp</strong></td>
-          <td>proteína</td>
-          <td>proteína</td>
-        </tr>
-
-        <tr>
-          <td><strong>blastx</strong></td>
-          <td>nucleotídeo traduzido</td>
-          <td>proteína</td>
-        </tr>
-
-        <tr>
-          <td><strong>tblastn</strong></td>
-          <td>proteína</td>
-          <td>nucleotídeo traduzido</td>
-        </tr>
-
-        <tr>
-          <td><strong>tblastx</strong></td>
-          <td>nucleotídeo traduzido</td>
-          <td>nucleotídeo traduzido</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p>
-      Como nossa sequência <strong>MH029697.1</strong> é nucleotídica
-      e será comparada com outras sequências nucleotídicas, utilizaremos
-      <strong>blastn</strong>.
-    </p>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>8. Como o BLAST encontra regiões semelhantes?</h2>
-
-    <p>
-      De forma simplificada, o BLAST não começa tentando alinhar toda a
-      query com todas as sequências do banco.
-    </p>
-
-    <p>O processo pode ser entendido em etapas:</p>
-
-    <div class="flow-box">
-      QUERY<br>
-      ↓<br>
-      pequenas palavras da sequência<br>
-      ↓<br>
-      busca de correspondências no banco<br>
-      ↓<br>
-      extensão das regiões promissoras<br>
-      ↓<br>
-      alinhamentos locais<br>
-      ↓<br>
-      cálculo das pontuações e estatísticas
-    </div>
-
-    <p>
-      Essa estratégia torna a busca muito mais rápida que uma comparação
-      exaustiva de todas as sequências.
-    </p>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>9. Percent identity</h2>
-
-    <p>
-      <strong>Percent identity</strong> representa a proporção de posições
-      idênticas dentro da região alinhada.
-    </p>
-
-    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Query   ATGCTACGTA
-        ||||| ||||
-Hit     ATGCTTCGTA</code></pre>
-
-    <p>
-      Nesse exemplo:
-    </p>
-
-    <div class="flow-box">
-      9 posições idênticas<br>
-      ÷<br>
-      10 posições alinhadas<br>
-      =<br>
-      90% de identidade
-    </div>
-
-    <div class="concept">
-      Uma identidade alta deve ser interpretada junto com o tamanho
-      e a cobertura do alinhamento.
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>10. Query coverage</h2>
-
-    <p>
-      <strong>Query coverage</strong> informa quanto da sequência utilizada
-      como consulta está representado no alinhamento.
-    </p>
-
-    <p>
-      Imagine uma query com 500 nucleotídeos.
-    </p>
-
-    <div class="flow-box">
-      query = 500 nt<br>
-      região alinhada = 100 nt<br>
-      ↓<br>
-      cobertura aproximada = 20%
-    </div>
-
-    <p>
-      Um resultado pode apresentar identidade muito alta, mas cobrir
-      apenas uma pequena parte da query.
-    </p>
-
-    <div class="concept">
-      <strong>99% de identidade em 20% da query</strong> não representa
-      a mesma evidência que <strong>99% de identidade em praticamente
-      toda a query</strong>.
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>11. E-value</h2>
-
-    <p>
-      O <strong>E-value</strong> está relacionado ao número de alinhamentos
-      com determinada pontuação que poderiam ser esperados ao acaso em uma
-      busca daquele tipo.
-    </p>
-
-    <p>De forma prática:</p>
-
-    <div class="flow-box">
-      E-value menor<br>
-      ↓<br>
-      menor expectativa de observar um alinhamento daquela qualidade ao acaso
-    </div>
-
-    <p>Podemos encontrar valores como:</p>
-
-    <pre><code>2e-20
-4e-80
-1e-120
-0.0</code></pre>
-
-    <p>
-      Quanto menor o E-value, mais estatisticamente significativo é o
-      alinhamento naquele contexto de busca.
-    </p>
-
-    <div class="concept">
-      O E-value não deve ser interpretado isoladamente. Ele depende,
-      entre outros fatores, da pontuação do alinhamento e do espaço de busca.
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>12. Bit score</h2>
-
-    <p>
-      O <strong>bit score</strong> é uma pontuação normalizada que representa
-      a qualidade do alinhamento.
-    </p>
-
-    <div class="flow-box">
-      melhor alinhamento<br>
-      ↓<br>
-      maior pontuação<br>
-      ↓<br>
-      maior bit score
-    </div>
-
-    <p>
-      Em uma mesma busca, hits com bit scores maiores representam
-      alinhamentos com maior pontuação.
-    </p>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>13. Não interprete uma coluna isoladamente</h2>
-
-    <p>
-      A interpretação de um resultado BLAST deve combinar diferentes
-      informações.
-    </p>
-
-    <table class="record-fields">
-      <thead>
-        <tr>
-          <th>Informação</th>
-          <th>Pergunta</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td>Identity</td>
-          <td>quanto da região alinhada é idêntico?</td>
-        </tr>
-
-        <tr>
-          <td>Query coverage</td>
-          <td>quanto da minha query está representado?</td>
-        </tr>
-
-        <tr>
-          <td>E-value</td>
-          <td>qual é a significância estatística do alinhamento?</td>
-        </tr>
-
-        <tr>
-          <td>Bit score</td>
-          <td>qual é a força relativa do alinhamento?</td>
-        </tr>
-
-        <tr>
-          <td>Descrição do hit</td>
-          <td>o que é a sequência encontrada?</td>
-        </tr>
-
-        <tr>
-          <td>Accession</td>
-          <td>qual registro específico produziu o hit?</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="concept">
-      <strong>BLAST não identifica uma espécie automaticamente.</strong><br>
-      O resultado precisa ser interpretado considerando o marcador,
-      a cobertura, a identidade, os metadados do registro e o contexto
-      biológico da análise.
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>14. Como ler um alinhamento BLAST?</h2>
-
-    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>Query   1    ATGCTACGTAGCTACGTA    18
-             |||||||||| |||||||
-Sbjct   40   ATGCTACGTAACTACGTA    57</code></pre>
-
-    <p>
-      Os elementos principais são:
-    </p>
-
-    <ul>
-      <li><strong>Query</strong> — sequência utilizada na consulta;</li>
-      <li><strong>Sbjct</strong> — sequência encontrada no banco;</li>
-      <li>números — posições correspondentes nas sequências;</li>
-      <li>barras verticais — posições idênticas;</li>
-      <li>espaços — diferenças entre as sequências;</li>
-      <li>hífens, quando presentes — gaps introduzidos no alinhamento.</li>
-    </ul>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>15. BLAST na interface do NCBI</h2>
-
-    <p>
-      O NCBI disponibiliza uma interface web para executar diferentes
-      modalidades de BLAST.
-    </p>
-
-    <p>
-      Nela podemos fornecer uma sequência, selecionar o tipo de BLAST
-      e escolher bancos de dados públicos.
-    </p>
-
-    <div class="flow-box">
-      sequência<br>
-      ↓<br>
-      NCBI BLAST<br>
-      ↓<br>
-      banco público<br>
-      ↓<br>
-      lista de hits<br>
-      ↓<br>
-      alinhamentos
-    </div>
-
-    <div class="action-row">
-      <a class="action"
-         href="https://blast.ncbi.nlm.nih.gov/Blast.cgi"
-         target="_blank" rel="noopener noreferrer">
-        Abrir NCBI BLAST
-      </a>
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>16. NCBI BLAST+ em linha de comando</h2>
-
-    <p>
-      Além da interface web, o NCBI distribui o conjunto de programas
-      <strong>BLAST+</strong>, que permite executar buscas diretamente
-      em linha de comando.
-    </p>
-
-    <p>Entre os executáveis estão:</p>
-
-    <pre><code>blastn
-blastp
-blastx
-tblastn
-tblastx
-makeblastdb</code></pre>
-
-    <p>
-      Essa forma de execução é importante porque pode ser incorporada
-      a análises reprodutíveis e pipelines bioinformáticos.
-    </p>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>17. Por que utilizar Conda?</h2>
-
-    <p>
-      BLAST+ é um programa externo. Para instalar e organizar ferramentas
-      bioinformáticas utilizaremos <strong>Conda</strong>.
-    </p>
-
-    <div class="flow-box">
-      Conda<br>
-      ↓<br>
-      ambiente bioinfo<br>
-      ↓<br>
-      BLAST+<br>
-      ↓<br>
-      blastn / makeblastdb
-    </div>
-
-    <p>
-      Um ambiente permite reunir versões de programas e dependências
-      sem alterar todo o sistema computacional.
-    </p>
-
-    <p>
-      O <strong>Bioconda</strong> é um canal amplamente utilizado para
-      distribuição de softwares de bioinformática.
-    </p>
-
-    <div class="concept">
-      Conda é a infraestrutura. BLAST é a ferramenta biológica que
-      realmente queremos utilizar.
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>18. Banco BLAST local</h2>
-
-    <p>
-      Em vez de consultar um banco enorme pela internet, também podemos
-      criar um banco BLAST com um conjunto pequeno de sequências.
-    </p>
-
-    <div class="flow-box">
-      sequências FASTA<br>
-      ↓<br>
-      makeblastdb<br>
-      ↓<br>
-      banco BLAST local<br>
-      ↓<br>
-      blastn<br>
-      ↓<br>
-      resultados
-    </div>
-
-    <p>
-      Essa estratégia será utilizada na prática porque permite observar
-      claramente quais sequências fazem parte do banco e torna a execução
-      rápida e reproduzível durante a aula.
-    </p>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>19. makeblastdb</h2>
-
-    <p>
-      <code>makeblastdb</code> transforma um arquivo FASTA em uma estrutura
-      que pode ser consultada pelos programas BLAST+.
-    </p>
-
-    <p>A estrutura geral de um comando é:</p>
-
-    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>makeblastdb \
-  -in sequencias.fasta \
-  -dbtype nucl \
-  -out meu_banco</code></pre>
-
-    <table class="record-fields">
-      <tbody>
-        <tr>
-          <td><code>-in</code></td>
-          <td>arquivo FASTA contendo as sequências do banco.</td>
-        </tr>
-
-        <tr>
-          <td><code>-dbtype nucl</code></td>
-          <td>informa que o banco contém nucleotídeos.</td>
-        </tr>
-
-        <tr>
-          <td><code>-out</code></td>
-          <td>nome utilizado para os arquivos do banco BLAST.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>20. blastn</h2>
-
-    <p>
-      Depois que o banco foi criado, podemos comparar uma query
-      nucleotídica usando <code>blastn</code>.
-    </p>
-
-    <p>Estrutura geral:</p>
-
-    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>blastn \
-  -query query.fasta \
-  -db meu_banco \
-  -out resultado.tsv \
-  -outfmt 6</code></pre>
-
-    <table class="record-fields">
-      <tbody>
-        <tr>
-          <td><code>-query</code></td>
-          <td>arquivo contendo a sequência que queremos investigar.</td>
-        </tr>
-
-        <tr>
-          <td><code>-db</code></td>
-          <td>banco BLAST contra o qual a query será comparada.</td>
-        </tr>
-
-        <tr>
-          <td><code>-out</code></td>
-          <td>arquivo onde os resultados serão gravados.</td>
-        </tr>
-
-        <tr>
-          <td><code>-outfmt</code></td>
-          <td>define o formato da saída.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>21. O formato tabular do BLAST</h2>
-
-    <p>
-      O formato <code>6</code> produz uma saída tabular, adequada para
-      inspeção e processamento posterior.
-    </p>
-
-    <p>Por padrão, encontramos colunas como:</p>
-
-    <pre style="white-space: pre-wrap; overflow-x: auto;"><code>qseqid
-sseqid
-pident
-length
-mismatch
-gapopen
-qstart
-qend
-sstart
-send
-evalue
-bitscore</code></pre>
-
-    <table class="record-fields">
-      <tbody>
-        <tr>
-          <td><code>qseqid</code></td>
-          <td>identificador da query.</td>
-        </tr>
-
-        <tr>
-          <td><code>sseqid</code></td>
-          <td>identificador da sequência do banco.</td>
-        </tr>
-
-        <tr>
-          <td><code>pident</code></td>
-          <td>porcentagem de identidade.</td>
-        </tr>
-
-        <tr>
-          <td><code>length</code></td>
-          <td>comprimento do alinhamento.</td>
-        </tr>
-
-        <tr>
-          <td><code>evalue</code></td>
-          <td>E-value do alinhamento.</td>
-        </tr>
-
-        <tr>
-          <td><code>bitscore</code></td>
-          <td>bit score.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>22. Prática em aula</h2>
-
-    <p>
-      A execução será construída passo a passo durante a aula.
-      Cada estudante começará com um notebook vazio no Google Colab.
-    </p>
-
-    <p>O roteiro prático será:</p>
-
-    <ol class="guided-steps">
-      <li>criar um notebook novo;</li>
-      <li>conectar o Google Drive;</li>
-      <li>criar a pasta de trabalho da análise BLAST;</li>
-      <li>preparar o ambiente Conda;</li>
-      <li>criar o ambiente <code>bioinfo</code>;</li>
-      <li>instalar NCBI BLAST+;</li>
-      <li>verificar a instalação;</li>
-      <li>obter a sequência query;</li>
-      <li>preparar um pequeno conjunto de sequências de referência;</li>
-      <li>criar o banco local com <code>makeblastdb</code>;</li>
-      <li>executar <code>blastn</code>;</li>
-      <li>visualizar os resultados tabulares;</li>
-      <li>interpretar identidade, cobertura, E-value e bit score;</li>
-      <li>examinar um alinhamento em detalhe.</li>
-    </ol>
-
-    <div class="action-row">
-      <a class="action"
-         href="https://colab.research.google.com/#create=true"
-         target="_blank" rel="noopener noreferrer">
-        Abrir Google Colab em branco
-      </a>
-    </div>
-  </section>
-
-
-  <section class="tutorial-card">
-    <h2>Referências e documentação</h2>
-
-    <ul>
-      <li>
-        <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi"
-           target="_blank" rel="noopener noreferrer">
-          NCBI BLAST
-        </a>
-      </li>
-
-      <li>
-        <a href="https://www.ncbi.nlm.nih.gov/books/NBK279690/"
-           target="_blank" rel="noopener noreferrer">
-          NCBI BLAST+ Command Line Applications User Manual
-        </a>
-      </li>
-
-      <li>
-        <a href="https://blast.ncbi.nlm.nih.gov/doc/blast-help/"
-           target="_blank" rel="noopener noreferrer">
-          NCBI BLAST Help
-        </a>
-      </li>
-
-      <li>
-        <a href="https://bioconda.github.io/"
-           target="_blank" rel="noopener noreferrer">
-          Bioconda
-        </a>
-      </li>
-    </ul>
-  </section>
+Sequência B  ATGCTTCGTA</pre>
+<p>Neste exemplo didático, nove das dez colunas contêm a mesma base. A sexta posição contém A na primeira sequência e T na segunda. Uma correspondência exata é um <em>match</em>; uma diferença entre resíduos alinhados é um <em>mismatch</em>. As barras apenas tornam essas correspondências visíveis.</p>
+<p>Um alinhamento é uma <strong>hipótese de correspondência</strong>. O algoritmo procura uma solução de acordo com regras de pontuação; a plausibilidade biológica também depende do contexto. Regiões repetitivas, sequências muito divergentes ou dados de baixa qualidade podem admitir correspondências ambíguas.</p></section>
+<section class="tutorial-card"><h2>3. Gaps, inserções e deleções</h2>
+<pre class="code-sample" aria-label="Exemplo de uma lacuna">Sequência A  ATGC-ACGTA
+             |||| |||||
+Sequência B  ATGCTACGTA</pre>
+<p>O hífen representa um <strong>gap</strong>. Neste exemplo, permite que as bases após a quarta posição voltem a corresponder. Ele não é uma base desconhecida: é uma lacuna na representação do alinhamento. Uma base desconhecida pode ser indicada por N em uma sequência de DNA, o que tem outro significado.</p>
+<p>A diferença pode ser compatível com uma inserção em uma linhagem ou uma deleção em outra. Apenas esse par de sequências não determina em qual delas ocorreu o evento; para reconstruir a direção evolutiva são necessárias evidências adicionais, como comparação com outras linhagens.</p>
+<p>Gaps também podem refletir problemas de sequenciamento, montagem ou alinhamento. Um trecho com lacunas não deve ser automaticamente tratado como uma história evolutiva comprovada. Em regiões codificadoras, lacunas que alteram o quadro de leitura exigem atenção, mas sua interpretação depende da qualidade e da anotação dos dados.</p></section>
+<section class="tutorial-card"><h2>4. Como um alinhamento recebe uma pontuação?</h2>
+<p>A pontuação reúne recompensas e penalidades. Em comparações nucleotídicas, correspondências exatas normalmente acrescentam pontos, enquanto mismatches e gaps reduzem o escore. Isso evita favorecer alinhamentos obtidos pela introdução indiscriminada de lacunas.</p>
+<p>Em um <strong>modelo exclusivamente didático</strong>, com +1 por match e −1 por mismatch, o primeiro exemplo teria 9 × 1 − 1 = 8 pontos. Esse cálculo ilustra a lógica; não reproduz os parâmetros padrão do BLAST.</p>
+<p>É comum distinguir o custo de <strong>abrir</strong> uma lacuna do custo de <strong>estendê-la</strong>. Assim, uma lacuna longa pode ser tratada de modo diferente de várias lacunas isoladas. Os valores adotados influenciam qual alinhamento recebe maior pontuação.</p>
+<p>Para proteínas, matrizes de substituição, como BLOSUM62, atribuem valores diferentes a diferentes pares de aminoácidos. Algumas substituições não idênticas recebem pontuação positiva. O escore, portanto, não é simplesmente a contagem de letras iguais.</p></section>
+<section class="tutorial-card"><h2>5. Alinhamento global, local, pareado e múltiplo</h2>
+<div class="table-wrap"><table class="record-fields"><thead><tr><th>Classificação</th><th>Significado</th><th>Contexto típico</th></tr></thead><tbody>
+<tr><td>Global</td><td>Procura alinhar as sequências de uma extremidade à outra, incluindo lacunas quando necessário.</td><td>Sequências relacionadas, de comprimentos comparáveis e correspondência ao longo de grande parte da extensão.</td></tr>
+<tr><td>Local</td><td>Procura regiões com boa pontuação; partes externas podem ficar fora do alinhamento.</td><td>Um fragmento dentro de uma sequência longa ou um domínio compartilhado entre proteínas.</td></tr>
+<tr><td>Pareado</td><td>Compara duas sequências.</td><td>Uma consulta e uma sequência encontrada no banco.</td></tr>
+<tr><td>Múltiplo</td><td>Organiza três ou mais sequências em um conjunto comum de colunas.</td><td>Estudos de conservação, evolução e inferência filogenética.</td></tr>
+</tbody></table></div>
+<p>Essas classificações descrevem aspectos diferentes: global/local refere-se à extensão considerada; pareado/múltiplo, ao número de sequências organizadas conjuntamente. Needleman–Wunsch e Smith–Waterman são referências clássicas para alinhamento global e local, respectivamente. O BLAST usa uma estratégia heurística de busca local, e não uma comparação global exaustiva.</p>
+<div class="concept">Uma lista de hits do BLAST reúne comparações da consulta com sequências do banco. Ela não equivale, por si só, a um alinhamento múltiplo apropriado para construir uma filogenia.</div></section>
+<section class="tutorial-card" id="homologia"><h2>6. Identidade, similaridade e homologia</h2>
+<h3>Identidade</h3><p>É a correspondência exata entre nucleotídeos ou aminoácidos nas colunas de um alinhamento. Seu percentual é uma medida quantitativa e deve ser acompanhado da extensão alinhada.</p>
+<h3>Similaridade</h3><p>É um conceito mais amplo de semelhança. Em proteínas, pode incluir substituições entre aminoácidos que recebem pontuação positiva na matriz usada. Por isso, a proporção de <em>positives</em> pode ser maior que a de posições idênticas. A semelhança considerada depende do sistema de pontuação; não é uma propriedade única independente do método.</p>
+<h3>Homologia</h3><p>É uma relação de ancestralidade comum. A similaridade de sequência pode fornecer evidência de homologia, mas a interpretação precisa considerar extensão, significância, complexidade e contexto biológico. Homologia não é um percentual: “90% de identidade” tem significado quantitativo; “90% de homologia” emprega o conceito de forma inadequada.</p>
+<p><strong>Ortólogos</strong> são genes cuja relação envolve um evento de especiação; <strong>parálogos</strong>, um evento de duplicação. Um hit com alta pontuação não estabelece sozinho qual dessas relações existe. Além disso, a evidência de homologia pode se referir a um domínio, sem abranger toda a proteína.</p></section>
+<section class="tutorial-card" id="blast"><h2>7. O que é BLAST?</h2>
+<p><strong>BLAST</strong> significa <em>Basic Local Alignment Search Tool</em>. É uma família de ferramentas que procura regiões de similaridade local entre uma sequência de consulta e sequências de comparação, produzindo alinhamentos, pontuações e estimativas de significância estatística.</p>
+<p>A pergunta computacional é quais regiões das referências apresentam similaridade relevante com a consulta sob as condições escolhidas. A pergunta biológica — função, identidade taxonômica ou ancestralidade — exige interpretar essas correspondências junto com outras informações.</p>
+<p>O BLAST é <strong>heurístico</strong>: utiliza atalhos para localizar regiões promissoras em grandes conjuntos de dados. Essa estratégia proporciona velocidade, mas não garante recuperar toda correspondência biologicamente relevante ou o melhor alinhamento possível em qualquer situação.</p>
+<p>O BLAST on-line oferece acesso pelo navegador a buscas executadas na infraestrutura do NCBI. O resultado depende conjuntamente da consulta, do programa, do banco e dos parâmetros. A interface facilita o acesso, mas não elimina essas decisões metodológicas.</p></section>
+<section class="tutorial-card"><h2>8. Query, subject, database, hit e HSP</h2>
+<div class="table-wrap"><table class="record-fields"><thead><tr><th>Termo</th><th>Significado</th></tr></thead><tbody>
+<tr><td>Query</td><td>Sequência de consulta, usada como ponto de partida da comparação.</td></tr>
+<tr><td>Subject / Sbjct</td><td>Sequência contra a qual a consulta é alinhada.</td></tr>
+<tr><td>Database</td><td>Conjunto de sequências disponíveis para comparação naquela busca.</td></tr>
+<tr><td>Hit</td><td>Correspondência reportada para uma sequência do conjunto pesquisado.</td></tr>
+<tr><td>HSP</td><td><em>High-scoring Segment Pair</em>: um segmento de alinhamento local de alta pontuação entre query e subject.</td></tr>
+</tbody></table></div>
+<p>Um hit pode conter vários HSPs. Isso pode ocorrer quando regiões separadas da consulta correspondem a partes distintas do mesmo subject, ou quando existem repetições. Por esse motivo, o número de alinhamentos locais pode ser maior que o número de sequências encontradas.</p>
+<p>Também é necessário distinguir a descrição textual do hit de seu accession. O título resume a anotação; o accession permite recuperar o registro correspondente e examinar informações como organismo, gene, procedência e versão.</p></section>
+<section class="tutorial-card"><h2>9. Como a busca encontra regiões semelhantes?</h2>
+<p><strong>Sementes:</strong> a busca começa por correspondências curtas, chamadas palavras ou sementes. A construção dessas sementes varia conforme o programa. Em buscas proteicas, palavras semelhantes segundo a matriz também podem participar dessa etapa.</p>
+<p><strong>Extensão:</strong> correspondências promissoras são estendidas para as regiões vizinhas. O programa avalia se o ganho de pontuação justifica continuar a extensão. As implementações modernas incluem etapas capazes de produzir alinhamentos com gaps.</p>
+<p><strong>Avaliação:</strong> os alinhamentos recebem escores e estatísticas. Os critérios de reporte determinam quais correspondências aparecem na saída.</p>
+<p>Existe uma relação entre sensibilidade e custo computacional. Sementes menores podem detectar correspondências mais difíceis, mas ampliam o número de candidatos a examinar. Nenhuma configuração é ideal para todas as sequências.</p></section>
+<section class="tutorial-card" id="tipos"><h2>10. Os cinco tipos fundamentais de BLAST</h2>
+<div class="table-wrap"><table class="record-fields"><thead><tr><th>Programa</th><th>Consulta</th><th>Referências</th><th>Aplicação conceitual</th></tr></thead><tbody>
+<tr><td><strong>blastn</strong></td><td>Nucleotídeos</td><td>Nucleotídeos</td><td>Comparar uma sequência de COI com outras sequências nucleotídicas.</td></tr>
+<tr><td><strong>blastp</strong></td><td>Proteína</td><td>Proteínas</td><td>Investigar semelhança entre proteínas ou domínios.</td></tr>
+<tr><td><strong>blastx</strong></td><td>Nucleotídeos traduzidos</td><td>Proteínas</td><td>Investigar potenciais regiões codificadoras de um fragmento de DNA ou transcrito.</td></tr>
+<tr><td><strong>tblastn</strong></td><td>Proteína</td><td>Nucleotídeos traduzidos</td><td>Procurar regiões potencialmente codificadoras em sequências ainda sem anotação proteica.</td></tr>
+<tr><td><strong>tblastx</strong></td><td>Nucleotídeos traduzidos</td><td>Nucleotídeos traduzidos</td><td>Comparar possíveis produtos traduzidos de duas coleções nucleotídicas.</td></tr>
+</tbody></table></div>
+<p>Em <strong>blastn</strong>, a comparação permanece no nível dos nucleotídeos. Em <strong>blastp</strong>, ela ocorre diretamente entre aminoácidos. Nas modalidades traduzidas, a entrada indicada como nucleotídica continua sendo DNA ou RNA representado como sequência; a tradução é realizada computacionalmente para a comparação.</p>
+<p>O <strong>blastx</strong> é útil quando a sequência nucleotídica está disponível, mas seu produto proteico ainda não foi definido. O <strong>tblastn</strong> parte da situação inversa: existe uma proteína de interesse e procura-se similaridade em referências nucleotídicas. O <strong>tblastx</strong> traduz os dois lados, aumentando o custo computacional; não é uma opção universalmente superior.</p></section>
+<section class="tutorial-card"><h2>11. Tradução e quadros de leitura</h2>
+<p>Uma sequência de DNA pode ser lida a partir de três posições iniciais em cada orientação. Considerando também a fita reversa complementar, existem <strong>seis quadros de leitura</strong> possíveis. As modalidades traduzidas exploram esses quadros para procurar similaridade no nível dos aminoácidos.</p>
+<p>A tradução computacional não comprova que todos os trechos sejam genes expressos. Sequências não codificadoras também podem ser traduzidas artificialmente e produzir combinações de aminoácidos. A evidência precisa ser avaliada em conjunto com extensão do alinhamento, estatística e anotações.</p>
+<p>O <strong>código genético</strong> também importa. Códigos mitocondriais podem diferir do código padrão; no exemplo de COI, esse detalhe deve ser considerado ao interpretar buscas traduzidas. Esses programas não substituem métodos específicos de predição gênica nem resolvem automaticamente a estrutura de éxons, íntrons ou possíveis frameshifts.</p></section>
+<section class="tutorial-card"><h2>12. Megablast, discontiguous megablast e blastn</h2>
+<p>Na página <em>Nucleotide BLAST</em>, diferentes estratégias trabalham com consulta e referências nucleotídicas. A palavra blastn pode designar o programa da família e também uma modalidade específica escolhida dentro dessa página.</p>
+<div class="table-wrap"><table class="record-fields"><thead><tr><th>Estratégia</th><th>Característica</th><th>Interpretação</th></tr></thead><tbody>
+<tr><td>Megablast</td><td>Favorece a busca rápida de sequências muito semelhantes.</td><td>Adequado quando se esperam correspondências próximas.</td></tr>
+<tr><td>Discontiguous megablast</td><td>Emprega sementes com posições espaçadas, que toleram diferenças em determinadas posições.</td><td>Voltado a comparações entre sequências mais divergentes, inclusive de espécies diferentes.</td></tr>
+<tr><td>blastn</td><td>Permite sementes menores e outra configuração de busca nucleotídica.</td><td>Pode recuperar correspondências que uma busca mais restritiva não reportou, com maior custo computacional.</td></tr>
+</tbody></table></div>
+<p>A ausência de hits em uma estratégia não demonstra que outra necessariamente encontrará resultados. A sensibilidade depende da divergência, do comprimento, da complexidade da sequência, do banco e dos parâmetros. A escolha do algoritmo deve acompanhar a pergunta biológica.</p></section>
+<section class="tutorial-card"><h2>13. Modalidades especializadas</h2>
+<p><strong>PSI-BLAST</strong> utiliza buscas iterativas para construir um perfil de conservação, representado por uma matriz de pontuação específica por posição. Esse perfil pode ajudar a detectar homólogos distantes de proteínas. A inclusão de sequências inadequadas nas iterações pode, porém, desviar o perfil da família investigada.</p>
+<p><strong>DELTA-BLAST</strong> utiliza informações de domínios conservados para construir um perfil antes da busca em referências proteicas. <strong>PHI-BLAST</strong> combina a presença de um padrão especificado com evidência de similaridade local.</p>
+<p><strong>Primer-BLAST</strong> combina desenho ou análise de primers com avaliação de especificidade de possíveis produtos. Uma busca de similaridade com um primer isolado não representa toda essa análise. Essas ferramentas respondem a perguntas próprias e não precisam ser usadas para toda comparação de sequências.</p></section>
+<section class="tutorial-card" id="online"><h2>14. O que representa cada escolha no BLAST on-line?</h2>
+<p>A interface web organiza a consulta, o conjunto pesquisado e o algoritmo. Esses campos não são apenas preferências de exibição: definem a análise realizada.</p>
+<div class="table-wrap"><table class="record-fields"><thead><tr><th>Campo</th><th>Significado metodológico</th></tr></thead><tbody>
+<tr><td>Enter Query Sequence</td><td>Define a sequência de entrada; a interface aceita formatos como FASTA e identificadores reconhecidos.</td></tr>
+<tr><td>Query subrange</td><td>Restringe a busca a um intervalo da consulta, mudando o trecho analisado.</td></tr>
+<tr><td>Database</td><td>Define quais referências estão disponíveis para produzir hits.</td></tr>
+<tr><td>Organism / filtros</td><td>Incluem ou excluem grupos ou subconjuntos do banco.</td></tr>
+<tr><td>Program Selection</td><td>Escolhe a estratégia de busca compatível com o tipo de dado e a similaridade esperada.</td></tr>
+<tr><td>Algorithm parameters</td><td>Controlam sementes, pontuação, filtros e critérios de reporte.</td></tr>
+</tbody></table></div>
+<p>A opção <em>Align two or more sequences</em> permite fornecer os subjects diretamente. Nesse caso, eles passam a constituir o conjunto de comparação. O resultado continua baseado em comparações locais entre consultas e subjects; a opção não cria automaticamente um alinhamento múltiplo global.</p></section>
+<section class="tutorial-card"><h2>15. O banco delimita o universo da busca</h2>
+<p>Nenhum banco BLAST reúne obrigatoriamente todas as sequências existentes no NCBI. Há conjuntos com escopos diferentes: nucleotídeos de determinados grupos, sequências de referência, proteínas, genomas e outros tipos de dados. Uma referência ausente do conjunto pesquisado não poderá aparecer como hit.</p>
+<p>A interface nucleotídica consultada oferece, entre outras opções, <em>Eukaryota nt</em>, <em>Prokaryota nt</em> e <em>Viruses nt</em>. Nomes e organização dos bancos podem mudar. RefSeq tem uma política própria de organização e anotação, mas não deve ser entendido como um conjunto em que todo registro foi validado experimentalmente.</p>
+<p>Um filtro por organismo reduz as referências elegíveis. Isso pode tornar a busca mais direcionada, mas também elimina a possibilidade de observar correspondências fora daquele grupo. Consequentemente, uma busca restrita a uma espécie não serve, sozinha, para demonstrar que a consulta só se parece com essa espécie.</p>
+<p>Os bancos são atualizados e possuem representação desigual entre organismos. Espécies muito estudadas podem gerar muitos hits semelhantes; espécies pouco amostradas podem estar ausentes. Data, banco e restrições são parte do contexto necessário para interpretar e reproduzir resultados.</p></section>
+<section class="tutorial-card"><h2>16. Parâmetros, sensibilidade e mascaramento</h2>
+<p><strong>Word size</strong> define o tamanho das sementes. Sementes menores geralmente aumentam o conjunto de correspondências iniciais e podem favorecer a sensibilidade, ao custo de mais processamento. O efeito exato depende da modalidade de busca.</p>
+<p><strong>Expect threshold</strong> define um limite de E-value para reporte. Um limite menor é mais restritivo; um maior permite apresentar correspondências menos significativas. Mudar esse limite não transforma uma correspondência fraca em evidência biologicamente forte.</p>
+<p><strong>Match/mismatch, matriz e custos de gaps</strong> influenciam os escores. Já <strong>Max target sequences</strong> limita quantas sequências são apresentadas, não quantas espécies existem ou quantos homólogos há na natureza.</p>
+<p><strong>Baixa complexidade</strong> ocorre em regiões de composição muito repetitiva, como longas extensões ricas em uma única base. Elas podem produzir semelhanças pouco informativas. O mascaramento reduz a influência dessas regiões, conforme a modalidade e a configuração. Remover filtros indiscriminadamente pode aumentar resultados enganosos.</p></section>
+<section class="tutorial-card" id="metricas"><h2>17. Identidade e cobertura medem coisas diferentes</h2>
+<p><strong>Percent identity</strong> é o número de posições idênticas dividido pelo comprimento do alinhamento, multiplicado por 100. No alinhamento com nove matches e um mismatch, são 90%. Colunas com gaps fazem parte do comprimento do alinhamento reportado, por isso não se deve trocar esse denominador pelo comprimento total da consulta.</p>
+<p><strong>Query coverage</strong> é a fração das posições da consulta abrangida pelos alinhamentos considerados. Para uma consulta com 500 bases, um segmento que abrange 100 posições representa 20% de cobertura. Trata-se da abrangência da consulta, e não da proporção de letras iguais.</p>
+<p>Quando vários HSPs pertencem ao mesmo hit, a cobertura conjunta considera as posições da consulta cobertas por eles, sem somar duas vezes regiões sobrepostas. Por isso, a cobertura de um hit pode ser diferente da cobertura de um HSP isolado. Tampouco é seguro calcular cobertura simplesmente dividindo o comprimento do alinhamento pelo da consulta quando existem gaps.</p>
+<div class="table-wrap"><table class="record-fields"><caption>Comparação hipotética para uma consulta de 500 bases; segmentos sem gaps.</caption><thead><tr><th>Hit</th><th>Posições abrangidas</th><th>Identidade</th><th>Cobertura</th><th>Leitura</th></tr></thead><tbody>
+<tr><td>A</td><td>50</td><td>100%</td><td>10%</td><td>Correspondência perfeita, mas restrita a um trecho curto.</td></tr>
+<tr><td>B</td><td>490</td><td>96%</td><td>98%</td><td>Semelhança distribuída por quase toda a consulta.</td></tr>
+</tbody></table></div>
+<p>O hit A não é automaticamente a melhor referência por apresentar maior identidade. A relevância depende de quais regiões interessam, da significância estatística e do contexto biológico. Esses valores são exemplos explicativos, não resultados observados para MK270576.1.</p></section>
+<section class="tutorial-card"><h2>18. E-value: significância no contexto da busca</h2>
+<p>O <strong>E-value</strong> expressa o número esperado de correspondências com pontuação igual ou superior à observada que poderiam ocorrer ao acaso, segundo o modelo estatístico e o espaço de busca. Um E-value de 1 indica uma expectativa de aproximadamente uma correspondência desse nível por acaso naquele contexto.</p>
+<p>A notação 2e−20 significa 2 × 10<sup>−20</sup>. Valores menores indicam menor expectativa de correspondências casuais com aquele escore. O E-value <strong>não é a probabilidade de a espécie estar identificada corretamente</strong>, nem uma probabilidade direta de homologia.</p>
+<p>O tamanho do espaço de busca influencia essa expectativa. Mantidas as demais condições e o escore, uma busca maior oferece mais oportunidades de correspondências casuais. Por isso, E-values de buscas em bancos diferentes precisam ser comparados com cuidado.</p>
+<p>Alinhamentos curtos podem ter identidade elevada e significância limitada. Quando o relatório mostra <strong>0.0</strong>, o valor é extremamente pequeno para a representação numérica apresentada; isso não significa impossibilidade matemática de acaso nem certeza biológica absoluta.</p></section>
+<section class="tutorial-card"><h2>19. Bit score, Max score e Total score</h2>
+<p>O escore bruto decorre do sistema de pontuação empregado. O <strong>bit score</strong> normaliza esse escore com parâmetros estatísticos, facilitando a comparação de pontuações. Ao contrário do E-value, não depende diretamente do tamanho do banco para um mesmo alinhamento e modelo.</p>
+<p>Um bit score maior indica uma correspondência com maior pontuação normalizada. Entretanto, não é uma medida de qualidade do experimento, de identidade taxonômica ou de função comprovada. Alinhamentos longos podem acumular mais pontuação mesmo apresentando identidade percentual menor.</p>
+<p>Em relatórios que apresentam <strong>Max score</strong> e <strong>Total score</strong>, o primeiro resume o maior escore entre os segmentos alinhados para aquele hit, enquanto o segundo agrega os escores reportados para seus segmentos. Uma diferença entre ambos pode revelar vários HSPs; não significa necessariamente um único alinhamento contínuo.</p></section>
+<section class="tutorial-card"><h2>20. Como interpretar as visualizações do resultado</h2>
+<p><strong>Descriptions</strong> reúne descrições, identificadores e métricas resumidas. O nome exibido depende da anotação das referências. A presença de um nome de gene no título não comprova, por si só, que a consulta tenha a mesma função.</p>
+<p><strong>Graphic Summary</strong> apresenta a distribuição dos alinhamentos ao longo da consulta. A posição e a extensão das barras ajudam a distinguir hits abrangentes de correspondências localizadas. A legenda associa as cores a faixas de escore; as cores não representam diretamente espécies nem percentuais de identidade.</p>
+<p><strong>Alignments</strong> permite observar o pareamento detalhado. <strong>Taxonomy</strong>, quando disponível, organiza os hits segundo suas anotações taxonômicas. Essa organização não é uma filogenia inferida a partir da consulta.</p>
+<p>As métricas resumidas e o alinhamento detalhado são complementares. A primeira visão favorece a comparação entre hits; a segunda permite verificar se a semelhança está distribuída, fragmentada, associada a gaps ou concentrada em uma região específica.</p></section>
+<section class="tutorial-card"><h2>21. Coordenadas, orientação e leitura de um alinhamento</h2>
+<pre class="code-sample" aria-label="Trecho didático de alinhamento nucleotídico">Query   1   ATGCTACGTAGCTACGTA   18
+            |||||||||| |||||||
+Sbjct  40   ATGCTACGTAACTACGTA   57</pre>
+<p>O trecho hipotético envolve 18 posições de cada sequência, com uma diferença na posição 11 da consulta. As coordenadas da consulta vão de 1 a 18; as do subject, de 40 a 57. Isso mostra que uma região inicial da consulta pode corresponder a um trecho interno de uma referência.</p>
+<p>Em alinhamentos nucleotídicos, coordenadas decrescentes em uma das sequências podem indicar comparação na orientação reversa complementar. Isso não significa que o arquivo esteja errado: as sequências depositadas podem ter orientações distintas. A indicação de fita ajuda a interpretar esse aspecto.</p>
+<p>Em alinhamentos proteicos, a notação da linha intermediária pode indicar identidades por letras e substituições de pontuação positiva por sinais “+”. Nas buscas traduzidas, também é necessário observar o quadro de leitura e distinguir coordenadas nucleotídicas de posições de aminoácidos. A interpretação deve acompanhar o programa utilizado.</p></section>
+<section class="tutorial-card" id="limites"><h2>22. O que os resultados permitem concluir?</h2>
+<p>Um conjunto de hits pode sustentar a identificação de uma região semelhante a um gene conhecido, indicar possível pertencimento a uma família ou fornecer evidência de ancestralidade comum. A força dessas interpretações depende da combinação de identidade, extensão, cobertura, estatística e confiabilidade das referências.</p>
+<p><strong>Identificação de espécie:</strong> o melhor hit não é uma confirmação automática. Espécies distintas podem compartilhar sequências muito semelhantes, o marcador pode ter pouca resolução e a espécie de origem pode estar ausente do banco. Não existe um único percentual de identidade válido para delimitar todas as espécies em todos os marcadores.</p>
+<p><strong>Função:</strong> similaridade com uma proteína caracterizada sugere hipóteses, mas não comprova equivalência funcional. Domínios compartilhados, parálogos e mudanças em resíduos importantes podem alterar a interpretação. Evidência experimental é diferente de anotação transferida por semelhança.</p>
+<p><strong>Self-hit:</strong> encontrar o próprio registro usado como consulta é esperado se ele estiver representado no banco e for reportado. Essa correspondência não constitui validação independente da identificação biológica.</p>
+<p><strong>Ausência de hits:</strong> significa que a busca não reportou correspondências dentro das condições utilizadas. Pode refletir divergência, consulta curta, filtros, parâmetros, baixa qualidade ou falta de referências. Não demonstra, isoladamente, que a sequência seja nova ou não possua homólogos.</p></section>
+<section class="tutorial-card"><h2>23. Uma interpretação integrada</h2>
+<p>A interpretação começa pelo tipo de molécula e pelo objetivo da comparação. A escolha do programa determina o nível em que a semelhança será avaliada; o banco delimita as referências; os parâmetros influenciam a sensibilidade e o reporte; os alinhamentos mostram a extensão efetiva da correspondência.</p>
+<p>Identidade informa a igualdade nas colunas alinhadas. Cobertura informa a abrangência da consulta. E-value contextualiza a expectativa de correspondências casuais. Bit score resume a pontuação normalizada. Descrição, accession e anotações fornecem o contexto do registro encontrado. Nenhum desses elementos substitui os demais.</p>
+<div class="concept"><strong>BLAST produz evidências de similaridade.</strong> A conclusão biológica resulta da avaliação conjunta dessas evidências, da qualidade das referências e dos limites do método.</div>
+<p>Nas aulas seguintes, esses fundamentos ajudarão a compreender por que comparar contigs e sondas exige considerar identidade e cobertura. O processamento de dados de sequenciamento introduzirá questões adicionais, como qualidade dos reads, montagem e recuperação de regiões-alvo.</p></section>
+<section class="tutorial-card" id="referencias"><h2>Referências e documentação</h2>
+<p>Textos e exemplos numéricos desta página são explicativos; não representam uma busca executada. A interface e os bancos do NCBI foram consultados em 3 de outubro de 2026 e podem sofrer alterações.</p>
+<ul>
+<li><a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi">NCBI — BLAST</a>: apresentação da ferramenta e modalidades disponíveis.</li>
+<li><a href="https://blast.ncbi.nlm.nih.gov/doc/blast-help/">NCBI — BLAST Help</a>: documentação, glossário e conceitos.</li>
+<li><a href="https://blast.ncbi.nlm.nih.gov/doc/blast-help/FAQ.html">NCBI — Frequently Asked Questions</a>: estatísticas, filtros e interpretação.</li>
+<li><a href="https://blast.ncbi.nlm.nih.gov/doc/blast-help/blastdatabases.html">NCBI — BLAST databases</a>: escopo dos bancos.</li>
+<li><a href="https://www.ncbi.nlm.nih.gov/books/NBK279684/">NCBI — BLAST Command Line Applications, Appendices</a>: definições de programas, parâmetros e campos.</li>
+<li><a href="https://doi.org/10.1016/S0022-2836(05)80360-2">Altschul et al. (1990). Basic local alignment search tool. Journal of Molecular Biology, 215: 403–410.</a></li>
+<li><a href="https://doi.org/10.1093/nar/25.17.3389">Altschul et al. (1997). Gapped BLAST and PSI-BLAST: a new generation of protein database search programs. Nucleic Acids Research, 25: 3389–3402.</a></li>
+</ul></section>
+<nav class="tutorial-nav" aria-label="Navegação entre aulas"><a href="https://tiagobelintani.github.io/teaching/bioinformatica/aula07.html">← Aula 1 · Bancos biológicos</a><a href="https://tiagobelintani.github.io/teaching/bioinformatica/index.html">Disciplina</a><a href="https://tiagobelintani.github.io/teaching/bioinformatica/aula09.html">FASTA, FASTQ e SRA →</a></nav>
 
 </main></body></html>
