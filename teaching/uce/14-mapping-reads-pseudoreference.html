@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>14 · Mapping reads to the shared UCE pseudoreference | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+
+.strategy-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:18px 0 26px;
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.strategy-table th,
+.strategy-table td{
+  padding:12px 14px;
+  border:1px solid rgba(23,34,49,.09);
+  text-align:left;
+  vertical-align:top;
+}
+.strategy-table th{
+  background:rgba(238,243,247,.72);
+  color:#172231;
+  font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="index.html">UCE Tutorial</a> / Population Genomics / Mapping
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part III · Population Genomics · Step 02</div>
+    <h1>Mapping reads to the shared UCE pseudoreference</h1>
+    <p>
+      Align the original cleaned sequencing reads from every individual against the same
+      locus-wise UCE pseudoreference, producing coordinate-sorted and indexed BAM files
+      suitable for mapping quality control and downstream SNP calling.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+
+    <p>
+      The shared pseudoreference created in the previous module establishes a common
+      coordinate system across all sampled individuals. In this step, the cleaned reads
+      from each sample are mapped back to that same reference with BWA-MEM2.
+    </p>
+
+    <div class="file-tree"><pre>cleaned reads
+    │
+    ├── paired-end R1 + R2
+    │
+    └── optional singleton reads
+            ↓
+      BWA-MEM2 mapping
+            ↓
+      coordinate sorting
+            ↓
+       merge read sets
+            ↓
+       BAM validation
+            ↓
+        BAM indexing
+            ↓
+sample.sorted.bam
+sample.sorted.bam.bai</pre></div>
+
+    <div class="callout">
+      <strong>Why map every sample to the same pseudoreference?</strong>
+      <p>
+        Joint population-genomic analyses require homologous variants to be represented
+        using the same locus and position coordinates in every individual. Mapping all
+        samples against one shared UCE reference provides that common coordinate system.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Activate the population-genomics environment</h2>
+
+    <p>
+      The <code>uce-popgen</code> Conda environment was created once at the beginning of
+      the population-genomics workflow. Reuse the same environment here rather than
+      creating a new one.
+    </p>
+
+    <div class="code-block"><pre>conda activate uce-popgen</pre></div>
+
+    <p>
+      Confirm that the mapping tools are available:
+    </p>
+
+    <div class="code-block"><pre>bwa-mem2 version
+samtools --version</pre></div>
+
+    <div class="callout">
+      <strong>Keep the analysis environment consistent</strong>
+      <p>
+        Reusing the same environment across the population-genomics workflow makes software
+        versions easier to track and avoids unnecessary duplication between modules.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Define the project paths</h2>
+
+    <p>
+      The examples below use generic shell variables. Adapt only the paths and file naming
+      pattern to your project.
+    </p>
+
+    <div class="code-block"><pre># Root directory of the UCE project.
+PROJECT="/path/to/my_UCE_project"
+
+# Shared pseudoreference produced in the previous module.
+PSEUDO="$PROJECT/population_genomics/01_pseudoreference"
+PSEUDOREF="$PSEUDO/shared_uce_pseudoref.fasta"
+
+# Directory containing cleaned reads.
+CLEAN_FASTQ="$PROJECT/clean-fastq"
+
+# Output directory for mapped reads.
+MAPPING="$PROJECT/population_genomics/02_mapping"
+
+mkdir -p "$MAPPING"</pre></div>
+
+    <p>A simple cleaned-read layout could look like this:</p>
+
+    <div class="file-tree"><pre>clean-fastq/
+├── sample_A/
+│   └── split-adapter-quality-trimmed/
+│       ├── sample_A-READ1.fastq.gz
+│       ├── sample_A-READ2.fastq.gz
+│       ├── sample_A-READ-singleton.fastq.gz
+│       └── sample_A-READ-singleton-R2.fastq.gz
+│
+├── sample_B/
+│   └── split-adapter-quality-trimmed/
+│       ├── sample_B-READ1.fastq.gz
+│       └── sample_B-READ2.fastq.gz
+│
+└── ...</pre></div>
+
+    <p>
+      Singleton files are optional. If the read-processing workflow did not generate them,
+      simply omit the singleton mapping steps below.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Index the shared pseudoreference</h2>
+
+    <p>
+      BWA-MEM2 requires its own mapping index. Samtools also benefits from a FASTA
+      <code>.fai</code> index for downstream operations.
+    </p>
+
+    <div class="code-block"><pre>bwa-mem2 index "$PSEUDOREF"
+
+samtools faidx "$PSEUDOREF"</pre></div>
+
+    <p>Inspect the resulting files:</p>
+
+    <div class="code-block"><pre>ls -lh "$PSEUDOREF"*</pre></div>
+
+    <p>
+      The exact BWA-MEM2 index filenames depend on the implementation, but the reference
+      FASTA should now be accompanied by BWA-MEM2 index files and a
+      <code>.fai</code> file produced by Samtools.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Map one paired-end sample</h2>
+
+    <p>
+      Start by defining one sample and its read files. Testing one individual before
+      processing the full dataset is strongly recommended.
+    </p>
+
+    <div class="code-block"><pre>SAMPLE="sample_A"
+
+READ_DIR="$CLEAN_FASTQ/$SAMPLE/split-adapter-quality-trimmed"
+
+R1="$READ_DIR/${SAMPLE}-READ1.fastq.gz"
+R2="$READ_DIR/${SAMPLE}-READ2.fastq.gz"
+
+OUTDIR="$MAPPING/$SAMPLE"
+TMPDIR="$OUTDIR/tmp"
+
+mkdir -p "$OUTDIR" "$TMPDIR"</pre></div>
+
+    <p>
+      Define a read group before mapping:
+    </p>
+
+    <div class="code-block"><pre>RG="@RG\tID:${SAMPLE}\tSM:${SAMPLE}\tLB:${SAMPLE}\tPL:ILLUMINA"</pre></div>
+
+    <div class="explain">
+      <div class="term">ID</div>
+      <div class="desc">Read-group identifier. It should be unique within the BAM.</div>
+
+      <div class="term">SM</div>
+      <div class="desc">Biological sample name. This field is particularly important for downstream genotype calling.</div>
+
+      <div class="term">LB</div>
+      <div class="desc">Library identifier. Here it is set to the sample identifier for a simple one-library-per-sample design.</div>
+
+      <div class="term">PL</div>
+      <div class="desc">Sequencing platform. Use the value appropriate for the data; <code>ILLUMINA</code> is shown here as a common UCE example.</div>
+    </div>
+
+    <p>Map and coordinate-sort the paired reads in a single stream:</p>
+
+    <div class="code-block"><pre>PAIRED_BAM="$TMPDIR/${SAMPLE}.paired.bam"
+
+bwa-mem2 mem \
+  -t 4 \
+  -R "$RG" \
+  "$PSEUDOREF" \
+  "$R1" \
+  "$R2" \
+| samtools sort \
+    -@ 2 \
+    -T "$TMPDIR/paired_sort" \
+    -o "$PAIRED_BAM" \
+    -</pre></div>
+
+    <p>
+      Piping directly from BWA-MEM2 to <code>samtools sort</code> avoids writing a large
+      intermediate SAM file.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Optional: map singleton reads</h2>
+
+    <p>
+      Adapter trimming and paired-read cleaning can leave reads whose mate was discarded.
+      These surviving reads may still contain useful UCE sequence and can be mapped as
+      single-end reads.
+    </p>
+
+    <div class="code-block"><pre>SINGLE1="$READ_DIR/${SAMPLE}-READ-singleton.fastq.gz"
+SINGLE2="$READ_DIR/${SAMPLE}-READ-singleton-R2.fastq.gz"</pre></div>
+
+    <p>Map the first singleton file if it exists:</p>
+
+    <div class="code-block"><pre>SINGLE1_BAM="$TMPDIR/${SAMPLE}.singleton1.bam"
+
+if [[ -s "$SINGLE1" ]]; then
+  bwa-mem2 mem \
+    -t 4 \
+    -R "$RG" \
+    "$PSEUDOREF" \
+    "$SINGLE1" \
+  | samtools sort \
+      -@ 2 \
+      -T "$TMPDIR/singleton1_sort" \
+      -o "$SINGLE1_BAM" \
+      -
+fi</pre></div>
+
+    <p>Do the same for the second singleton file if present:</p>
+
+    <div class="code-block"><pre>SINGLE2_BAM="$TMPDIR/${SAMPLE}.singleton2.bam"
+
+if [[ -s "$SINGLE2" ]]; then
+  bwa-mem2 mem \
+    -t 4 \
+    -R "$RG" \
+    "$PSEUDOREF" \
+    "$SINGLE2" \
+  | samtools sort \
+      -@ 2 \
+      -T "$TMPDIR/singleton2_sort" \
+      -o "$SINGLE2_BAM" \
+      -
+fi</pre></div>
+
+    <div class="callout">
+      <strong>Do not invent singleton filenames</strong>
+      <p>
+        Read-processing tools differ in how singleton reads are named and stored. Include
+        only files that actually exist in your workflow.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Merge mapped read sets</h2>
+
+    <p>
+      If paired-end and singleton reads were mapped separately, merge the coordinate-sorted
+      BAM files into one final BAM for the sample.
+    </p>
+
+    <div class="code-block"><pre>FINAL_BAM="$OUTDIR/${SAMPLE}.sorted.bam"
+
+BAMS=("$PAIRED_BAM")
+
+[[ -s "$SINGLE1_BAM" ]] && BAMS+=("$SINGLE1_BAM")
+[[ -s "$SINGLE2_BAM" ]] && BAMS+=("$SINGLE2_BAM")
+
+if [[ ${#BAMS[@]} -eq 1 ]]; then
+  mv "${BAMS[0]}" "$FINAL_BAM"
+else
+  samtools merge \
+    -@ 2 \
+    -f \
+    -c \
+    -o "$FINAL_BAM" \
+    "${BAMS[@]}"
+fi</pre></div>
+
+    <p>
+      Because the input BAMs were coordinate-sorted against the same reference, Samtools
+      can preserve that coordinate order while merging them. The <code>-c</code> option is
+      useful here because the BAM chunks intentionally share the same read-group identifier.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Validate and index the final BAM</h2>
+
+    <p>
+      Perform a fast structural check before indexing:
+    </p>
+
+    <div class="code-block"><pre>samtools quickcheck -v "$FINAL_BAM"</pre></div>
+
+    <p>
+      No output is expected when the BAM passes this quick integrity check. Then create the
+      BAM index:
+    </p>
+
+    <div class="code-block"><pre>samtools index -@ 2 "$FINAL_BAM"</pre></div>
+
+    <p>Confirm the final files:</p>
+
+    <div class="code-block"><pre>ls -lh "$FINAL_BAM" "${FINAL_BAM}.bai"</pre></div>
+
+    <div class="file-tree"><pre>02_mapping/
+└── sample_A/
+    ├── sample_A.sorted.bam
+    └── sample_A.sorted.bam.bai</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Portable script for one sample</h2>
+
+    <p>
+      The steps above can be combined into a reusable Bash script. It accepts the sample ID
+      as its first argument and does not depend on any workload manager.
+    </p>
+
+    <div class="code-block"><pre>#!/usr/bin/env bash
+
+set -euo pipefail
+
+SAMPLE="$1"
+
+PROJECT="/path/to/my_UCE_project"
+PSEUDOREF="$PROJECT/population_genomics/01_pseudoreference/shared_uce_pseudoref.fasta"
+CLEAN_FASTQ="$PROJECT/clean-fastq"
+MAPPING="$PROJECT/population_genomics/02_mapping"
+
+READ_DIR="$CLEAN_FASTQ/$SAMPLE/split-adapter-quality-trimmed"
+
+R1="$READ_DIR/${SAMPLE}-READ1.fastq.gz"
+R2="$READ_DIR/${SAMPLE}-READ2.fastq.gz"
+
+SINGLE1="$READ_DIR/${SAMPLE}-READ-singleton.fastq.gz"
+SINGLE2="$READ_DIR/${SAMPLE}-READ-singleton-R2.fastq.gz"
+
+OUTDIR="$MAPPING/$SAMPLE"
+TMPDIR="$OUTDIR/tmp"
+
+mkdir -p "$OUTDIR" "$TMPDIR"
+
+FINAL_BAM="$OUTDIR/${SAMPLE}.sorted.bam"
+PAIRED_BAM="$TMPDIR/${SAMPLE}.paired.bam"
+
+RG="@RG\tID:${SAMPLE}\tSM:${SAMPLE}\tLB:${SAMPLE}\tPL:ILLUMINA"
+
+if [[ ! -s "$R1" || ! -s "$R2" ]]; then
+  echo "ERROR: paired reads not found for $SAMPLE" >&2
+  exit 1
+fi
+
+bwa-mem2 mem -t 4 -R "$RG" "$PSEUDOREF" "$R1" "$R2" \
+| samtools sort -@ 2 -T "$TMPDIR/paired_sort" -o "$PAIRED_BAM" -
+
+BAMS=("$PAIRED_BAM")
+
+if [[ -s "$SINGLE1" ]]; then
+  SINGLE1_BAM="$TMPDIR/${SAMPLE}.singleton1.bam"
+
+  bwa-mem2 mem -t 4 -R "$RG" "$PSEUDOREF" "$SINGLE1" \
+  | samtools sort -@ 2 -T "$TMPDIR/singleton1_sort" -o "$SINGLE1_BAM" -
+
+  BAMS+=("$SINGLE1_BAM")
+fi
+
+if [[ -s "$SINGLE2" ]]; then
+  SINGLE2_BAM="$TMPDIR/${SAMPLE}.singleton2.bam"
+
+  bwa-mem2 mem -t 4 -R "$RG" "$PSEUDOREF" "$SINGLE2" \
+  | samtools sort -@ 2 -T "$TMPDIR/singleton2_sort" -o "$SINGLE2_BAM" -
+
+  BAMS+=("$SINGLE2_BAM")
+fi
+
+if [[ ${#BAMS[@]} -eq 1 ]]; then
+  mv "${BAMS[0]}" "$FINAL_BAM"
+else
+  samtools merge -@ 2 -f -c -o "$FINAL_BAM" "${BAMS[@]}"
+fi
+
+samtools quickcheck -v "$FINAL_BAM"
+samtools index -@ 2 "$FINAL_BAM"
+
+rm -rf "$TMPDIR"
+
+echo "Mapping completed: $SAMPLE"
+echo "BAM: $FINAL_BAM"</pre></div>
+
+    <p>Run it with:</p>
+
+    <div class="code-block"><pre>bash map_one_sample.sh sample_A</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Process multiple samples without a scheduler</h2>
+
+    <p>
+      A simple sample list makes the workflow portable across workstations, servers and
+      other Unix-like environments.
+    </p>
+
+    <div class="code-block"><pre>printf "%s\n" \
+  sample_A \
+  sample_B \
+  sample_C \
+  > mapping_samples.txt</pre></div>
+
+    <p>Run the mapping sequentially:</p>
+
+    <div class="code-block"><pre>while read -r SAMPLE; do
+  bash map_one_sample.sh "$SAMPLE"
+done &lt; mapping_samples.txt</pre></div>
+
+    <div class="callout">
+      <strong>Parallel execution is environment-specific</strong>
+      <p>
+        The biological workflow does not depend on a particular scheduler. On HPC systems,
+        containers, cloud platforms or multicore workstations, parallelize the same
+        per-sample command using the resource manager appropriate to that environment.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. What this step produces</h2>
+
+    <p>
+      At the end of mapping, every individual should have one coordinate-sorted BAM and its
+      index, all aligned against the same shared UCE pseudoreference:
+    </p>
+
+    <div class="file-tree"><pre>population_genomics/
+├── 01_pseudoreference/
+│   └── shared_uce_pseudoref.fasta
+│
+└── 02_mapping/
+    ├── sample_A/
+    │   ├── sample_A.sorted.bam
+    │   └── sample_A.sorted.bam.bai
+    ├── sample_B/
+    │   ├── sample_B.sorted.bam
+    │   └── sample_B.sorted.bam.bai
+    └── ...</pre></div>
+
+    <p>
+      These BAM files are the direct input for the next stage: mapping quality control.
+      Variant calling should not begin until mapping success, coverage and depth have been
+      evaluated across samples and UCE loci.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>11. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ Every sample was mapped to the same shared UCE pseudoreference.</div>
+      <div class="check-item">✓ The pseudoreference was indexed with BWA-MEM2 and Samtools.</div>
+      <div class="check-item">✓ Paired-end reads were supplied as R1 and R2 from the same sample.</div>
+      <div class="check-item">✓ Read groups include at least ID, SM, LB and PL fields.</div>
+      <div class="check-item">✓ Singleton reads were included only when they actually existed.</div>
+      <div class="check-item">✓ BAM files were coordinate-sorted before indexing.</div>
+      <div class="check-item">✓ The final BAM passed <code>samtools quickcheck</code>.</div>
+      <div class="check-item">✓ Every final BAM has its corresponding index file.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and software documentation</h2>
+
+    <p>
+      <a href="https://github.com/bwa-mem2/bwa-mem2"
+         target="_blank" rel="noopener">
+        BWA-MEM2 — official repository and usage documentation
+      </a><br>
+      Reference indexing and paired- or single-end read mapping with the BWA-MEM2 algorithm.
+    </p>
+
+    <p>
+      <a href="https://www.htslib.org/doc/samtools-sort.html"
+         target="_blank" rel="noopener">
+        Samtools sort — official manual
+      </a><br>
+      Coordinate sorting of SAM/BAM/CRAM alignments before indexing.
+    </p>
+
+    <p>
+      <a href="https://www.htslib.org/doc/samtools-merge.html"
+         target="_blank" rel="noopener">
+        Samtools merge — official manual
+      </a><br>
+      Merging coordinate-sorted alignment files while preserving their sort order.
+    </p>
+
+    <p>
+      <a href="https://www.htslib.org/doc/samtools.html"
+         target="_blank" rel="noopener">
+        Samtools — official manual
+      </a><br>
+      Documentation for <code>faidx</code>, <code>quickcheck</code>,
+      <code>index</code> and related alignment utilities.
+    </p>
+
+    <div class="callout">
+      <strong>Boundary of this module</strong>
+      <p>
+        <code>samtools quickcheck</code> is used here only as a basic file-integrity check.
+        Mapping rate, properly paired reads, locus coverage, depth and mapping-quality
+        diagnostics belong to the next module: Mapping Quality Control.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="13-building-uce-pseudoreference.html">← Building a UCE pseudoreference</a>
+    <a href="15-mapping-quality-control.html">Next: Mapping quality control →</a>
+  </div>
+
+</main>
+
+</body>
+</html>

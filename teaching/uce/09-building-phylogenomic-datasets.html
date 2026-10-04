@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>09 · Building phylogenomic datasets | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Building phylogenomic datasets
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part II · Module 09 · PHYLUCE 1.7.3</div>
+    <h1>Building phylogenomic datasets</h1>
+    <p>
+      Evaluate matrix completeness and select UCE loci according to taxon occupancy.
+      This step converts the broad incomplete alignment set into one or more filtered
+      phylogenomic datasets for downstream tree inference.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Use the aligned UCE loci from Module 08 to examine the trade-off between the number
+      of retained loci and taxon occupancy, then generate filtered matrices with
+      <code>phyluce_align_get_only_loci_with_min_taxa</code>.
+    </p>
+
+    <div class="callout">
+      <strong>No universal occupancy threshold</strong>
+      <p>
+        A 75%, 90% or 95% matrix is an analytical choice, not a universal quality standard.
+        Higher occupancy reduces missing taxa per locus but usually retains fewer loci.
+        Lower occupancy retains more loci but allows more missing data.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Activate PHYLUCE 1.7.3</h2>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3</pre></div>
+
+    <p>On Apple Silicon:</p>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3-x86</pre></div>
+
+    <p>Confirm that the filtering program is available:</p>
+
+    <div class="code-block"><pre>phyluce_align_get_only_loci_with_min_taxa --help</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Define the alignment dataset</h2>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+DATASET="$PROJECT/taxon-sets/all"
+ALIGNMENTS="$DATASET/mafft-nexus"
+LOGS="$DATASET/log"
+
+THREADS=8
+N_TAXA=5</pre></div>
+
+    <div class="explain">
+      <div class="term">ALIGNMENTS</div>
+      <div class="desc">Incomplete locus-by-locus MAFFT alignments produced in Module 08.</div>
+
+      <div class="term">N_TAXA</div>
+      <div class="desc">Total number of samples included in the complete taxon set.</div>
+
+      <div class="term">THREADS</div>
+      <div class="desc">Number of physical CPU cores available for PHYLUCE.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Replace N_TAXA</strong>
+      <p>
+        <code>N_TAXA=5</code> is only an example. Use the actual total number of samples
+        in the dataset.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Review the completeness summary</h2>
+
+    <p>
+      If you already generated the summary in Module 08, review its
+      <code>Data matrix completeness summary</code>. Otherwise, run:
+    </p>
+
+    <div class="code-block"><pre>phyluce_align_get_align_summary_data \
+  --alignments "$ALIGNMENTS" \
+  --cores "$THREADS" \
+  --log-path "$LOGS"</pre></div>
+
+    <p>
+      PHYLUCE reports how many alignments would remain at increasing occupancy levels.
+      A typical section of the output looks conceptually like:
+    </p>
+
+    <div class="file-tree"><pre>Data matrix completeness summary
+Matrix 50%    ...
+Matrix 55%    ...
+Matrix 60%    ...
+Matrix 65%    ...
+Matrix 70%    ...
+Matrix 75%    ...
+Matrix 80%    ...
+Matrix 85%    ...
+Matrix 90%    ...
+Matrix 95%    ...</pre></div>
+
+    <p>
+      Use these counts to understand how quickly the number of loci decreases as occupancy
+      becomes more stringent.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. What does occupancy mean?</h2>
+
+    <p>
+      A 75% matrix contains only loci represented by at least 75% of the total samples.
+      For example, if a project contains 100 samples, every retained alignment must contain
+      sequence data for at least 75 of those samples.
+    </p>
+
+    <div class="callout">
+      <strong>Important interpretation</strong>
+      <p>
+        Occupancy is evaluated locus by locus. A 75% matrix does not mean that the same
+        75% of samples are present in every locus, and it does not mean that any particular
+        sample has data for 75% of all loci.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Generate a 75% occupancy dataset</h2>
+
+    <div class="code-block"><pre>ALIGN_75="$DATASET/mafft-nexus-75p"
+
+phyluce_align_get_only_loci_with_min_taxa \
+  --alignments "$ALIGNMENTS" \
+  --taxa "$N_TAXA" \
+  --percent 0.75 \
+  --output "$ALIGN_75" \
+  --cores "$THREADS" \
+  --log-path "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">--taxa</div>
+      <div class="desc">Total number of samples in the study.</div>
+
+      <div class="term">--percent 0.75</div>
+      <div class="desc">Retains only loci represented by at least 75% of the total samples.</div>
+
+      <div class="term">--output</div>
+      <div class="desc">New directory containing only the loci that pass the occupancy filter.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Generate a 95% occupancy dataset</h2>
+
+    <p>
+      A more stringent matrix can be generated independently from the same original
+      incomplete alignments:
+    </p>
+
+    <div class="code-block"><pre>ALIGN_95="$DATASET/mafft-nexus-95p"
+
+phyluce_align_get_only_loci_with_min_taxa \
+  --alignments "$ALIGNMENTS" \
+  --taxa "$N_TAXA" \
+  --percent 0.95 \
+  --output "$ALIGN_95" \
+  --cores "$THREADS" \
+  --log-path "$LOGS"</pre></div>
+
+    <p>
+      Do not generate the 95% dataset from the 75% directory. Both filtered datasets should
+      be derived independently from the same original alignment set.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Compare the retained loci</h2>
+
+    <p>Count the original and filtered alignments:</p>
+
+    <div class="code-block"><pre>echo "Incomplete matrix:"
+find "$ALIGNMENTS" -maxdepth 1 -name "*.nexus" | wc -l
+
+echo "75% matrix:"
+find "$ALIGN_75" -maxdepth 1 -name "*.nexus" | wc -l
+
+echo "95% matrix:"
+find "$ALIGN_95" -maxdepth 1 -name "*.nexus" | wc -l</pre></div>
+
+    <p>
+      The expected pattern is:
+    </p>
+
+    <div class="file-tree"><pre>Incomplete matrix   ≥   75% matrix   ≥   95% matrix</pre></div>
+
+    <p>
+      If a stricter dataset unexpectedly contains more loci than a less stringent one,
+      check the input directories and command history before proceeding.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Validate the filtered datasets</h2>
+
+    <p>
+      Run the PHYLUCE summary separately on each filtered directory:
+    </p>
+
+    <div class="code-block"><pre>phyluce_align_get_align_summary_data \
+  --alignments "$ALIGN_75" \
+  --cores "$THREADS" \
+  --log-path "$LOGS"
+
+phyluce_align_get_align_summary_data \
+  --alignments "$ALIGN_95" \
+  --cores "$THREADS" \
+  --log-path "$LOGS"</pre></div>
+
+    <p>
+      Confirm that the number of taxa per locus is consistent with the selected occupancy
+      threshold and record the number of loci retained in each dataset.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Choosing the dataset for downstream analyses</h2>
+
+    <p>
+      It is often useful to retain more than one occupancy matrix rather than selecting
+      one threshold immediately. Comparing phylogenetic results across matrices can reveal
+      whether major relationships are sensitive to missing-data treatment.
+    </p>
+
+    <div class="callout">
+      <strong>Example strategy</strong>
+      <p>
+        Keep both a moderately complete matrix such as 75% and a stringent matrix such as
+        95%. Treat these values as examples, not mandatory standards. The appropriate
+        thresholds should reflect the number of samples, locus recovery, missing-data
+        distribution and the objective of the study.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. Expected directory structure</h2>
+
+    <div class="file-tree"><pre>taxon-sets/
+└── all/
+    ├── mafft-nexus/
+    │   ├── uce-1.nexus
+    │   ├── uce-2.nexus
+    │   └── ...
+    │
+    ├── mafft-nexus-75p/
+    │   ├── uce-1.nexus
+    │   ├── uce-2.nexus
+    │   └── ...
+    │
+    ├── mafft-nexus-95p/
+    │   ├── uce-1.nexus
+    │   └── ...
+    │
+    └── log/</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>11. What comes next?</h2>
+
+    <p>
+      The filtered locus sets can now follow two complementary phylogenomic routes:
+    </p>
+
+    <div class="file-tree"><pre>Filtered UCE alignments
+│
+├── Concatenation
+│   └── IQ-TREE
+│
+└── Individual locus trees
+    └── Species-tree inference</pre></div>
+
+    <p>
+      Module 10 will prepare a concatenated matrix and infer a maximum-likelihood tree with
+      IQ-TREE. Modules 11 and 12 will retain the loci individually for gene-tree and
+      species-tree analyses.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>12. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ The completeness summary was inspected before filtering.</div>
+      <div class="check-item">✓ N_TAXA equals the total number of samples in the dataset.</div>
+      <div class="check-item">✓ Filtered matrices were generated from the original incomplete alignments.</div>
+      <div class="check-item">✓ The number of retained loci decreases or remains equal as occupancy increases.</div>
+      <div class="check-item">✓ Filtered datasets were summarized again after selection.</div>
+      <div class="check-item">✓ Occupancy thresholds were treated as analytical choices, not universal standards.</div>
+      <div class="check-item">✓ Locus-by-locus alignments were preserved for later gene-tree inference.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/tutorials/tutorial-1.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Tutorial I: final data matrices
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-3-uce-processing.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — UCE processing for phylogenomics
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/faircloth-lab/phyluce/releases/tag/v1.7.3"
+         target="_blank" rel="noopener">
+        PHYLUCE v1.7.3 — Official release
+      </a>
+    </p>
+
+    <div class="callout">
+      <strong>Documentation note</strong>
+      <p>
+        The PHYLUCE tutorial commonly demonstrates 75% and 95% complete matrices.
+        These are useful comparison points, but they are examples rather than required
+        thresholds. The command syntax used here follows the PHYLUCE 1.7.3 documentation.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="08-uce-alignments.html">← UCE alignments</a>
+    <span>Next: Concatenated phylogenetic inference →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

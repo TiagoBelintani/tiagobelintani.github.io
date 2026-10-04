@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCE Phylogenomics & Population Genomics | Tiago Belintani</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.course-page{max-width:1080px;margin:0 auto;padding:128px 28px 72px}
+.breadcrumb{margin-bottom:26px;font:500 .86rem/1.4 "Inter",sans-serif;color:#64748B}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.course-head{max-width:880px;margin-bottom:40px}
+.course-head .eyebrow{margin-bottom:8px;font:600 .76rem/1.2 "Inter",sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#3478C9}
+.course-head h1{margin:0 0 14px;font-family:"Cormorant Garamond",serif;font-size:clamp(3rem,6vw,5rem);font-weight:600;line-height:.96;color:#172231}
+.course-head p{margin:0;max-width:820px;font:400 1rem/1.75 "Inter",sans-serif;color:#526174}
+.starting-point{margin:28px 0 22px;padding:22px 24px;background:rgba(238,243,247,.86);border:1px solid rgba(52,120,201,.16);border-radius:16px}
+.starting-point strong{display:block;margin-bottom:7px;font:600 .95rem/1.3 "Inter",sans-serif;color:#172231}
+.starting-point p{margin:0 0 10px;font:400 .9rem/1.6 "Inter",sans-serif;color:#526174}
+.starting-point code{font:.88rem/1.55 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;color:#334155}
+.pipeline{margin:22px 0 52px;padding:24px 26px;background:rgba(255,255,255,.82);border:1px solid rgba(23,34,49,.10);border-radius:16px;font:500 .91rem/1.7 "Inter",sans-serif;color:#465568;text-align:center}
+.section-block{margin-top:52px}
+.section-head{margin-bottom:18px}
+.section-kicker{margin-bottom:6px;font:600 .75rem/1.2 "Inter",sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#3478C9}
+.section-head h2{margin:0 0 7px;font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;line-height:1.05;color:#172231}
+.section-head p{margin:0;max-width:800px;font:400 .94rem/1.65 "Inter",sans-serif;color:#526174}
+.lessons{display:flex;flex-direction:column;gap:12px}
+.lesson{display:grid;grid-template-columns:70px 1fr auto;gap:18px;align-items:center;padding:20px 22px;background:rgba(255,255,255,.84);border:1px solid rgba(23,34,49,.09);border-radius:14px;text-decoration:none;transition:transform .16s ease,border-color .16s ease}
+.lesson[href]:hover{transform:translateX(3px);border-color:rgba(52,120,201,.28)}
+.lesson-number{font:600 .8rem/1.3 "Inter",sans-serif;color:#3478C9}
+.lesson-main strong{display:block;margin-bottom:3px;font:600 1rem/1.35 "Inter",sans-serif;color:#172231}
+.lesson-main span{font:400 .88rem/1.45 "Inter",sans-serif;color:#64748B}
+.lesson-arrow{font:500 1.2rem/1 "Inter",sans-serif;color:#3478C9}
+.lesson.pending{opacity:.66;cursor:default}
+.lesson-status{padding:5px 9px;border-radius:999px;background:rgba(100,116,139,.10);font:600 .72rem/1.2 "Inter",sans-serif;color:#64748B;white-space:nowrap}
+.track-divider{margin:58px 0 0;padding-top:34px;border-top:1px solid rgba(23,34,49,.10)}
+.note{margin-top:52px;padding:24px 26px;background:rgba(255,255,255,.74);border:1px solid rgba(23,34,49,.09);border-radius:16px}
+.note strong{display:block;margin-bottom:7px;font:600 .95rem/1.3 "Inter",sans-serif;color:#172231}
+.note p{margin:0;font:400 .9rem/1.65 "Inter",sans-serif;color:#526174}
+
+.workflow-figure{
+  margin:30px 0 56px;
+}
+
+.workflow-figure img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:16px;
+}
+
+.workflow-figure figcaption{
+  margin-top:12px;
+  font:400 .84rem/1.55 "Inter",sans-serif;
+  color:#64748B;
+}
+
+@media(max-width:650px){.lesson{grid-template-columns:52px 1fr}.lesson-arrow,.lesson-status{grid-column:2;justify-self:start}}
+</style>
+</head>
+
+<body>
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="course-page">
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> / UCE Phylogenomics &amp; Population Genomics
+  </div>
+
+  <header class="course-head">
+    <div class="eyebrow">Computational tutorial · Ultraconserved Elements</div>
+    <h1>UCE Phylogenomics &amp; Population Genomics</h1>
+    <p>
+      A step-by-step computational tutorial for processing Ultraconserved Element (UCE)
+      target-capture data from raw sequencing reads to phylogenomic and population genomic analyses.
+      The workflow is designed to be portable and adaptable to different datasets by changing only
+      input paths, sample information, probe files and a small number of biological parameters.
+    </p>
+  </header>
+
+  <section class="starting-point">
+    <strong>Starting point</strong>
+    <p>This tutorial assumes paired-end Illumina sequencing reads in compressed FASTQ format.</p>
+    <code>
+      sample01_R1.fastq.gz &nbsp;&nbsp; sample01_R2.fastq.gz<br>
+      sample02_R1.fastq.gz &nbsp;&nbsp; sample02_R2.fastq.gz
+    </code>
+  </section>
+
+  <figure class="workflow-figure">
+    <img
+      src="../../assets/images/uce/uce_workflow.png"
+      alt="Standard UCE workflow from paired-end FASTQ reads through quality control, read processing, assembly, UCE recovery and alignment, branching into phylogenomics and SNP-based population genomics."
+    >
+  </figure>
+
+  <section class="section-block">
+    <div class="section-head">
+      <div class="section-kicker">Part I</div>
+      <h2>UCE data processing</h2>
+      <p>From raw sequencing reads to recovered and aligned UCE loci.</p>
+    </div>
+
+    <div class="lessons">
+      <a class="lesson" href="01-introduction.html"><div class="lesson-number">01</div><div class="lesson-main"><strong>Introduction and requirements</strong><span>Workflow overview, software environment, directory organization and input files.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="02-organizing-fastq.html"><div class="lesson-number">02</div><div class="lesson-main"><strong>Organizing FASTQ files</strong><span>Sample naming, paired-end reads and reproducible directory structure.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="03-quality-control.html"><div class="lesson-number">03</div><div class="lesson-main"><strong>Quality control</strong><span>Initial inspection of raw reads with FastQC and MultiQC.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="04-read-processing.html"><div class="lesson-number">04</div><div class="lesson-main"><strong>Read processing</strong><span>Three trimming routes: illumiprocessor, Trim Galore or Trimmomatic.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="05-de-novo-assembly.html"><div class="lesson-number">05</div><div class="lesson-main"><strong>De novo assembly</strong><span>SPAdes assembly of illumiprocessor-cleaned reads through PHYLUCE 1.7.3.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="06-identifying-uce-loci.html"><div class="lesson-number">06</div><div class="lesson-main"><strong>Identifying UCE loci</strong><span>Match assembled contigs to the UCE probe set with PHYLUCE 1.7.3.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="07-extracting-uce-loci.html"><div class="lesson-number">07</div><div class="lesson-main"><strong>Extracting UCE loci</strong><span>Generate an incomplete UCE dataset and extract homologous loci across samples.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="08-uce-alignments.html"><div class="lesson-number">08</div><div class="lesson-main"><strong>UCE alignments</strong><span>Align UCE loci with MAFFT while preserving the incomplete matrix.</span></div><div class="lesson-arrow">→</div></a>
+    </div>
+  </section>
+
+  <section class="section-block track-divider">
+    <div class="section-head">
+      <div class="section-kicker">Part II</div>
+      <h2>Phylogenomics</h2>
+      <p>Use complete UCE loci to infer concatenated phylogenies, gene trees and species trees.</p>
+    </div>
+
+    <div class="lessons">
+      <a class="lesson" href="09-building-phylogenomic-datasets.html"><div class="lesson-number">09</div><div class="lesson-main"><strong>Building phylogenomic datasets</strong><span>Evaluate occupancy and generate filtered UCE matrices for phylogenomic inference.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="10-concatenated-iqtree3.html"><div class="lesson-number">10</div><div class="lesson-main"><strong>Concatenated phylogenetic inference</strong><span>Concatenate UCE loci with AMAS and infer a partitioned maximum-likelihood tree with IQ-TREE 3.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="11-gene-tree-inference-iqtree3.html"><div class="lesson-number">11</div><div class="lesson-main"><strong>Gene-tree inference</strong><span>Infer one maximum-likelihood tree per UCE locus with IQ-TREE 3.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="12-species-tree-astral4.html"><div class="lesson-number">12</div><div class="lesson-main"><strong>Species-tree inference</strong><span>Infer a coalescent-aware species tree from UCE gene trees with ASTER / ASTRAL-IV.</span></div><div class="lesson-arrow">→</div></a>
+    </div>
+  </section>
+
+  <section class="section-block track-divider">
+    <div class="section-head">
+      <div class="section-kicker">Part III</div>
+      <h2>SNP &amp; population genomics</h2>
+      <p>
+        Build a shared UCE pseudoreference, map the original reads, call and filter variants,
+        and generate SNP datasets appropriate for population structure analyses.
+      </p>
+    </div>
+
+    <div class="lessons">
+      <a class="lesson" href="13-building-uce-pseudoreference.html"><div class="lesson-number">13</div><div class="lesson-main"><strong>Building a UCE pseudoreference</strong><span>Compare reference strategies and build a shared locus-wise UCE pseudoreference for joint SNP calling.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="14-mapping-reads-pseudoreference.html"><div class="lesson-number">14</div><div class="lesson-main"><strong>Mapping reads to the pseudoreference</strong><span>Map cleaned paired-end and optional singleton reads to the shared UCE reference and generate sorted, indexed BAM files.</span></div><div class="lesson-arrow">→</div></a>
+      <a class="lesson" href="15-mapping-quality-control.html"><div class="lesson-number">15</div><div class="lesson-main"><strong>Mapping quality control</strong><span>Evaluate mapping success, duplicate content, UCE breadth, depth thresholds and sample-level outliers before SNP calling.</span></div><div class="lesson-arrow">→</div></a>
+      <div class="lesson pending"><div class="lesson-number">16</div><div class="lesson-main"><strong>SNP calling</strong><span>Joint variant discovery from read-level evidence using a shared reference.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+      <div class="lesson pending"><div class="lesson-number">17</div><div class="lesson-main"><strong>Variant filtering</strong><span>Genotype quality, depth, missing data, biallelic SNPs and dataset diagnostics.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+      <div class="lesson pending"><div class="lesson-number">18</div><div class="lesson-main"><strong>Selecting independent SNPs</strong><span>Generate one-SNP-per-UCE and other datasets suitable for structure analyses.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+      <div class="lesson pending"><div class="lesson-number">19</div><div class="lesson-main"><strong>PCA</strong><span>Explore major axes of genomic variation without predefined populations.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+      <div class="lesson pending"><div class="lesson-number">20</div><div class="lesson-main"><strong>DAPC</strong><span>Multivariate discrimination and genetic clustering with adegenet.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+      <div class="lesson pending"><div class="lesson-number">21</div><div class="lesson-main"><strong>ADMIXTURE</strong><span>Model-based ancestry inference across alternative values of K.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+      <div class="lesson pending"><div class="lesson-number">22</div><div class="lesson-main"><strong>STRUCTURE</strong><span>Bayesian inference of population structure and ancestry proportions.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+      <div class="lesson pending"><div class="lesson-number">23</div><div class="lesson-main"><strong>Genetic clustering</strong><span>Complementary clustering approaches and comparison among inferred groups.</span></div><div class="lesson-status">Em desenvolvimento</div></div>
+    </div>
+  </section>
+
+  <section class="note">
+    <strong>Tutorial design</strong>
+    <p>
+      Each module will explain the biological objective, required input files, software,
+      commands, parameters, expected outputs, quality-control checks and common problems.
+      Commands will use portable paths and will not depend on a specific institutional
+      computing environment.
+    </p>
+  </section>
+</main>
+
+</body>
+</html>

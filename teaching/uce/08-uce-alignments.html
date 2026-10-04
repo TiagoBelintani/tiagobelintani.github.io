@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>08 · UCE alignments | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    UCE alignments
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part I · Module 08 · PHYLUCE 1.7.3</div>
+    <h1>UCE alignments</h1>
+    <p>
+      Separate the monolithic UCE FASTA by locus and align homologous sequences with
+      MAFFT using <code>phyluce_align_seqcap_align</code>. The incomplete matrix is
+      preserved so that occupancy can be evaluated later.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Produce one multiple-sequence alignment per UCE locus from the
+      <code>all-taxa-incomplete.fasta</code> dataset generated in Module 07.
+    </p>
+
+    <div class="callout">
+      <strong>Alignment strategy</strong>
+      <p>
+        This tutorial uses MAFFT, which is the aligner recommended in the PHYLUCE
+        documentation for general UCE analyses. We retain the incomplete matrix during
+        alignment and evaluate matrix occupancy only after the loci have been aligned.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Activate PHYLUCE 1.7.3</h2>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3</pre></div>
+
+    <p>On Apple Silicon:</p>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3-x86</pre></div>
+
+    <p>Confirm that the alignment tools are available:</p>
+
+    <div class="code-block"><pre>phyluce_align_seqcap_align --help
+
+mafft --version</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Define the input and output</h2>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+DATASET="$PROJECT/taxon-sets/all"
+UCE_FASTA="$DATASET/all-taxa-incomplete.fasta"
+
+ALIGNMENTS="$DATASET/mafft-nexus"
+LOGS="$DATASET/log"
+
+THREADS=8
+N_TAXA=5</pre></div>
+
+    <div class="explain">
+      <div class="term">UCE_FASTA</div>
+      <div class="desc">Monolithic UCE FASTA produced in Module 07.</div>
+
+      <div class="term">ALIGNMENTS</div>
+      <div class="desc">Directory that will contain one alignment for each retained UCE locus.</div>
+
+      <div class="term">THREADS</div>
+      <div class="desc">Number of physical CPU cores available for alignment.</div>
+
+      <div class="term">N_TAXA</div>
+      <div class="desc">Total number of samples included in the dataset.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Replace N_TAXA</strong>
+      <p>
+        <code>N_TAXA=5</code> is only an example. Set this value to the actual number of
+        samples listed in your <code>[all]</code> taxon set.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Align the UCE loci with MAFFT</h2>
+
+    <div class="code-block"><pre>phyluce_align_seqcap_align \
+  --fasta "$UCE_FASTA" \
+  --output "$ALIGNMENTS" \
+  --taxa "$N_TAXA" \
+  --aligner mafft \
+  --cores "$THREADS" \
+  --incomplete-matrix \
+  --log-path "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">--fasta</div>
+      <div class="desc">Monolithic FASTA containing all recovered UCE sequences.</div>
+
+      <div class="term">--output</div>
+      <div class="desc">Directory where locus-by-locus alignments will be written.</div>
+
+      <div class="term">--taxa</div>
+      <div class="desc">Total number of samples in the dataset.</div>
+
+      <div class="term">--aligner mafft</div>
+      <div class="desc">Uses MAFFT for multiple-sequence alignment.</div>
+
+      <div class="term">--cores</div>
+      <div class="desc">Number of physical CPU cores available to the alignment workflow.</div>
+
+      <div class="term">--incomplete-matrix</div>
+      <div class="desc">Allows loci to contain fewer taxa than the complete dataset.</div>
+
+      <div class="term">--log-path</div>
+      <div class="desc">Directory where PHYLUCE writes the alignment log.</div>
+    </div>
+
+    <div class="callout">
+      <strong>PHYLUCE argument note</strong>
+      <p>
+        PHYLUCE documentation contains examples using both <code>--fasta</code> and
+        <code>--input</code> in different pages. This tutorial uses <code>--fasta</code>,
+        which is the argument documented in the PHYLUCE 1.7.3 daily-use workflow for
+        aligning a monolithic UCE FASTA. Confirm the available arguments with
+        <code>phyluce_align_seqcap_align --help</code> in your installed environment.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. What happens during alignment?</h2>
+
+    <p>
+      PHYLUCE first separates the monolithic FASTA into groups of sequences belonging to
+      the same UCE locus. Loci represented by fewer than three taxa are not aligned.
+      The remaining loci are aligned independently with MAFFT.
+    </p>
+
+    <p>
+      By default, <code>phyluce_align_seqcap_align</code> also performs its standard
+      edge-trimming procedure. This removes poorly aligned sequence at the ends of each
+      locus while retaining the central aligned region.
+    </p>
+
+    <div class="callout">
+      <strong>Why keep the default trimming here?</strong>
+      <p>
+        The standard PHYLUCE workflow uses edge trimming during alignment. More aggressive
+        or alternative trimming strategies can be evaluated later if required by a specific
+        project, but they are not necessary for the general workflow presented here.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Expected output</h2>
+
+    <p>
+      The output directory contains one alignment per UCE locus. With the default output
+      format, these files are written in NEXUS format.
+    </p>
+
+    <div class="file-tree"><pre>taxon-sets/
+└── all/
+    ├── all-taxa-incomplete.fasta
+    ├── mafft-nexus/
+    │   ├── uce-1.nexus
+    │   ├── uce-2.nexus
+    │   ├── uce-3.nexus
+    │   ├── ...
+    │   └── uce-N.nexus
+    └── log/</pre></div>
+
+    <p>Count the number of retained alignments:</p>
+
+    <div class="code-block"><pre>find "$ALIGNMENTS" \
+  -maxdepth 1 \
+  -name "*.nexus" \
+  | wc -l</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Summarize the alignments</h2>
+
+    <p>
+      PHYLUCE provides <code>phyluce_align_get_align_summary_data</code> to summarize
+      thousands of alignments efficiently.
+    </p>
+
+    <div class="code-block"><pre>phyluce_align_get_align_summary_data \
+  --alignments "$ALIGNMENTS" \
+  --cores "$THREADS" \
+  --log-path "$LOGS"</pre></div>
+
+    <p>
+      The summary reports the number of loci, total aligned length, sequence composition
+      and information useful for evaluating matrix completeness.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Inspect a locus</h2>
+
+    <p>
+      Before moving forward, inspect at least one alignment manually:
+    </p>
+
+    <div class="code-block"><pre>FIRST_ALIGNMENT=$(find "$ALIGNMENTS" \
+  -maxdepth 1 \
+  -name "*.nexus" \
+  | sort \
+  | head -1)
+
+echo "$FIRST_ALIGNMENT"
+
+head -40 "$FIRST_ALIGNMENT"</pre></div>
+
+    <p>
+      Confirm that the alignment contains multiple taxa, nucleotide data and gaps where
+      required, and that the sequence identifiers correspond to the expected samples.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Do not choose the final occupancy yet</h2>
+
+    <p>
+      The incomplete matrix created in Module 07 intentionally retains loci that are not
+      present in every sample. Now that loci are aligned, we can determine how many loci
+      would remain under different occupancy thresholds.
+    </p>
+
+    <div class="callout">
+      <strong>Next step</strong>
+      <p>
+        Module 09 will compare alternative completeness thresholds and build the final
+        phylogenomic datasets. For example, a 75% matrix retains only loci containing at
+        least 75% of the total taxa. The appropriate threshold depends on the dataset and
+        analytical objective.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Common problems</h2>
+
+    <h3>Many loci are dropped before alignment</h3>
+    <p>
+      PHYLUCE requires at least three taxa for a locus to be aligned. A large number of
+      dropped loci may therefore reflect low UCE recovery, a small taxon set or substantial
+      missing data.
+    </p>
+
+    <h3>Too many CPU cores requested</h3>
+    <p>
+      Use only the number of physical cores actually available on the machine. The PHYLUCE
+      documentation explicitly warns that requesting more cores than are available can
+      generate errors.
+    </p>
+
+    <h3>Unexpected ambiguous bases</h3>
+    <p>
+      Review the alignment log and upstream sequence data. PHYLUCE applies checks to
+      ambiguous sequence during the alignment workflow, and problematic loci may be
+      removed.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ PHYLUCE 1.7.3 and MAFFT are available.</div>
+      <div class="check-item">✓ N_TAXA matches the number of samples in the dataset.</div>
+      <div class="check-item">✓ all-taxa-incomplete.fasta was used as input.</div>
+      <div class="check-item">✓ --incomplete-matrix was retained during alignment.</div>
+      <div class="check-item">✓ One NEXUS alignment was generated for each retained UCE locus.</div>
+      <div class="check-item">✓ Alignment summary statistics were inspected.</div>
+      <div class="check-item">✓ At least one locus was inspected manually.</div>
+      <div class="check-item">✓ Final occupancy filtering has not yet been applied.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/tutorials/tutorial-1.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Tutorial I: UCE alignments
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-3-uce-processing.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — UCE processing and incomplete matrices
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/list-of-programs.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Alignment program list
+      </a>
+    </p>
+
+    <p>
+      <a href="https://mafft.cbrc.jp/alignment/software/"
+         target="_blank" rel="noopener">
+        MAFFT — official website
+      </a>
+    </p>
+
+    <h3>Software citation</h3>
+
+    <p>
+      Katoh K, Standley DM. 2013. MAFFT multiple sequence alignment software version 7:
+      improvements in performance and usability. <em>Molecular Biology and Evolution</em>
+      30:772–780.
+      <a href="https://doi.org/10.1093/molbev/mst010"
+         target="_blank" rel="noopener">doi:10.1093/molbev/mst010</a>
+    </p>
+
+    <div class="callout">
+      <strong>Version policy</strong>
+      <p>
+        This module follows the PHYLUCE 1.7.3 alignment workflow: MAFFT, incomplete-matrix
+        handling and locus-by-locus output. Occupancy filtering is deliberately postponed
+        until the next module.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="07-extracting-uce-loci.html">← Extracting UCE loci</a>
+    <span>Next: Building phylogenomic datasets →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>12 · Species-tree inference with ASTRAL-IV | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Species-tree inference
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part II · Module 12 · ASTER / ASTRAL-IV</div>
+    <h1>Species-tree inference with ASTRAL-IV</h1>
+    <p>
+      Estimate a coalescent-aware species tree from the independent UCE gene trees inferred
+      with IQ-TREE 3. This module uses <code>astral4</code>, the ASTRAL-IV implementation
+      distributed within the ASTER package.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Use the collection of locus trees from Module 11 to infer a species tree that explicitly
+      accommodates discordance among gene-tree topologies under the multispecies coalescent
+      framework.
+    </p>
+
+    <div class="callout">
+      <strong>Workflow</strong>
+      <p>
+        <code>UCE alignments → IQ-TREE 3 gene trees → ASTRAL-IV → species tree</code>
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. What is ASTER?</h2>
+
+    <p>
+      ASTER stands for <strong>Accurate Species Tree EstimatoR</strong>. It is a family of
+      phylogenomic methods designed for species-tree inference rather than a single program.
+      The ASTER project currently includes:
+    </p>
+
+    <div class="file-tree"><pre>ASTER
+├── ASTRAL-IV
+├── ASTRAL-Pro3
+├── Weighted ASTRAL
+├── CASTER-site
+├── CASTER-pair
+├── WASTER
+├── SISTER
+└── D* statistic</pre></div>
+
+    <p>
+      These programs address different kinds of phylogenomic input. In this tutorial we use
+      <strong>ASTRAL-IV</strong> because our input is a set of independently estimated UCE
+      gene-tree topologies.
+    </p>
+
+    <div class="callout">
+      <strong>Why not ASTRAL-Pro3 or Weighted ASTRAL?</strong>
+      <p>
+        ASTRAL-Pro3 targets multi-copy gene-family trees containing paralogs and orthologs.
+        Weighted ASTRAL is designed to incorporate gene-tree branch support and/or branch
+        length information. The standard ASTRAL-IV route used here operates primarily on
+        the gene-tree topologies generated in Module 11.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. What does ASTRAL-IV estimate?</h2>
+
+    <p>
+      ASTRAL-IV estimates an <strong>unrooted species-tree topology</strong> from a collection
+      of unrooted gene trees. It searches for a species tree that maximizes agreement with
+      the quartet relationships induced by the input gene trees.
+    </p>
+
+    <p>
+      The method is statistically consistent under the <strong>multispecies coalescent
+      (MSC)</strong>, making it particularly relevant when gene-tree discordance arises from
+      incomplete lineage sorting.
+    </p>
+
+    <div class="callout">
+      <strong>Important biological interpretation</strong>
+      <p>
+        Discordance among gene trees does not automatically imply incomplete lineage sorting.
+        Gene-tree estimation error, introgression, hybridization and other processes can also
+        generate conflict. ASTRAL-IV models the coalescent component of gene-tree discordance;
+        it should therefore be interpreted together with additional evidence when conflict is
+        extensive.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Why ASTRAL-IV instead of ASTRAL-III?</h2>
+
+    <p>
+      ASTRAL-IV is a modern reimplementation of ASTRAL designed to scale better to large
+      phylogenomic datasets, including analyses with many loci, missing taxa and multiple
+      individuals per species.
+    </p>
+
+    <p>
+      ASTER also integrates <strong>CASTLES-II</strong> into ASTRAL-IV. This allows the
+      inferred species tree to receive terminal and internal branch lengths measured in
+      <strong>substitutions per site</strong>, which are more directly useful in many
+      downstream comparative analyses than topology alone.
+    </p>
+
+    <p>
+      ASTRAL-IV does not reproduce every feature of ASTRAL-III. In particular, the official
+      documentation notes that ASTRAL-IV does not implement the same bootstrap workflow as
+      ASTRAL-III. Its standard branch-support measure is the local posterior probability.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Install ASTER</h2>
+
+    <p>
+      Keep ASTER in a separate environment from PHYLUCE. The current Bioconda package
+      provides ASTER 1.25, whose ASTRAL-IV component is version 1.25.4.8.
+    </p>
+
+    <div class="code-block"><pre>conda create -n uce-aster \
+  -c conda-forge \
+  -c bioconda \
+  aster=1.25
+
+conda activate uce-aster</pre></div>
+
+    <p>
+      Confirm that <code>astral4</code> is available:
+    </p>
+
+    <div class="code-block"><pre>astral4</pre></div>
+
+    <p>
+      Running <code>astral4</code> without arguments prints the available command-line
+      options.
+    </p>
+
+    <div class="callout">
+      <strong>Platform support</strong>
+      <p>
+        Bioconda currently provides ASTER for Linux and macOS, including Apple Silicon.
+        The upstream ASTER project also distributes platform-specific binaries and source
+        code.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Define the gene-tree input</h2>
+
+    <p>
+      Use the locus-tree file created by IQ-TREE 3 in Module 11.
+    </p>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+DATASET="$PROJECT/taxon-sets/all"
+
+GENE_TREES="$DATASET/gene-trees-75p/uce75_loci.treefile"
+
+ASTER_OUT="$DATASET/astral4-75p"
+THREADS=8
+
+mkdir -p "$ASTER_OUT"</pre></div>
+
+    <div class="explain">
+      <div class="term">GENE_TREES</div>
+      <div class="desc">Newick file containing one independently inferred UCE gene tree per line.</div>
+
+      <div class="term">ASTER_OUT</div>
+      <div class="desc">Directory where the ASTRAL-IV species tree and log will be stored.</div>
+
+      <div class="term">THREADS</div>
+      <div class="desc">Number of CPU threads supplied to ASTRAL-IV.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Check the gene-tree file</h2>
+
+    <p>
+      Count the input gene trees:
+    </p>
+
+    <div class="code-block"><pre>grep -cve '^[[:space:]]*$' "$GENE_TREES"</pre></div>
+
+    <p>Inspect the first few trees:</p>
+
+    <div class="code-block"><pre>head -5 "$GENE_TREES"</pre></div>
+
+    <p>
+      ASTRAL-IV accepts input trees with missing taxa and unresolved branches. Gene trees
+      do not need to contain the same taxon set at every locus.
+    </p>
+
+    <div class="callout">
+      <strong>Do not root the individual gene trees</strong>
+      <p>
+        Standard ASTRAL-IV species-tree inference is based on unrooted gene-tree topologies.
+        The IQ-TREE locus trees from Module 11 can therefore be supplied directly.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Run ASTRAL-IV</h2>
+
+    <div class="code-block"><pre>SPECIES_TREE="$ASTER_OUT/uce75_astral4.tree"
+ASTER_LOG="$ASTER_OUT/uce75_astral4.log"
+
+astral4 \
+  -i "$GENE_TREES" \
+  -t "$THREADS" \
+  -u 2 \
+  -o "$SPECIES_TREE" \
+  2> "$ASTER_LOG"</pre></div>
+
+    <div class="explain">
+      <div class="term">-i</div>
+      <div class="desc">Input file containing the UCE gene trees in Newick format.</div>
+
+      <div class="term">-t</div>
+      <div class="desc">Number of CPU threads used by ASTER.</div>
+
+      <div class="term">-u 2</div>
+      <div class="desc">Requests additional branch annotations, including support information for the three alternative quartet resolutions.</div>
+
+      <div class="term">-o</div>
+      <div class="desc">Writes the inferred species tree to a Newick file.</div>
+
+      <div class="term">2&gt;</div>
+      <div class="desc">Redirects the ASTER diagnostic output and search information to a log file.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Why save stderr?</strong>
+      <p>
+        The ASTER documentation explicitly recommends retaining the log. It records the
+        execution and search information needed to audit or troubleshoot the analysis.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Rooting the species tree</h2>
+
+    <p>
+      ASTRAL species-tree topology inference is fundamentally unrooted. However, ASTRAL-IV
+      also estimates branch lengths through integrated CASTLES-II, and the ASTER
+      documentation strongly recommends correct rooting when accurate branch lengths are
+      required.
+    </p>
+
+    <p>
+      If a biologically justified outgroup is known, specify it directly:
+    </p>
+
+    <div class="code-block"><pre>OUTGROUP="outgroup_sample"
+
+astral4 \
+  -i "$GENE_TREES" \
+  -t "$THREADS" \
+  -u 2 \
+  --root "$OUTGROUP" \
+  -o "$ASTER_OUT/uce75_astral4_rooted.tree" \
+  2> "$ASTER_OUT/uce75_astral4_rooted.log"</pre></div>
+
+    <div class="callout">
+      <strong>Do not choose an arbitrary root</strong>
+      <p>
+        Rooting should follow biological and sampling knowledge. If no defensible outgroup
+        exists, retain the species-tree topology as unrooted rather than imposing an
+        unsupported root.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Branch support: local posterior probabilities</h2>
+
+    <p>
+      Standard ASTRAL-IV reports branch support as <strong>local posterior probabilities
+      (localPP)</strong>. These values are derived from quartet support around an internal
+      branch and quantify support for that local species-tree resolution.
+    </p>
+
+    <p>
+      With <code>-u 2</code>, ASTER can additionally annotate branches with information
+      describing support for all three alternative quartet resolutions around each branch.
+      This is useful for distinguishing strongly supported relationships from branches
+      showing substantial alternative quartet support.
+    </p>
+
+    <div class="callout">
+      <strong>localPP is not bootstrap support</strong>
+      <p>
+        Do not describe ASTRAL-IV local posterior probabilities as bootstrap percentages.
+        They are different statistical summaries and should be reported using the
+        terminology used by ASTRAL.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. Branch lengths with CASTLES-II</h2>
+
+    <p>
+      ASTRAL-IV integrates CASTLES-II to estimate branch lengths for the species tree using
+      information from the input gene trees. These branch lengths are reported in
+      <strong>substitutions per site</strong>.
+    </p>
+
+    <p>
+      This differs from older ASTRAL workflows in which attention often focused primarily
+      on topology or internal branch lengths in coalescent units.
+    </p>
+
+    <div class="callout">
+      <strong>Why this is useful</strong>
+      <p>
+        Substitution-per-site branch lengths are directly interpretable by many downstream
+        phylogenetic and comparative tools. Their biological interpretation still depends
+        on the assumptions of the underlying gene trees, substitution processes and
+        species-tree model.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>11. Multiple individuals per species</h2>
+
+    <p>
+      If several sampled individuals represent the same biological species, ASTRAL-IV can
+      associate those tips with a single species using a mapping file.
+    </p>
+
+    <p>Example:</p>
+
+    <div class="file-tree"><pre>individual01 species_A
+individual02 species_A
+individual03 species_B
+individual04 species_B
+individual05 species_C</pre></div>
+
+    <p>Then run:</p>
+
+    <div class="code-block"><pre>SPECIES_MAP="$DATASET/species.map"
+
+astral4 \
+  -i "$GENE_TREES" \
+  -a "$SPECIES_MAP" \
+  -t "$THREADS" \
+  -u 2 \
+  -o "$ASTER_OUT/uce75_astral4_species.tree" \
+  2> "$ASTER_OUT/uce75_astral4_species.log"</pre></div>
+
+    <p>
+      If every sample already represents a separate terminal species or operational taxon,
+      no mapping file is required.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>12. Search strategy and the -R option</h2>
+
+    <p>
+      ASTER performs several rounds of species-tree search and exploration. The documented
+      defaults use four initial search rounds and four subsampling/exploration rounds.
+    </p>
+
+    <p>
+      For relatively small datasets — the ASTER documentation specifically mentions
+      datasets with no more than approximately 50 species and 500 genes — additional search
+      rounds can be requested with:
+    </p>
+
+    <div class="code-block"><pre>astral4 \
+  -R \
+  -i "$GENE_TREES" \
+  -t "$THREADS" \
+  -u 2 \
+  -o "$ASTER_OUT/uce75_astral4_R.tree" \
+  2> "$ASTER_OUT/uce75_astral4_R.log"</pre></div>
+
+    <p>
+      The <code>-R</code> shortcut increases the search effort. Use it when the additional
+      computation is reasonable and report its use in the methods.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>13. Expected output</h2>
+
+    <div class="file-tree"><pre>astral4-75p/
+├── uce75_astral4.tree
+└── uce75_astral4.log</pre></div>
+
+    <p>
+      The tree is written in Newick format and can contain:
+    </p>
+
+    <div class="file-tree"><pre>Species-tree topology
+Branch lengths
+local posterior probabilities
+Quartet-support annotations</pre></div>
+
+    <p>Inspect the result:</p>
+
+    <div class="code-block"><pre>cat "$SPECIES_TREE"
+
+tail -50 "$ASTER_LOG"</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>14. What ASTRAL-IV does not tell you by itself</h2>
+
+    <p>
+      A highly supported ASTRAL-IV topology does not identify the biological cause of
+      gene-tree discordance. The multispecies coalescent explicitly accommodates incomplete
+      lineage sorting, but observed conflict can also involve:
+    </p>
+
+    <div class="file-tree"><pre>Gene-tree estimation error
+Low phylogenetic information
+Incomplete lineage sorting
+Introgression
+Hybridization
+Gene duplication/loss
+Other model violations</pre></div>
+
+    <p>
+      For this reason, the ASTRAL-IV tree should be interpreted together with the
+      concatenated IQ-TREE topology, gene-tree variation and later discordance or
+      reticulation analyses when those questions are biologically relevant.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>15. Concatenation and species tree are complementary</h2>
+
+    <div class="file-tree"><pre>UCE alignments
+│
+├── AMAS supermatrix
+│   └── IQ-TREE 3
+│       └── Concatenated ML tree
+│
+└── Individual UCE alignments
+    └── IQ-TREE 3 gene trees
+        └── ASTRAL-IV
+            └── Coalescent species tree</pre></div>
+
+    <p>
+      Agreement between the two approaches can strengthen confidence in major relationships.
+      Discordance between them is itself biologically and methodologically informative and
+      should be investigated rather than hidden.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>16. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ ASTER / ASTRAL-IV is installed in a dedicated environment.</div>
+      <div class="check-item">✓ The input contains one UCE gene tree per line.</div>
+      <div class="check-item">✓ Gene trees were not unnecessarily rooted before ASTRAL-IV.</div>
+      <div class="check-item">✓ Missing taxa among loci were retained rather than artificially filled.</div>
+      <div class="check-item">✓ The ASTER log was redirected and retained.</div>
+      <div class="check-item">✓ localPP values are interpreted as local posterior probabilities, not bootstrap support.</div>
+      <div class="check-item">✓ Rooting was applied only when a biologically defensible outgroup was available.</div>
+      <div class="check-item">✓ Multiple individuals were mapped to species when required.</div>
+      <div class="check-item">✓ The ASTRAL-IV topology will be compared with the concatenated IQ-TREE tree.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://github.com/chaoszhang/ASTER"
+         target="_blank" rel="noopener">
+        ASTER — official repository
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/chaoszhang/ASTER/blob/master/tutorial/astral4.md"
+         target="_blank" rel="noopener">
+        ASTRAL-IV — official tutorial
+      </a>
+    </p>
+
+    <p>
+      <a href="https://bioconda.github.io/recipes/aster/README.html"
+         target="_blank" rel="noopener">
+        ASTER — Bioconda package
+      </a>
+    </p>
+
+    <h3>Primary ASTER citation</h3>
+
+    <p>
+      Zhang C, Nielsen R, Mirarab S. 2025.
+      ASTER: A Package for Large-Scale Phylogenomic Reconstructions.
+      <em>Molecular Biology and Evolution</em> 42(8):msaf172.
+      <a href="https://doi.org/10.1093/molbev/msaf172"
+         target="_blank" rel="noopener">doi:10.1093/molbev/msaf172</a>
+    </p>
+
+    <h3>CASTLES-II / branch-length citation</h3>
+
+    <p>
+      Tabatabaee Y, Zhang C, Warnow T, Mirarab S. 2023.
+      Phylogenomic branch length estimation using quartets.
+      <em>Bioinformatics</em> 39(Suppl 1):i185–i193.
+      <a href="https://doi.org/10.1093/bioinformatics/btad221"
+         target="_blank" rel="noopener">doi:10.1093/bioinformatics/btad221</a>
+    </p>
+
+    <div class="callout">
+      <strong>Software version used in this tutorial</strong>
+      <p>
+        For reproducibility, this module pins the Bioconda ASTER package at
+        <code>1.25</code>. The corresponding ASTRAL-IV component is documented as
+        <code>v1.25.4.8</code>. Upstream ASTER development can move ahead of packaged
+        releases, so record the exact installed version in publications and archived
+        workflows.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="11-gene-tree-inference-iqtree3.html">← Gene-tree inference</a>
+    <span>Next: Building a UCE pseudoreference →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

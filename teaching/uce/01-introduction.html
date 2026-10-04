@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>01 · PHYLUCE 1.7.3 setup | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Introduction and requirements
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part I · Module 01 · PHYLUCE 1.7.3</div>
+    <h1>Introduction and requirements</h1>
+    <p>
+      Prepare a portable computational environment for processing UCE target-capture data.
+      This module defines the starting data, software environment, directory conventions
+      and basic checks used throughout the tutorial.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      By the end of this module, you should have a working command-line environment,
+      a dedicated PHYLUCE installation, and a simple project directory ready to receive
+      paired-end UCE sequencing reads.
+    </p>
+
+    <div class="callout">
+      <strong>Starting data</strong>
+      <p>
+        The tutorial starts from paired-end Illumina reads stored as compressed FASTQ files,
+        typically named <code>sample_R1.fastq.gz</code> and <code>sample_R2.fastq.gz</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Software environment</h2>
+
+    <p>
+      This tutorial is fixed to <strong>PHYLUCE v1.7.3</strong>. Commands and directory
+      expectations are checked against the official PHYLUCE 1.7.3 documentation and the
+      v1.7.3 release files. Using a fixed version avoids mixing commands from older PHYLUCE
+      tutorials with the current 1.7.x workflow.
+    </p>
+
+    <div class="callout">
+      <strong>Version used throughout this tutorial</strong>
+      <p>
+        PHYLUCE <code>1.7.3</code>. The official documentation recommends installation
+        through Conda because PHYLUCE has a complex dependency chain and the supported
+        binaries are distributed through Conda environments.
+      </p>
+    </div>
+
+    <h3>Check whether Conda is available</h3>
+
+    <div class="code-block"><pre>conda --version</pre></div>
+
+    <p>
+      If Conda is not available, install Miniconda before continuing. The PHYLUCE
+      documentation specifically recommends the Miniconda distribution for supported
+      installations.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Install PHYLUCE 1.7.3</h2>
+
+    <p>
+      PHYLUCE 1.7.3 provides operating-system-specific Conda environment files.
+      Choose the instructions that match your computer.
+    </p>
+
+    <h3>Linux</h3>
+
+    <p>Download the official Linux environment file:</p>
+
+    <div class="code-block"><pre>curl -L -O https://raw.githubusercontent.com/faircloth-lab/phyluce/v1.7.3/distrib/phyluce-1.7.3-py36-Linux-conda.yml</pre></div>
+
+    <p>Create the environment:</p>
+
+    <div class="code-block"><pre>conda env create \
+  -n phyluce-1.7.3 \
+  --file phyluce-1.7.3-py36-Linux-conda.yml</pre></div>
+
+    <p>Activate it:</p>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3</pre></div>
+
+    <h3>macOS — Intel processor</h3>
+
+    <p>Download the official macOS environment file:</p>
+
+    <div class="code-block"><pre>curl -L -O https://raw.githubusercontent.com/faircloth-lab/phyluce/v1.7.3/distrib/phyluce-1.7.3-py36-macOS-conda.yml</pre></div>
+
+    <p>Create and activate the environment:</p>
+
+    <div class="code-block"><pre>conda env create \
+  -n phyluce-1.7.3 \
+  --file phyluce-1.7.3-py36-macOS-conda.yml
+
+conda activate phyluce-1.7.3</pre></div>
+
+    <h3>macOS — Apple Silicon (M1/M2/M3/M4)</h3>
+
+    <p>
+      PHYLUCE 1.7.3 uses the macOS x86-64 environment on Apple Silicon. The official
+      release therefore creates an Intel-compatible Conda environment and sets
+      <code>osx-64</code> as the environment subdirectory.
+    </p>
+
+    <div class="code-block"><pre>curl -L -O https://raw.githubusercontent.com/faircloth-lab/phyluce/v1.7.3/distrib/phyluce-1.7.3-py36-macOS-conda.yml
+
+CONDA_SUBDIR=osx-64 conda create \
+  -n phyluce-1.7.3-x86 \
+  python=3.6
+
+conda activate phyluce-1.7.3-x86
+
+conda config --env --set subdir osx-64
+
+conda env update \
+  --name phyluce-1.7.3-x86 \
+  --file phyluce-1.7.3-py36-macOS-conda.yml \
+  --prune</pre></div>
+
+    <div class="callout">
+      <strong>Apple Silicon note</strong>
+      <p>
+        Keep <code>CONDA_SUBDIR=osx-64</code> on the same command line as
+        <code>conda create</code>. This is the procedure specified in the official
+        PHYLUCE 1.7.3 release instructions.
+      </p>
+    </div>
+
+    <h3>Verify the exact environment</h3>
+
+    <div class="code-block"><pre>conda env list
+
+python --version
+
+conda list | grep -i phyluce
+
+phyluce_assembly_match_contigs_to_probes --help
+
+phyluce_assembly_assemblo_spades --help</pre></div>
+
+    <p>
+      Both PHYLUCE commands above should print their help messages without an import
+      or dependency error. PHYLUCE 1.7.x supports SPAdes, ABySS and Velvet for assembly;
+      this tutorial will use <strong>SPAdes</strong> as the default assembler.
+    </p>
+
+    <div class="callout">
+      <strong>Do not use old Trinity-based PHYLUCE commands</strong>
+      <p>
+        Trinity was removed from PHYLUCE beginning with version 1.7.0. Older tutorials
+        that call <code>phyluce_assembly_assemblo_trinity</code> should therefore not be
+        mixed with this PHYLUCE 1.7.3 tutorial.
+      </p>
+    </div>
+
+    <h3>Deactivate PHYLUCE when necessary</h3>
+
+    <div class="code-block"><pre>conda deactivate</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Define a project directory</h2>
+
+    <p>
+      Do not hard-code a personal path throughout the analysis. Define one project location
+      and work relative to it. Replace the example path below with a directory on your system.
+    </p>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+mkdir -p "$PROJECT"
+cd "$PROJECT"
+
+pwd</pre></div>
+
+    <p>
+      The tutorial will progressively create a directory structure similar to:
+    </p>
+
+    <div class="file-tree"><pre>my_UCE_project/
+├── raw_reads/
+├── clean_reads/
+├── assemblies/
+├── uce_loci/
+├── alignments/
+├── pseudoreference/
+├── mapping/
+├── variants/
+└── analyses/</pre></div>
+
+    <p>
+      Not every directory needs to be created now. They are shown here so that the complete
+      workflow has a predictable organization from the beginning.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Define reusable variables</h2>
+
+    <p>
+      The examples in this tutorial use shell variables instead of machine-specific paths.
+      This makes the same commands easier to reuse on another computer or dataset.
+    </p>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+READS="$PROJECT/raw_reads"
+PROBES="/path/to/my_UCE_probes.fasta"
+THREADS=8</pre></div>
+
+    <div class="explain">
+      <div class="term">PROJECT</div>
+      <div class="desc">Top-level directory containing the analysis.</div>
+
+      <div class="term">READS</div>
+      <div class="desc">Directory containing the original paired-end FASTQ files.</div>
+
+      <div class="term">PROBES</div>
+      <div class="desc">FASTA file containing the UCE probe or bait sequences used for the capture design.</div>
+
+      <div class="term">THREADS</div>
+      <div class="desc">Number of CPU threads available for commands that support parallel execution.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Important</strong>
+      <p>
+        Values such as <code>THREADS=8</code> are examples, not biological or computational
+        requirements. Adjust them to the resources available on your machine.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Input naming convention</h2>
+
+    <p>
+      Use consistent sample identifiers and preserve the paired-end relationship between
+      R1 and R2 files. A simple convention is:
+    </p>
+
+    <div class="file-tree"><pre>sample01_R1.fastq.gz
+sample01_R2.fastq.gz
+
+sample02_R1.fastq.gz
+sample02_R2.fastq.gz
+
+sample03_R1.fastq.gz
+sample03_R2.fastq.gz</pre></div>
+
+    <p>
+      Avoid spaces in filenames. Keep sample identifiers short, stable and unique because
+      these names will propagate through assemblies, UCE loci, alignments, BAM files and
+      population-genomic datasets.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Pre-flight check</h2>
+
+    <p>Before continuing, verify the following:</p>
+
+    <div class="check-list">
+      <div class="check-item">✓ Conda is available from the terminal.</div>
+      <div class="check-item">✓ The PHYLUCE environment can be activated.</div>
+      <div class="check-item">✓ PHYLUCE commands respond to <code>--help</code>.</div>
+      <div class="check-item">✓ You know the location of your paired-end <code>*.fastq.gz</code> files.</div>
+      <div class="check-item">✓ You have the appropriate UCE probe/bait FASTA for your capture design.</div>
+      <div class="check-item">✓ A project directory has been chosen.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <h3>Software documentation</h3>
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/" target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 documentation
+      </a>
+    </p>
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/installation.html" target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Installation
+      </a>
+    </p>
+    <p>
+      <a href="https://github.com/faircloth-lab/phyluce/releases/tag/v1.7.3" target="_blank" rel="noopener">
+        PHYLUCE v1.7.3 — Official GitHub release
+      </a>
+    </p>
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/" target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Daily use documentation
+      </a>
+    </p>
+
+    <h3>Recommended citations</h3>
+
+    <p>
+      Faircloth BC. 2016. PHYLUCE is a software package for the analysis of conserved
+      genomic loci. <em>Bioinformatics</em> 32:786–788.
+      <a href="https://doi.org/10.1093/bioinformatics/btv646" target="_blank" rel="noopener">
+        doi:10.1093/bioinformatics/btv646
+      </a>
+    </p>
+
+    <p>
+      Faircloth BC, McCormack JE, Crawford NG, Harvey MG, Brumfield RT, Glenn TC. 2012.
+      Ultraconserved elements anchor thousands of genetic markers spanning multiple
+      evolutionary timescales. <em>Systematic Biology</em> 61:717–726.
+      <a href="https://doi.org/10.1093/sysbio/sys004" target="_blank" rel="noopener">
+        doi:10.1093/sysbio/sys004
+      </a>
+    </p>
+
+    <div class="callout">
+      <strong>Reference policy for this tutorial</strong>
+      <p>
+        PHYLUCE commands will be checked against the v1.7.3 documentation or source
+        release before being added. External tools used later in the workflow will also
+        be versioned and linked to their primary documentation.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="index.html">← Tutorial overview</a>
+    <span>Next: Organizing FASTQ files →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

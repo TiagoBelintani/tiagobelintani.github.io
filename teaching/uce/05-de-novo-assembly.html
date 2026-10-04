@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>05 · De novo assembly | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    De novo assembly
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part I · Module 05 · PHYLUCE 1.7.3</div>
+    <h1>De novo assembly</h1>
+    <p>
+      Assemble the cleaned paired-end reads into contigs using SPAdes through the
+      <code>phyluce_assembly_assemblo_spades</code> wrapper. This module follows the
+      illumiprocessor route established in the previous step.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Convert the cleaned reads from each sample into a de novo contig assembly.
+      These contigs will later be searched against the UCE probe set to identify
+      the targeted loci.
+    </p>
+
+    <div class="callout">
+      <strong>Assembler used in this tutorial</strong>
+      <p>
+        PHYLUCE 1.7.3 supports SPAdes, ABySS and Velvet. The official tutorial recommends
+        SPAdes for most applications, and this tutorial follows that recommendation.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Confirm the illumiprocessor output</h2>
+
+    <p>
+      The assembly wrapper expects paired reads named <code>READ1</code> and
+      <code>READ2</code>, with an optional <code>READ-singleton</code> file.
+      Following the illumiprocessor route, each sample should contain:
+    </p>
+
+    <div class="file-tree"><pre>clean_reads/
+├── sample01/
+│   └── split-adapter-quality-trimmed/
+│       ├── sample01-READ1.fastq.gz
+│       ├── sample01-READ2.fastq.gz
+│       └── sample01-READ-singleton.fastq.gz
+│
+├── sample02/
+│   └── split-adapter-quality-trimmed/
+│       ├── sample02-READ1.fastq.gz
+│       ├── sample02-READ2.fastq.gz
+│       └── sample02-READ-singleton.fastq.gz
+│
+└── ...</pre></div>
+
+    <p>
+      We will point the assembly configuration directly to each
+      <code>split-adapter-quality-trimmed/</code> directory. Therefore, the assembly
+      command does not need a <code>--subfolder</code> argument.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Activate PHYLUCE 1.7.3</h2>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3</pre></div>
+
+    <p>
+      On Apple Silicon, activate the x86 environment created in Module 01:
+    </p>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3-x86</pre></div>
+
+    <p>Confirm that the SPAdes wrapper is available:</p>
+
+    <div class="code-block"><pre>phyluce_assembly_assemblo_spades --help</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Define project variables</h2>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+CLEAN="$PROJECT/clean_reads"
+ASSEMBLY="$PROJECT/spades-assemblies"
+LOGS="$PROJECT/logs/assembly"
+
+THREADS=8
+MEMORY=16
+
+mkdir -p "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">CLEAN</div>
+      <div class="desc">Directory containing the illumiprocessor output.</div>
+
+      <div class="term">ASSEMBLY</div>
+      <div class="desc">New directory where PHYLUCE will create the SPAdes assemblies.</div>
+
+      <div class="term">THREADS</div>
+      <div class="desc">Number of CPU threads supplied to SPAdes.</div>
+
+      <div class="term">MEMORY</div>
+      <div class="desc">Maximum RAM supplied to SPAdes, in gigabytes.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Resource values are examples</strong>
+      <p>
+        PHYLUCE defaults to 8 GB of RAM for this wrapper and the official tutorial notes
+        that more memory is usually preferable. Set <code>THREADS</code> and
+        <code>MEMORY</code> according to the physical resources actually available on
+        your computer.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Create the assembly configuration</h2>
+
+    <p>
+      Create a simple INI-style file in which each sample identifier points to the
+      corresponding <code>split-adapter-quality-trimmed/</code> directory generated by
+      illumiprocessor.
+    </p>
+
+    <div class="file-tree"><pre>[samples]
+sample01:/absolute/path/to/my_UCE_project/clean_reads/sample01/split-adapter-quality-trimmed
+sample02:/absolute/path/to/my_UCE_project/clean_reads/sample02/split-adapter-quality-trimmed
+sample03:/absolute/path/to/my_UCE_project/clean_reads/sample03/split-adapter-quality-trimmed</pre></div>
+
+    <p>
+      Save the file as <code>assembly.conf</code> and inspect it before running the assembly:
+    </p>
+
+    <div class="code-block"><pre>ASSEMBLY_CONF="$PROJECT/assembly.conf"
+
+cat "$ASSEMBLY_CONF"</pre></div>
+
+    <div class="callout">
+      <strong>Check before continuing</strong>
+      <p>
+        Every expected sample should appear exactly once, and each path should point to an
+        existing <code>split-adapter-quality-trimmed/</code> directory.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Run SPAdes through PHYLUCE</h2>
+
+    <div class="code-block"><pre>phyluce_assembly_assemblo_spades \
+  --config "$ASSEMBLY_CONF" \
+  --output "$ASSEMBLY" \
+  --cores "$THREADS" \
+  --memory "$MEMORY" \
+  --log-path "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">--config</div>
+      <div class="desc">Assembly configuration containing sample names and cleaned-read directories.</div>
+
+      <div class="term">--output</div>
+      <div class="desc">Directory where sample-specific SPAdes assemblies and the combined contig-link directory are created.</div>
+
+      <div class="term">--cores</div>
+      <div class="desc">Number of CPU threads passed to SPAdes.</div>
+
+      <div class="term">--memory</div>
+      <div class="desc">Maximum RAM, in GB, passed to SPAdes.</div>
+
+      <div class="term">--log-path</div>
+      <div class="desc">Existing directory where the PHYLUCE wrapper log is written.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Why no --subfolder?</strong>
+      <p>
+        Our <code>assembly.conf</code> already points directly to each
+        <code>split-adapter-quality-trimmed/</code> directory. The alternative is to
+        point to each sample directory and use
+        <code>--subfolder split-adapter-quality-trimmed</code>. Do one or the other,
+        not both.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. What the PHYLUCE wrapper does</h2>
+
+    <p>
+      In PHYLUCE 1.7.3, the SPAdes wrapper identifies the paired reads and singleton reads,
+      creates one assembly directory per sample, runs SPAdes, and creates standardized
+      symbolic links to the final contigs.
+    </p>
+
+    <p>
+      The wrapper invokes SPAdes in careful, single-cell mode. The single-cell mode is used
+      because target-capture datasets can have strongly heterogeneous coverage among loci.
+    </p>
+
+    <p>
+      Unless <code>--no-clean</code> is supplied, PHYLUCE removes intermediate SPAdes files
+      after a successful assembly and retains the principal assembly outputs.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Expected output</h2>
+
+    <p>
+      The PHYLUCE 1.7.3 source creates sample-specific directories ending in
+      <code>_spades</code>. A simplified result is:
+    </p>
+
+    <div class="file-tree"><pre>spades-assemblies/
+├── contigs/
+│   ├── sample01.contigs.fasta -> ../sample01_spades/contigs.fasta
+│   ├── sample02.contigs.fasta -> ../sample02_spades/contigs.fasta
+│   └── sample03.contigs.fasta -> ../sample03_spades/contigs.fasta
+│
+├── sample01_spades/
+│   ├── contigs.fasta
+│   ├── scaffolds.fasta
+│   └── spades.log
+│
+├── sample02_spades/
+│   ├── contigs.fasta
+│   ├── scaffolds.fasta
+│   └── spades.log
+│
+└── sample03_spades/
+    ├── contigs.fasta
+    ├── scaffolds.fasta
+    └── spades.log</pre></div>
+
+    <div class="callout">
+      <strong>The contigs directory is the important downstream input</strong>
+      <p>
+        <code>spades-assemblies/contigs/</code> provides a standardized collection of
+        one contig FASTA per sample. The next PHYLUCE step can operate on this single
+        directory when matching assembled contigs to the UCE probe set.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Check whether all assemblies were created</h2>
+
+    <p>Count the standardized contig files:</p>
+
+    <div class="code-block"><pre>find "$ASSEMBLY/contigs" \
+  -maxdepth 1 \
+  -name "*.contigs.fasta" \
+  | wc -l</pre></div>
+
+    <p>Check for empty or failed contig files:</p>
+
+    <div class="code-block"><pre>for F in "$ASSEMBLY"/contigs/*.contigs.fasta
+do
+    if [[ ! -s "$F" ]]
+    then
+        echo "Empty or missing assembly: $F"
+    fi
+done</pre></div>
+
+    <p>
+      If no filenames are printed, every standardized contig FASTA exists and contains data.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Assembly quality control</h2>
+
+    <p>
+      PHYLUCE provides <code>phyluce_assembly_get_fasta_lengths</code> to summarize an
+      assembled FASTA. As a simple example, inspect one assembly:
+    </p>
+
+    <div class="code-block"><pre>phyluce_assembly_get_fasta_lengths \
+  --input "$ASSEMBLY/contigs/sample01.contigs.fasta" \
+  --csv</pre></div>
+
+    <p>
+      The output summarizes properties such as the number of contigs, total assembled bases,
+      mean and median contig length, minimum and maximum contig length, and the number of
+      contigs longer than 1 kb.
+    </p>
+
+    <div class="callout">
+      <strong>Interpretation</strong>
+      <p>
+        Use this command as a basic assembly diagnostic. Later, the same type of summary can
+        be applied to all samples to identify strong outliers before UCE identification.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. Troubleshooting</h2>
+
+    <h3>“Expected assembly files were not found in output”</h3>
+    <p>
+      This message usually means that SPAdes did not successfully produce the expected
+      <code>contigs.fasta</code>, <code>scaffolds.fasta</code> and
+      <code>spades.log</code> files. Inspect the sample-specific
+      <code>spades.log</code> and the PHYLUCE log first.
+    </p>
+
+    <h3>Insufficient memory</h3>
+    <p>
+      Reduce the number of simultaneous resources requested or increase
+      <code>--memory</code> only when that amount of RAM is physically available.
+      Requesting more memory than the machine can provide does not increase performance
+      and can cause failure.
+    </p>
+
+    <h3>Rerunning an interrupted assembly</h3>
+    <p>
+      Do not overwrite a partially completed assembly directory blindly. Preserve the logs,
+      identify the failed sample, and either use a new output directory or remove only the
+      incomplete output after confirming what failed.
+    </p>
+
+    <h3>Need SPAdes intermediate files?</h3>
+    <p>
+      Add <code>--no-clean</code> when troubleshooting if you need PHYLUCE to retain the
+      intermediate SPAdes files. The default behavior cleans those files after successful
+      assembly.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>11. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ The PHYLUCE 1.7.3 environment is active.</div>
+      <div class="check-item">✓ assembly.conf contains every expected sample exactly once.</div>
+      <div class="check-item">✓ Each path points to illumiprocessor-cleaned reads.</div>
+      <div class="check-item">✓ THREADS and MEMORY match the available hardware.</div>
+      <div class="check-item">✓ A standardized contig FASTA exists for every assembled sample.</div>
+      <div class="check-item">✓ Assembly statistics were generated and sample outliers were inspected.</div>
+      <div class="check-item">✓ PHYLUCE and SPAdes logs were retained.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-2-assembly.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Assembly
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/tutorials/tutorial-1.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Tutorial I: Assemble the data
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/faircloth-lab/phyluce/blob/v1.7.3/bin/assembly/phyluce_assembly_assemblo_spades"
+         target="_blank" rel="noopener">
+        PHYLUCE v1.7.3 — phyluce_assembly_assemblo_spades source
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/faircloth-lab/phyluce/releases/tag/v1.7.3"
+         target="_blank" rel="noopener">
+        PHYLUCE v1.7.3 — Official release
+      </a>
+    </p>
+
+    <h3>Software citation</h3>
+
+    <p>
+      Bankevich A, Nurk S, Antipov D, et al. 2012. SPAdes: a new genome assembly algorithm
+      and its applications to single-cell sequencing. <em>Journal of Computational Biology</em>
+      19:455–477.
+      <a href="https://doi.org/10.1089/cmb.2012.0021"
+         target="_blank" rel="noopener">doi:10.1089/cmb.2012.0021</a>
+    </p>
+
+    <div class="callout">
+      <strong>Version policy</strong>
+      <p>
+        Command syntax and output naming in this module were checked against the official
+        PHYLUCE 1.7.3 documentation and the v1.7.3 source code. This is particularly
+        important because some older documentation examples retain legacy Trinity-related
+        directory names that are not produced by the current SPAdes wrapper.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="04-read-processing.html">← Read processing</a>
+    <span>Next: Identifying UCE loci →</span>
+  </div>
+
+</main>
+
+</body>
+</html>
