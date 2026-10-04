@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 · Mapping quality control | UCE Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+
+.strategy-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:18px 0 26px;
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.strategy-table th,
+.strategy-table td{
+  padding:12px 14px;
+  border:1px solid rgba(23,34,49,.09);
+  text-align:left;
+  vertical-align:top;
+}
+.strategy-table th{
+  background:rgba(238,243,247,.72);
+  color:#172231;
+  font-weight:600;
+}
+
+</style>
+<style>
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:18px 0 28px}
+.metric-card{border:1px solid rgba(23,34,49,.10);border-radius:14px;padding:18px;background:rgba(248,250,252,.72)}
+.metric-card h3{margin:0 0 8px;font:600 1rem/1.3 "Inter",sans-serif;color:#172231}
+.metric-card p{margin:0;font-size:.92rem}
+.interpret-table{width:100%;border-collapse:collapse;margin:18px 0 28px;font:400 .88rem/1.55 "Inter",sans-serif;color:#526174}
+.interpret-table th,.interpret-table td{padding:11px 13px;border:1px solid rgba(23,34,49,.09);text-align:left;vertical-align:top}
+.interpret-table th{background:rgba(238,243,247,.72);color:#172231;font-weight:600}
+</style>
+</head>
+<body>
+<main class="lesson-page">
+
+<div class="breadcrumb"><a href="index.html">UCE Tutorial</a> / Population Genomics / Mapping QC</div>
+
+<header class="lesson-head">
+  <div class="eyebrow">Part III · Population Genomics · Step 03</div>
+  <h1>Mapping quality control</h1>
+  <p>Evaluate whether each sample has sufficient, well-distributed and reliable read support across the shared UCE pseudoreference before SNP calling.</p>
+</header>
+
+<section class="lesson-section">
+<h2>Objective</h2>
+<p>A completed mapping step does not guarantee that every sample is equally suitable for population-genomic inference. Samples can differ in mapping rate, duplicate content, breadth of UCE coverage, sequencing depth and mapping quality.</p>
+<p>The goal here is to decide whether each individual has enough independent, confidently mapped sequence information across the shared pseudoreference to support downstream genotype calling.</p>
+
+<div class="file-tree"><pre>final post-processed BAMs
+        ↓
+samtools flagstat
+        ↓
+samtools stats
+        ↓
+samtools coverage
+        ↓
+samtools depth -aa
+        ↓
+combine metrics across samples
+        ↓
+identify technical outliers
+        ↓
+retain / flag / investigate
+        ↓
+SNP calling</pre></div>
+
+<div class="callout"><strong>Core principle</strong>
+<p>No single metric should normally determine sample exclusion. Mapping percentage, duplicate fraction, breadth of coverage, depth and MAPQ should be interpreted together and later cross-checked against genotype missingness.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>1. Input BAMs</h2>
+<p>This module assumes duplicate marking has already been completed during the mapping stage. The preferred inputs are therefore the final <code>*.markdup.bam</code> files and their indexes.</p>
+
+<div class="file-tree"><pre>02_mapping/
+├── sample_A/
+│   ├── sample_A.markdup.bam
+│   └── sample_A.markdup.bam.bai
+├── sample_B/
+│   ├── sample_B.markdup.bam
+│   └── sample_B.markdup.bam.bai
+└── ...</pre></div>
+
+<p>Marking duplicates is important because PCR or optical duplicates can inflate apparent depth without adding independent molecular information.</p>
+
+<div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+POPGEN="$PROJECT/population_genomics"
+MAPPING="$POPGEN/02_mapping"
+MAPPING_QC="$POPGEN/03_mapping_qc"
+
+mkdir -p "$MAPPING_QC"</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>2. The main QC metrics</h2>
+
+<div class="metric-grid">
+<div class="metric-card"><h3>Mapped reads</h3><p>Fraction of reads that align to the shared UCE pseudoreference. Useful, but not sufficient by itself for target-capture data.</p></div>
+<div class="metric-card"><h3>Properly paired reads</h3><p>Paired reads whose alignment configuration satisfies the mapper's proper-pair criteria.</p></div>
+<div class="metric-card"><h3>Duplicate fraction</h3><p>Reads marked as duplicates. High values indicate that a substantial fraction of sequencing effort may come from repeated molecules.</p></div>
+<div class="metric-card"><h3>Reference breadth</h3><p>Fraction of pseudoreference bases covered by at least one usable read.</p></div>
+<div class="metric-card"><h3>Depth</h3><p>Number of reads supporting each reference position. Threshold-based breadth is usually more informative than one global mean.</p></div>
+<div class="metric-card"><h3>Mapping quality</h3><p>Confidence that reads were placed at the reported reference location.</p></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>3. <code>samtools flagstat</code></h2>
+
+<p><code>samtools flagstat</code> scans the BAM and reports counts based primarily on SAM FLAG values.</p>
+
+<div class="code-block"><pre>samtools flagstat   sample_A.markdup.bam   > sample_A.flagstat.txt</pre></div>
+
+<div class="explain">
+<div class="term">mapped</div><div class="desc">Reads without the <code>UNMAP</code> flag. A moderate mapping percentage does not necessarily imply poor UCE recovery because capture libraries may contain substantial off-target sequence.</div>
+<div class="term">properly paired</div><div class="desc">Reads flagged as paired, proper-pair and mapped. The percentage is calculated against paired reads rather than mapped reads alone.</div>
+<div class="term">duplicates</div><div class="desc">Reads carrying SAM flag <code>0x400</code>, set during duplicate marking.</div>
+</div>
+
+<div class="callout"><strong>Do not confuse two meanings of “singleton”</strong>
+<p>A singleton FASTQ generated during trimming is an orphan read whose mate was removed. In <code>flagstat</code>, “singletons” means a paired read that maps while its mate is unmapped. These are different concepts.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>4. <code>samtools stats</code></h2>
+
+<p><code>samtools stats</code> provides broader BAM diagnostics. Because duplicates have already been marked, explicitly exclude them here:</p>
+
+<div class="code-block"><pre>samtools stats   -d   sample_A.markdup.bam   > sample_A.stats.txt</pre></div>
+
+<p>The <code>-d</code> / <code>--remove-dups</code> option excludes reads marked as duplicates from these statistics.</p>
+
+<div class="callout"><strong>Why keep this file?</strong>
+<p><code>stats</code> is a useful technical record for troubleshooting insert size, composition and general BAM behavior. The main cross-sample decisions in this workflow, however, rely mostly on mapping rate, duplicate fraction, reference breadth, depth and MAPQ.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>5. Coverage across UCE loci</h2>
+
+<p><code>samtools coverage</code> summarizes each reference sequence. In this workflow, each reference sequence corresponds to one UCE locus.</p>
+
+<div class="code-block"><pre>samtools coverage   sample_A.markdup.bam   > sample_A.coverage.tsv</pre></div>
+
+<div class="code-block"><pre>#rname  startpos  endpos  numreads  covbases  coverage  meandepth  meanbaseq  meanmapq</pre></div>
+
+<div class="explain">
+<div class="term">numreads</div><div class="desc">Reads aligned to the UCE locus after filtering.</div>
+<div class="term">covbases</div><div class="desc">Reference bases with depth ≥1.</div>
+<div class="term">coverage</div><div class="desc">Percentage of positions in that UCE with at least one aligned base.</div>
+<div class="term">meandepth</div><div class="desc">Mean depth across the locus.</div>
+<div class="term">meanmapq</div><div class="desc">Mean mapping quality of selected reads.</div>
+</div>
+
+<p>By default, <code>samtools coverage</code> skips alignments flagged as unmapped, secondary, QC-failed or duplicate. When duplicate-marked BAMs are used, the resulting breadth and depth therefore reflect non-duplicate usable alignments.</p>
+
+<div class="callout"><strong>Breadth and depth are different</strong>
+<p>A sample can have high mean depth over a subset of loci while still missing large parts of the pseudoreference. Conversely, a sample can cover most loci with only moderate depth. Both dimensions matter.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>6. Why ≥1× coverage is not enough</h2>
+
+<p>Standard coverage tells us whether a position has at least one aligned base. For genotype calling, a single read provides weak evidence, so it is useful to measure how much of the pseudoreference reaches higher depth thresholds.</p>
+
+<div class="code-block"><pre>samtools depth -aa sample_A.markdup.bam</pre></div>
+
+<p>The <code>-aa</code> option reports every position in every reference sequence, including positions with zero depth. This allows percentages to be calculated against the complete pseudoreference.</p>
+
+<p>By default, <code>samtools depth</code> excludes reads carrying <code>UNMAP</code>, <code>SECONDARY</code>, <code>QCFAIL</code> or <code>DUP</code> flags.</p>
+
+<table class="interpret-table">
+<thead><tr><th>Threshold</th><th>Interpretation</th></tr></thead>
+<tbody>
+<tr><td>≥1×</td><td>Any evidence that the position was reached by sequencing.</td></tr>
+<tr><td>≥3×</td><td>Repeated but still shallow support; useful as an early diagnostic.</td></tr>
+<tr><td>≥5×</td><td>Moderate minimum-depth benchmark for evaluating usable breadth.</td></tr>
+<tr><td>≥10×</td><td>More conservative view of positions with substantial read support.</td></tr>
+</tbody>
+</table>
+
+<div class="callout"><strong>These are descriptive QC thresholds</strong>
+<p>3×, 5× and 10× are used here to describe the depth distribution. They are not universal SNP-calling thresholds. Variant and genotype filters will be defined explicitly later.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>7. Calculate depth thresholds for one sample</h2>
+
+<div class="code-block"><pre>samtools depth -aa sample_A.markdup.bam | awk '
+BEGIN {
+    OFS="\t"
+}
+{
+    depth=$3
+    total++
+    sum+=depth
+
+    if (depth >= 1)  d1++
+    if (depth >= 3)  d3++
+    if (depth >= 5)  d5++
+    if (depth >= 10) d10++
+}
+END {
+    mean=(total>0 ? sum/total : 0)
+
+    printf "mean_depth\t%.2f\n", mean
+    printf "pct_1x\t%.2f\n",  100*d1/total
+    printf "pct_3x\t%.2f\n",  100*d3/total
+    printf "pct_5x\t%.2f\n",  100*d5/total
+    printf "pct_10x\t%.2f\n", 100*d10/total
+}'</pre></div>
+
+<p>For multiple samples, run the same command in the loop or parallelization system appropriate to your environment and save one result per sample.</p>
+</section>
+
+<section class="lesson-section">
+<h2>8. Consolidate results across samples</h2>
+
+<p>The final QC product should be a single table with one row per individual. Comparing samples side by side is far more informative than reading dozens of independent text files.</p>
+
+<div class="code-block"><pre>sample
+total_reads
+mapped_reads
+mapped_percent
+properly_paired_reads
+properly_paired_percent
+duplicate_reads
+duplicate_percent
+total_uce_loci
+uce_loci_with_reads
+reference_covered_percent
+mean_depth
+mean_mapq
+pct_1x
+pct_3x
+pct_5x
+pct_10x</pre></div>
+
+<div class="callout"><strong>Why one table matters</strong>
+<p>A mapping rate of 35% may look poor in isolation, yet the same sample may cover 95% of the shared UCE reference with high MAPQ and ample depth. QC is inherently comparative.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>9. How to interpret each metric</h2>
+
+<h3>Mapping percentage</h3>
+<p>This answers: <em>what fraction of all reads aligned to the UCE pseudoreference?</em> It is not equivalent to “what fraction of UCE loci was recovered.” Off-target reads, enrichment efficiency, contamination and divergence from the reference can all reduce this value.</p>
+<p>Therefore, a moderate mapping percentage can still coexist with excellent UCE coverage and depth.</p>
+
+<h3>Reference breadth</h3>
+<p><code>reference_covered_percent</code> asks: <em>how much of the shared UCE coordinate system is represented at least once?</em> For joint SNP discovery, this is often more informative than raw mapping percentage because all individuals ultimately need homologous coordinates.</p>
+
+<h3>Depth thresholds</h3>
+<p>The contrast between <code>pct_1x</code>, <code>pct_5x</code> and <code>pct_10x</code> shows whether coverage is merely broad or also deep enough to support reliable genotype evidence.</p>
+
+<table class="interpret-table">
+<thead><tr><th>Pattern</th><th>≥1×</th><th>≥5×</th><th>≥10×</th><th>Interpretation</th></tr></thead>
+<tbody>
+<tr><td>Broad, strong coverage</td><td>95%</td><td>90%</td><td>80%</td><td>Most of the reference has substantial read support.</td></tr>
+<tr><td>Broad but shallow</td><td>93%</td><td>70%</td><td>50%</td><td>Most loci are reached, but many positions have limited depth.</td></tr>
+<tr><td>Restricted coverage</td><td>55%</td><td>35%</td><td>25%</td><td>Large parts of the shared reference are poorly represented.</td></tr>
+</tbody>
+</table>
+
+<h3>Duplicate fraction</h3>
+<p>A high duplicate fraction means that many sequenced reads do not represent independent molecules. This may reflect limited library complexity or amplification. High duplication is not automatically disqualifying if broad non-duplicate coverage and adequate depth remain after duplicate reads are ignored.</p>
+
+<h3>MAPQ</h3>
+<p>Mean MAPQ reflects mapping confidence. Samples with MAPQ clearly below the main dataset distribution deserve attention because they may be more divergent from the pseudoreference or contain a larger fraction of ambiguous alignments.</p>
+</section>
+
+<section class="lesson-section">
+<h2>10. Recognizing technical outliers</h2>
+
+<p>Interpret QC comparatively rather than imposing one arbitrary cutoff on every project.</p>
+
+<table class="interpret-table">
+<thead><tr><th>Observed pattern</th><th>Possible interpretation</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Low mapping %, but broad coverage, good depth and high MAPQ</td><td>Many off-target reads, while UCE targets themselves remain well represented.</td><td>Usually retain; mapping percentage alone is not enough to exclude.</td></tr>
+<tr><td>High ≥1× coverage but much lower ≥5×/≥10× breadth</td><td>Most loci are reached, but support is shallow.</td><td>Flag for genotype-missingness evaluation.</td></tr>
+<tr><td>Low reference breadth and low ≥5×/≥10× breadth</td><td>Large parts of the common coordinate system are absent or poorly sequenced.</td><td>Strong QC warning.</td></tr>
+<tr><td>High duplicate fraction but strong non-duplicate breadth</td><td>Library is redundant but still contains enough independent information.</td><td>Do not remove automatically.</td></tr>
+<tr><td>Low MAPQ together with restricted breadth</td><td>Possible sequence divergence, reference bias or ambiguous mapping.</td><td>Investigate carefully.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section">
+<h2>11. Outgroups need separate interpretation</h2>
+
+<p>A phylogenetically distant outgroup may align poorly to a pseudoreference constructed mainly from the focal group. Low mapping percentage, reduced breadth and lower usable depth can therefore reflect real biological divergence rather than a failed library.</p>
+
+<p>An outgroup useful for phylogenetic rooting may still be inappropriate for PCA, DAPC, ADMIXTURE or STRUCTURE analyses focused on fine-scale population variation.</p>
+
+<div class="callout"><strong>Reference bias increases with divergence</strong>
+<p>The farther a sample is from the sequences represented in the shared pseudoreference, the more likely homologous reads are to fail to align or to align with reduced confidence. Evaluate divergent biological groups separately from technical failures within the focal group.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>12. Do not remove samples too early</h2>
+
+<p>Mapping QC identifies warning samples, but it does not yet measure genotype completeness directly. A conservative workflow is:</p>
+
+<div class="file-tree"><pre>mapping QC
+    ↓
+identify warning samples
+    ↓
+retain them for initial joint SNP calling
+    ↓
+calculate genotype missingness per individual
+    ↓
+compare mapping QC + genotype missingness
+    ↓
+make final inclusion/exclusion decisions</pre></div>
+
+<p>If the same individual is an outlier in mapping breadth, usable depth and genotype missingness, the evidence for exclusion becomes substantially stronger.</p>
+</section>
+
+<section class="lesson-section">
+<h2>13. A practical decision framework</h2>
+
+<table class="interpret-table">
+<thead><tr><th>Status</th><th>Typical pattern</th><th>Recommended action</th></tr></thead>
+<tbody>
+<tr><td><strong>PASS</strong></td><td>Broad UCE coverage, substantial ≥5×/≥10× breadth, adequate depth and MAPQ similar to the main sample distribution.</td><td>Advance to SNP calling.</td></tr>
+<tr><td><strong>QC WARNING</strong></td><td>One or more metrics are weaker than the central distribution, but enough evidence remains to attempt genotype calling.</td><td>Retain provisionally and reassess with genotype missingness.</td></tr>
+<tr><td><strong>INVESTIGATE</strong></td><td>Very restricted breadth, weak depth and/or unusually low mapping confidence.</td><td>Check sample identity, library history, divergence and contamination before final exclusion.</td></tr>
+<tr><td><strong>SEPARATE BIOLOGICAL GROUP</strong></td><td>Strongly divergent outgroup or non-focal lineage.</td><td>Evaluate separately from focal population-structure analyses.</td></tr>
+</tbody>
+</table>
+
+<div class="callout"><strong>No universal cutoff</strong>
+<p>Appropriate thresholds depend on sequencing design, divergence, downstream caller and study objectives. Document the final criteria and justify them from the observed data distribution rather than presenting them as universal constants.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>14. Final outputs</h2>
+
+<div class="file-tree"><pre>03_mapping_qc/
+├── sample_A/
+│   ├── sample_A.flagstat.txt
+│   ├── sample_A.stats.txt
+│   └── sample_A.coverage.tsv
+├── sample_B/
+│   └── ...
+├── depth_thresholds/
+│   ├── sample_A.depth.tsv
+│   ├── sample_B.depth.tsv
+│   └── depth_threshold_summary.tsv
+└── mapping_qc_summary.tsv</pre></div>
+
+<p>The consolidated table becomes the mapping-QC record that accompanies the SNP dataset and supports later sample-retention decisions.</p>
+</section>
+
+<section class="lesson-section">
+<h2>15. Pre-SNP checklist</h2>
+<div class="check-list">
+<div class="check-item">✓ Final BAMs have duplicates marked and BAM indexes are present.</div>
+<div class="check-item">✓ <code>flagstat</code> was generated for every sample.</div>
+<div class="check-item">✓ <code>stats -d</code> was generated without duplicate reads.</div>
+<div class="check-item">✓ Reference breadth and mean depth were calculated with <code>samtools coverage</code>.</div>
+<div class="check-item">✓ ≥1×, ≥3×, ≥5× and ≥10× breadth were measured with <code>samtools depth -aa</code>.</div>
+<div class="check-item">✓ QC metrics were consolidated across all samples.</div>
+<div class="check-item">✓ Unusual samples were flagged rather than automatically discarded.</div>
+<div class="check-item">✓ Strongly divergent outgroups were interpreted separately.</div>
+<div class="check-item">✓ Final exclusion decisions are deferred until genotype missingness can also be evaluated.</div>
+</div>
+</section>
+
+<section class="lesson-section references">
+<h2>References and software documentation</h2>
+<p><a href="https://www.htslib.org/doc/samtools-flagstat.html" target="_blank" rel="noopener">Samtools flagstat — official manual</a><br>Definitions of mapped, properly paired, duplicate and singleton FLAG-based categories.</p>
+<p><a href="https://www.htslib.org/doc/samtools-stats.html" target="_blank" rel="noopener">Samtools stats — official manual</a><br>Comprehensive BAM statistics and the <code>-d / --remove-dups</code> option.</p>
+<p><a href="https://www.htslib.org/doc/samtools-coverage.html" target="_blank" rel="noopener">Samtools coverage — official manual</a><br>Definitions of covered bases, coverage percentage, mean depth, mean base quality and mean mapping quality.</p>
+<p><a href="https://www.htslib.org/doc/samtools-depth.html" target="_blank" rel="noopener">Samtools depth — official manual</a><br>Per-position depth, <code>-aa</code> zero-depth reporting and default FLAG exclusions including duplicates.</p>
+</section>
+
+<div class="lesson-nav">
+<a href="14-mapping-reads-pseudoreference.html">← Mapping reads</a>
+<span>Next: SNP calling →</span>
+</div>
+
+</main>
+</body>
+</html>

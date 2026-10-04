@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>13 · Building a shared UCE pseudoreference | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+
+.strategy-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:18px 0 26px;
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.strategy-table th,
+.strategy-table td{
+  padding:12px 14px;
+  border:1px solid rgba(23,34,49,.09);
+  text-align:left;
+  vertical-align:top;
+}
+.strategy-table th{
+  background:rgba(238,243,247,.72);
+  color:#172231;
+  font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Building a UCE pseudoreference
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part III · Module 13 · SNP &amp; population genomics</div>
+    <h1>Choosing and building a UCE pseudoreference</h1>
+    <p>
+      Reference choice is one of the most important decisions in UCE-based SNP analysis.
+      This module compares the major strategies used in the literature and then builds a
+      shared UCE pseudoreference from the aligned loci produced by the PHYLUCE workflow.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Understand when to use an individual-specific reference, a single shared reference,
+      a multi-individual UCE pseudoreference, or an external genome, and construct a
+      reproducible shared UCE pseudoreference for joint SNP calling.
+    </p>
+
+    <div class="callout">
+      <strong>Main principle</strong>
+      <p>
+        For PCA, DAPC, ADMIXTURE, STRUCTURE and other analyses based on a joint VCF,
+        all individuals should normally be genotyped in the same coordinate system.
+        A shared reference therefore provides a simpler and more defensible basis for
+        population-level SNP comparisons than separate coordinates for each individual.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Why reference choice matters</h2>
+
+    <p>
+      SNP calling is not only a search for variable bases. Reads must first be placed onto
+      a coordinate system. The chosen reference affects which reads map, which sites can be
+      compared among individuals, and how missing data and reference bias enter the dataset.
+    </p>
+
+    <p>
+      UCE target capture creates a special situation: sequencing depth is concentrated on
+      a relatively small set of homologous loci rather than distributed uniformly across an
+      entire genome. A UCE-derived pseudoreference can therefore be a natural coordinate
+      system when a suitable genome is absent.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Four reference strategies</h2>
+
+    <table class="strategy-table">
+      <thead>
+        <tr>
+          <th>Strategy</th>
+          <th>Best suited to</th>
+          <th>Main advantage</th>
+          <th>Main limitation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A. Individual-specific reference</strong></td>
+          <td>Phasing, haplotype reconstruction and correction of an individual's own UCE contigs.</td>
+          <td>Minimizes divergence between reads and that individual's reference.</td>
+          <td>Each individual has a different coordinate/reference sequence, which is inconvenient for a single joint population VCF.</td>
+        </tr>
+        <tr>
+          <td><strong>B. One representative individual</strong></td>
+          <td>Closely related samples when one specimen has exceptionally complete and high-quality UCE recovery.</td>
+          <td>Simple, transparent and computationally inexpensive.</td>
+          <td>Can introduce reference bias toward the chosen individual and may omit loci missing from that specimen.</td>
+        </tr>
+        <tr>
+          <td><strong>C. Shared multi-individual UCE pseudoreference</strong></td>
+          <td>Population genomics without a high-quality close genome; broad population sampling; joint SNP calling.</td>
+          <td>One common coordinate system while reducing dependence on a single specimen.</td>
+          <td>Requires an explicit rule for choosing or constructing one representative sequence per locus.</td>
+        </tr>
+        <tr>
+          <td><strong>D. External genome reference</strong></td>
+          <td>Studies with a high-quality, biologically close genome, especially when genome coordinates and annotation matter.</td>
+          <td>Provides genomic context, chromosome coordinates and annotation opportunities.</td>
+          <td>A distant reference can reduce mapping efficiency and create allele/reference bias; much of the genome has no UCE-capture coverage.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Strategy A — Individual-specific references</h2>
+
+    <p>
+      This is the strategy used in the official PHYLUCE 1.7.3 phasing tutorial.
+      PHYLUCE recommends starting from aligned and edge-trimmed UCE loci, exploding those
+      alignments by taxon, and mapping each individual's raw reads back to that individual's
+      own reference contigs.
+    </p>
+
+    <div class="code-block"><pre>phyluce_align_explode_alignments \
+  --alignments /path/to/edge-trimmed-alignments \
+  --input-format nexus \
+  --output /path/to/exploded-by-taxon \
+  --by-taxon</pre></div>
+
+    <p>
+      This is an excellent design when the biological objective is individual-level phasing
+      or haplotype reconstruction. It has also been used in published UCE studies that
+      explicitly followed PHYLUCE Tutorial II.
+    </p>
+
+    <div class="callout">
+      <strong>Why it is not our default for population SNP calling</strong>
+      <p>
+        Individual-specific references are not naturally expressed in one shared coordinate
+        system. For a joint VCF used by PCA, ADMIXTURE or DAPC, a common reference is
+        operationally simpler and makes position-by-position comparison explicit.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Strategy B — One representative individual</h2>
+
+    <p>
+      A simple alternative is to choose one well-sequenced specimen as the shared UCE
+      reference and map every individual to it.
+    </p>
+
+    <p>
+      Published UCE studies have used this approach. For example, a phylogeographic study
+      of Mexican highland frogs selected the sample with the largest number of recovered
+      UCE contigs and mapped all samples to that reference before SNP calling. A population
+      genomics study of common seadragons similarly produced a UCE reference assembly from
+      one individual and selected one contig per UCE locus for read mapping.
+    </p>
+
+    <p>
+      This strategy is most attractive when:
+    </p>
+
+    <div class="file-tree"><pre>Samples are closely related
+        +
+one individual has excellent coverage
+        +
+that individual recovers nearly all target loci
+        +
+the study prioritizes simplicity</pre></div>
+
+    <div class="callout">
+      <strong>Potential reference bias</strong>
+      <p>
+        Reads carrying alleles more divergent from the chosen specimen can map less
+        efficiently than reads similar to the reference allele. The effect is expected
+        to become more relevant as divergence among samples increases.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Strategy C — Shared multi-individual UCE pseudoreference</h2>
+
+    <p>
+      A shared pseudoreference can use information from many individuals while retaining
+      only one reference sequence for each UCE locus.
+    </p>
+
+    <p>
+      Several published implementations illustrate this general idea:
+    </p>
+
+    <div class="file-tree"><pre>Composite assembly from reads across individuals
+        ↓
+identify orthologous UCE loci
+        ↓
+one shared reference set
+        ↓
+map every individual's reads to the same UCE coordinates</pre></div>
+
+    <p>
+      In an avian population-genomic study, reads from all individuals were combined to
+      build a composite assembly; PHYLUCE was then used to retain orthologous UCE loci,
+      and all individuals were mapped back to that shared reference set.
+    </p>
+
+    <p>
+      A 2023 comparison of reduced-representation and whole-genome data used another
+      locus-wise solution: for each UCE locus, the authors selected the longest sequence
+      meeting a missing-data criterion to create a common reference before GATK variant
+      calling.
+    </p>
+
+    <p>
+      More recently, a marine UCE population-genomics study built a consensus
+      pseudoreference using assemblies from all sampled individuals and compared that
+      pseudoreference directly with an available genome reference. The UCE pseudoreference
+      concentrated the captured data onto the targeted loci and produced much higher
+      average depth over those coordinates than mapping the same target-capture reads
+      across the entire genome.
+    </p>
+
+    <div class="callout">
+      <strong>Default strategy in this tutorial</strong>
+      <p>
+        We use this general approach. Starting from the already aligned and edge-trimmed
+        UCE loci, we select one high-quality representative sequence per locus across the
+        complete sample set. The result is one FASTA record per UCE and one common coordinate
+        system for every individual.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Strategy D — External genome reference</h2>
+
+    <p>
+      If a chromosome-scale or otherwise high-quality genome exists for the same species,
+      or for a sufficiently close lineage, it can be an excellent reference.
+    </p>
+
+    <p>
+      This strategy becomes particularly valuable when the objective includes:
+    </p>
+
+    <div class="file-tree"><pre>Genome coordinates
+Functional annotation
+Gene proximity
+Intronic / exonic context
+Chromosomal distribution
+Physical linkage among SNPs</pre></div>
+
+    <p>
+      However, UCE capture reads cover only targeted loci and their flanks. Mapping them
+      to a multi-gigabase genome does not create genome-wide sequence coverage. In addition,
+      a phylogenetically distant genome can increase mapping bias.
+    </p>
+
+    <p>
+      The recent marine UCE comparison mentioned above is useful because the same target-
+      capture dataset was mapped both to a genome and to a UCE pseudoreference. Both
+      strategies recovered useful population structure, but their coverage distributions
+      and sets of retained SNPs differed substantially. Reference choice is therefore an
+      analytical decision rather than a purely technical detail.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. What about calling SNPs directly from UCE alignments?</h2>
+
+    <p>
+      UCE alignments themselves contain polymorphic sites, and extracting variable columns
+      can be useful for some phylogenetic or clustering analyses. Recent reference-free
+      methods can even estimate population-level diversity directly from aligned UCEs.
+    </p>
+
+    <p>
+      That is not the primary route in this tutorial because alignment-only SNP extraction
+      does not use the original read depth, base quality, mapping quality or genotype
+      likelihood information available from the sequencing reads.
+    </p>
+
+    <div class="callout">
+      <strong>For this tutorial</strong>
+      <p>
+        We return to the original cleaned reads, map them to a shared UCE pseudoreference,
+        and call genotypes from read-level evidence.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Decision guide</h2>
+
+    <div class="file-tree"><pre>What is the objective?
+
+Phasing / individual haplotypes
+    ↓
+Individual-specific PHYLUCE references
+
+Joint SNP population analysis
+    ↓
+Is a high-quality close genome available?
+    │
+    ├── Yes → genome reference can be considered
+    │          especially if genomic context matters
+    │
+    └── No
+         ↓
+Are samples very closely related and is one specimen exceptionally complete?
+         │
+         ├── Yes → one representative-individual pseudoreference is reasonable
+         │
+         └── No / broad sampling
+              ↓
+         shared multi-individual UCE pseudoreference</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Our tutorial strategy</h2>
+
+    <p>
+      We will construct one shared reference record for every selected UCE locus using the
+      PHYLUCE-aligned dataset as the source.
+    </p>
+
+    <div class="file-tree"><pre>PHYLUCE UCE recovery
+        ↓
+MAFFT alignment + PHYLUCE edge trimming
+        ↓
+aligned and trimmed UCE loci
+        ↓
+choose one high-quality representative sequence per UCE
+        ↓
+remove alignment gaps
+        ↓
+rename each record with the UCE locus ID
+        ↓
+shared UCE pseudoreference FASTA
+        ↓
+map ALL individuals to the same reference</pre></div>
+
+    <p>
+      This preserves the logic of PHYLUCE Tutorial II — using aligned and edge-trimmed loci
+      as the reference source — while adapting it from individual-specific phasing to joint
+      population-level SNP calling.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Population-genomics environment</h2>
+
+    <p>
+      At the beginning of the population-genomics workflow, create a dedicated Conda
+      environment once. The same environment will be reused for pseudoreference handling,
+      read mapping, BAM processing and the first variant-processing steps.
+    </p>
+
+    <div class="code-block"><pre>conda create -n uce-popgen \
+  -c conda-forge \
+  -c bioconda \
+  python=3.11 \
+  bwa-mem2 \
+  samtools \
+  bcftools
+
+conda activate uce-popgen</pre></div>
+
+    <p>
+      Confirm the main executables:
+    </p>
+
+    <div class="code-block"><pre>python --version
+bwa-mem2 version
+samtools --version
+bcftools --version</pre></div>
+
+    <div class="callout">
+      <strong>Create this environment only once</strong>
+      <p>
+        The following population-genomics modules assume that
+        <code>uce-popgen</code> already exists. In later modules, simply activate it with
+        <code>conda activate uce-popgen</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. Choose the UCE locus set</h2>
+
+    <p>
+      For construction of the SNP pseudoreference, use the broad set of UCE loci that has
+      already passed multiple-sequence alignment and trimming. This does not need to be the
+      same 75%, 90% or 95% occupancy matrix used for phylogenetic inference.
+    </p>
+
+    <p>
+      The reason is methodological: occupancy filtering used for phylogenetic matrices can
+      remove loci that are still informative for population-level SNP discovery. Missing
+      genotypes and locus representation can be evaluated later during mapping, genotype
+      calling and VCF filtering.
+    </p>
+
+    <div class="code-block"><pre># Root directory of the complete UCE project.
+PROJECT="/path/to/my_UCE_project"
+
+# Directory containing processed UCE datasets.
+DATASET="$PROJECT/uce_datasets"
+
+# Broad set of UCE alignments used as the source
+# for pseudoreference construction.
+# One FASTA file is expected for each aligned and trimmed UCE locus.
+UCE_ALIGNMENTS="$DATASET/aligned_trimmed"
+
+# Main directory for all population-genomic analyses.
+POPGEN="$PROJECT/population_genomics"
+
+# Working directory for pseudoreference construction.
+PSEUDO="$POPGEN/01_pseudoreference"
+
+# Final shared UCE pseudoreference.
+PSEUDOREF="$PSEUDO/shared_uce_pseudoref.fasta"
+
+# Provenance table recording which sequence was selected
+# to represent each UCE locus.
+PSEUDO_REPORT="$PSEUDO/shared_uce_pseudoref.tsv"
+
+mkdir -p "$PSEUDO"</pre></div>
+
+    <div class="explain">
+      <div class="term">PROJECT</div>
+      <div class="desc">Root directory containing the complete UCE project.</div>
+
+      <div class="term">DATASET</div>
+      <div class="desc">Directory containing the processed UCE datasets generated upstream.</div>
+
+      <div class="term">UCE_ALIGNMENTS</div>
+      <div class="desc">Directory containing one aligned and trimmed FASTA file per UCE locus.</div>
+
+      <div class="term">POPGEN</div>
+      <div class="desc">Main workspace for all SNP and population-genomic analyses.</div>
+
+      <div class="term">PSEUDO</div>
+      <div class="desc">Directory dedicated to construction and QC of the shared UCE pseudoreference.</div>
+
+      <div class="term">PSEUDOREF</div>
+      <div class="desc">Final FASTA containing one reference sequence per UCE locus.</div>
+
+      <div class="term">PSEUDO_REPORT</div>
+      <div class="desc">Tab-separated provenance table recording which observed sequence was selected for every locus.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Recommended input</strong>
+      <p>
+        Use UCE loci that have already been aligned and trimmed to remove poorly aligned
+        sequence. Avoid using completely unprocessed alignments, but also avoid imposing a
+        stringent phylogenetic occupancy threshold solely for pseudoreference construction.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>11. Confirm the alignment format</h2>
+
+    <p>
+      The pseudoreference builder expects one FASTA alignment per UCE locus:
+    </p>
+
+    <div class="file-tree"><pre>aligned_trimmed/
+├── uce-1.fasta
+├── uce-2.fasta
+├── uce-3.fasta
+└── ...</pre></div>
+
+    <p>Confirm the number of UCE loci:</p>
+
+    <div class="code-block"><pre>find "$UCE_ALIGNMENTS" \
+  -maxdepth 1 \
+  -type f \
+  -name "uce-*.fasta" \
+  | wc -l</pre></div>
+
+    <p>Inspect one alignment:</p>
+
+    <div class="code-block"><pre>FIRST_UCE=$(find "$UCE_ALIGNMENTS" \
+  -maxdepth 1 \
+  -type f \
+  -name "uce-*.fasta" \
+  | sort \
+  | head -1)
+
+echo "$FIRST_UCE"
+grep "^>" "$FIRST_UCE" | head
+head -30 "$FIRST_UCE"</pre></div>
+
+    <p>
+      Alignment gaps such as <code>-</code> are expected at this stage. They will be removed
+      from the selected sequence before it enters the mapping pseudoreference.
+    </p>
+
+    <div class="callout">
+      <strong>If your loci are still in NEXUS format</strong>
+      <p>
+        Convert them to locus-by-locus FASTA before continuing. The important requirement is
+        that each input file represents one aligned and trimmed UCE locus containing the
+        sequences recovered from the sampled individuals.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>12. Select one representative sequence per locus</h2>
+
+    <p>
+      For each UCE alignment, the shared pseudoreference uses one observed sequence as the
+      reference record. The selection rule used in this tutorial is:
+    </p>
+
+    <div class="file-tree"><pre>aligned UCE locus
+        ↓
+remove alignment gaps
+        ↓
+convert ambiguous nucleotide symbols to N
+        ↓
+exclude sequences containing &gt;10% N
+        ↓
+select the longest remaining ungapped sequence
+        ↓
+if tied: choose the sequence with fewer ambiguous bases
+        ↓
+if still tied: choose by sample ID for deterministic reproducibility
+        ↓
+rename the FASTA record using the UCE locus ID</pre></div>
+
+    <p>
+      The 10% ambiguity filter and preference for the longest acceptable sequence follow a
+      published UCE pseudoreference-building strategy. The deterministic tie-break replaces
+      random selection so repeated runs generate the same reference.
+    </p>
+
+    <div class="callout">
+      <strong>This is a locus-wise shared reference</strong>
+      <p>
+        Different loci can be represented by sequences originating from different
+        individuals. The resulting pseudoreference is therefore not tied to one specimen,
+        while every sample is still mapped against exactly the same set of reference
+        coordinates.
+      </p>
+    </div>
+
+    <p>
+      Run the pseudoreference builder in any Python 3 environment:
+    </p>
+
+    <div class="code-block"><pre>python3 build_shared_uce_pseudoref.py \
+  --alignments "$UCE_ALIGNMENTS" \
+  --output "$PSEUDOREF" \
+  --report "$PSEUDO_REPORT" \
+  --max-ambiguous 0.10</pre></div>
+
+    <p>
+      The helper script uses only the Python standard library, so no additional Python
+      packages are required.
+    </p>
+    <p>
+      <a href="build_shared_uce_pseudoref.py" download>
+        Download the helper script: build_shared_uce_pseudoref.py
+      </a>
+    </p>
+
+  </section>
+
+  <section class="lesson-section">
+    <h2>13. Inspect the pseudoreference</h2>
+
+    <div class="code-block"><pre>PSEUDOREF="$PSEUDO/shared_uce_pseudoref.fasta"
+
+grep -c "^>" "$PSEUDOREF"
+
+grep "^>" "$PSEUDOREF" | head
+
+head "$PSEUDO/shared_uce_pseudoref.tsv"</pre></div>
+
+    <p>
+      The number of FASTA records is the number of UCE loci retained in the pseudoreference.
+      Every header should be a unique UCE locus identifier rather than a sample identifier.
+    </p>
+
+    <p>
+      The TSV report preserves provenance by recording which sample sequence was selected
+      for each UCE locus.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>14. Why one FASTA record per UCE?</h2>
+
+    <p>
+      Do not concatenate all UCEs into a single artificial chromosome. Keeping each locus
+      as an independent FASTA record preserves natural locus boundaries:
+    </p>
+
+    <div class="file-tree"><pre>>uce-1
+ACGT...
+
+>uce-2
+ACGT...
+
+>uce-3
+ACGT...</pre></div>
+
+    <p>
+      This makes later filtering straightforward and allows us to select one SNP per UCE
+      when analyses require approximately independent markers.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>15. What this pseudoreference is — and is not</h2>
+
+    <div class="callout">
+      <strong>It is a coordinate system for captured UCE loci</strong>
+      <p>
+        The pseudoreference is not a genome assembly and should not be described as one.
+        It represents only the UCE loci and flanking sequence recovered by the capture
+        experiment and selected for population-genomic analysis.
+      </p>
+    </div>
+
+    <p>
+      In the next module, every individual's original cleaned reads will be mapped to this
+      same FASTA. The resulting BAM files will therefore share the same
+      <code>UCE-locus : position</code> coordinate system.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>16. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ The reference strategy matches the biological objective.</div>
+      <div class="check-item">✓ Individual-specific PHYLUCE references are reserved for phasing rather than used blindly for a joint VCF.</div>
+      <div class="check-item">✓ The shared reference was built from aligned and edge-trimmed UCE loci.</div>
+      <div class="check-item">✓ Exactly one representative sequence was retained per UCE locus.</div>
+      <div class="check-item">✓ Alignment gaps were removed before constructing the reference.</div>
+      <div class="check-item">✓ Reference records are named by UCE locus, not by specimen.</div>
+      <div class="check-item">✓ A provenance table records which sample contributed each reference sequence.</div>
+      <div class="check-item">✓ The pseudoreference is described as a UCE coordinate set, not a genome assembly.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and examples from the literature</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/tutorials/tutorial-2.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Tutorial II: Phasing UCE data
+      </a><br>
+      Official individual-specific reference workflow using aligned and edge-trimmed UCEs.
+    </p>
+
+    <p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6174879/"
+         target="_blank" rel="noopener">
+        Winker K, Glenn TC, Faircloth BC. 2018. Ultraconserved elements illuminate the
+        population genomics of a recent avian speciation event. PeerJ 6:e5735.
+      </a><br>
+      Example of a composite reference assembled from data across individuals and then used
+      as a common UCE reference for variant calling.
+    </p>
+
+    <p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6294053/"
+         target="_blank" rel="noopener">
+        Example of a single high-recovery individual used as the UCE SNP reference in a
+        vertebrate phylogeographic study.
+      </a>
+    </p>
+
+    <p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10228089/"
+         target="_blank" rel="noopener">
+        Example of a one-individual UCE reference assembly used for population genomics
+        in a marine vertebrate.
+      </a>
+    </p>
+
+    <p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10688678/"
+         target="_blank" rel="noopener">
+        Duckett DJ et al. 2023. Reduced representation approaches produce similar results
+        to whole genome sequencing for some common phylogeographic analyses.
+      </a><br>
+      Example of a locus-wise shared UCE reference built by selecting a high-quality
+      representative sequence for each UCE locus before GATK SNP calling.
+    </p>
+
+    <p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12797253/"
+         target="_blank" rel="noopener">
+        2026 proof-of-concept study comparing a UCE pseudoreference constructed from all
+        sampled individuals with an available genome reference.
+      </a>
+    </p>
+
+    <p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8928884/"
+         target="_blank" rel="noopener">
+        Example following PHYLUCE Tutorial II with individual-specific edge-trimmed UCE
+        references for phasing and SNP analyses.
+      </a>
+    </p>
+
+    <p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13106921/"
+         target="_blank" rel="noopener">
+        Melendez D et al. 2026. SPrUCE: Utilizing Ultraconserved Elements of DNA for
+        Population-Level Genetic Diversity Estimation.
+      </a><br>
+      Example of a recent reference-free approach that estimates diversity directly from
+      UCE alignments, illustrating that read-mapping pipelines are not the only possible
+      population-level use of UCE data.
+    </p>
+
+    <div class="callout">
+      <strong>Methodological position of this tutorial</strong>
+      <p>
+        No single reference strategy is optimal for all UCE datasets. The shared
+        multi-individual/locus-wise pseudoreference used here is chosen because the
+        downstream objective is joint SNP calling and population structure from a common
+        coordinate system. Other objectives can justify different reference strategies.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="12-species-tree-astral4.html">← Species-tree inference</a>
+    <a href="14-mapping-reads-pseudoreference.html">Next: Mapping reads to the pseudoreference →</a>
+  </div>
+
+</main>
+
+</body>
+</html>

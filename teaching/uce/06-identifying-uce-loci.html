@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>06 · Identifying UCE loci | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Identifying UCE loci
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part I · Module 06 · PHYLUCE 1.7.3</div>
+    <h1>Identifying UCE loci</h1>
+    <p>
+      Match the assembled contigs against the probe set used for target enrichment.
+      This step identifies which contigs correspond to UCE loci and stores those matches
+      for downstream locus recovery.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Use the contigs generated by SPAdes and the probe/bait FASTA associated with the
+      experiment to identify homologous UCE loci in each sample.
+    </p>
+
+    <div class="callout">
+      <strong>Use the correct probe set</strong>
+      <p>
+        The probe FASTA must correspond to the capture design used to generate the dataset.
+        Do not substitute a probe set from another experiment simply because it contains a
+        similar number of loci.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Activate PHYLUCE 1.7.3</h2>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3</pre></div>
+
+    <p>
+      On Apple Silicon, activate the x86 environment created in Module 01:
+    </p>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3-x86</pre></div>
+
+    <p>Check that the matching program is available:</p>
+
+    <div class="code-block"><pre>phyluce_assembly_match_contigs_to_probes --help</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Define the input files</h2>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+CONTIGS="$PROJECT/spades-assemblies/contigs"
+PROBES="/path/to/probe-set.fasta"
+
+UCE_MATCHES="$PROJECT/uce-search-results"
+LOGS="$PROJECT/logs/uce-identification"
+
+mkdir -p "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">CONTIGS</div>
+      <div class="desc">Directory containing one assembled contig FASTA per sample.</div>
+
+      <div class="term">PROBES</div>
+      <div class="desc">FASTA file containing the UCE probes or baits used for target enrichment.</div>
+
+      <div class="term">UCE_MATCHES</div>
+      <div class="desc">New directory where PHYLUCE will store the probe-to-contig matches.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Check the probe FASTA</h2>
+
+    <p>
+      Confirm that the probe file exists and inspect the first few records before running
+      the matching step.
+    </p>
+
+    <div class="code-block"><pre>ls -lh "$PROBES"
+
+grep "^>" "$PROBES" | head</pre></div>
+
+    <p>
+      Standard UCE probe sets generally encode the UCE locus identifier in each FASTA
+      header. PHYLUCE uses these identifiers to associate probe matches with loci.
+    </p>
+
+    <div class="callout">
+      <strong>Probe naming matters</strong>
+      <p>
+        The default PHYLUCE regular expression expects standard UCE-style probe names such
+        as <code>uce-123_p1</code>. Custom bait sets may require a different
+        <code>--regex</code>. Do not change the regular expression unless the probe headers
+        actually require it.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Match contigs to probes</h2>
+
+    <p>
+      Run the standard PHYLUCE 1.7.3 matching step:
+    </p>
+
+    <div class="code-block"><pre>phyluce_assembly_match_contigs_to_probes \
+  --contigs "$CONTIGS" \
+  --probes "$PROBES" \
+  --output "$UCE_MATCHES" \
+  --log-path "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">--contigs</div>
+      <div class="desc">Directory containing the assembled contig FASTA files.</div>
+
+      <div class="term">--probes</div>
+      <div class="desc">Probe/bait FASTA used to identify the targeted UCE loci.</div>
+
+      <div class="term">--output</div>
+      <div class="desc">Directory created to store the LASTZ search results and match database.</div>
+
+      <div class="term">--log-path</div>
+      <div class="desc">Existing directory where PHYLUCE writes the execution log.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Default matching thresholds</strong>
+      <p>
+        PHYLUCE 1.7.3 uses <code>80</code> as the default minimum probe coverage and
+        <code>80</code> as the default minimum identity. This tutorial keeps those defaults
+        unless there is a documented biological reason to change them.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. What happens during this step?</h2>
+
+    <p>
+      PHYLUCE uses LASTZ to compare the assembled contigs from each sample against the
+      supplied probes. Matches are evaluated independently for each sample.
+    </p>
+
+    <p>
+      The procedure also screens ambiguous matches. By default, contigs or loci that produce
+      problematic duplicate relationships are excluded rather than being retained as
+      unambiguous UCE loci.
+    </p>
+
+    <div class="callout">
+      <strong>Why remove ambiguous matches?</strong>
+      <p>
+        A UCE locus should ideally correspond to one homologous contig within a sample.
+        Multiple loci matching the same contig, or one locus matching multiple contigs,
+        can reflect assembly ambiguity, duplicated genomic regions or other biological and
+        technical complications.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Expected output</h2>
+
+    <p>
+      After a successful run, the output directory contains one LASTZ result file per
+      sample and a SQLite database summarizing the UCE matches.
+    </p>
+
+    <div class="file-tree"><pre>uce-search-results/
+├── sample01.contigs.lastz
+├── sample02.contigs.lastz
+├── sample03.contigs.lastz
+├── ...
+└── probe.matches.sqlite</pre></div>
+
+    <div class="explain">
+      <div class="term">*.contigs.lastz</div>
+      <div class="desc">Probe-to-contig alignment results generated for each sample.</div>
+
+      <div class="term">probe.matches.sqlite</div>
+      <div class="desc">Database containing the summarized locus matches used by downstream PHYLUCE programs.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Basic quality check</h2>
+
+    <p>
+      Confirm that the expected database exists and that LASTZ results were generated:
+    </p>
+
+    <div class="code-block"><pre>ls -lh "$UCE_MATCHES/probe.matches.sqlite"
+
+find "$UCE_MATCHES" \
+  -maxdepth 1 \
+  -name "*.contigs.lastz" \
+  | sort \
+  | head</pre></div>
+
+    <p>
+      The terminal output generated during the matching step also reports, for each sample,
+      the number of unique matches and the number of ambiguous matches removed. Large
+      differences among samples should be noted before proceeding.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Common problems</h2>
+
+    <h3>No UCE loci are recovered</h3>
+    <p>
+      First verify that the probe FASTA is the same probe set used for target enrichment,
+      that the contig directory contains the correct assemblies, and that the probe headers
+      follow the expected naming convention.
+    </p>
+
+    <h3>Probe-header or regex errors</h3>
+    <p>
+      The default regular expression is designed for standard UCE probe names. Custom probe
+      sets can require a custom <code>--regex</code>. This should be changed only after
+      inspecting the probe headers and understanding the locus naming pattern.
+    </p>
+
+    <h3>Unexpected contig-name errors</h3>
+    <p>
+      PHYLUCE parses assembler-specific FASTA headers. If contigs were generated with a
+      non-standard assembler or their headers were modified after assembly, the matching
+      program may fail to recognize them. Preserve the original SPAdes headers produced
+      in Module 05.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ The PHYLUCE 1.7.3 environment is active.</div>
+      <div class="check-item">✓ The contig directory contains the SPAdes assemblies from Module 05.</div>
+      <div class="check-item">✓ The probe FASTA corresponds to the actual capture design.</div>
+      <div class="check-item">✓ Probe headers follow the expected UCE naming convention.</div>
+      <div class="check-item">✓ probe.matches.sqlite was created successfully.</div>
+      <div class="check-item">✓ One LASTZ result file was produced for each processed sample.</div>
+      <div class="check-item">✓ Strong sample-level differences in recovered matches were noted.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-3-uce-processing.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — UCE processing for phylogenomics
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/tutorials/tutorial-1.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Tutorial I: match contigs to probes
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/list-of-programs.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Program list
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/faircloth-lab/phyluce/releases/tag/v1.7.3"
+         target="_blank" rel="noopener">
+        PHYLUCE v1.7.3 — Official release
+      </a>
+    </p>
+
+    <div class="callout">
+      <strong>Version policy</strong>
+      <p>
+        The command, default identity/coverage thresholds and expected output files in this
+        module were checked against the official PHYLUCE 1.7.3 documentation.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="05-de-novo-assembly.html">← De novo assembly</a>
+    <span>Next: Extracting UCE loci →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

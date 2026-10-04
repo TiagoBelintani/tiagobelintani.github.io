@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>10 · Concatenated phylogenetic inference | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Concatenated phylogenetic inference
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part II · Module 10 · AMAS + IQ-TREE 3</div>
+    <h1>Concatenation and phylogenetic inference with IQ-TREE 3</h1>
+    <p>
+      Concatenate the filtered UCE alignments with AMAS, generate a locus-partition file,
+      and infer a partitioned maximum-likelihood phylogeny with IQ-TREE 3.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Starting from one of the filtered UCE alignment sets generated in Module 09,
+      create a supermatrix while preserving locus boundaries as partitions, then use
+      IQ-TREE 3 for model selection, partition merging, maximum-likelihood inference,
+      SH-aLRT support and ultrafast bootstrap support.
+    </p>
+
+    <div class="callout">
+      <strong>Workflow used in this module</strong>
+      <p>
+        <code>UCE alignments → AMAS → concatenated PHYLIP + NEXUS partitions → IQ-TREE 3</code>
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Create a separate phylogeny environment</h2>
+
+    <p>
+      Keep AMAS and IQ-TREE 3 separate from the older PHYLUCE 1.7.3 environment.
+      The current Bioconda packages provide AMAS 1.0 and IQ-TREE 3.1.4.
+    </p>
+
+    <div class="code-block"><pre>conda create -n uce-phylogeny \
+  -c conda-forge \
+  -c bioconda \
+  amas=1.0 \
+  iqtree=3.1.4
+
+conda activate uce-phylogeny</pre></div>
+
+    <p>Check the programs:</p>
+
+    <div class="code-block"><pre>AMAS.py --help
+
+iqtree3 --version</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Choose the occupancy dataset</h2>
+
+    <p>
+      Select one of the filtered datasets generated in Module 09. Here, a 75% occupancy
+      matrix is used only as an example.
+    </p>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+DATASET="$PROJECT/taxon-sets/all"
+ALIGNMENTS="$DATASET/mafft-nexus-75p"
+
+CONCAT="$DATASET/concatenated-75p"
+mkdir -p "$CONCAT"</pre></div>
+
+    <div class="callout">
+      <strong>Use the matrix chosen for your analysis</strong>
+      <p>
+        If your selected matrix is 90%, 95% or another threshold, change only the
+        <code>ALIGNMENTS</code> and output directory names. The concatenation procedure
+        remains the same.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Confirm the input alignments</h2>
+
+    <p>Count the loci that will enter the supermatrix:</p>
+
+    <div class="code-block"><pre>find "$ALIGNMENTS" \
+  -maxdepth 1 \
+  -name "*.nexus" \
+  | wc -l</pre></div>
+
+    <p>Inspect a few filenames:</p>
+
+    <div class="code-block"><pre>find "$ALIGNMENTS" \
+  -maxdepth 1 \
+  -name "*.nexus" \
+  | sort \
+  | head</pre></div>
+
+    <p>
+      AMAS expects aligned input files. The NEXUS files produced by PHYLUCE in Module 08
+      satisfy this requirement.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Concatenate the UCE loci with AMAS</h2>
+
+    <p>
+      AMAS can concatenate alignments even when individual loci do not contain identical
+      taxon sets. Missing sequences are represented as missing data in the final supermatrix.
+    </p>
+
+    <div class="code-block"><pre>SUPERMATRIX="$CONCAT/uce-75p.phy"
+PARTITIONS="$CONCAT/uce-75p.partitions.nex"
+
+cd "$ALIGNMENTS"
+
+AMAS.py concat \
+  -i *.nexus \
+  -f nexus \
+  -d dna \
+  -u phylip \
+  -t "$SUPERMATRIX" \
+  -p "$PARTITIONS" \
+  --part-format nexus</pre></div>
+
+    <div class="explain">
+      <div class="term">concat</div>
+      <div class="desc">Concatenates all supplied alignments into a single supermatrix.</div>
+
+      <div class="term">-i *.nexus</div>
+      <div class="desc">Uses all locus-by-locus NEXUS alignments in the selected directory.</div>
+
+      <div class="term">-f nexus</div>
+      <div class="desc">Specifies the input alignment format.</div>
+
+      <div class="term">-d dna</div>
+      <div class="desc">Declares nucleotide sequence data.</div>
+
+      <div class="term">-u phylip</div>
+      <div class="desc">Writes the concatenated alignment in sequential PHYLIP format.</div>
+
+      <div class="term">-t</div>
+      <div class="desc">Names the concatenated alignment.</div>
+
+      <div class="term">-p</div>
+      <div class="desc">Names the partition file.</div>
+
+      <div class="term">--part-format nexus</div>
+      <div class="desc">Writes locus boundaries in NEXUS partition syntax understood by IQ-TREE.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Inspect the AMAS outputs</h2>
+
+    <p>Confirm that both files were produced:</p>
+
+    <div class="code-block"><pre>ls -lh "$SUPERMATRIX" "$PARTITIONS"</pre></div>
+
+    <p>Inspect the beginning of the partition file:</p>
+
+    <div class="code-block"><pre>head -30 "$PARTITIONS"</pre></div>
+
+    <p>A typical AMAS NEXUS partition file contains one charset per UCE locus:</p>
+
+    <div class="file-tree"><pre>#NEXUS
+Begin sets;
+    charset uce-1 = 1-642;
+    charset uce-2 = 643-1287;
+    charset uce-3 = 1288-1944;
+    ...
+End;</pre></div>
+
+    <div class="callout">
+      <strong>Why preserve locus partitions?</strong>
+      <p>
+        UCE loci can evolve at different rates and under different substitution models.
+        Keeping each locus as an initial partition allows IQ-TREE to model that
+        heterogeneity rather than treating the entire supermatrix as one homogeneous block.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Summarize the concatenated alignment with AMAS</h2>
+
+    <div class="code-block"><pre>AMAS.py summary \
+  -i "$SUPERMATRIX" \
+  -f phylip \
+  -d dna \
+  -o "$CONCAT/uce-75p.summary.txt"</pre></div>
+
+    <p>Inspect the summary:</p>
+
+    <div class="code-block"><pre>cat "$CONCAT/uce-75p.summary.txt"</pre></div>
+
+    <p>
+      Record at least the total number of taxa, alignment length, missing-data percentage,
+      variable sites and parsimony-informative sites.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Run IQ-TREE 3</h2>
+
+    <p>
+      IQ-TREE 3 uses <code>-p</code> for an edge-linked proportional partition model.
+      With <code>MFP+MERGE</code>, ModelFinder evaluates substitution models and searches
+      for a better partitioning scheme by merging compatible starting partitions.
+    </p>
+
+    <div class="code-block"><pre>IQTREE_OUT="$CONCAT/iqtree3"
+mkdir -p "$IQTREE_OUT"
+
+iqtree3 \
+  -s "$SUPERMATRIX" \
+  -p "$PARTITIONS" \
+  -m MFP+MERGE \
+  -B 1000 \
+  -alrt 1000 \
+  -T AUTO \
+  --seed 12345 \
+  --prefix "$IQTREE_OUT/uce75_concat"</pre></div>
+
+    <div class="explain">
+      <div class="term">-s</div>
+      <div class="desc">Concatenated UCE supermatrix produced by AMAS.</div>
+
+      <div class="term">-p</div>
+      <div class="desc">Uses an edge-linked proportional partition model.</div>
+
+      <div class="term">-m MFP+MERGE</div>
+      <div class="desc">Runs ModelFinder and searches for a merged partitioning scheme before tree inference.</div>
+
+      <div class="term">-B 1000</div>
+      <div class="desc">Performs 1,000 ultrafast bootstrap replicates.</div>
+
+      <div class="term">-alrt 1000</div>
+      <div class="desc">Performs 1,000 SH-like approximate likelihood ratio test replicates.</div>
+
+      <div class="term">-T AUTO</div>
+      <div class="desc">Lets IQ-TREE estimate an efficient number of CPU threads.</div>
+
+      <div class="term">--seed 12345</div>
+      <div class="desc">Sets an explicit random seed to improve reproducibility.</div>
+
+      <div class="term">--prefix</div>
+      <div class="desc">Places all IQ-TREE output under a consistent analysis prefix.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Large UCE datasets: reduce partition-search cost</h2>
+
+    <p>
+      Thousands of initial locus partitions can make exhaustive partition merging
+      computationally expensive. IQ-TREE provides relaxed clustering to reduce that cost.
+    </p>
+
+    <p>
+      A practical alternative for large UCE matrices is:
+    </p>
+
+    <div class="code-block"><pre>iqtree3 \
+  -s "$SUPERMATRIX" \
+  -p "$PARTITIONS" \
+  -m MFP+MERGE \
+  -rcluster 10 \
+  -B 1000 \
+  -alrt 1000 \
+  -T AUTO \
+  --seed 12345 \
+  --prefix "$IQTREE_OUT/uce75_concat_rcluster10"</pre></div>
+
+    <p>
+      <code>-rcluster 10</code> restricts the partition-merging search to a smaller subset
+      of candidate merges and can substantially reduce computation. Because this changes
+      the partition-search strategy, record its use explicitly in the methods.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Expected IQ-TREE outputs</h2>
+
+    <div class="file-tree"><pre>iqtree3/
+├── uce75_concat.iqtree
+├── uce75_concat.log
+├── uce75_concat.treefile
+├── uce75_concat.contree
+├── uce75_concat.ckp.gz
+├── uce75_concat.best_scheme.nex
+├── uce75_concat.model.gz
+└── ...</pre></div>
+
+    <div class="explain">
+      <div class="term">*.treefile</div>
+      <div class="desc">Best maximum-likelihood tree with branch support values.</div>
+
+      <div class="term">*.iqtree</div>
+      <div class="desc">Main report containing model, likelihood, partition and tree information.</div>
+
+      <div class="term">*.log</div>
+      <div class="desc">Complete execution log.</div>
+
+      <div class="term">*.best_scheme.nex</div>
+      <div class="desc">Best partition scheme selected after ModelFinder partition merging.</div>
+
+      <div class="term">*.ckp.gz</div>
+      <div class="desc">Checkpoint file that allows interrupted analyses to resume.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. Inspect the final tree and report</h2>
+
+    <p>Inspect the end of the IQ-TREE report:</p>
+
+    <div class="code-block"><pre>tail -80 "$IQTREE_OUT/uce75_concat.iqtree"</pre></div>
+
+    <p>Inspect the Newick tree:</p>
+
+    <div class="code-block"><pre>cat "$IQTREE_OUT/uce75_concat.treefile"</pre></div>
+
+    <p>
+      When SH-aLRT and ultrafast bootstrap are run together, branch labels in the final tree
+      contain both support values. Their order is described in the IQ-TREE report.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>11. Interpreting branch support in phylogenomics</h2>
+
+    <p>
+      Very high bootstrap support in a concatenated phylogenomic matrix does not by itself
+      imply that all UCE loci support the same relationship. Large supermatrices can produce
+      high support even when substantial gene-tree discordance is present.
+    </p>
+
+    <div class="callout">
+      <strong>Do not stop at bootstrap support</strong>
+      <p>
+        Treat the concatenated IQ-TREE analysis as one component of the phylogenomic
+        inference. Gene trees, species-tree methods and concordance measures provide
+        complementary information about conflict among loci.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>12. Repeating the analysis across occupancy matrices</h2>
+
+    <p>
+      If both 75% and 95% matrices were retained in Module 09, run AMAS and IQ-TREE
+      independently for each matrix rather than reusing a concatenated alignment generated
+      from another occupancy threshold.
+    </p>
+
+    <div class="file-tree"><pre>75% UCE alignments
+    ↓
+AMAS
+    ↓
+75% supermatrix + partitions
+    ↓
+IQ-TREE 3
+
+95% UCE alignments
+    ↓
+AMAS
+    ↓
+95% supermatrix + partitions
+    ↓
+IQ-TREE 3</pre></div>
+
+    <p>
+      Comparing resulting topologies provides a direct way to assess sensitivity to
+      occupancy filtering.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>13. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ The intended occupancy-filtered UCE dataset was selected.</div>
+      <div class="check-item">✓ AMAS concatenated all intended NEXUS alignments.</div>
+      <div class="check-item">✓ A NEXUS partition file was generated by AMAS.</div>
+      <div class="check-item">✓ The concatenated alignment was summarized and inspected.</div>
+      <div class="check-item">✓ IQ-TREE 3 received both the supermatrix and partition file.</div>
+      <div class="check-item">✓ ModelFinder partition merging was performed with MFP+MERGE.</div>
+      <div class="check-item">✓ UFBoot and SH-aLRT support were calculated.</div>
+      <div class="check-item">✓ The .iqtree report, logs, partition scheme and treefile were retained.</div>
+      <div class="check-item">✓ The concatenated tree will be compared with locus-based analyses.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://github.com/marekborowiec/AMAS"
+         target="_blank" rel="noopener">
+        AMAS — official repository and documentation
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/marekborowiec/AMAS/blob/master/README.md"
+         target="_blank" rel="noopener">
+        AMAS — concatenation and partition-file usage
+      </a>
+    </p>
+
+    <p>
+      <a href="https://iqtree.github.io/doc/Quickstart"
+         target="_blank" rel="noopener">
+        IQ-TREE 3 — Quick start
+      </a>
+    </p>
+
+    <p>
+      <a href="https://iqtree.github.io/doc/Advanced-Tutorial"
+         target="_blank" rel="noopener">
+        IQ-TREE — partitioned analyses and partition merging
+      </a>
+    </p>
+
+    <p>
+      <a href="https://iqtree.github.io/doc/Command-Reference"
+         target="_blank" rel="noopener">
+        IQ-TREE — command reference
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/iqtree/iqtree3/releases"
+         target="_blank" rel="noopener">
+        IQ-TREE 3 — official releases
+      </a>
+    </p>
+
+    <h3>Software citations</h3>
+
+    <p>
+      Borowiec ML. 2016. AMAS: a fast tool for alignment manipulation and computing of
+      summary statistics. <em>PeerJ</em> 4:e1660.
+      <a href="https://doi.org/10.7717/peerj.1660"
+         target="_blank" rel="noopener">doi:10.7717/peerj.1660</a>
+    </p>
+
+    <p>
+      Minh BQ, Schmidt HA, Chernomor O, et al. 2020. IQ-TREE 2: New models and efficient
+      methods for phylogenetic inference in the genomic era.
+      <em>Molecular Biology and Evolution</em> 37:1530–1534.
+      <a href="https://doi.org/10.1093/molbev/msaa015"
+         target="_blank" rel="noopener">doi:10.1093/molbev/msaa015</a>
+    </p>
+
+    <div class="callout">
+      <strong>Current software version</strong>
+      <p>
+        This tutorial uses IQ-TREE 3.1.4. The command syntax follows current IQ-TREE 3
+        documentation, including <code>-p</code>, <code>-B</code>,
+        <code>-T</code> and <code>--prefix</code>.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="09-building-phylogenomic-datasets.html">← Building phylogenomic datasets</a>
+    <span>Next: Gene-tree inference →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

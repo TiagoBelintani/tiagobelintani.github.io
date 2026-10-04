@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>02 · Organizing FASTQ files | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Organizing FASTQ files
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part I · Module 02 · PHYLUCE 1.7.3</div>
+    <h1>Organizing FASTQ files</h1>
+    <p>
+      Prepare demultiplexed paired-end Illumina reads for the UCE workflow.
+      Before trimming or assembly, we will verify the input files, sample identifiers,
+      paired-read structure and project organization.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      At the end of this module, you should have a clearly identified directory containing
+      the original sequencing reads, a consistent set of sample identifiers, and confirmation
+      that each paired-end sample has the expected R1 and R2 files.
+    </p>
+
+    <div class="callout">
+      <strong>Starting assumption</strong>
+      <p>
+        The workflow starts from <strong>demultiplexed</strong> sample-level FASTQ files.
+        PHYLUCE 1.7.3 and <code>illumiprocessor</code> are used downstream to clean and
+        organize those reads; this tutorial does not cover Illumina run demultiplexing.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Define the project and raw-read directories</h2>
+
+    <p>
+      Keep the original FASTQ files separated from all downstream outputs. Throughout the
+      tutorial, shell variables are used instead of machine-specific paths.
+    </p>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+READS="$PROJECT/raw_reads"
+
+mkdir -p "$READS"
+cd "$PROJECT"
+
+printf "Project: %s\n" "$PROJECT"
+printf "Raw reads: %s\n" "$READS"</pre></div>
+
+    <div class="callout">
+      <strong>Do not modify the raw reads</strong>
+      <p>
+        Treat the files in <code>raw_reads/</code> as immutable input. Trimming and all
+        subsequent analyses should write new files to other directories.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Expected FASTQ organization</h2>
+
+    <p>
+      Sequencing facilities use different filename conventions. A simple paired-end dataset
+      may look like:
+    </p>
+
+    <div class="file-tree"><pre>raw_reads/
+├── sample01_R1.fastq.gz
+├── sample01_R2.fastq.gz
+├── sample02_R1.fastq.gz
+├── sample02_R2.fastq.gz
+├── sample03_R1.fastq.gz
+└── sample03_R2.fastq.gz</pre></div>
+
+    <p>
+      Illumina-generated filenames may contain additional information such as sample indexes,
+      lane identifiers and run numbers:
+    </p>
+
+    <div class="file-tree"><pre>raw_reads/
+├── sample01_INDEX_L001_R1_001.fastq.gz
+├── sample01_INDEX_L001_R2_001.fastq.gz
+├── sample02_INDEX_L001_R1_001.fastq.gz
+└── sample02_INDEX_L001_R2_001.fastq.gz</pre></div>
+
+    <p>
+      Both patterns are acceptable. The important requirements are that the files are
+      demultiplexed by sample and that forward and reverse reads can be paired unambiguously.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Inventory the FASTQ files</h2>
+
+    <p>List all compressed FASTQ files:</p>
+
+    <div class="code-block"><pre>find "$READS" \
+  -type f \
+  \( -name "*.fastq.gz" -o -name "*.fq.gz" \) \
+  | sort</pre></div>
+
+    <p>Count them:</p>
+
+    <div class="code-block"><pre>find "$READS" \
+  -type f \
+  \( -name "*.fastq.gz" -o -name "*.fq.gz" \) \
+  | wc -l</pre></div>
+
+    <div class="callout">
+      <strong>Interpreting the count</strong>
+      <p>
+        With one R1 and one R2 file per sample, the number of FASTQ files should equal
+        twice the number of samples. If samples were sequenced across multiple lanes,
+        additional files can be present and should be identified before read processing.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Verify R1/R2 pairs</h2>
+
+    <p>
+      If your filenames use the common <code>_R1</code>/<code>_R2</code> convention,
+      the following shell check reports R1 files without a corresponding R2 file:
+    </p>
+
+    <div class="code-block"><pre>find "$READS" -type f -name "*_R1*.fastq.gz" -print0 |
+while IFS= read -r -d '' R1
+do
+    R2="${R1/_R1/_R2}"
+
+    if [[ ! -f "$R2" ]]
+    then
+        echo "Missing R2: $R1"
+    fi
+done</pre></div>
+
+    <p>
+      If nothing is printed, every R1 matched an R2 under this naming rule.
+      If your sequencing facility uses another naming convention, adapt the pattern rather
+      than renaming the original files without a clear record.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Choose stable sample identifiers</h2>
+
+    <p>
+      Sample identifiers will propagate through cleaned reads, assemblies, UCE loci,
+      alignments, BAM files, VCF files and population-genomic analyses. Use identifiers
+      that are unique and easy to parse.
+    </p>
+
+    <div class="file-tree"><pre>Recommended
+
+sample01
+sample02
+sample03
+
+Avoid
+
+sample 1
+sample(2)
+new sample final
+sample#3</pre></div>
+
+    <p>
+      Avoid spaces and shell-sensitive characters. Letters, numbers, underscores and
+      hyphens are safer choices.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Preserve original filenames</h2>
+
+    <p>
+      In most cases, there is no need to rename the raw FASTQ files. The official PHYLUCE
+      workflow uses an <code>illumiprocessor</code> configuration file to connect the
+      original sequencing files with standardized sample names and the appropriate
+      adapter/index information.
+    </p>
+
+    <div class="callout">
+      <strong>Why keep the sequencing filenames?</strong>
+      <p>
+        Original filenames often retain information about sample indexes, sequencing lanes
+        and run structure. Preserving them improves traceability to the original sequencing
+        delivery.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. What PHYLUCE expects after read processing</h2>
+
+    <p>
+      PHYLUCE 1.7.3 does not require a particular raw-read filename, but downstream assembly
+      expects the cleaned reads to follow the directory and naming structure produced by
+      <code>illumiprocessor</code>. For each sample, the important directory is
+      <code>split-adapter-quality-trimmed/</code>:
+    </p>
+
+    <div class="file-tree"><pre>clean_reads/
+└── sample01/
+    └── split-adapter-quality-trimmed/
+        ├── sample01-READ1.fastq.gz
+        ├── sample01-READ2.fastq.gz
+        └── sample01-READ-singleton.fastq.gz</pre></div>
+
+    <div class="explain">
+      <div class="term">READ1</div>
+      <div class="desc">Forward reads whose paired read was retained after trimming.</div>
+
+      <div class="term">READ2</div>
+      <div class="desc">Reverse reads whose paired read was retained after trimming.</div>
+
+      <div class="term">READ-singleton</div>
+      <div class="desc">Reads whose mate was removed during adapter/quality filtering.</div>
+    </div>
+
+    <p>
+      We will create this structure in the read-processing module rather than manually.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ Reads are already demultiplexed into sample-level FASTQ files.</div>
+      <div class="check-item">✓ The raw-read directory is known and will remain unchanged.</div>
+      <div class="check-item">✓ Each paired-end sample has identifiable R1 and R2 files.</div>
+      <div class="check-item">✓ Sample identifiers are unique and stable.</div>
+      <div class="check-item">✓ Multiple sequencing lanes, if present, have been identified.</div>
+      <div class="check-item">✓ Library/index information is available for the later illumiprocessor configuration.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-1-quality-control.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Quality Control
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/tutorials/tutorial-1.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Tutorial I: UCE Phylogenomics
+      </a>
+    </p>
+
+    <p>
+      <a href="https://illumiprocessor.readthedocs.io/"
+         target="_blank" rel="noopener">
+        illumiprocessor documentation
+      </a>
+    </p>
+
+    <div class="callout">
+      <strong>Documentation check</strong>
+      <p>
+        The cleaned-read structure shown above follows the PHYLUCE 1.7.3 documentation.
+        The next modules will preserve this structure so that the assembly wrappers receive
+        the files in the form expected by PHYLUCE.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="01-introduction.html">← Introduction and requirements</a>
+    <span>Next: Quality control →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

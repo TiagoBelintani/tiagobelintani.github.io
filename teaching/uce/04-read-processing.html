@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>04 · Read processing and trimming | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+
+.option-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:18px 0 24px;
+  font:400 .88rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.option-table th,
+.option-table td{
+  padding:12px 14px;
+  border:1px solid rgba(23,34,49,.09);
+  text-align:left;
+  vertical-align:top;
+}
+.option-table th{
+  background:rgba(238,243,247,.72);
+  color:#172231;
+  font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Read processing and trimming
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part I · Module 04 · PHYLUCE 1.7.3 workflow</div>
+    <h1>Read processing and trimming</h1>
+    <p>
+      Remove adapter contamination and low-quality sequence before de novo assembly.
+      Three supported strategies are presented: illumiprocessor, Trim Galore and
+      Trimmomatic. Any of the three can be used, provided the cleaned reads are
+      standardized into the directory structure expected by PHYLUCE.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      The goal is to produce cleaned paired-end reads while preserving valid read pairs,
+      retaining useful singleton reads when appropriate, and removing adapter contamination
+      and low-quality sequence that can compromise downstream assembly.
+    </p>
+
+    <div class="callout">
+      <strong>PHYLUCE requirement</strong>
+      <p>
+        PHYLUCE 1.7.3 allows reads to be cleaned using any software. However, the assembly
+        wrappers expect the cleaned data to follow the same naming and directory structure
+        produced by <code>illumiprocessor</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Choose a trimming strategy</h2>
+
+    <table class="option-table">
+      <thead>
+        <tr>
+          <th>Option</th>
+          <th>Best use</th>
+          <th>Important point</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A. illumiprocessor</strong></td>
+          <td>Most direct route into the standard PHYLUCE workflow.</td>
+          <td>Wraps Trimmomatic and automatically generates PHYLUCE-compatible output directories.</td>
+        </tr>
+        <tr>
+          <td><strong>B. Trim Galore</strong></td>
+          <td>Simple modern trimming with automatic adapter handling and paired-end validation.</td>
+          <td>Outputs must be renamed and reorganized before PHYLUCE assembly.</td>
+        </tr>
+        <tr>
+          <td><strong>C. Trimmomatic</strong></td>
+          <td>Fine control over adapter removal, quality trimming and minimum read length.</td>
+          <td>illumiprocessor itself uses Trimmomatic; direct use requires manual output organization.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Use only one of these routes for a given analysis unless you are explicitly comparing
+      trimming strategies. Do not sequentially trim the same reads with all three programs.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Common project variables</h2>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+READS="$PROJECT/raw_reads"
+CLEAN="$PROJECT/clean_reads"
+THREADS=8
+
+mkdir -p "$CLEAN"</pre></div>
+
+    <p>
+      Adjust <code>PROJECT</code>, <code>READS</code> and <code>THREADS</code> to your
+      dataset and computer. Adapter sequences and trimming thresholds should reflect the
+      actual library preparation and sequencing platform rather than being copied blindly.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Option A — illumiprocessor</h2>
+
+    <p>
+      This is the most direct route for users who want to follow the standard PHYLUCE
+      workflow. illumiprocessor batch-processes Illumina reads, runs Trimmomatic internally,
+      renames samples and creates the exact directory structure expected downstream.
+    </p>
+
+    <h3>Activate the PHYLUCE 1.7.3 environment</h3>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3
+
+illumiprocessor --version
+illumiprocessor --help</pre></div>
+
+    <p>
+      On Apple Silicon, activate the x86 environment created in Module 01 instead:
+      <code>phyluce-1.7.3-x86</code>.
+    </p>
+
+    <h3>Create the configuration file</h3>
+
+    <p>
+      illumiprocessor uses an INI-style configuration file. The exact adapter and index
+      sequences depend on your library design. The general structure is:
+    </p>
+
+    <div class="file-tree"><pre>[adapters]
+i7:&lt;adapter structure for read/index 1&gt;
+i5:&lt;adapter structure for read/index 2, when applicable&gt;
+
+[tag sequences]
+sample01:&lt;index sequence&gt;
+sample02:&lt;index sequence&gt;
+
+[tag map]
+&lt;original sample/index identifier 1&gt;:sample01
+&lt;original sample/index identifier 2&gt;:sample02
+
+[names]
+&lt;original sample/index identifier 1&gt;:sample01
+&lt;original sample/index identifier 2&gt;:sample02</pre></div>
+
+    <div class="callout">
+      <strong>Do not copy adapter sequences from another project</strong>
+      <p>
+        The configuration depends on the library preparation, indexing strategy and
+        adapters used for your sequencing run. Use the library documentation and the
+        official illumiprocessor configuration guide to construct this file.
+      </p>
+    </div>
+
+    <p>Save the configuration, for example, as:</p>
+
+    <div class="code-block"><pre>ILLUMICONF="$PROJECT/illumiprocessor.conf"</pre></div>
+
+    <h3>Run illumiprocessor</h3>
+
+    <div class="code-block"><pre>illumiprocessor \
+  --input "$READS" \
+  --output "$CLEAN" \
+  --config "$ILLUMICONF" \
+  --cores "$THREADS"</pre></div>
+
+    <p>The resulting sample structure is:</p>
+
+    <div class="file-tree"><pre>clean_reads/
+└── sample01/
+    ├── adapters.fasta
+    ├── raw-reads/
+    │   ├── sample01-READ1.fastq.gz
+    │   └── sample01-READ2.fastq.gz
+    ├── split-adapter-quality-trimmed/
+    │   ├── sample01-READ1.fastq.gz
+    │   ├── sample01-READ2.fastq.gz
+    │   └── sample01-READ-singleton.fastq.gz
+    └── stats/
+        └── sample01-adapter-contam.txt</pre></div>
+
+    <div class="callout">
+      <strong>Advantage</strong>
+      <p>
+        No additional renaming or directory restructuring is required before using
+        <code>phyluce_assembly_assemblo_spades</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Option B — Trim Galore</h2>
+
+    <p>
+      Trim Galore provides a simple paired-end interface for adapter and quality trimming.
+      The current v2 series is a standalone implementation and retains the familiar
+      Trim Galore command-line interface.
+    </p>
+
+    <h3>Create a separate environment</h3>
+
+    <div class="code-block"><pre>conda create -n uce-trimgalore \
+  -c conda-forge \
+  -c bioconda \
+  trim-galore=2.3.0
+
+conda activate uce-trimgalore
+
+trim_galore --version</pre></div>
+
+    <h3>Run one paired-end sample</h3>
+
+    <div class="code-block"><pre>SAMPLE="sample01"
+R1="$READS/${SAMPLE}_R1.fastq.gz"
+R2="$READS/${SAMPLE}_R2.fastq.gz"
+
+OUT="$PROJECT/trim_galore/$SAMPLE"
+mkdir -p "$OUT"
+
+trim_galore \
+  --paired \
+  --retain_unpaired \
+  --quality 20 \
+  --output_dir "$OUT" \
+  "$R1" "$R2"</pre></div>
+
+    <p>
+      Trim Galore v2.3.0 defaults to Phred+33 for modern Illumina data and can
+      auto-detect standard adapter classes. If your library uses a known custom adapter,
+      specify it explicitly rather than relying on auto-detection.
+    </p>
+
+    <div class="callout">
+      <strong>Two-colour Illumina platforms</strong>
+      <p>
+        NextSeq, NovaSeq and related two-colour systems can generate poly-G artefacts.
+        Consult the current Trim Galore documentation for <code>--2colour</code> and
+        poly-G handling when appropriate for your sequencing platform.
+      </p>
+    </div>
+
+    <h3>Convert Trim Galore output to PHYLUCE structure</h3>
+
+    <p>
+      The paired Trim Galore output must be placed in the directory and naming convention
+      expected by PHYLUCE.
+    </p>
+
+    <div class="code-block"><pre>DEST="$CLEAN/$SAMPLE/split-adapter-quality-trimmed"
+mkdir -p "$DEST"
+
+cp "$OUT/${SAMPLE}_R1_val_1.fq.gz" \
+   "$DEST/${SAMPLE}-READ1.fastq.gz"
+
+cp "$OUT/${SAMPLE}_R2_val_2.fq.gz" \
+   "$DEST/${SAMPLE}-READ2.fastq.gz"</pre></div>
+
+    <p>
+      When <code>--retain_unpaired</code> produces surviving singleton reads, combine
+      the unpaired R1 and R2 reads into the single singleton file expected by PHYLUCE:
+    </p>
+
+    <div class="code-block"><pre>gzip -cd \
+  "$OUT/${SAMPLE}_R1_unpaired_1.fq.gz" \
+  "$OUT/${SAMPLE}_R2_unpaired_2.fq.gz" \
+  | gzip -c \
+  > "$DEST/${SAMPLE}-READ-singleton.fastq.gz"</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>Option C — Trimmomatic</h2>
+
+    <p>
+      Trimmomatic provides direct control over adapter clipping, quality trimming,
+      read-length filtering and paired/unpaired outputs. Current Trimmomatic releases
+      support paired-end Illumina FASTQ data directly.
+    </p>
+
+    <h3>Create a separate environment</h3>
+
+    <div class="code-block"><pre>conda create -n uce-trimmomatic \
+  -c conda-forge \
+  -c bioconda \
+  trimmomatic=0.41
+
+conda activate uce-trimmomatic
+
+trimmomatic -version</pre></div>
+
+    <h3>Run one paired-end sample</h3>
+
+    <div class="code-block"><pre>SAMPLE="sample01"
+R1="$READS/${SAMPLE}_R1.fastq.gz"
+R2="$READS/${SAMPLE}_R2.fastq.gz"
+
+OUT="$PROJECT/trimmomatic/$SAMPLE"
+mkdir -p "$OUT"
+
+trimmomatic PE \
+  -threads "$THREADS" \
+  "$R1" \
+  "$R2" \
+  "$OUT/${SAMPLE}_R1_paired.fastq.gz" \
+  "$OUT/${SAMPLE}_R1_unpaired.fastq.gz" \
+  "$OUT/${SAMPLE}_R2_paired.fastq.gz" \
+  "$OUT/${SAMPLE}_R2_unpaired.fastq.gz" \
+  ILLUMINACLIP:/path/to/adapters.fasta:2:30:10 \
+  SLIDINGWINDOW:4:20 \
+  MINLEN:36</pre></div>
+
+    <div class="explain">
+      <div class="term">ILLUMINACLIP</div>
+      <div class="desc">Removes adapter and other technical sequences using the supplied adapter FASTA.</div>
+
+      <div class="term">SLIDINGWINDOW:4:20</div>
+      <div class="desc">Cuts the read when the average Phred score in a four-base window falls below 20.</div>
+
+      <div class="term">MINLEN:36</div>
+      <div class="desc">Removes reads shorter than 36 bp after trimming.</div>
+    </div>
+
+    <div class="callout">
+      <strong>These parameters are examples</strong>
+      <p>
+        Adapter files and trimming thresholds must be justified by the sequencing library,
+        read length and QC profile. The current Trimmomatic documentation explicitly notes
+        that trimming is not one-size-fits-all.
+      </p>
+    </div>
+
+    <h3>Convert Trimmomatic output to PHYLUCE structure</h3>
+
+    <div class="code-block"><pre>DEST="$CLEAN/$SAMPLE/split-adapter-quality-trimmed"
+mkdir -p "$DEST"
+
+cp "$OUT/${SAMPLE}_R1_paired.fastq.gz" \
+   "$DEST/${SAMPLE}-READ1.fastq.gz"
+
+cp "$OUT/${SAMPLE}_R2_paired.fastq.gz" \
+   "$DEST/${SAMPLE}-READ2.fastq.gz"
+
+gzip -cd \
+  "$OUT/${SAMPLE}_R1_unpaired.fastq.gz" \
+  "$OUT/${SAMPLE}_R2_unpaired.fastq.gz" \
+  | gzip -c \
+  > "$DEST/${SAMPLE}-READ-singleton.fastq.gz"</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Required final structure</h2>
+
+    <p>
+      Regardless of the trimming program used, the cleaned data should be normalized to
+      the following structure before entering the PHYLUCE assembly module:
+    </p>
+
+    <div class="file-tree"><pre>clean_reads/
+├── sample01/
+│   └── split-adapter-quality-trimmed/
+│       ├── sample01-READ1.fastq.gz
+│       ├── sample01-READ2.fastq.gz
+│       └── sample01-READ-singleton.fastq.gz
+│
+├── sample02/
+│   └── split-adapter-quality-trimmed/
+│       ├── sample02-READ1.fastq.gz
+│       ├── sample02-READ2.fastq.gz
+│       └── sample02-READ-singleton.fastq.gz
+│
+└── ...</pre></div>
+
+    <p>
+      This normalization is essential because PHYLUCE assembly wrappers assume this
+      directory and filename convention.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Repeat quality control after trimming</h2>
+
+    <p>
+      After cleaning the reads, repeat FastQC and MultiQC using the same approach described
+      in Module 03. The comparison between raw and cleaned reads should confirm that adapter
+      contamination and poor-quality sequence were reduced without excessive loss of data.
+    </p>
+
+    <div class="code-block"><pre>conda activate uce-qc
+
+QC_CLEAN="$PROJECT/qc/clean"
+mkdir -p "$QC_CLEAN"
+
+find "$CLEAN" \
+  -type f \
+  \( -name "*-READ1.fastq.gz" -o -name "*-READ2.fastq.gz" \) \
+  -print0 |
+xargs -0 fastqc \
+  --threads "$THREADS" \
+  --outdir "$QC_CLEAN"
+
+multiqc "$QC_CLEAN" \
+  --outdir "$QC_CLEAN/multiqc" \
+  --title "UCE cleaned reads"</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Which option should you use?</h2>
+
+    <table class="option-table">
+      <thead>
+        <tr>
+          <th>Situation</th>
+          <th>Suggested route</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>You want maximum compatibility with the standard PHYLUCE workflow.</td>
+          <td><strong>illumiprocessor</strong></td>
+        </tr>
+        <tr>
+          <td>You want a simple modern tool with minimal setup.</td>
+          <td><strong>Trim Galore</strong></td>
+        </tr>
+        <tr>
+          <td>You need explicit control over each trimming operation.</td>
+          <td><strong>Trimmomatic</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      For this tutorial, subsequent modules will assume only that the final cleaned reads
+      have been placed in the standard PHYLUCE directory structure. The downstream workflow
+      therefore remains independent of the trimming software chosen here.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ One trimming strategy was selected.</div>
+      <div class="check-item">✓ Adapter sequences or adapter assumptions match the actual library preparation.</div>
+      <div class="check-item">✓ R1/R2 pairing was preserved.</div>
+      <div class="check-item">✓ Useful singleton reads were retained when applicable.</div>
+      <div class="check-item">✓ Cleaned reads were normalized to the PHYLUCE directory structure.</div>
+      <div class="check-item">✓ FastQC and MultiQC were repeated after trimming.</div>
+      <div class="check-item">✓ Cleaned-read QC was compared against raw-read QC.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-1-quality-control.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Quality Control and read trimming
+      </a>
+    </p>
+
+    <p>
+      <a href="https://illumiprocessor.readthedocs.io/en/latest/"
+         target="_blank" rel="noopener">
+        illumiprocessor — official documentation
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/faircloth-lab/illumiprocessor"
+         target="_blank" rel="noopener">
+        illumiprocessor — source repository
+      </a>
+    </p>
+
+    <p>
+      <a href="https://www.trimgalore.com/"
+         target="_blank" rel="noopener">
+        Trim Galore — official documentation
+      </a>
+    </p>
+
+    <p>
+      <a href="https://github.com/usadellab/Trimmomatic"
+         target="_blank" rel="noopener">
+        Trimmomatic — official source and documentation
+      </a>
+    </p>
+
+    <h3>Software citations</h3>
+
+    <p>
+      Faircloth BC. illumiprocessor: a Trimmomatic wrapper for parallel adapter and quality
+      trimming. DOI: 10.6079/J9ILL.
+    </p>
+
+    <p>
+      Bolger AM, Lohse M, Usadel B. 2014. Trimmomatic: a flexible trimmer for Illumina
+      sequence data. <em>Bioinformatics</em> 30:2114–2120.
+      <a href="https://doi.org/10.1093/bioinformatics/btu170"
+         target="_blank" rel="noopener">doi:10.1093/bioinformatics/btu170</a>
+    </p>
+
+    <p>
+      For Trimmomatic v0.40 and later, also consult the current Trimmomatic project citation
+      guidance for the updated software publication.
+    </p>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="03-quality-control.html">← Quality control</a>
+    <span>Next: De novo assembly →</span>
+  </div>
+
+</main>
+
+</body>
+</html>

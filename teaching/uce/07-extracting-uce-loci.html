@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>07 · Extracting UCE loci | UCE Tutorial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+
+<style>
+.lesson-page{
+  max-width:980px;
+  margin:0 auto;
+  padding:128px 28px 78px;
+}
+.breadcrumb{
+  margin-bottom:28px;
+  font:500 .86rem/1.4 "Inter",sans-serif;
+  color:#64748B;
+}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:820px;margin-bottom:38px}
+.lesson-head .eyebrow{
+  margin-bottom:8px;
+  font:600 .76rem/1.2 "Inter",sans-serif;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  color:#3478C9;
+}
+.lesson-head h1{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.8rem,5vw,4.7rem);
+  font-weight:600;
+  line-height:.98;
+  color:#172231;
+}
+.lesson-head p{
+  margin:0;
+  max-width:800px;
+  font:400 1rem/1.75 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section{
+  margin-top:46px;
+  padding-top:8px;
+}
+.lesson-section h2{
+  margin:0 0 14px;
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(1.85rem,3.4vw,2.7rem);
+  font-weight:600;
+  color:#172231;
+}
+.lesson-section h3{
+  margin:28px 0 10px;
+  font:600 1.04rem/1.4 "Inter",sans-serif;
+  color:#172231;
+}
+.lesson-section p,
+.lesson-section li{
+  font:400 .95rem/1.72 "Inter",sans-serif;
+  color:#526174;
+}
+.lesson-section ul{padding-left:22px}
+.callout{
+  margin:22px 0;
+  padding:20px 22px;
+  background:rgba(238,243,247,.86);
+  border:1px solid rgba(52,120,201,.16);
+  border-radius:14px;
+}
+.callout strong{
+  display:block;
+  margin-bottom:6px;
+  font:600 .9rem/1.3 "Inter",sans-serif;
+  color:#172231;
+}
+.callout p{margin:0}
+.code-block{
+  position:relative;
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:#172231;
+  border-radius:12px;
+}
+.code-block pre{
+  margin:0;
+  white-space:pre;
+  font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;
+  color:#F1F5F9;
+}
+.file-tree{
+  margin:16px 0 22px;
+  padding:18px 20px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+}
+.file-tree pre{
+  margin:0;
+  font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+}
+.check-list{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.check-item{
+  padding:14px 16px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:10px;
+  font:400 .9rem/1.5 "Inter",sans-serif;
+  color:#526174;
+}
+.explain{
+  display:grid;
+  grid-template-columns:minmax(180px,.7fr) 1.5fr;
+  gap:0;
+  margin:18px 0 22px;
+  border:1px solid rgba(23,34,49,.09);
+  border-radius:12px;
+  overflow:hidden;
+}
+.explain div{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(23,34,49,.07);
+}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{
+  font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;
+  color:#334155;
+  background:rgba(238,243,247,.55);
+}
+.explain .desc{
+  font:400 .88rem/1.55 "Inter",sans-serif;
+  color:#526174;
+}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:58px;
+  padding-top:26px;
+  border-top:1px solid rgba(23,34,49,.10);
+}
+.lesson-nav a,
+.lesson-nav span{
+  font:600 .85rem/1.3 "Inter",sans-serif;
+}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+@media(max-width:650px){
+  .explain{grid-template-columns:1fr}
+  .explain div{border-bottom:0}
+  .explain .term{padding-bottom:4px}
+  .explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}
+  .lesson-nav{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="top-nav">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="lesson-page">
+
+  <div class="breadcrumb">
+    <a href="../../teaching.html">Teaching</a> /
+    <a href="index.html">UCE Tutorial</a> /
+    Extracting UCE loci
+  </div>
+
+  <header class="lesson-head">
+    <div class="eyebrow">Part I · Module 07 · PHYLUCE 1.7.3</div>
+    <h1>Extracting UCE loci</h1>
+    <p>
+      Convert the probe-to-contig matches identified in the previous module into a
+      monolithic FASTA dataset containing the recovered UCE loci across all samples.
+    </p>
+  </header>
+
+  <section class="lesson-section">
+    <h2>Objective</h2>
+    <p>
+      Define the samples to include, summarize the UCE loci present in the match database,
+      and extract the corresponding sequences from the assembled contigs.
+    </p>
+
+    <div class="callout">
+      <strong>Strategy used in this tutorial</strong>
+      <p>
+        We will generate an <strong>incomplete matrix</strong>. This retains loci that are
+        present in only a subset of samples. Matrix completeness will be evaluated and
+        filtered later, after alignment.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>1. Activate PHYLUCE 1.7.3</h2>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3</pre></div>
+
+    <p>
+      On Apple Silicon:
+    </p>
+
+    <div class="code-block"><pre>conda activate phyluce-1.7.3-x86</pre></div>
+
+    <p>Confirm that both programs are available:</p>
+
+    <div class="code-block"><pre>phyluce_assembly_get_match_counts --help
+
+phyluce_assembly_get_fastas_from_match_counts --help</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>2. Define the project paths</h2>
+
+    <div class="code-block"><pre>PROJECT="/path/to/my_UCE_project"
+
+CONTIGS="$PROJECT/spades-assemblies/contigs"
+LOCUS_DB="$PROJECT/uce-search-results/probe.matches.sqlite"
+
+TAXON_SETS="$PROJECT/taxon-sets"
+DATASET="$TAXON_SETS/all"
+
+LOGS="$DATASET/log"
+
+mkdir -p "$DATASET" "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">CONTIGS</div>
+      <div class="desc">Standardized SPAdes contigs generated in Module 05.</div>
+
+      <div class="term">LOCUS_DB</div>
+      <div class="desc">SQLite database produced by phyluce_assembly_match_contigs_to_probes.</div>
+
+      <div class="term">DATASET</div>
+      <div class="desc">Directory containing the taxon-set configuration and extracted UCE sequences.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>3. Create the sample-set configuration</h2>
+
+    <p>
+      PHYLUCE uses a simple configuration file to define which samples should be included
+      in a dataset. Create:
+    </p>
+
+    <div class="code-block"><pre>TAXON_CONF="$PROJECT/taxon-set.conf"</pre></div>
+
+    <p>Example:</p>
+
+    <div class="file-tree"><pre>[all]
+sample01
+sample02
+sample03
+sample04
+sample05</pre></div>
+
+    <p>
+      The identifiers must match the sample names stored in
+      <code>probe.matches.sqlite</code>.
+    </p>
+
+    <p>Inspect the file:</p>
+
+    <div class="code-block"><pre>cat "$TAXON_CONF"</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>4. Generate the UCE match-count configuration</h2>
+
+    <p>
+      Use <code>phyluce_assembly_get_match_counts</code> to determine which UCE loci are
+      available for the selected samples.
+    </p>
+
+    <div class="code-block"><pre>phyluce_assembly_get_match_counts \
+  --locus-db "$LOCUS_DB" \
+  --taxon-list-config "$TAXON_CONF" \
+  --taxon-group all \
+  --output "$DATASET/all-taxa-incomplete.conf" \
+  --incomplete-matrix \
+  --log-path "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">--locus-db</div>
+      <div class="desc">UCE match database created in Module 06.</div>
+
+      <div class="term">--taxon-list-config</div>
+      <div class="desc">Configuration containing the samples to include.</div>
+
+      <div class="term">--taxon-group</div>
+      <div class="desc">Section of the configuration file to use; here, <code>[all]</code>.</div>
+
+      <div class="term">--output</div>
+      <div class="desc">Data-matrix configuration containing the selected samples and UCE loci.</div>
+
+      <div class="term">--incomplete-matrix</div>
+      <div class="desc">Retains loci even when some samples lack data for that locus.</div>
+    </div>
+
+    <div class="callout">
+      <strong>Why use an incomplete matrix here?</strong>
+      <p>
+        Requiring a complete matrix at this stage can discard many informative loci.
+        PHYLUCE recommends retaining the broader set first and deciding the desired
+        occupancy threshold after alignment.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>5. Inspect the match-count configuration</h2>
+
+    <p>
+      The generated file contains two sections: the samples included in the dataset and
+      the UCE loci retained for extraction.
+    </p>
+
+    <div class="code-block"><pre>head -40 "$DATASET/all-taxa-incomplete.conf"</pre></div>
+
+    <p>A simplified example looks like:</p>
+
+    <div class="file-tree"><pre>[Organisms]
+sample01
+sample02
+sample03
+sample04
+sample05
+
+[Loci]
+uce-12
+uce-31
+uce-45
+uce-108
+uce-142
+...</pre></div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>6. Extract the UCE sequences</h2>
+
+    <p>
+      Now extract the corresponding UCE sequences from the SPAdes contigs:
+    </p>
+
+    <div class="code-block"><pre>phyluce_assembly_get_fastas_from_match_counts \
+  --contigs "$CONTIGS" \
+  --locus-db "$LOCUS_DB" \
+  --match-count-output "$DATASET/all-taxa-incomplete.conf" \
+  --output "$DATASET/all-taxa-incomplete.fasta" \
+  --incomplete-matrix "$DATASET/all-taxa-incomplete.incomplete" \
+  --log-path "$LOGS"</pre></div>
+
+    <div class="explain">
+      <div class="term">--contigs</div>
+      <div class="desc">Directory containing the assembled contigs.</div>
+
+      <div class="term">--locus-db</div>
+      <div class="desc">Database connecting samples, contigs and UCE loci.</div>
+
+      <div class="term">--match-count-output</div>
+      <div class="desc">Configuration created by phyluce_assembly_get_match_counts.</div>
+
+      <div class="term">--output</div>
+      <div class="desc">Monolithic FASTA containing all extracted UCE sequences.</div>
+
+      <div class="term">--incomplete-matrix</div>
+      <div class="desc">File in which PHYLUCE records loci missing from individual samples.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>7. Expected output</h2>
+
+    <div class="file-tree"><pre>taxon-sets/
+└── all/
+    ├── all-taxa-incomplete.conf
+    ├── all-taxa-incomplete.fasta
+    ├── all-taxa-incomplete.incomplete
+    └── log/
+        ├── phyluce_assembly_get_match_counts.log
+        └── phyluce_assembly_get_fastas_from_match_counts.log</pre></div>
+
+    <div class="explain">
+      <div class="term">*.conf</div>
+      <div class="desc">Samples and loci selected from the match database.</div>
+
+      <div class="term">*.fasta</div>
+      <div class="desc">Monolithic FASTA containing the recovered UCE sequences.</div>
+
+      <div class="term">*.incomplete</div>
+      <div class="desc">Record of loci missing from particular samples.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>8. Basic quality checks</h2>
+
+    <p>Confirm that the FASTA contains sequences:</p>
+
+    <div class="code-block"><pre>grep -c "^>" "$DATASET/all-taxa-incomplete.fasta"</pre></div>
+
+    <p>Inspect the first few sequence headers:</p>
+
+    <div class="code-block"><pre>grep "^>" "$DATASET/all-taxa-incomplete.fasta" | head</pre></div>
+
+    <p>Inspect the missing-data record:</p>
+
+    <div class="code-block"><pre>head "$DATASET/all-taxa-incomplete.incomplete"</pre></div>
+
+    <div class="callout">
+      <strong>Do not filter occupancy yet</strong>
+      <p>
+        At this stage we retain the broad UCE dataset. The next module aligns each locus,
+        after which occupancy thresholds such as 50%, 75%, 90% or other project-specific
+        values can be evaluated properly.
+      </p>
+    </div>
+  </section>
+
+  <section class="lesson-section">
+    <h2>9. Why one monolithic FASTA?</h2>
+
+    <p>
+      The output FASTA contains sequences from many loci and samples in a single file.
+      PHYLUCE uses the locus information encoded in the sequence headers to separate these
+      records during the alignment step.
+    </p>
+
+    <p>
+      This file therefore serves as the bridge between UCE recovery and locus-by-locus
+      multiple sequence alignment.
+    </p>
+  </section>
+
+  <section class="lesson-section">
+    <h2>10. Pre-flight check</h2>
+
+    <div class="check-list">
+      <div class="check-item">✓ The sample-set configuration contains all intended samples.</div>
+      <div class="check-item">✓ Sample identifiers match those in probe.matches.sqlite.</div>
+      <div class="check-item">✓ all-taxa-incomplete.conf was generated successfully.</div>
+      <div class="check-item">✓ all-taxa-incomplete.fasta contains extracted UCE sequences.</div>
+      <div class="check-item">✓ all-taxa-incomplete.incomplete records missing loci by sample.</div>
+      <div class="check-item">✓ Logs from both extraction commands were retained.</div>
+      <div class="check-item">✓ No occupancy filtering was applied prematurely.</div>
+    </div>
+  </section>
+
+  <section class="lesson-section references">
+    <h2>References and official documentation</h2>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-3-uce-processing.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — UCE processing for phylogenomics
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/tutorials/tutorial-1.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Tutorial I: match counts and FASTA extraction
+      </a>
+    </p>
+
+    <p>
+      <a href="https://phyluce.readthedocs.io/en/latest/daily-use/list-of-programs.html"
+         target="_blank" rel="noopener">
+        PHYLUCE 1.7.3 — Program list
+      </a>
+    </p>
+
+    <div class="callout">
+      <strong>Version policy</strong>
+      <p>
+        The syntax in this module follows PHYLUCE 1.7.3. In particular,
+        <code>--incomplete-matrix</code> is intentionally used during match counting so
+        occupancy can be filtered later, after locus alignment.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson-nav">
+    <a href="06-identifying-uce-loci.html">← Identifying UCE loci</a>
+    <span>Next: UCE alignments →</span>
+  </div>
+
+</main>
+
+</body>
+</html>
