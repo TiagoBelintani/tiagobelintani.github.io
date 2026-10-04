@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>16 · SNP calling | UCE Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+.lesson-page{max-width:980px;margin:0 auto;padding:128px 28px 78px}
+.breadcrumb{margin-bottom:28px;font:500 .86rem/1.4 "Inter",sans-serif;color:#64748B}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:840px;margin-bottom:38px}
+.lesson-head .eyebrow{margin-bottom:8px;font:500 .76rem/1.2 "Inter",sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#3478C9}
+.lesson-head h1{margin:0 0 14px;font-family:"Cormorant Garamond",serif;font-size:clamp(2.8rem,5vw,4.7rem);font-weight:500;line-height:.98;color:#172231}
+.lesson-head p{margin:0;max-width:820px;font:400 1rem/1.75 "Inter",sans-serif;color:#526174}
+.lesson-section{margin-top:46px;padding-top:8px}
+.lesson-section h2{margin:0 0 14px;font-family:"Cormorant Garamond",serif;font-size:clamp(1.85rem,3.4vw,2.7rem);font-weight:500;color:#172231}
+.lesson-section h3{margin:28px 0 10px;font:500 1.04rem/1.4 "Inter",sans-serif;color:#172231}
+.lesson-section p,.lesson-section li{font:400 .95rem/1.72 "Inter",sans-serif;color:#526174}
+.lesson-section ul,.lesson-section ol{padding-left:22px}
+.callout{margin:22px 0;padding:20px 22px;background:rgba(238,243,247,.86);border:1px solid rgba(52,120,201,.16);border-radius:14px}
+.callout strong{display:block;margin-bottom:6px;font:500 .9rem/1.3 "Inter",sans-serif;color:#172231}
+.callout p{margin:0}
+.code-block{position:relative;margin:16px 0 22px;padding:18px 20px;overflow-x:auto;background:#172231;border-radius:12px}
+.code-block pre{margin:0;white-space:pre;font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;color:#F1F5F9}
+.file-tree{margin:16px 0 22px;padding:18px 20px;overflow-x:auto;background:rgba(255,255,255,.84);border:1px solid rgba(23,34,49,.09);border-radius:12px}
+.file-tree pre{margin:0;font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;color:#334155}
+.check-list{display:grid;gap:10px;margin-top:18px}
+.check-item{padding:14px 16px;background:rgba(255,255,255,.82);border:1px solid rgba(23,34,49,.09);border-radius:10px;font:400 .9rem/1.5 "Inter",sans-serif;color:#526174}
+.explain{display:grid;grid-template-columns:minmax(190px,.72fr) 1.5fr;gap:0;margin:18px 0 22px;border:1px solid rgba(23,34,49,.09);border-radius:12px;overflow:hidden}
+.explain div{padding:13px 15px;border-bottom:1px solid rgba(23,34,49,.07)}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;color:#334155;background:rgba(238,243,247,.55)}
+.explain .desc{font:400 .88rem/1.55 "Inter",sans-serif;color:#526174}
+.strategy-table,.interpret-table{width:100%;border-collapse:collapse;margin:18px 0 28px;font:400 .88rem/1.55 "Inter",sans-serif;color:#526174}
+.strategy-table th,.strategy-table td,.interpret-table th,.interpret-table td{padding:11px 13px;border:1px solid rgba(23,34,49,.09);text-align:left;vertical-align:top}
+.strategy-table th,.interpret-table th{background:rgba(238,243,247,.72);color:#172231;font-weight:500}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:18px 0 28px}
+.metric-card{border:1px solid rgba(23,34,49,.10);border-radius:14px;padding:18px;background:rgba(248,250,252,.72)}
+.metric-card h3{margin:0 0 8px;font:500 1rem/1.3 "Inter",sans-serif;color:#172231}
+.metric-card p{margin:0;font-size:.92rem}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{display:flex;justify-content:space-between;gap:16px;margin-top:58px;padding-top:26px;border-top:1px solid rgba(23,34,49,.10)}
+.lesson-nav a,.lesson-nav span{font:500 .85rem/1.3 "Inter",sans-serif}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+.lesson-page strong,.lesson-page b{font-weight:500}
+.lesson-head h1,.lesson-section h2{font-weight:500}
+@media(max-width:650px){.explain{grid-template-columns:1fr}.explain div{border-bottom:0}.explain .term{padding-bottom:4px}.explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}.lesson-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<main class="lesson-page">
+
+<div class="breadcrumb"><a href="index.html">UCE Tutorial</a> / Population Genomics / SNP calling</div>
+
+<header class="lesson-head">
+  <div class="eyebrow">Part III · Population Genomics · Step 04</div>
+  <h1>SNP calling</h1>
+  <p>Perform joint variant discovery across samples mapped to the same shared UCE pseudoreference, retain the read-level evidence needed for later genotype filtering, and validate the resulting raw VCF before any population-genomic filtering is applied.</p>
+</header>
+
+<section class="lesson-section">
+<h2>Objective</h2>
+<p>The mapping stage placed reads from every individual into a common coordinate system. SNP calling now asks a different question: at each homologous position in that shared UCE pseudoreference, what alleles are supported by the aligned reads, and what genotype is most likely for each sample?</p>
+<p>This module uses <code>bcftools mpileup</code> to summarize read evidence and calculate genotype likelihoods, followed by <code>bcftools call</code> to infer variant alleles and genotypes jointly across the selected samples.</p>
+
+<div class="file-tree"><pre>shared UCE pseudoreference
+        +
+final marked-duplicate BAMs
+        ↓
+bcftools mpileup
+        ↓
+read evidence + genotype likelihoods
+        ↓
+bcftools call
+        ↓
+raw joint VCF
+        ↓
+extract raw SNP records
+        ↓
+index + validate + summarize
+        ↓
+variant filtering</pre></div>
+
+<div class="callout"><strong>Calling is not filtering</strong>
+<p>The output of this module is intentionally permissive. Low-depth genotypes, sites with substantial missing data, multiallelic SNPs and rare alleles may still be present. They are evaluated in the next module rather than silently discarded during discovery.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>1. Why joint SNP calling?</h2>
+<p>Calling each individual independently and later merging VCF files can produce inconsistent site representation and make genotype comparison unnecessarily difficult. Joint calling evaluates the same candidate variant position across all selected samples at once.</p>
+
+<div class="metric-grid">
+  <div class="metric-card"><h3>Shared coordinates</h3><p>Every genotype refers to the same UCE locus and pseudoreference position.</p></div>
+  <div class="metric-card"><h3>Comparable genotypes</h3><p>Evidence from all individuals is considered within the same variant record.</p></div>
+  <div class="metric-card"><h3>Consistent ALT alleles</h3><p>Alternate alleles are represented consistently across the complete sample set.</p></div>
+  <div class="metric-card"><h3>One population VCF</h3><p>Downstream missingness, MAF, PCA and structure workflows begin from one coordinated dataset.</p></div>
+</div>
+
+<p>For UCE capture data, this logic is especially important because the reference is not a complete genome. It is a shared collection of homologous UCE sequences, and the population-genomic analysis should therefore use the same pseudoreference for every individual.</p>
+</section>
+
+<section class="lesson-section">
+<h2>2. Inputs</h2>
+<p>This module assumes that the previous steps produced a shared pseudoreference and one final duplicate-marked BAM per sample.</p>
+
+<div class="file-tree"><pre>01_pseudoreference/
+└── shared_uce_pseudoref.fasta
+
+02_mapping/
+├── sample_A/
+│   ├── sample_A.markdup.bam
+│   └── sample_A.markdup.bam.bai
+├── sample_B/
+│   ├── sample_B.markdup.bam
+│   └── sample_B.markdup.bam.bai
+└── ...
+
+04_snp_calling/
+└── samples.txt</pre></div>
+
+<p><code>samples.txt</code> should contain one sample identifier per line. The sample set used here should reflect the biological analysis being performed. A strongly divergent outgroup, for example, may be useful for phylogenetic analyses but inappropriate for fine-scale PCA, DAPC, ADMIXTURE or STRUCTURE analyses.</p>
+</section>
+
+<section class="lesson-section">
+<h2>3. Activate the existing environment</h2>
+<p>The population-genomics environment was created previously. Do not recreate it for every module.</p>
+
+<div class="code-block"><pre>conda activate uce-popgen</pre></div>
+
+<p>Confirm that the required programs are available:</p>
+
+<div class="code-block"><pre>bcftools --version
+samtools --version</pre></div>
+
+<div class="callout"><strong>Version awareness</strong>
+<p>BCFtools evolves actively. Record the version used for each project and consult the documentation for that version when a short option changes meaning or becomes deprecated.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>4. Define portable paths</h2>
+<p>Use project-relative variables rather than hard-coding institutional paths into the workflow.</p>
+
+<div class="code-block"><pre>PROJECT="/path/to/project"
+POPGEN="$PROJECT/population_genomics"
+PSEUDOREF="$POPGEN/01_pseudoreference/shared_uce_pseudoref.fasta"
+MAPPING="$POPGEN/02_mapping"
+SNP_CALLING="$POPGEN/04_snp_calling"
+SAMPLES="$SNP_CALLING/samples.txt"
+BAM_LIST="$SNP_CALLING/bams.list"
+
+mkdir -p "$SNP_CALLING"</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>5. Build the BAM list</h2>
+<p><code>bcftools mpileup</code> can read a file containing one BAM path per line. Building this list explicitly makes the set of individuals used in calling reproducible.</p>
+
+<div class="code-block"><pre>while read -r SAMPLE; do
+    echo "$MAPPING/$SAMPLE/${SAMPLE}.markdup.bam"
+done &lt; "$SAMPLES" &gt; "$BAM_LIST"</pre></div>
+
+<p>Check the number of entries:</p>
+
+<div class="code-block"><pre>wc -l "$SAMPLES"
+wc -l "$BAM_LIST"</pre></div>
+
+<p>The two numbers should match.</p>
+
+<h3>Verify that every BAM exists</h3>
+<div class="code-block"><pre>while read -r BAM; do
+    [[ -f "$BAM" ]] || echo "MISSING: $BAM"
+done &lt; "$BAM_LIST"</pre></div>
+
+<p>If nothing is printed, all expected BAM paths were found.</p>
+
+<h3>Verify BAM integrity</h3>
+<div class="code-block"><pre>while read -r BAM; do
+    samtools quickcheck -v "$BAM"
+done &lt; "$BAM_LIST"</pre></div>
+
+<p>No output indicates that <code>samtools quickcheck</code> did not detect structural problems in the BAM files.</p>
+</section>
+
+<section class="lesson-section">
+<h2>6. What <code>bcftools mpileup</code> does</h2>
+<p><code>mpileup</code> does not yet decide which positions are final SNPs. It reads the aligned bases covering each reference position and summarizes the evidence required for genotype-likelihood calculations.</p>
+
+<table class="interpret-table">
+<thead><tr><th>Evidence</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>Read alignment</td><td>Determines which reads support a pseudoreference position.</td></tr>
+<tr><td>Mapping quality</td><td>Measures confidence that a read was placed at the correct locus.</td></tr>
+<tr><td>Base quality</td><td>Measures confidence in the nucleotide observed in the read.</td></tr>
+<tr><td>Allelic depth</td><td>Counts read support for REF and ALT alleles within each sample.</td></tr>
+<tr><td>Genotype likelihood</td><td>Quantifies how compatible the observed reads are with alternative genotypes.</td></tr>
+</tbody>
+</table>
+
+<div class="callout"><strong>Important distinction</strong>
+<p>Read depth is evidence, not certainty. A genotype supported by one or two reads may still receive a genotype call in a raw VCF. Minimum depth is therefore handled explicitly during genotype filtering.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>7. Joint variant calling command</h2>
+<p>The following command is a practical starting point for diploid Illumina UCE population datasets. Thresholds should still be reviewed for the sequencing design and taxonomic divergence of each study.</p>
+
+<div class="code-block"><pre>RAW_VCF="$SNP_CALLING/raw_variants.vcf.gz"
+
+bcftools mpileup \
+    -f "$PSEUDOREF" \
+    -b "$BAM_LIST" \
+    -q 20 \
+    -Q 20 \
+    -D \
+    -d 1000 \
+    -a FORMAT/DP,FORMAT/AD \
+    -Ou \
+| bcftools call \
+    -m \
+    -v \
+    -G - \
+    -a GQ \
+    -Oz \
+    -o "$RAW_VCF"</pre></div>
+
+<div class="callout"><strong>BCFtools version note</strong>
+<p>Recent BCFtools development versions use <code>bcftools call -a GQ</code> to request genotype-quality output. Older releases may expose this through <code>-f GQ</code> / <code>--format-fields GQ</code>. Check <code>bcftools call --help</code> on the installed version rather than copying a deprecated short option blindly.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>8. Understanding every parameter</h2>
+
+<div class="explain">
+<div class="term"><code>-f "$PSEUDOREF"</code></div><div class="desc">Uses the shared UCE pseudoreference FASTA as the reference coordinate system. The FASTA must be indexed.</div>
+<div class="term"><code>-b "$BAM_LIST"</code></div><div class="desc">Reads BAM file paths from a text file, enabling multi-sample calling from the selected individuals.</div>
+<div class="term"><code>-q 20</code></div><div class="desc">Requires alignment mapping quality ≥20 before a read contributes evidence. Low-confidence alignments are ignored.</div>
+<div class="term"><code>-Q 20</code></div><div class="desc">Requires base quality ≥20 before a base contributes evidence. This is stricter than the BCFtools default and reduces support from uncertain base calls.</div>
+<div class="term"><code>-D</code></div><div class="desc">Runs full BAQ on all reads. Current BCFtools documentation specifically recommends full BAQ for multi-sample calling and low-frequency variants because the default heuristic was primarily validated on simpler single-sample settings.</div>
+<div class="term"><code>-d 1000</code></div><div class="desc">Allows up to 1000 reads per BAM at a position. BCFtools defaults to 250. UCE capture can produce high local depth, so a larger cap avoids unnecessary truncation while still controlling pathological pileups.</div>
+<div class="term"><code>-a FORMAT/DP,FORMAT/AD</code></div><div class="desc">Outputs per-sample depth (DP) and allele-specific depth (AD). These fields are essential for later genotype-level QC.</div>
+<div class="term"><code>-Ou</code></div><div class="desc">Streams uncompressed BCF directly into the next BCFtools command. This avoids unnecessary text conversion and intermediate compression.</div>
+<div class="term"><code>call -m</code></div><div class="desc">Uses the multiallelic calling model, which BCFtools recommends for most variant-calling tasks.</div>
+<div class="term"><code>-v</code></div><div class="desc">Outputs variant sites only. Positions called entirely as reference are not written to the raw variant VCF.</div>
+<div class="term"><code>-G -</code></div><div class="desc">Disables the assumption that all samples form one Hardy–Weinberg population and performs single-sample genotype calling within the joint record set. This is useful when population structure is unknown, but BCFtools warns that false positives can increase in low-coverage data.</div>
+<div class="term"><code>-a GQ</code></div><div class="desc">Requests genotype quality (GQ), a Phred-scaled measure of confidence in each called genotype conditioned on the site being variant.</div>
+<div class="term"><code>-Oz</code></div><div class="desc">Writes a BGZF-compressed VCF (<code>.vcf.gz</code>) suitable for indexing and downstream BCFtools operations.</div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>9. Why use full BAQ?</h2>
+<p>BAQ—Base Alignment Quality—reduces the influence of bases whose alignment position is uncertain, particularly around local alignment problems. Without this correction, mismatches created by alignment ambiguity can resemble real nucleotide variation.</p>
+<p>BCFtools currently applies BAQ heuristically by default, but its documentation notes that the heuristic has been tested primarily on single-sample data with even allele frequencies. For multi-sample or low-frequency variant discovery, full BAQ remains the recommended safer choice.</p>
+
+<div class="callout"><strong>BAQ is not base-quality filtering</strong>
+<p><code>-Q 20</code> filters on sequencing base quality. BAQ modifies the effective confidence of bases according to local alignment uncertainty. They address different sources of error.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>10. Why <code>-G -</code> requires care</h2>
+<p>By default, <code>bcftools call</code> assumes that all samples belong to one population and can use Hardy–Weinberg equilibrium information. That assumption may be undesirable when the purpose of the analysis is precisely to discover population structure.</p>
+<p>Using <code>-G -</code> removes that population-level HWE assumption. Genotypes are then called independently for each sample while remaining represented together in the same multi-sample VCF.</p>
+
+<table class="strategy-table">
+<thead><tr><th>Strategy</th><th>Advantage</th><th>Caution</th></tr></thead>
+<tbody>
+<tr><td>Default single population</td><td>Can use cross-sample allele-frequency information.</td><td>Assumes one HWE population, potentially inappropriate for structured datasets.</td></tr>
+<tr><td><code>-G -</code></td><td>Avoids forcing all individuals into one HWE population.</td><td>BCFtools warns that low-coverage samples can show more false positives.</td></tr>
+<tr><td><code>-G groups.tsv</code></td><td>Applies HWE within defined populations but not across groups.</td><td>Requires biologically justified population assignments before calling.</td></tr>
+</tbody>
+</table>
+
+<div class="callout"><strong>Why DP and AD are retained</strong>
+<p>The <code>-G</code> strategy needs per-sample quantitative evidence, and later filtering must be able to distinguish a genotype supported by one read from one supported by many independent reads. <code>FORMAT/DP</code> and <code>FORMAT/AD</code> preserve that information.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>11. Diploidy and ploidy assumptions</h2>
+<p>If no ploidy definition is supplied, BCFtools normally treats unlisted regions as diploid. That is appropriate for standard autosomal-like nuclear UCE loci in diploid organisms.</p>
+<p>If the study organism or targeted regions include haploid, sex-linked, polyploid or mixed-ploidy loci, this assumption must be changed explicitly. Do not use the default diploid model merely because it is convenient.</p>
+</section>
+
+<section class="lesson-section">
+<h2>12. Index the raw VCF</h2>
+<div class="code-block"><pre>bcftools index "$RAW_VCF"</pre></div>
+
+<p>For compressed VCF output, BCFtools normally creates a CSI index. Indexed files support rapid region queries and many downstream operations.</p>
+</section>
+
+<section class="lesson-section">
+<h2>13. Extract SNP records</h2>
+<p>The initial caller can discover both SNPs and short indels. Population-genomic workflows often begin by separating the SNP records while preserving the complete raw variant VCF for provenance.</p>
+
+<div class="code-block"><pre>RAW_SNPS="$SNP_CALLING/raw_snps.vcf.gz"
+
+bcftools view \
+    -v snps \
+    -Oz \
+    -o "$RAW_SNPS" \
+    "$RAW_VCF"
+
+bcftools index "$RAW_SNPS"</pre></div>
+
+<div class="callout"><strong>Do not delete the complete raw VCF</strong>
+<p><code>raw_variants.vcf.gz</code> remains the record of the complete discovery step. <code>raw_snps.vcf.gz</code> is a convenient derivative for SNP-focused filtering.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>14. Generate summary statistics</h2>
+<p>Before filtering, document what the caller produced.</p>
+
+<div class="code-block"><pre>bcftools stats "$RAW_VCF" \
+    &gt; "$SNP_CALLING/raw_variants.stats.txt"
+
+bcftools stats "$RAW_SNPS" \
+    &gt; "$SNP_CALLING/raw_snps.stats.txt"</pre></div>
+
+<p>The summary-number lines can be inspected with:</p>
+
+<div class="code-block"><pre>grep '^SN' "$SNP_CALLING/raw_variants.stats.txt"
+grep '^SN' "$SNP_CALLING/raw_snps.stats.txt"</pre></div>
+
+<p>Useful quantities include number of samples, total records, SNPs, indels and multiallelic sites.</p>
+</section>
+
+<section class="lesson-section">
+<h2>15. Per-sample genotype statistics</h2>
+<p>Mapping QC should now be cross-checked against genotype completeness. Ask <code>bcftools stats</code> to calculate per-sample statistics:</p>
+
+<div class="code-block"><pre>bcftools stats \
+    -s - \
+    "$RAW_SNPS" \
+    &gt; "$SNP_CALLING/raw_snps.per_sample.stats.txt"</pre></div>
+
+<p>Inspect the <code>PSC</code> records:</p>
+
+<div class="code-block"><pre>grep '^PSC' \
+    "$SNP_CALLING/raw_snps.per_sample.stats.txt" \
+    | head</pre></div>
+
+<p>These records include sample-level genotype counts, average depth and missing genotypes. They are particularly useful for testing whether samples already flagged during mapping QC also show poor genotype completeness.</p>
+
+<div class="callout"><strong>Sample exclusion should use multiple lines of evidence</strong>
+<p>A sample that has restricted UCE breadth, weak usable depth and high genotype missingness is a much stronger technical outlier than a sample that is unusual in only one metric.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>16. Validate the sample set</h2>
+<p>The VCF should contain exactly the samples that were intended for joint calling.</p>
+
+<div class="code-block"><pre>bcftools query -l "$RAW_SNPS"</pre></div>
+
+<p>Count them:</p>
+
+<div class="code-block"><pre>bcftools query -l "$RAW_SNPS" | wc -l</pre></div>
+
+<p>Compare this number with <code>wc -l "$SAMPLES"</code>. A mismatch should be investigated before any downstream filtering.</p>
+</section>
+
+<section class="lesson-section">
+<h2>17. Count raw variant records efficiently</h2>
+<p>Once the VCF is indexed, BCFtools can read the record count from the index:</p>
+
+<div class="code-block"><pre>bcftools index -n "$RAW_VCF"
+bcftools index -n "$RAW_SNPS"</pre></div>
+
+<p>This is much faster than decompressing and counting every record manually.</p>
+</section>
+
+<section class="lesson-section">
+<h2>18. Inspect the VCF structure</h2>
+<p>A raw VCF should be inspected before filtering rather than treated as a black box.</p>
+
+<h3>Inspect selected FORMAT definitions</h3>
+<div class="code-block"><pre>bcftools view -h "$RAW_SNPS" \
+    | grep -E '^##FORMAT=&lt;ID=(GT|DP|AD|GQ)'</pre></div>
+
+<h3>Inspect a few genotype records</h3>
+<div class="code-block"><pre>bcftools query \
+    -f '%CHROM\t%POS\t%REF\t%ALT\t%QUAL[\t%GT:%DP:%AD:%GQ]\n' \
+    "$RAW_SNPS" \
+    | head -3</pre></div>
+
+<p>A genotype may look like:</p>
+
+<div class="file-tree"><pre>0/1:8:5,3:42
+ │  │  │   └── GQ: genotype quality
+ │  │  └────── AD: REF reads, ALT reads
+ │  └───────── DP: total high-quality depth
+ └──────────── GT: genotype</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>19. Understanding the key VCF genotype fields</h2>
+
+<div class="explain">
+<div class="term"><code>GT</code></div><div class="desc">Genotype. For a diploid biallelic site, <code>0/0</code> is homozygous reference, <code>0/1</code> heterozygous, <code>1/1</code> homozygous alternate and <code>./.</code> missing.</div>
+<div class="term"><code>DP</code></div><div class="desc">Per-sample read depth at the position after the read/base-quality logic used by mpileup. It indicates how much sequence evidence contributed to that genotype.</div>
+<div class="term"><code>AD</code></div><div class="desc">Allelic depth. For a biallelic site, values such as <code>5,3</code> mean five reads support REF and three support ALT.</div>
+<div class="term"><code>GQ</code></div><div class="desc">Conditional genotype quality on a Phred scale. Higher values indicate greater confidence in the genotype relative to the alternatives, conditioned on the site being variant.</div>
+</div>
+
+<div class="callout"><strong>High GQ does not replace a depth threshold</strong>
+<p>A raw call can occasionally show high GQ even when supported by very few reads. GQ describes confidence under the caller's model; DP tells you how much sequence evidence exists. Robust genotype filtering considers both.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>20. Site QUAL and genotype GQ are different</h2>
+<p><code>QUAL</code> belongs to the variant record and expresses confidence in the assertion that a non-reference allele exists at that site. <code>GQ</code> belongs to an individual genotype and measures confidence in that sample's genotype call.</p>
+
+<table class="interpret-table">
+<thead><tr><th>Field</th><th>Level</th><th>Question</th></tr></thead>
+<tbody>
+<tr><td><code>QUAL</code></td><td>Site</td><td>How strong is the evidence that this position is variant?</td></tr>
+<tr><td><code>GQ</code></td><td>Sample genotype</td><td>How confident is the called genotype for this individual?</td></tr>
+<tr><td><code>DP</code></td><td>Sample genotype</td><td>How many usable reads support evaluation of this sample at this position?</td></tr>
+<tr><td><code>AD</code></td><td>Sample genotype</td><td>How is that read support distributed among REF and ALT alleles?</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section">
+<h2>21. Why the output is still a raw SNP dataset</h2>
+<p>At this stage, a site can be present even if it is unsuitable for population-genomic inference. Examples include:</p>
+
+<ul>
+<li>genotypes supported by very low depth;</li>
+<li>genotypes with low GQ;</li>
+<li>sites missing in many individuals;</li>
+<li>multiallelic SNPs;</li>
+<li>extremely high-depth sites associated with repetitive or ambiguous mapping;</li>
+<li>very rare alternate alleles;</li>
+<li>multiple linked SNPs from the same UCE locus.</li>
+</ul>
+
+<p>These properties are not all errors. They are reasons to define an analysis-specific filtering policy in a transparent subsequent step.</p>
+
+<div class="file-tree"><pre>raw SNP discovery
+        ↓
+keep evidence-rich VCF
+        ↓
+filter low-quality genotypes
+        ↓
+filter sites by missingness / depth / allele count
+        ↓
+retain appropriate biallelic SNPs
+        ↓
+control linkage or select one SNP per UCE
+        ↓
+population-genomic analyses</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>22. Outgroups and alternative sample sets</h2>
+<p>Do not discard an outgroup merely because it is excluded from the primary population SNP VCF. Preserve its final BAM and sample metadata.</p>
+<p>A useful strategy is to maintain separate, explicitly named sample lists:</p>
+
+<div class="file-tree"><pre>population_samples.txt
+    focal individuals for PCA / DAPC / ancestry analyses
+
+all_samples.txt
+    focal individuals + outgroup(s) for analyses where the
+    broader taxonomic comparison is biologically appropriate</pre></div>
+
+<p>If a second joint VCF including the outgroup is needed, generate it as a separate dataset. This avoids letting a highly divergent taxon alter missingness, allele-frequency and structure analyses designed for the focal populations.</p>
+</section>
+
+<section class="lesson-section">
+<h2>23. Computational execution</h2>
+<p>Joint calling can be substantially more expensive than the validation commands shown later in this module. On a workstation, run it only when the BAM set fits the available memory and I/O capacity. On an HPC system, submit the calling pipeline through the site's scheduler.</p>
+<p>The tutorial intentionally keeps scheduler syntax out of the core command so the biological workflow remains portable across SLURM, PBS, LSF, local workstations and cloud environments.</p>
+
+<div class="callout"><strong>Do not parallelize samples independently and merge later merely for convenience</strong>
+<p>The important concept is joint evaluation of the chosen sample set. If the computation must be split, split by independent reference regions/loci with a carefully designed scatter/gather strategy—not by producing unrelated per-sample calls and treating them as equivalent to joint calling.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>24. Common warnings and problems</h2>
+
+<table class="interpret-table">
+<thead><tr><th>Message or pattern</th><th>Interpretation</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>Sample count is lower than expected</td><td>BAM list, read-group sample labels or input list is inconsistent.</td><td>Stop and reconcile sample identities before filtering.</td></tr>
+<tr><td>Many <code>./.</code> genotypes</td><td>Coverage is absent or insufficient for some samples/sites.</td><td>Compare per-sample missingness with mapping QC.</td></tr>
+<tr><td>High GQ with very low DP</td><td>The genotype can be confident relative to the model despite minimal read evidence.</td><td>Do not trust GQ alone; define genotype DP filters later.</td></tr>
+<tr><td><code>MQ should be declared as Type=Float</code></td><td>Some BCFtools/VCF-version combinations can expose a header-type compatibility warning for the reserved INFO/MQ tag.</td><td>Inspect the header and tool version. Do not silently edit biological values; keep the raw VCF and document any header-only correction if required for downstream compatibility.</td></tr>
+<tr><td>Calling is extremely slow</td><td>Large BAM set, deep targets, storage I/O or BAQ computation may dominate runtime.</td><td>Use the cluster scheduler and adequate memory/I/O; preserve the same calling model.</td></tr>
+<tr><td>Very high raw SNP density</td><td>May reflect real divergence, low-quality calls, reference bias or weakly covered samples.</td><td>Treat the raw count as a diagnostic, not as the final number of usable SNPs.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section">
+<h2>25. Recommended output structure</h2>
+
+<div class="file-tree"><pre>04_snp_calling/
+├── samples.txt
+├── bams.list
+├── raw_variants.vcf.gz
+├── raw_variants.vcf.gz.csi
+├── raw_variants.stats.txt
+├── raw_snps.vcf.gz
+├── raw_snps.vcf.gz.csi
+├── raw_snps.stats.txt
+└── raw_snps.per_sample.stats.txt</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>26. Validation checklist</h2>
+<div class="check-list">
+<div class="check-item">✓ Every selected sample has a final duplicate-marked BAM and index.</div>
+<div class="check-item">✓ The BAM list contains exactly the intended individuals.</div>
+<div class="check-item">✓ All BAM files pass basic integrity checks.</div>
+<div class="check-item">✓ All samples were called against the same shared UCE pseudoreference.</div>
+<div class="check-item">✓ Mapping quality and base quality thresholds are documented.</div>
+<div class="check-item">✓ FORMAT/DP and FORMAT/AD were retained by <code>mpileup</code>.</div>
+<div class="check-item">✓ FORMAT/GQ was retained by the caller.</div>
+<div class="check-item">✓ The raw VCF and SNP-only VCF are BGZF-compressed and indexed.</div>
+<div class="check-item">✓ The VCF contains the expected number and names of samples.</div>
+<div class="check-item">✓ Raw variant counts and per-sample statistics were archived.</div>
+<div class="check-item">✓ Mapping-QC warning samples were compared with genotype missingness rather than removed automatically.</div>
+<div class="check-item">✓ No final MAF, missingness, biallelic or linkage filter has been applied yet.</div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>27. What comes next?</h2>
+<p>The raw VCF now preserves the evidence needed to make explicit filtering decisions. The next module converts unreliable genotypes to missing, restricts the dataset to an appropriate SNP class, filters excessive site missingness, evaluates depth and genotype quality, and applies allele-frequency criteria.</p>
+
+<div class="file-tree"><pre>Module 16 · SNP calling
+raw multi-sample SNP VCF
+        ↓
+Module 17 · Variant filtering
+        ↓
+quality-controlled population SNP dataset</pre></div>
+</section>
+
+<section class="lesson-section references">
+<h2>References and software documentation</h2>
+<p><a href="https://samtools.github.io/bcftools/bcftools.html" target="_blank" rel="noopener">BCFtools manual — official documentation</a><br>Current command syntax and definitions for <code>mpileup</code>, <code>call</code>, <code>view</code>, <code>index</code> and <code>stats</code>.</p>
+<p><a href="https://samtools.github.io/hts-specs/VCFv4.5.pdf" target="_blank" rel="noopener">Variant Call Format specification v4.5</a><br>Definitions of VCF site fields and genotype fields including GT, DP, AD and GQ.</p>
+<p><a href="https://doi.org/10.1093/gigascience/giab008" target="_blank" rel="noopener">Danecek et al. (2021) — Twelve years of SAMtools and BCFtools</a><br>Overview of the SAMtools/BCFtools ecosystem and variant-processing framework.</p>
+<p><a href="https://doi.org/10.1093/bioinformatics/btr076" target="_blank" rel="noopener">Li (2011) — Improving SNP discovery by base alignment quality</a><br>Methodological basis for BAQ and its role in reducing false SNP signals caused by alignment uncertainty.</p>
+</section>
+
+<div class="lesson-nav">
+<a href="15-mapping-quality-control.html">← Mapping quality control</a>
+<span>Next: Variant filtering →</span>
+</div>
+
+</main>
+</body>
+</html>
