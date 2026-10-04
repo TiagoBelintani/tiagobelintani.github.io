@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>17 · Variant filtering | UCE Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+.lesson-page{max-width:980px;margin:0 auto;padding:128px 28px 78px}
+.breadcrumb{margin-bottom:28px;font:500 .86rem/1.4 "Inter",sans-serif;color:#64748B}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:840px;margin-bottom:38px}
+.lesson-head .eyebrow{margin-bottom:8px;font:500 .76rem/1.2 "Inter",sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#3478C9}
+.lesson-head h1{margin:0 0 14px;font-family:"Cormorant Garamond",serif;font-size:clamp(2.8rem,5vw,4.7rem);font-weight:500;line-height:.98;color:#172231}
+.lesson-head p{margin:0;max-width:820px;font:400 1rem/1.75 "Inter",sans-serif;color:#526174}
+.lesson-section{margin-top:46px;padding-top:8px}
+.lesson-section h2{margin:0 0 14px;font-family:"Cormorant Garamond",serif;font-size:clamp(1.85rem,3.4vw,2.7rem);font-weight:500;color:#172231}
+.lesson-section h3{margin:28px 0 10px;font:500 1.04rem/1.4 "Inter",sans-serif;color:#172231}
+.lesson-section p,.lesson-section li{font:400 .95rem/1.72 "Inter",sans-serif;color:#526174}
+.lesson-section ul,.lesson-section ol{padding-left:22px}
+.callout{margin:22px 0;padding:20px 22px;background:rgba(238,243,247,.86);border:1px solid rgba(52,120,201,.16);border-radius:14px}
+.callout strong{display:block;margin-bottom:6px;font:500 .9rem/1.3 "Inter",sans-serif;color:#172231}
+.callout p{margin:0}
+.code-block{position:relative;margin:16px 0 22px;padding:18px 20px;overflow-x:auto;background:#172231;border-radius:12px}
+.code-block pre{margin:0;white-space:pre;font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;color:#F1F5F9}
+.file-tree{margin:16px 0 22px;padding:18px 20px;overflow-x:auto;background:rgba(255,255,255,.84);border:1px solid rgba(23,34,49,.09);border-radius:12px}
+.file-tree pre{margin:0;font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;color:#334155}
+.check-list{display:grid;gap:10px;margin-top:18px}
+.check-item{padding:14px 16px;background:rgba(255,255,255,.82);border:1px solid rgba(23,34,49,.09);border-radius:10px;font:400 .9rem/1.5 "Inter",sans-serif;color:#526174}
+.explain{display:grid;grid-template-columns:minmax(190px,.72fr) 1.5fr;gap:0;margin:18px 0 22px;border:1px solid rgba(23,34,49,.09);border-radius:12px;overflow:hidden}
+.explain div{padding:13px 15px;border-bottom:1px solid rgba(23,34,49,.07)}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;color:#334155;background:rgba(238,243,247,.55)}
+.explain .desc{font:400 .88rem/1.55 "Inter",sans-serif;color:#526174}
+.strategy-table,.interpret-table{width:100%;border-collapse:collapse;margin:18px 0 28px;font:400 .88rem/1.55 "Inter",sans-serif;color:#526174}
+.strategy-table th,.strategy-table td,.interpret-table th,.interpret-table td{padding:11px 13px;border:1px solid rgba(23,34,49,.09);text-align:left;vertical-align:top}
+.strategy-table th,.interpret-table th{background:rgba(238,243,247,.72);color:#172231;font-weight:500}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:18px 0 28px}
+.metric-card{border:1px solid rgba(23,34,49,.10);border-radius:14px;padding:18px;background:rgba(248,250,252,.72)}
+.metric-card h3{margin:0 0 8px;font:500 1rem/1.3 "Inter",sans-serif;color:#172231}
+.metric-card p{margin:0;font-size:.92rem}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{display:flex;justify-content:space-between;gap:16px;margin-top:58px;padding-top:26px;border-top:1px solid rgba(23,34,49,.10)}
+.lesson-nav a,.lesson-nav span{font:500 .85rem/1.3 "Inter",sans-serif}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+.lesson-page strong,.lesson-page b{font-weight:500}
+.lesson-head h1,.lesson-section h2{font-weight:500}
+@media(max-width:650px){.explain{grid-template-columns:1fr}.explain div{border-bottom:0}.explain .term{padding-bottom:4px}.explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}.lesson-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<main class="lesson-page">
+
+<div class="breadcrumb"><a href="index.html">UCE Tutorial</a> / Population Genomics / Variant filtering</div>
+
+<header class="lesson-head">
+  <div class="eyebrow">Part III · Population Genomics · Step 05</div>
+  <h1>Variant filtering</h1>
+  <p>Convert a permissive raw SNP callset into a transparent, quality-controlled population-genomic dataset by restricting variant type, masking unreliable genotypes, evaluating sample-level missingness, recalculating allele statistics, controlling site missingness and applying an analysis-appropriate minor-allele-frequency threshold.</p>
+</header>
+
+<section class="lesson-section">
+<h2>Objective</h2>
+<p>The raw VCF produced during SNP calling is deliberately inclusive. It preserves candidate SNPs and genotype evidence so that filtering decisions can be made explicitly rather than hidden inside the discovery step. Variant filtering therefore operates at three different levels: the <em>genotype</em>, the <em>sample</em> and the <em>site</em>.</p>
+
+<div class="file-tree"><pre>raw multi-sample SNP VCF
+        ↓
+retain biallelic SNPs
+        ↓
+mask low-quality genotypes
+        ↓
+evaluate missingness by sample
+        ↓
+define a core sample set
+        ↓
+recalculate AC / AN / AF / MAF / F_MISSING
+        ↓
+filter sites with excessive missingness
+        ↓
+apply MAF threshold
+        ↓
+quality-controlled SNP dataset
+        ↓
+independent-SNP selection</pre></div>
+
+<div class="callout"><strong>Filtering is an analysis design decision</strong>
+<p>The thresholds shown here are the settings validated for this tutorial workflow: genotype depth ≥3, genotype quality ≥20, site missingness ≤20% and MAF ≥0.05. They are defensible starting points for this type of UCE population dataset, but they are not universal constants. Sequencing depth, sample size, taxonomic divergence and the downstream question should always be considered.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>1. Three levels of filtering</h2>
+<table class="interpret-table">
+<thead><tr><th>Level</th><th>Question</th><th>Action in this module</th></tr></thead>
+<tbody>
+<tr><td>Genotype</td><td>Is this individual genotype supported by enough read evidence and confidence?</td><td>Convert low-DP or low-GQ genotypes to missing (<code>./.</code>).</td></tr>
+<tr><td>Sample</td><td>Does an individual remain poorly represented across the dataset?</td><td>Evaluate per-sample missingness and define a core sample set when necessary.</td></tr>
+<tr><td>Site</td><td>Is a SNP sufficiently complete and informative across the retained samples?</td><td>Filter by missingness and minor allele frequency.</td></tr>
+</tbody>
+</table>
+<p>Keeping these three levels separate makes the workflow easier to interpret and prevents a low-quality genotype in one sample from automatically deleting an otherwise useful SNP for every other individual.</p>
+</section>
+
+<section class="lesson-section">
+<h2>2. Input</h2>
+<p>The starting point is the SNP-only VCF generated in the previous module. The example below assumes that the biologically appropriate population sample set was already selected before joint SNP calling.</p>
+<div class="file-tree"><pre>04_snp_calling/
+├── raw_snps.vcf.gz
+├── raw_snps.vcf.gz.csi
+└── samples.txt</pre></div>
+<p>The VCF should contain <code>GT</code>, <code>DP</code>, <code>AD</code> and <code>GQ</code> FORMAT fields, because genotype-level filtering depends on the evidence retained during calling.</p>
+</section>
+
+<section class="lesson-section">
+<h2>3. Activate the existing environment</h2>
+<div class="code-block"><pre>conda activate uce-popgen</pre></div>
+<p>Define portable project paths:</p>
+<div class="code-block"><pre>PROJECT="/path/to/project"
+POPGEN="$PROJECT/population_genomics"
+SNP_CALLING="$POPGEN/04_snp_calling"
+RAW_SNPS="$SNP_CALLING/raw_snps.vcf.gz"
+SAMPLES="$SNP_CALLING/samples.txt"</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>4. Record the starting dataset</h2>
+<p>Before changing the VCF, record the number of samples and SNP records. This baseline is useful for reporting the filtering cascade later.</p>
+<div class="code-block"><pre>bcftools query -l "$RAW_SNPS" | wc -l
+bcftools index -n "$RAW_SNPS"</pre></div>
+<p>Also keep the original VCF unchanged. Every filtering step in this tutorial writes to a new file.</p>
+<div class="callout"><strong>Never overwrite the raw callset</strong>
+<p>A filtering threshold may later be revised. Preserving the unmodified raw SNP VCF makes every alternative filtering strategy reproducible without repeating the expensive joint calling step.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>5. Retain only biallelic SNPs</h2>
+<p>Population-structure tools generally operate most cleanly on variants with one reference and one alternate allele. Restricting the dataset to biallelic SNPs also avoids carrying multiallelic encoding into later genotype and allele-frequency filters.</p>
+<div class="code-block"><pre>bcftools view \
+  -m2 -M2 \
+  -v snps \
+  -Oz \
+  -o "$SNP_CALLING/biallelic_snps.vcf.gz" \
+  "$RAW_SNPS"
+
+bcftools index "$SNP_CALLING/biallelic_snps.vcf.gz"
+bcftools index -n "$SNP_CALLING/biallelic_snps.vcf.gz"</pre></div>
+<div class="explain">
+<div class="term">-m2</div><div class="desc">Require at least two alleles at a retained record.</div>
+<div class="term">-M2</div><div class="desc">Allow no more than two alleles: REF + one ALT.</div>
+<div class="term">-v snps</div><div class="desc">Restrict records to SNPs.</div>
+<div class="term">-Oz</div><div class="desc">Write a BGZF-compressed VCF suitable for indexing.</div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>6. Mask low-quality genotypes instead of deleting whole sites</h2>
+<p>A SNP may be well supported in most individuals but poorly covered in one or two samples. Removing the complete site would discard useful information. Instead, low-quality genotypes are converted to missing while the site remains available to the other samples.</p>
+<p>The validated tutorial thresholds are:</p>
+<div class="metric-grid">
+<div class="metric-card"><h3>DP ≥ 3</h3><p>Require at least three high-quality bases supporting the genotype evaluation.</p></div>
+<div class="metric-card"><h3>GQ ≥ 20</h3><p>Require a Phred-scaled genotype quality of at least 20.</p></div>
+</div>
+<p>Genotypes failing either criterion are set to missing:</p>
+<div class="code-block"><pre>bcftools +setGT \
+  "$SNP_CALLING/biallelic_snps.vcf.gz" \
+  -Oz \
+  -o "$SNP_CALLING/biallelic_DP3_GQ20.vcf.gz" \
+  -- \
+  -t q \
+  -n . \
+  -i 'FMT/DP&lt;3 | FMT/GQ&lt;20'
+
+bcftools index "$SNP_CALLING/biallelic_DP3_GQ20.vcf.gz"</pre></div>
+<p>The number of VCF records should normally remain unchanged here because genotypes are being masked, not sites removed.</p>
+<div class="code-block"><pre>bcftools index -n "$SNP_CALLING/biallelic_DP3_GQ20.vcf.gz"</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>7. The single <code>|</code> is important</h2>
+<p>BCFtools distinguishes sample-wise logic from record-wise logic when FORMAT fields are evaluated across multiple samples. For genotype masking in this workflow, the expression uses a single vertical bar:</p>
+<div class="code-block"><pre>-i 'FMT/DP&lt;3 | FMT/GQ&lt;20'</pre></div>
+<p>This targets genotypes meeting either low-quality condition. Using the record-level OR operator in the wrong context can select an entire site because one sample satisfies the expression and may therefore mask far more genotypes than intended.</p>
+<div class="callout"><strong>Validate after every genotype-editing command</strong>
+<p>Always calculate per-sample missingness after <code>+setGT</code>. Identical or implausibly extreme missingness across every individual is a warning that the filter expression should be inspected before continuing.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>8. Calculate per-sample missingness</h2>
+<p>Genotype filtering should be followed by sample-level diagnostics. <code>bcftools stats -s -</code> produces per-sample statistics in <code>PSC</code> records.</p>
+<div class="code-block"><pre>bcftools stats \
+  -s - \
+  "$SNP_CALLING/biallelic_DP3_GQ20.vcf.gz" \
+  &gt; "$SNP_CALLING/biallelic_DP3_GQ20.per_sample.stats.txt"</pre></div>
+<p>The following summary was used in the validated workflow. Inspect the <code>PSC</code> layout produced by your installed BCFtools version before adapting column numbers.</p>
+<div class="code-block"><pre>awk -F'	' '
+BEGIN {
+    OFS="	"
+    print "sample","nRefHom","nNonRefHom","nHets","avg_depth","nMissing","missing_percent"
+}
+$1=="PSC" {
+    total=$4+$5+$6+$14
+    pct=(total&gt;0 ? 100*$14/total : 0)
+
+    printf "%s	%d	%d	%d	%.2f	%d	%.2f
+", \
+        $3,$4,$5,$6,$10,$14,pct
+}' \
+"$SNP_CALLING/biallelic_DP3_GQ20.per_sample.stats.txt" \
+&gt; "$SNP_CALLING/DP3_GQ20_missingness.tsv"</pre></div>
+<p>Sort from highest to lowest missingness:</p>
+<div class="code-block"><pre>{
+    head -1 "$SNP_CALLING/DP3_GQ20_missingness.tsv"
+    tail -n +2 "$SNP_CALLING/DP3_GQ20_missingness.tsv" \
+      | sort -t $'	' -k7,7nr
+} | column -t -s $'	'</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>9. Decide whether a core sample set is needed</h2>
+<p>Do not remove individuals from a single arbitrary percentage threshold. Compare genotype missingness with the mapping-QC results from the previous module and look for samples that are clearly separated from the main distribution.</p>
+<p>A sample becomes a strong exclusion candidate when multiple lines of evidence agree, for example:</p>
+<ul>
+<li>low mapping rate or low UCE breadth;</li>
+<li>poor ≥3× or ≥5× coverage;</li>
+<li>high raw genotype missingness;</li>
+<li>very high missingness after DP/GQ masking;</li>
+<li>a clear gap between the candidate sample and the main sample distribution.</li>
+</ul>
+<div class="callout"><strong>Biological importance still matters</strong>
+<p>A low-coverage individual may represent a unique locality or lineage. Preserve the sample and its BAM even when it is excluded from the primary core dataset. A broader “extended” dataset can be retained for sensitivity analyses.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>10. Define the core sample list</h2>
+<p>Record excluded samples explicitly rather than deleting files. Replace the example identifiers below with the samples identified by your own QC.</p>
+<div class="code-block"><pre>cat &gt; "$SNP_CALLING/core_excluded_samples.txt" &lt;&lt;'EOF'
+sample_lowcov_01
+sample_lowcov_02
+sample_lowcov_03
+EOF</pre></div>
+<p>Create the retained core sample list from the sample set used for calling:</p>
+<div class="code-block"><pre>grep -v -F -x -f \
+  "$SNP_CALLING/core_excluded_samples.txt" \
+  "$SAMPLES" \
+  &gt; "$SNP_CALLING/core_samples.txt"
+
+wc -l "$SNP_CALLING/core_samples.txt"</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>11. Subset samples before filtering site missingness</h2>
+<p>This order matters. If severely incomplete samples remain in the VCF while site missingness is calculated, many SNPs can be discarded solely because those few individuals lack coverage. Once a core sample set has been justified, remove the problematic samples first and then recalculate site-level statistics.</p>
+<div class="code-block"><pre>bcftools view \
+  -S "$SNP_CALLING/core_samples.txt" \
+  -Oz \
+  -o "$SNP_CALLING/core_biallelic_DP3_GQ20.vcf.gz" \
+  "$SNP_CALLING/biallelic_DP3_GQ20.vcf.gz"
+
+bcftools index "$SNP_CALLING/core_biallelic_DP3_GQ20.vcf.gz"
+
+bcftools query -l \
+  "$SNP_CALLING/core_biallelic_DP3_GQ20.vcf.gz" \
+  | wc -l</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>12. Recalculate allele and missingness tags</h2>
+<p>After changing genotypes or samples, allele-count and missingness annotations must describe the dataset that actually remains. Recalculate them with the BCFtools <code>+fill-tags</code> plugin.</p>
+<div class="code-block"><pre>bcftools +fill-tags \
+  "$SNP_CALLING/core_biallelic_DP3_GQ20.vcf.gz" \
+  -Oz \
+  -o "$SNP_CALLING/core_biallelic_DP3_GQ20_tags.vcf.gz" \
+  -- \
+  -t AC,AN,AF,MAF,F_MISSING,NS
+
+bcftools index "$SNP_CALLING/core_biallelic_DP3_GQ20_tags.vcf.gz"</pre></div>
+<div class="explain">
+<div class="term">AC</div><div class="desc">Alternate allele count among called genotypes.</div>
+<div class="term">AN</div><div class="desc">Total number of alleles represented by called genotypes.</div>
+<div class="term">AF</div><div class="desc">Allele frequency calculated from the retained genotypes.</div>
+<div class="term">MAF</div><div class="desc">Frequency of the second most common allele; for biallelic SNPs, the minor allele frequency.</div>
+<div class="term">F_MISSING</div><div class="desc">Fraction of samples with missing genotype at the site.</div>
+<div class="term">NS</div><div class="desc">Number of samples with genotype data at the site.</div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>13. Filter site missingness</h2>
+<p>The validated workflow retains SNPs with no more than 20% missing genotypes:</p>
+<div class="code-block"><pre>bcftools view \
+  -i 'F_MISSING&lt;=0.20' \
+  -Oz \
+  -o "$SNP_CALLING/core_DP3_GQ20_miss20.vcf.gz" \
+  "$SNP_CALLING/core_biallelic_DP3_GQ20_tags.vcf.gz"
+
+bcftools index "$SNP_CALLING/core_DP3_GQ20_miss20.vcf.gz"
+bcftools index -n "$SNP_CALLING/core_DP3_GQ20_miss20.vcf.gz"</pre></div>
+<p>With 34 retained diploid samples, for example, <code>F_MISSING ≤ 0.20</code> permits at most six missing individuals at a site, because 7/34 exceeds 0.20. At least 28 individuals must therefore be called.</p>
+</section>
+
+<section class="lesson-section">
+<h2>14. Recheck sample missingness after the site filter</h2>
+<p>Site filtering can markedly improve the effective completeness of the retained individuals. Recalculate sample-level missingness before deciding whether further samples should be removed.</p>
+<div class="code-block"><pre>bcftools stats \
+  -s - \
+  "$SNP_CALLING/core_DP3_GQ20_miss20.vcf.gz" \
+  &gt; "$SNP_CALLING/core_DP3_GQ20_miss20.per_sample.stats.txt"</pre></div>
+<p>Use the same <code>PSC</code> summary method as above to create an updated missingness table.</p>
+<div class="callout"><strong>A core dataset should become more homogeneous</strong>
+<p>After removing clear sample outliers and filtering poorly represented sites, most individuals should cluster within a much narrower missingness range. If one sample remains dramatically separated from the rest, revisit its mapping and coverage metrics before continuing.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>15. Why sample filtering can recover useful SNPs</h2>
+<p>Keeping extremely incomplete samples during a site-missingness filter can reduce the number of usable SNPs for every well-sequenced individual. In the validated tutorial dataset, applying the same 20% site-missingness criterion after defining the core sample set retained more SNPs than applying it while the three strongest sample outliers were still present.</p>
+<p>This is not an argument for removing samples merely to maximize SNP count. It demonstrates why sample QC and site QC should be evaluated together and why the order of operations should be explicit.</p>
+</section>
+
+<section class="lesson-section">
+<h2>16. Apply a minor allele frequency filter</h2>
+<p>For PCA, DAPC and model-based ancestry analyses, extremely rare variants can contribute noise, emphasize individual-specific errors and complicate interpretation. The validated workflow uses <code>MAF ≥ 0.05</code>.</p>
+<div class="code-block"><pre>bcftools view \
+  -i 'MAF&gt;=0.05' \
+  -Oz \
+  -o "$SNP_CALLING/core_DP3_GQ20_miss20_MAF05.vcf.gz" \
+  "$SNP_CALLING/core_DP3_GQ20_miss20.vcf.gz"
+
+bcftools index "$SNP_CALLING/core_DP3_GQ20_miss20_MAF05.vcf.gz"
+bcftools index -n "$SNP_CALLING/core_DP3_GQ20_miss20_MAF05.vcf.gz"</pre></div>
+<div class="callout"><strong>MAF depends on the biological question</strong>
+<p><code>MAF ≥ 0.05</code> is appropriate for the population-structure branch developed here. Do not automatically apply the same threshold to analyses whose purpose is specifically to study rare variants, recent mutations or very small populations.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>17. Validated filtering cascade</h2>
+<p>The tutorial workflow was tested end-to-end on a real UCE population dataset. The numbers below are included as a worked validation example, not as expected values for other studies.</p>
+<table class="interpret-table">
+<thead><tr><th>Stage</th><th>Samples</th><th>SNP records</th><th>Interpretation</th></tr></thead>
+<tbody>
+<tr><td>Raw SNP VCF</td><td>37</td><td>125,200</td><td>Permissive output from joint SNP calling.</td></tr>
+<tr><td>Biallelic SNPs</td><td>37</td><td>113,485</td><td>Multiallelic SNP records removed.</td></tr>
+<tr><td>DP/GQ masking</td><td>37</td><td>113,485</td><td>Low-quality genotypes converted to missing; sites retained.</td></tr>
+<tr><td>Core sample set</td><td>34</td><td>113,485</td><td>Three strong sample-level QC outliers excluded from the primary core set.</td></tr>
+<tr><td>Site missingness ≤20%</td><td>34</td><td>76,874</td><td>Sites with excessive missing genotypes removed.</td></tr>
+<tr><td>MAF ≥0.05</td><td>34</td><td>28,383</td><td>Common, quality-controlled SNP dataset for population-structure preparation.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section">
+<h2>18. Core and extended datasets</h2>
+<p>Sample exclusion does not mean deleting the biological material or permanently abandoning the individual. Maintain explicit alternative datasets when low-coverage samples are biologically important.</p>
+<div class="file-tree"><pre>core dataset
+    high-completeness sample set
+    → primary PCA / DAPC / ancestry analyses
+
+extended dataset
+    core + biologically important low-coverage samples
+    → sensitivity analysis
+    → test whether conclusions change when these individuals are retained</pre></div>
+<p>If the major structure signal is stable across core and extended analyses, confidence in the biological interpretation increases. If conclusions change substantially, the role of missing data should be investigated explicitly.</p>
+</section>
+
+<section class="lesson-section">
+<h2>19. What is not done in this module</h2>
+<p>The final 28,383-SNP example dataset is quality filtered, but the SNPs are not yet independent. Multiple variants may occur within the same UCE locus and can therefore be physically linked.</p>
+<div class="file-tree"><pre>quality-controlled SNP dataset
+        ≠
+independent-marker dataset</pre></div>
+<p>Do not move directly from this file to PCA, DAPC, ADMIXTURE or STRUCTURE without considering linkage or locus-level dependence. Independent-SNP selection is handled in the next module.</p>
+</section>
+
+<section class="lesson-section">
+<h2>20. Recommended output structure</h2>
+<div class="file-tree"><pre>04_snp_calling/
+├── raw_snps.vcf.gz
+├── biallelic_snps.vcf.gz
+├── biallelic_DP3_GQ20.vcf.gz
+├── biallelic_DP3_GQ20.per_sample.stats.txt
+├── DP3_GQ20_missingness.tsv
+├── core_excluded_samples.txt
+├── core_samples.txt
+├── core_biallelic_DP3_GQ20.vcf.gz
+├── core_biallelic_DP3_GQ20_tags.vcf.gz
+├── core_DP3_GQ20_miss20.vcf.gz
+├── core_DP3_GQ20_miss20.per_sample.stats.txt
+└── core_DP3_GQ20_miss20_MAF05.vcf.gz</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>21. Common mistakes</h2>
+<table class="interpret-table">
+<thead><tr><th>Problem</th><th>Why it matters</th><th>Recommended response</th></tr></thead>
+<tbody>
+<tr><td>Filtering sites before masking poor genotypes</td><td>A weak genotype can make a site appear more complete or reliable than it is.</td><td>Mask genotype-level failures first.</td></tr>
+<tr><td>Using record-level logic accidentally in <code>+setGT</code></td><td>One failing sample can trigger changes across an entire site.</td><td>Validate the expression and inspect per-sample missingness immediately.</td></tr>
+<tr><td>Removing samples only because they have the largest missingness</td><td>A ranking alone does not define a biologically meaningful threshold.</td><td>Combine genotype missingness with mapping breadth, depth and study design.</td></tr>
+<tr><td>Calculating MAF before changing the sample set and never updating it</td><td>Allele counts and frequencies may refer to individuals no longer present.</td><td>Recalculate tags after genotype masking and sample subsetting.</td></tr>
+<tr><td>Applying <code>F_MISSING</code> before removing severe sample outliers</td><td>Good SNPs can be lost because a few incomplete samples lack coverage.</td><td>Define the justified core sample set first, then recalculate site missingness.</td></tr>
+<tr><td>Treating MAF 0.05 as universal</td><td>Rare-variant analyses have different goals.</td><td>Choose MAF according to the downstream question.</td></tr>
+<tr><td>Overwriting intermediate VCFs</td><td>Threshold comparisons become difficult to reproduce.</td><td>Write a new, descriptively named file at every filtering stage.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section">
+<h2>22. Validation checklist</h2>
+<div class="check-list">
+<div class="check-item">✓ The raw SNP VCF was preserved unchanged.</div>
+<div class="check-item">✓ Only biallelic SNP records were retained.</div>
+<div class="check-item">✓ Genotypes with DP &lt; 3 or GQ &lt; 20 were converted to missing.</div>
+<div class="check-item">✓ Per-sample missingness was evaluated after genotype masking.</div>
+<div class="check-item">✓ Sample exclusions were justified using multiple QC metrics and recorded in a text file.</div>
+<div class="check-item">✓ The core sample subset was created before applying site missingness.</div>
+<div class="check-item">✓ AC, AN, AF, MAF, F_MISSING and NS were recalculated for the retained genotypes and samples.</div>
+<div class="check-item">✓ Sites with more than 20% missing genotypes were removed.</div>
+<div class="check-item">✓ Per-sample missingness was checked again after site filtering.</div>
+<div class="check-item">✓ MAF ≥ 0.05 was applied only after the core dataset was defined.</div>
+<div class="check-item">✓ The final filtered VCF is compressed, indexed and retains the expected sample set.</div>
+<div class="check-item">✓ Low-coverage but biologically important samples were preserved for possible sensitivity analyses.</div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>23. Final output</h2>
+<p>The principal output of this module is the quality-controlled, frequency-filtered SNP VCF:</p>
+<div class="code-block"><pre>$SNP_CALLING/core_DP3_GQ20_miss20_MAF05.vcf.gz</pre></div>
+<p>This file is appropriate as the input to independent-marker selection, but it is not yet the final input for population-structure analyses because multiple SNPs can still occur within individual UCE loci.</p>
+</section>
+
+<section class="lesson-section">
+<h2>24. What comes next?</h2>
+<p>The next module addresses locus-level non-independence. For UCE datasets, a transparent conservative strategy is to select one SNP from each informative UCE locus with a reproducible random seed.</p>
+<div class="file-tree"><pre>Module 17 · Variant filtering
+quality-controlled SNP dataset
+        ↓
+Module 18 · Selecting independent SNPs
+one reproducible SNP per UCE
+        ↓
+PCA / DAPC / ancestry analyses</pre></div>
+</section>
+
+<section class="lesson-section references">
+<h2>References and software documentation</h2>
+<p><a href="https://samtools.github.io/bcftools/bcftools.html" target="_blank" rel="noopener">BCFtools manual — official documentation</a><br>Filtering expressions, <code>view</code>, indexing, FORMAT/INFO fields and current command syntax.</p>
+<p><a href="https://samtools.github.io/bcftools/howtos/plugin.setGT.html" target="_blank" rel="noopener">BCFtools <code>+setGT</code> plugin</a><br>Official documentation for selecting and editing individual genotypes, including setting targeted genotypes to missing.</p>
+<p><a href="https://samtools.github.io/bcftools/howtos/plugin.fill-tags.html" target="_blank" rel="noopener">BCFtools <code>+fill-tags</code> plugin</a><br>Definitions and calculation of AC, AN, AF, MAF, F_MISSING, NS and related annotations.</p>
+<p><a href="https://samtools.github.io/bcftools/howtos/filtering.html" target="_blank" rel="noopener">BCFtools filtering expressions</a><br>Official examples and notes on filtering INFO and FORMAT fields across multiple samples.</p>
+<p><a href="https://samtools.github.io/hts-specs/VCFv4.5.pdf" target="_blank" rel="noopener">Variant Call Format specification v4.5</a><br>Reference definitions for VCF records, genotypes and missing values.</p>
+</section>
+
+<div class="lesson-nav">
+<a href="16-snp-calling.html">← SNP calling</a>
+<span>Next: Selecting independent SNPs →</span>
+</div>
+
+</main>
+</body>
+</html>
