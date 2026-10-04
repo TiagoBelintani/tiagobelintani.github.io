@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>18 · Selecting independent SNPs | UCE Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+.lesson-page{max-width:980px;margin:0 auto;padding:128px 28px 78px}
+.breadcrumb{margin-bottom:28px;font:500 .86rem/1.4 "Inter",sans-serif;color:#64748B}
+.breadcrumb a{color:#3478C9;text-decoration:none}
+.lesson-head{max-width:840px;margin-bottom:38px}
+.lesson-head .eyebrow{margin-bottom:8px;font:500 .76rem/1.2 "Inter",sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#3478C9}
+.lesson-head h1{margin:0 0 14px;font-family:"Cormorant Garamond",serif;font-size:clamp(2.8rem,5vw,4.7rem);font-weight:500;line-height:.98;color:#172231}
+.lesson-head p{margin:0;max-width:820px;font:400 1rem/1.75 "Inter",sans-serif;color:#526174}
+.lesson-section{margin-top:46px;padding-top:8px}
+.lesson-section h2{margin:0 0 14px;font-family:"Cormorant Garamond",serif;font-size:clamp(1.85rem,3.4vw,2.7rem);font-weight:500;color:#172231}
+.lesson-section h3{margin:28px 0 10px;font:500 1.04rem/1.4 "Inter",sans-serif;color:#172231}
+.lesson-section p,.lesson-section li{font:400 .95rem/1.72 "Inter",sans-serif;color:#526174}
+.lesson-section ul,.lesson-section ol{padding-left:22px}
+.callout{margin:22px 0;padding:20px 22px;background:rgba(238,243,247,.86);border:1px solid rgba(52,120,201,.16);border-radius:14px}
+.callout strong{display:block;margin-bottom:6px;font:500 .9rem/1.3 "Inter",sans-serif;color:#172231}
+.callout p{margin:0}
+.code-block{position:relative;margin:16px 0 22px;padding:18px 20px;overflow-x:auto;background:#172231;border-radius:12px}
+.code-block pre{margin:0;white-space:pre;font:400 .84rem/1.65 "JetBrains Mono",ui-monospace,monospace;color:#F1F5F9}
+.file-tree{margin:16px 0 22px;padding:18px 20px;overflow-x:auto;background:rgba(255,255,255,.84);border:1px solid rgba(23,34,49,.09);border-radius:12px}
+.file-tree pre{margin:0;font:400 .84rem/1.6 "JetBrains Mono",ui-monospace,monospace;color:#334155}
+.check-list{display:grid;gap:10px;margin-top:18px}
+.check-item{padding:14px 16px;background:rgba(255,255,255,.82);border:1px solid rgba(23,34,49,.09);border-radius:10px;font:400 .9rem/1.5 "Inter",sans-serif;color:#526174}
+.explain{display:grid;grid-template-columns:minmax(190px,.72fr) 1.5fr;gap:0;margin:18px 0 22px;border:1px solid rgba(23,34,49,.09);border-radius:12px;overflow:hidden}
+.explain div{padding:13px 15px;border-bottom:1px solid rgba(23,34,49,.07)}
+.explain div:nth-last-child(-n+2){border-bottom:0}
+.explain .term{font:500 .83rem/1.5 "JetBrains Mono",ui-monospace,monospace;color:#334155;background:rgba(238,243,247,.55)}
+.explain .desc{font:400 .88rem/1.55 "Inter",sans-serif;color:#526174}
+.strategy-table,.interpret-table{width:100%;border-collapse:collapse;margin:18px 0 28px;font:400 .88rem/1.55 "Inter",sans-serif;color:#526174}
+.strategy-table th,.strategy-table td,.interpret-table th,.interpret-table td{padding:11px 13px;border:1px solid rgba(23,34,49,.09);text-align:left;vertical-align:top}
+.strategy-table th,.interpret-table th{background:rgba(238,243,247,.72);color:#172231;font-weight:500}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:18px 0 28px}
+.metric-card{border:1px solid rgba(23,34,49,.10);border-radius:14px;padding:18px;background:rgba(248,250,252,.72)}
+.metric-card h3{margin:0 0 8px;font:500 1rem/1.3 "Inter",sans-serif;color:#172231}
+.metric-card p{margin:0;font-size:.92rem}
+.references a{color:#3478C9;text-decoration:none}
+.lesson-nav{display:flex;justify-content:space-between;gap:16px;margin-top:58px;padding-top:26px;border-top:1px solid rgba(23,34,49,.10)}
+.lesson-nav a,.lesson-nav span{font:500 .85rem/1.3 "Inter",sans-serif}
+.lesson-nav a{color:#3478C9;text-decoration:none}
+.lesson-nav span{color:#94A3B8}
+.lesson-page strong,.lesson-page b{font-weight:500}
+.lesson-head h1,.lesson-section h2{font-weight:500}
+@media(max-width:650px){.explain{grid-template-columns:1fr}.explain div{border-bottom:0}.explain .term{padding-bottom:4px}.explain .desc{padding-top:4px;border-bottom:1px solid rgba(23,34,49,.07)}.lesson-nav{flex-direction:column}}
+</style>
+</head>
+
+<body>
+<main class="lesson-page">
+
+<div class="breadcrumb"><a href="index.html">UCE Tutorial</a> / Population Genomics / Selecting independent SNPs</div>
+
+<header class="lesson-head">
+  <div class="eyebrow">Part III · Population Genomics · Step 06</div>
+  <h1>Selecting independent SNPs</h1>
+  <p>Reduce locus-level dependence in a filtered UCE SNP dataset by selecting one reproducible SNP from each informative UCE locus. The resulting marker set is intentionally conservative and is suitable for downstream population-structure analyses such as PCA, DAPC and ancestry inference.</p>
+</header>
+
+<section class="lesson-section">
+<h2>Objective</h2>
+<p>After variant filtering, a UCE dataset can still contain many SNPs from the same captured locus. Treating every one of those variants as an independent marker gives highly variable loci more weight than loci containing only a few SNPs and may violate assumptions made by downstream structure analyses.</p>
+
+<div class="file-tree"><pre>quality-controlled SNP dataset
+        ↓
+many SNPs can occur within the same UCE
+        ↓
+identify informative UCE loci
+        ↓
+choose one SNP from each locus
+        ↓
+approximately independent marker dataset
+        ↓
+PCA / DAPC / ancestry analyses</pre></div>
+
+<div class="callout"><strong>One SNP per UCE is conservative, not magical</strong>
+<p>Choosing one SNP per UCE removes within-locus clustering of variants and prevents highly polymorphic loci from dominating the analysis. It does not prove that all retained markers are in complete linkage equilibrium, because different UCE loci can still show biological or statistical association. The strategy is therefore best described as reducing locus-level dependence.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>1. Input dataset</h2>
+<p>The starting point is the final quality-controlled SNP VCF from the previous module. In the validated example, the core dataset contained 34 samples and 28,383 SNPs after genotype, sample, site-missingness and MAF filtering.</p>
+
+<div class="code-block"><pre>FILTERED_VCF="$SNP_CALLING/core_34_DP3_GQ20_miss20_MAF05.vcf.gz"</pre></div>
+
+<p>Confirm the number of retained samples and SNP records before reducing the marker set:</p>
+
+<div class="code-block"><pre>bcftools query -l "$FILTERED_VCF" | wc -l
+bcftools index -n "$FILTERED_VCF"</pre></div>
+
+<div class="callout"><strong>Validated example</strong>
+<p>The tutorial workflow reached 34 core samples and 28,383 filtered SNPs at this point. Your own counts will depend on sequencing depth, taxonomic divergence, sample size and filtering thresholds.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>2. Why not use all filtered SNPs directly?</h2>
+<p>UCE capture targets hundreds to thousands of discrete loci. A single UCE may contain one SNP, while another may contain dozens. In the validated dataset, the most variable loci contained more than 50 SNPs and one locus contained more than 80.</p>
+
+<table class="interpret-table">
+<thead><tr><th>Using all SNPs</th><th>One SNP per UCE</th></tr></thead>
+<tbody>
+<tr><td>Highly variable loci contribute many correlated markers.</td><td>Every informative UCE contributes exactly one marker.</td></tr>
+<tr><td>Some genomic regions receive disproportionate weight.</td><td>Locus representation is balanced.</td></tr>
+<tr><td>Within-locus linkage can influence ordination and ancestry models.</td><td>Within-UCE SNP clustering is removed.</td></tr>
+<tr><td>Best retained for analyses that explicitly model or tolerate linkage.</td><td>Simple and transparent for exploratory population structure.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section">
+<h2>3. Count informative UCE loci</h2>
+<p>Each UCE locus is represented by the VCF chromosome/contig identifier in <code>CHROM</code>. Count the number of distinct UCE identifiers that still contain at least one filtered SNP:</p>
+
+<div class="code-block"><pre>bcftools query \
+  -f '%CHROM\n' \
+  "$FILTERED_VCF" \
+  | sort -u \
+  | wc -l</pre></div>
+
+<p>The validated example retained:</p>
+
+<div class="metric-grid">
+<div class="metric-card"><h3>28,383 SNPs</h3><p>Quality-controlled SNP records after MAF filtering.</p></div>
+<div class="metric-card"><h3>1,546 UCE loci</h3><p>Distinct UCE loci containing at least one retained SNP.</p></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>4. Inspect SNP density among loci</h2>
+<p>Before subsampling, inspect how unevenly SNPs are distributed among UCEs:</p>
+
+<div class="code-block"><pre>bcftools query \
+  -f '%CHROM\n' \
+  "$FILTERED_VCF" \
+  | sort \
+  | uniq -c \
+  | sort -nr \
+  | head -20</pre></div>
+
+<p>Large counts at the top of this list demonstrate why treating every filtered SNP as an equally independent observation can overweight a subset of highly polymorphic UCEs.</p>
+</section>
+
+<section class="lesson-section">
+<h2>5. Export all candidate SNP positions</h2>
+<p>Create a simple two-column table containing the UCE identifier and SNP coordinate:</p>
+
+<div class="code-block"><pre>bcftools query \
+  -f '%CHROM\t%POS\n' \
+  "$FILTERED_VCF" \
+  &gt; "$SNP_CALLING/core_34_all_snp_positions.tsv"</pre></div>
+
+<p>The file has the general structure:</p>
+
+<div class="file-tree"><pre>uce-10009    121
+uce-10009    184
+uce-10009    233
+uce-10010     87
+uce-10014    305
+...</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>6. Randomly select one SNP per UCE</h2>
+<p>For every UCE locus, randomly select one of its retained SNPs. A fixed random seed makes the selection fully reproducible: rerunning the script with the same candidate list and seed returns the same marker set.</p>
+
+<div class="code-block"><pre>python3 - \
+  "$SNP_CALLING/core_34_all_snp_positions.tsv" \
+  "$SNP_CALLING/core_34_one_snp_per_uce.regions" &lt;&lt;'PY'
+import sys
+import random
+from collections import defaultdict
+
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+# Fixed seed for reproducibility.
+random.seed(20261004)
+
+loci = defaultdict(list)
+
+with open(input_file) as f:
+    for line in f:
+        chrom, pos = line.rstrip().split("\t")
+        loci[chrom].append(int(pos))
+
+with open(output_file, "w") as out:
+    for chrom in sorted(loci):
+        pos = random.choice(loci[chrom])
+        out.write(f"{chrom}\t{pos}\t{pos}\n")
+
+print(f"Selected {len(loci)} SNPs from {len(loci)} UCE loci.")
+PY</pre></div>
+
+<div class="callout"><strong>Why use a fixed seed?</strong>
+<p>Random selection avoids systematically favoring the most common, highest-frequency or most extreme SNP within each UCE. The fixed seed preserves that neutrality while making the exact result repeatable and auditable.</p></div>
+</section>
+
+<section class="lesson-section">
+<h2>7. Why not always choose the highest-MAF SNP?</h2>
+<p>Selecting the highest-MAF SNP from each locus can be useful for some purposes, but it deliberately enriches the marker set for common variation. For an exploratory structure dataset, that choice can introduce a systematic ascertainment preference.</p>
+
+<p>The workflow used here instead asks a simpler question: after the quality filters have already been applied, which one of the acceptable SNPs from each UCE should represent that locus? Random selection with a fixed seed provides a transparent answer without ranking SNPs by allele frequency.</p>
+</section>
+
+<section class="lesson-section">
+<h2>8. Validate the regions file</h2>
+<p>The number of lines in the regions file should equal the number of informative UCE loci:</p>
+
+<div class="code-block"><pre>wc -l "$SNP_CALLING/core_34_one_snp_per_uce.regions"</pre></div>
+
+<p>For the validated example:</p>
+
+<div class="code-block"><pre>1546 core_34_one_snp_per_uce.regions</pre></div>
+
+<p>Each line contains:</p>
+
+<div class="file-tree"><pre>CHROM    START    END</pre></div>
+
+<p>with <code>START = END</code>, because each interval represents exactly one SNP position.</p>
+</section>
+
+<section class="lesson-section">
+<h2>9. Extract the selected SNPs</h2>
+<p>Use the regions file to subset the filtered VCF:</p>
+
+<div class="code-block"><pre>bcftools view \
+  -R "$SNP_CALLING/core_34_one_snp_per_uce.regions" \
+  -Oz \
+  -o "$SNP_CALLING/core_34_independent_1snp_per_uce.vcf.gz" \
+  "$FILTERED_VCF"</pre></div>
+
+<p>Index the result:</p>
+
+<div class="code-block"><pre>bcftools index \
+  "$SNP_CALLING/core_34_independent_1snp_per_uce.vcf.gz"</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>10. Validate the independent-SNP VCF</h2>
+
+<h3>Number of SNPs</h3>
+<div class="code-block"><pre>bcftools index -n \
+  "$SNP_CALLING/core_34_independent_1snp_per_uce.vcf.gz"</pre></div>
+
+<p>Validated result:</p>
+<div class="code-block"><pre>1546</pre></div>
+
+<h3>Number of samples</h3>
+<div class="code-block"><pre>bcftools query -l \
+  "$SNP_CALLING/core_34_independent_1snp_per_uce.vcf.gz" \
+  | wc -l</pre></div>
+
+<p>Validated result:</p>
+<div class="code-block"><pre>34</pre></div>
+
+<h3>One SNP per UCE</h3>
+<div class="code-block"><pre>bcftools query \
+  -f '%CHROM\n' \
+  "$SNP_CALLING/core_34_independent_1snp_per_uce.vcf.gz" \
+  | sort \
+  | uniq -c \
+  | sort -nr \
+  | head</pre></div>
+
+<p>Every count should equal <code>1</code>:</p>
+
+<div class="file-tree"><pre>1 uce-...
+1 uce-...
+1 uce-...
+...</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>11. The validated reduction</h2>
+
+<table class="strategy-table">
+<thead><tr><th>Stage</th><th>Samples</th><th>SNPs / loci</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>Filtered SNP dataset</td><td>34</td><td>28,383 SNPs</td><td>Quality-controlled variants after missingness and MAF filtering.</td></tr>
+<tr><td>Informative UCEs</td><td>34</td><td>1,546 loci</td><td>UCE loci containing at least one retained SNP.</td></tr>
+<tr><td>Independent-SNP dataset</td><td>34</td><td>1,546 SNPs</td><td>Exactly one reproducibly selected SNP per informative UCE.</td></tr>
+</tbody>
+</table>
+
+<div class="file-tree"><pre>28,383 filtered SNPs
+        ↓
+1,546 informative UCE loci
+        ↓
+one random SNP per locus
+fixed seed = 20261004
+        ↓
+1,546 SNPs
+34 samples</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>12. One-SNP-per-UCE versus LD pruning</h2>
+<p>One-SNP-per-UCE and statistical LD pruning solve related but different problems.</p>
+
+<table class="interpret-table">
+<thead><tr><th>Approach</th><th>Strength</th><th>Limitation</th></tr></thead>
+<tbody>
+<tr><td>One SNP per UCE</td><td>Directly removes multiple markers from the same captured locus and is easy to reproduce.</td><td>Does not test LD between different UCE loci.</td></tr>
+<tr><td>LD pruning</td><td>Uses observed genotype correlations to remove markers exceeding a chosen LD threshold.</td><td>Requires a window/r² strategy and can be harder to interpret for disconnected target-capture loci.</td></tr>
+</tbody>
+</table>
+
+<p>For UCE target-capture data, one SNP per locus is a transparent conservative default. LD pruning can be added later as a sensitivity analysis when biological linkage among loci or dense genomic coordinates are available.</p>
+</section>
+
+<section class="lesson-section">
+<h2>13. Reproducibility considerations</h2>
+<p>Three details determine whether another analyst can reproduce the exact marker set:</p>
+
+<div class="check-list">
+<div class="check-item">✓ Preserve the filtered VCF used as the candidate pool.</div>
+<div class="check-item">✓ Record the exact fixed random seed.</div>
+<div class="check-item">✓ Preserve the generated <code>.regions</code> file together with the final VCF.</div>
+</div>
+
+<p>If the candidate SNP dataset changes because a filter threshold changes, the one-SNP-per-UCE selection should be regenerated from that new candidate pool even when the same random seed is retained.</p>
+</section>
+
+<section class="lesson-section">
+<h2>14. Recommended output structure</h2>
+
+<div class="file-tree"><pre>04_snp_calling/
+├── core_34_DP3_GQ20_miss20_MAF05.vcf.gz
+├── core_34_all_snp_positions.tsv
+├── core_34_one_snp_per_uce.regions
+├── core_34_independent_1snp_per_uce.vcf.gz
+└── core_34_independent_1snp_per_uce.vcf.gz.csi</pre></div>
+</section>
+
+<section class="lesson-section">
+<h2>15. Common mistakes</h2>
+
+<table class="interpret-table">
+<thead><tr><th>Problem</th><th>Why it matters</th><th>Recommended response</th></tr></thead>
+<tbody>
+<tr><td>Selecting independent SNPs before quality filtering</td><td>A randomly chosen SNP may later fail DP, missingness or MAF filters, leaving loci unevenly represented.</td><td>Perform one-SNP-per-UCE selection after the final quality filters.</td></tr>
+<tr><td>Using a random choice without a recorded seed</td><td>The exact marker set changes between runs.</td><td>Use and document a fixed seed.</td></tr>
+<tr><td>Choosing the highest-MAF SNP without stating it</td><td>The dataset is systematically enriched for common variants.</td><td>State the selection rule explicitly or use reproducible random selection.</td></tr>
+<tr><td>Assuming one SNP per UCE means complete linkage equilibrium</td><td>Association can still exist between distinct UCE loci.</td><td>Describe the set as approximately independent and consider LD sensitivity analyses if needed.</td></tr>
+<tr><td>Failing to validate the final locus count</td><td>Duplicated or mismatched region records can silently retain multiple SNPs from a locus.</td><td>Confirm that every <code>CHROM</code> occurs exactly once.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section">
+<h2>16. Validation checklist</h2>
+
+<div class="check-list">
+<div class="check-item">✓ The input VCF is the final quality-controlled dataset from variant filtering.</div>
+<div class="check-item">✓ The number of informative UCE loci was counted before SNP selection.</div>
+<div class="check-item">✓ Candidate SNP positions were exported from the filtered VCF.</div>
+<div class="check-item">✓ Exactly one SNP was selected per UCE locus.</div>
+<div class="check-item">✓ A fixed random seed was recorded.</div>
+<div class="check-item">✓ The regions file contains one line per retained UCE.</div>
+<div class="check-item">✓ The final VCF contains the expected number of samples.</div>
+<div class="check-item">✓ The final VCF contains the expected number of SNPs.</div>
+<div class="check-item">✓ Every UCE identifier occurs exactly once in the final VCF.</div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2>17. Final output</h2>
+<p>The principal output of this module is:</p>
+
+<div class="code-block"><pre>$SNP_CALLING/core_34_independent_1snp_per_uce.vcf.gz</pre></div>
+
+<p>In the validated example, the file contains:</p>
+
+<div class="metric-grid">
+<div class="metric-card"><h3>34 samples</h3><p>The QC-defined core sample set.</p></div>
+<div class="metric-card"><h3>1,546 SNPs</h3><p>One SNP from each informative UCE locus.</p></div>
+</div>
+
+<p>This file is the primary input for the next population-structure module.</p>
+</section>
+
+<section class="lesson-section">
+<h2>18. What comes next?</h2>
+
+<div class="file-tree"><pre>Module 18 · Selecting independent SNPs
+1,546 SNPs · one per informative UCE
+        ↓
+Module 19 · PCA
+convert the VCF to an analysis-ready genotype format
+        ↓
+explore major axes of genomic variation</pre></div>
+
+<p>The next module converts the independent-SNP dataset to PLINK format, validates the conversion and performs principal component analysis without assigning individuals to predefined populations.</p>
+</section>
+
+<section class="lesson-section references">
+<h2>References and software documentation</h2>
+<p><a href="https://samtools.github.io/bcftools/bcftools.html" target="_blank" rel="noopener">BCFtools manual — official documentation</a><br>Documentation for <code>query</code>, <code>view</code>, region-based subsetting, compressed VCF output and indexing.</p>
+<p><a href="https://samtools.github.io/hts-specs/VCFv4.5.pdf" target="_blank" rel="noopener">Variant Call Format specification v4.5</a><br>Reference specification for VCF coordinates, records and genotype representation.</p>
+</section>
+
+<div class="lesson-nav">
+<a href="17-variant-filtering.html">← Variant filtering</a>
+<span>Next: PCA →</span>
+</div>
+
+</main>
+</body>
+</html>
