@@ -1,253 +1,99 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controle de qualidade e trimming | Bioinformática e Biologia Molecular</title>
-<meta name="description" content="Diagnosticar a qualidade de reads paired-end, processá-los com Trimmomatic e avaliar o efeito do tratamento antes da montagem.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/css/theme-soft.css">
-<style>
-.tutorial-page{
-  width:min(980px,calc(100% - 42px));
-  margin:0 auto;
-  padding:112px 0 82px;
-}
-.breadcrumb{
-  margin-bottom:24px;
-  font:500 .86rem/1.4 "Inter",sans-serif;
-  color:#64748B;
-}
-.breadcrumb a{color:#3478C9;text-decoration:none;}
-.tutorial-header{max-width:850px;margin-bottom:38px;}
-.tutorial-kicker{
-  margin-bottom:9px;font:600 .74rem/1.2 "Inter",sans-serif;
-  letter-spacing:.14em;text-transform:uppercase;color:#3478C9;
-}
-.tutorial-header h1{
-  margin:0 0 14px;font-family:"Cormorant Garamond",serif;
-  font-size:clamp(3rem,6vw,5rem)!important;line-height:.96!important;
-  font-weight:600;color:#172231;
-}
-.tutorial-header .lead{
-  margin:0;max-width:800px;font:400 1.04rem/1.68 "Inter",sans-serif!important;color:#526174;
-}
-.tutorial-card{
-  margin:0 0 24px;padding:26px 28px;background:rgba(255,255,255,.88);
-  border:1px solid rgba(23,34,49,.10);border-radius:16px;
-  box-shadow:0 12px 32px rgba(31,50,70,.06);
-}
-.tutorial-card h2{
-  margin:0 0 14px;font-family:"Cormorant Garamond",serif;
-  font-size:2rem!important;line-height:1.08!important;color:#172231;
-}
-.tutorial-card h3{
-  margin:26px 0 10px;font-family:"Inter",sans-serif!important;
-  font-size:1.05rem!important;font-weight:600;color:#25374A;
-}
-.tutorial-card p,.tutorial-card li{
-  font:400 .98rem/1.68 "Inter",sans-serif!important;color:#526174;
-}
-.tutorial-card ul,.tutorial-card ol{margin:10px 0 4px 1.25rem;padding:0;}
-.tutorial-card li+li{margin-top:6px;}
-.concept{
-  margin:18px 0;padding:16px 18px;background:#F3F7FB;
-  border-left:4px solid #3478C9;border-radius:0 10px 10px 0;
-  color:#526174;font:400 .94rem/1.65 "Inter",sans-serif;
-}
-.concept strong{color:#25374A;}
-.action-row{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px;}
-.action{
-  display:inline-flex;align-items:center;justify-content:center;min-height:42px;
-  padding:10px 15px;background:#3478C9;border:1px solid #3478C9;border-radius:9px;
-  color:#fff!important;font:600 .88rem/1.2 "Inter",sans-serif;text-decoration:none;
-}
-.action.secondary{background:#fff;color:#3478C9!important;}
-.flow-box{
-  margin:16px 0;padding:18px 20px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);
-  border-radius:12px;color:#31465B;font:500 .92rem/1.7 "Inter",sans-serif;
-}
-.flow-arrow{color:#3478C9;font-weight:700;padding:0 5px;}
-.question{
-  margin:12px 0;padding:13px 15px;background:#FBFCFD;border:1px solid rgba(23,34,49,.08);
-  border-radius:10px;color:#42566B;font:500 .92rem/1.55 "Inter",sans-serif;
-}
-.guided-steps{
-  counter-reset:guided;list-style:none;margin:18px 0 0!important;padding:0!important;
-}
-.guided-steps li{
-  counter-increment:guided;position:relative;margin:0 0 12px!important;
-  padding:14px 16px 14px 52px;background:#F8FAFC;border:1px solid rgba(23,34,49,.08);
-  border-radius:11px;
-}
-.guided-steps li::before{
-  content:counter(guided);position:absolute;left:15px;top:13px;display:flex;
-  align-items:center;justify-content:center;width:25px;height:25px;border-radius:50%;
-  background:#3478C9;color:#fff;font:600 .78rem/1 "Inter",sans-serif;
-}
-.record-fields{
-  width:100%;border-collapse:collapse;margin:16px 0 4px;
-  font-family:"Inter",sans-serif;font-size:.90rem;
-}
-.record-fields th,.record-fields td{
-  padding:10px 12px;border-bottom:1px solid rgba(23,34,49,.09);
-  text-align:left;vertical-align:top;
-}
-.record-fields th{color:#25374A;font-weight:600;background:#F8FAFC;}
-.record-fields td{color:#526174;}
-.code-sample{
-  margin:14px 0;padding:16px 18px;overflow-x:auto;background:#18212B;
-  border-radius:10px;color:#EEF4F8;font:400 .85rem/1.6 "SFMono-Regular",Consolas,monospace;
-  white-space:pre-wrap;
-}
-.dataset-box{
-  display:grid;grid-template-columns:160px 1fr;gap:9px 16px;margin:18px 0;
-  padding:18px 20px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:12px;
-}
-.dataset-box dt{font:600 .84rem/1.4 "Inter",sans-serif;color:#64748B;}
-.dataset-box dd{margin:0;font:500 .90rem/1.4 "Inter",sans-serif;color:#25374A;}
-.deliverable{background:#F5F9FC;}
-.next-step{
-  margin-top:28px;padding:21px 24px;background:rgba(52,120,201,.08);
-  border:1px solid rgba(52,120,201,.18);border-radius:14px;
-}
-.next-step strong{color:#25374A;}
-.references a{color:#3478C9;}
-.tutorial-nav{
-  display:flex;justify-content:space-between;gap:16px;margin-top:30px;
-  padding-top:20px;border-top:1px solid rgba(23,34,49,.10);
-}
-.tutorial-nav a{font:600 .90rem/1.3 "Inter",sans-serif;color:#3478C9;text-decoration:none;}
-@media(max-width:700px){
-  .dataset-box{grid-template-columns:1fr;}
-  .record-fields{font-size:.82rem;}
-}
-</style>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Aula 10 de Bioinformática: fundamentos do controle de qualidade de sequências, interpretação FastQC, adaptadores, Trimmomatic e MultiQC."><title>Aula 10 | Fundamentos do controle de qualidade — Bioinformática</title><style>
+:root{color-scheme:light;--bg:#f5f7fb;--paper:#fff;--ink:#203047;--muted:#52647b;--line:#dbe3ed;--accent:#146b83;--accentdark:#0c4d61;--pale:#eaf5f8;--warn:#fff7e6;--warnline:#e9b95e;--code:#172637;--codeink:#e6f4ff;--radius:14px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--accentdark)}a:hover{text-decoration-thickness:2px}.top{background:#103c52;color:#fff}.top-inner{max-width:1150px;margin:auto;display:flex;gap:1rem;align-items:center;justify-content:space-between;padding:13px 22px;flex-wrap:wrap}.top a{color:#fff;text-decoration:none}.top a:hover{text-decoration:underline}.top nav{display:flex;gap:18px;flex-wrap:wrap;font-size:.92rem}.wrap{max-width:1150px;margin:26px auto 64px;padding:0 20px;display:grid;grid-template-columns:230px minmax(0,1fr);align-items:start;gap:23px}.toc{position:sticky;top:18px;border:1px solid var(--line);background:var(--paper);border-radius:var(--radius);padding:16px;max-height:calc(100vh - 36px);overflow:auto}.toc strong{display:block;margin-bottom:10px}.toc a{display:block;padding:4px 0;font-size:.87rem;text-decoration:none}.content{min-width:0}.hero{background:linear-gradient(125deg,#15465b,#147b88);color:white;border-radius:18px;padding:32px 34px;margin-bottom:18px}.eyebrow{text-transform:uppercase;letter-spacing:.1em;font-weight:700;font-size:.77rem;opacity:.85}.hero h1{font-size:clamp(1.85rem,3.3vw,2.65rem);line-height:1.2;margin:9px 0 12px}.hero p{margin:0;max-width:68ch;color:#edf7fa}.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.chip{border:1px solid #ffffff70;border-radius:30px;padding:4px 11px;font-size:.83rem}.section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:25px 29px;margin:17px 0;box-shadow:0 2px 7px #10203008;scroll-margin-top:16px}h2{font-size:1.45rem;line-height:1.3;margin:0 0 16px}h3{font-size:1.12rem;line-height:1.35;margin:24px 0 8px}p{margin:10px 0}ul,ol{padding-left:1.45rem}li{margin:5px 0}.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:18px 0}.flow span{background:var(--pale);border:1px solid #c5e3e9;border-radius:9px;padding:11px;text-align:center;font-size:.88rem;font-weight:600}.notice{border-left:4px solid var(--accent);background:#eef8fa;padding:12px 16px;margin:17px 0;border-radius:5px}.warning{border-left-color:var(--warnline);background:var(--warn)}.result{border:1px solid #c2dee4;background:#f1f9fa;padding:12px 15px;border-radius:9px;margin:16px 0}.codebox{margin:14px 0 21px;border-radius:10px;overflow:hidden;background:var(--code);border:1px solid #2f495d}.codehead{color:#e6f1f8;background:#254053;padding:8px 13px;font-size:.82rem;display:flex;align-items:center;justify-content:space-between;gap:10px}.copy{border:1px solid #9eb6c8;color:#fff;background:#30516a;padding:4px 11px;border-radius:6px;cursor:pointer;font:inherit;font-size:.8rem}.copy:hover{background:#3d6683}pre{padding:16px 19px;margin:0;overflow-x:auto;color:var(--codeink);font:13.5px/1.68 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;white-space:pre}code:not(pre code){background:#edf2f7;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere;font-size:.91em}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;margin:13px 0;font-size:.93rem}th,td{border-bottom:1px solid var(--line);padding:10px 11px;text-align:left;vertical-align:top}th{background:#eff5f8}details{border:1px solid var(--line);border-radius:9px;margin:10px 0;padding:11px 15px}summary{cursor:pointer;font-weight:650}details[open] summary{margin-bottom:10px}.step{font-size:.8rem;font-weight:750;color:var(--accent);letter-spacing:.04em;text-transform:uppercase}.checklist{list-style:none;padding-left:0}.checklist li{padding:4px 0}.checklist li::before{content:'□';margin-right:10px;color:var(--accent)}.small{font-size:.9rem;color:var(--muted)}.footer{font-size:.87rem;color:var(--muted);margin:27px 5px}.refs a{overflow-wrap:anywhere}@media(max-width:880px){.wrap{display:block}.toc{position:static;max-height:none;margin-bottom:18px}.toc nav{columns:2}.flow{grid-template-columns:1fr 1fr}}@media(max-width:580px){.wrap{padding:0 11px;margin-top:14px}.section{padding:20px 16px}.hero{padding:25px 20px}.flow{grid-template-columns:1fr}.toc nav{columns:1}pre{font-size:12px;padding:13px}}@media print{.top,.toc,.copy{display:none!important}.wrap{display:block;margin:0;max-width:none}.section,.hero{break-inside:avoid;box-shadow:none}body{background:#fff}}
 
-<style>
-.path-grid{display:grid;grid-template-columns:150px 1fr;gap:9px 14px;margin:16px 0}
-.path-grid dt{font:600 .84rem/1.4 "Inter",sans-serif;color:#64748B}
-.path-grid dd{margin:0;font:500 .88rem/1.45 "Inter",sans-serif;color:#25374A;overflow-wrap:anywhere}
-.start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
-</style>
-
-</head>
-<body>
-
-<nav class="top-nav" aria-label="Primary navigation">
-  <div class="nav-inner">
-    <a class="brand" href="../../index.html">Tiago Belintani</a>
-    <ul>
-      <li><a href="../../index.html">Home</a></li>
-      <li><a href="../../publications.html">Publications</a></li>
-      <li><a href="../../research.html">Research</a></li>
-      <li><a href="../../bioinfo-chat.html">BioInfo Chat</a></li>
-      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
-      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
-      <li><a href="../../collaborators.html">Collaborators</a></li>
-      <li><a href="../../contact.html">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<main class="tutorial-page">
-  <div class="breadcrumb">
-    <a href="../../teaching.html">Teaching</a> /
-    <a href="index.html">Bioinformática e Biologia Molecular</a> /
-    Controle de qualidade e trimming
-  </div>
-  <header class="tutorial-header">
-    <div class="tutorial-kicker">Roteiro prático</div>
-    <h1>Controle de qualidade e trimming</h1>
-    <p class="lead">Diagnosticar a qualidade de reads paired-end, processá-los com Trimmomatic e avaliar o efeito do tratamento antes da montagem.</p>
-    <div class="action-row">
-      <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/04_Controle_Qualidade_Trimming.ipynb" target="_blank" rel="noopener noreferrer">Abrir notebook no Google Colab</a>
-      <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
-    </div>
-  </header>
-
-<section class="tutorial-card">
-<h2>Antes de começar — retomar o projeto</h2>
-<p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
-<div class="code-sample">/content/drive/MyDrive/Bioinformatica_Biologia_Molecular</div>
-<div class="start-sequence">runtime → Drive → raiz do projeto → verificar entrada → acessar saída → executar a etapa</div>
-<dl class="path-grid">
-<dt>Entrada</dt><dd>03_sra_fastq/raw-fastq/SRR15736591_1/2.fastq.gz</dd>
-<dt>Saída</dt><dd>04_qc_trimming/</dd>
-<dt>Ambiente</dt><dd>bioinfo + FastQC + MultiQC + Trimmomatic</dd>
-<dt>Pré-requisito</dt><dd>Os FASTQ produzidos na Aula 3.</dd>
-</dl>
-
-<p>O notebook começa mostrando o diretório atual, os caminhos usados e se o arquivo obrigatório da etapa anterior foi encontrado. Se faltar uma entrada, a execução é interrompida com uma mensagem clara.</p>
-</section>
-
-
-
-<section class="tutorial-card">
-<h2>Objetivos</h2>
-<ul>
-<li>avaliar reads com FastQC;</li>
-<li>integrar relatórios com MultiQC;</li>
-<li>interpretar qualidade por base, adaptadores e composição;</li>
-<li>processar reads paired-end com Trimmomatic;</li>
-<li>comparar dados antes e depois do trimming.</li>
-</ul>
-</section>
-<section class="tutorial-card">
-<h2>1. Qualidade não é um detalhe</h2>
-<p>Antes de montar ou mapear sequências, precisamos conhecer o comportamento dos reads. O controle de qualidade é uma etapa de diagnóstico, não apenas um procedimento automático.</p>
-<div class="concept"><strong>FastQC sinaliza padrões.</strong> Um alerta não significa necessariamente que a amostra deve ser descartada. A interpretação depende do experimento e da etapa seguinte.</div>
-</section>
-<section class="tutorial-card">
-<h2>2. Métricas que vamos observar</h2>
-<ul>
-<li>qualidade por base;</li>
-<li>distribuição de qualidade por read;</li>
-<li>conteúdo de bases e GC;</li>
-<li>sequências super-representadas;</li>
-<li>possível presença de adaptadores;</li>
-<li>comprimento dos reads.</li>
-</ul>
-</section>
-<section class="tutorial-card">
-<h2>3. Trimming</h2>
-<p>O Trimmomatic pode remover adaptadores e bases de baixa qualidade segundo critérios definidos. Nesta disciplina, os parâmetros são <strong>didáticos</strong> e não uma tentativa de reproduzir exatamente o artigo de Ciaccio et al.</p>
-<div class="concept"><strong>O artigo-modelo:</strong> os autores utilizaram illumiprocessor, que envolve Trimmomatic, e depois montaram os reads com Trinity e Velvet. Nosso curso usará Trimmomatic diretamente e SPAdes para tornar cada etapa explícita e mais fácil de acompanhar.</div>
-</section>
-<section class="tutorial-card">
-<h2>4. Prática guiada no Colab</h2>
-<ol class="guided-steps">
-<li>localizar os FASTQ salvos na aula anterior;</li>
-<li>executar FastQC em R1 e R2;</li>
-<li>agrupar os relatórios com MultiQC;</li>
-<li>processar os pares com Trimmomatic;</li>
-<li>separar reads paired e unpaired;</li>
-<li>executar novamente FastQC e MultiQC;</li>
-<li>comparar número de reads e perfis de qualidade antes e depois;</li>
-<li>preservar os reads paired processados para a montagem.</li>
-</ol>
-<div class="question">Se depois do trimming restarem pouquíssimos reads, devemos simplesmente continuar a análise? Que problema isso pode indicar?</div>
-</section>
-<section class="tutorial-card deliverable">
-<h2>Resultado esperado</h2>
-<div class="code-sample">04_qc_trimming/
-├── fastqc_raw/
-├── multiqc_raw/
-├── SRR15736591_R1_paired.fastq.gz
-├── SRR15736591_R2_paired.fastq.gz
-├── SRR15736591_R1_unpaired.fastq.gz
-├── SRR15736591_R2_unpaired.fastq.gz
-├── fastqc_trimmed/
-└── multiqc_trimmed/</div>
-<div class="next-step"><strong>Próximo passo:</strong> utilizar os reads processados para reconstruir contigs por montagem de novo.</div>
-</section>
-
-  <nav class="tutorial-nav">
-    <a href="aula09.html">← FASTA, FASTQ e SRA</a>
-    <a href="aula11.html">Montagem de novo →</a>
-  </nav>
-</main>
-</body>
-</html>
+.article p{max-width:88ch}.article h3{margin-top:1.65rem}.lead{font-size:1.09rem;line-height:1.8}.concept{border-left:4px solid #146b83;background:#edf7f9;padding:14px 17px;margin:20px 0}.think{border:1px solid #d5e4eb;border-radius:10px;padding:15px 19px;margin:20px 0;background:#fafcfe}.think strong{display:block;margin-bottom:7px}.figure{background:#f4f8fa;border:1px solid #d7e5ec;border-radius:12px;padding:20px 15px;text-align:center;margin:20px 0}.figure .arrows{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}.figure .node{background:white;border:1px solid #b4d5de;border-radius:10px;padding:12px 15px;max-width:190px}.figure .arrow{color:#146b83;font-weight:bold}.mini{font-size:.91rem;color:#52647b}.kicker{font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:#146b83}.citation{color:#52647b;font-size:.9rem}.article td:first-child{font-weight:600}.hero .sub{margin-top:13px}.toc a{line-height:1.4;padding:6px 0}</style></head><body>
+<header class="top"><div class="top-inner"><a href="./"><strong>Bioinformática e Biologia Molecular · 2026</strong></a><nav aria-label="Navegação principal"><a href="./">Página da disciplina</a><a href="https://tiagobelintani.github.io/teaching/bioinformatica/">Portal de aulas</a><a href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório GitHub</a></nav></div></header>
+<div class="wrap"><aside class="toc" aria-label="Índice da aula"><strong>Conteúdo da aula</strong><nav><a href="#introducao">01 · Por que avaliar a qualidade dos dados de sequenciamento?</a><a href="#objetivos">02 · O que o estudante deve compreender?</a><a href="#origem">03 · Da amostra biológica às leituras digitais</a><a href="#fastq">04 · O formato FASTQ e a informação de qualidade</a><a href="#fastqc">05 · FastQC: diagnóstico, não correção</a><a href="#modulos">06 · Como ler os principais indicadores do FastQC</a><a href="#adaptadores">07 · Adaptadores: origem, identificação e implicações</a><a href="#trimming">08 · Trimming: o que é, por que fazer e quais são os riscos</a><a href="#trimmomatic">09 · Trimmomatic: como opera o processamento das leituras</a><a href="#resultados">10 · O que significam as categorias de retenção de leituras?</a><a href="#pos">11 · Por que repetir o FastQC após o processamento?</a><a href="#multiqc">12 · MultiQC: interpretar várias amostras em conjunto</a><a href="#decisoes">13 · Como decidir se os dados estão adequados para a próxima análise?</a><a href="#questoes">14 · Questões para interpretação e discussão</a><a href="#referencias">15 · Fontes técnicas e referências</a></nav></aside><main class="content"><section class="hero"><div class="eyebrow">Aula 10 · Fundamentos teóricos</div><h1>Controle de qualidade de dados de sequenciamento</h1><p class="lead">Como reconhecer limitações nas leituras, interpretar relatórios de qualidade e compreender as decisões de remoção de adaptadores e trimming.</p><p class="sub">Material de estudo e interpretação · A execução computacional é tratada separadamente no notebook da disciplina.</p><div class="chips"><span class="chip">NGS e FASTQ</span><span class="chip">Phred</span><span class="chip">FastQC</span><span class="chip">Trimmomatic</span><span class="chip">MultiQC</span></div></section><section class="section article" id="introducao"><div class="kicker">01 · Contextualização</div><h2>Por que avaliar a qualidade dos dados de sequenciamento?</h2>
+<p class="lead">O sequenciamento de nova geração (NGS) permite obter milhões de leituras de DNA ou RNA em um único experimento. Entretanto, o arquivo produzido pelo sequenciador não equivale, automaticamente, a um conjunto de sequências pronto para qualquer análise. As leituras são estimativas da composição dos fragmentos presentes na biblioteca e podem conter erros de identificação de bases, sequências técnicas e características decorrentes da própria preparação das amostras.</p>
+<p>O <strong>controle de qualidade</strong> (quality control, QC) corresponde ao conjunto de procedimentos usados para examinar esses dados, reconhecer padrões de confiabilidade, identificar possíveis problemas e decidir se alguma intervenção é necessária. Ele deve ocorrer <strong>antes</strong> de análises como alinhamento contra um genoma de referência, montagem de novo, identificação de variantes, quantificação de transcritos e estudos metagenômicos. Também deve ser retomado <strong>após</strong> intervenções que modifiquem as leituras.</p>
+<p>A necessidade de QC decorre de uma propriedade central dos dados de sequenciamento: nem toda base identificada apresenta a mesma confiança. Além disso, duas amostras podem possuir o mesmo número de leituras, mas diferir bastante na distribuição de qualidade, na presença de adaptadores ou na quantidade de informação que sobreviverá ao processamento. Ignorar essas diferenças pode levar a alinhamentos incorretos, perda de sensibilidade, artefatos analíticos ou interpretações biológicas equivocadas.</p>
+<div class="concept"><strong>Ideia central:</strong> controlar a qualidade não significa eliminar o maior número possível de leituras. Significa caracterizar as limitações dos dados e, quando necessário, reduzir artefatos <em>sem descartar informação útil de maneira indiscriminada</em>.</div>
+<p>É importante distinguir <strong>avaliação de qualidade</strong> e <strong>processamento</strong>. A avaliação descreve e diagnostica os dados; o processamento altera o conteúdo ou o comprimento das leituras. Portanto, uma ferramenta que produz relatórios de QC não desempenha a mesma função de outra que remove adaptadores ou apara extremidades.</p></section><section class="section article" id="objetivos"><div class="kicker">02 · Aprendizagem</div><h2>O que o estudante deve compreender?</h2>
+<p>Ao final da aula, o estudante deverá ser capaz de explicar como as leituras de sequenciamento são armazenadas, interpretar os valores de qualidade Phred, reconhecer os principais indicadores de um relatório FastQC e relacionar esses indicadores a potenciais causas técnicas ou biológicas. Deverá ainda compreender por que adaptadores podem aparecer nos arquivos, como funciona a lógica do <em>trimming</em> e por que um segundo controle de qualidade é necessário.</p>
+<p>A ênfase desta página é <strong>interpretativa e conceitual</strong>. A execução computacional deve ocorrer no notebook prático associado à disciplina. Aqui, interessa entender o que cada ferramenta examina, o que uma eventual alteração pretende corrigir e quais critérios permitem avaliar se a intervenção foi adequada.</p>
+<div class="figure" role="img" aria-label="Fluxo conceitual: leituras brutas, avaliação com FastQC, decisão, processamento com Trimmomatic quando justificado, nova avaliação e interpretação crítica"><div class="arrows"><span class="node">Leituras brutas</span><span class="arrow">→</span><span class="node">FastQC: diagnóstico inicial</span><span class="arrow">→</span><span class="node">Decisão fundamentada</span><span class="arrow">→</span><span class="node">Trimmomatic, se necessário</span><span class="arrow">→</span><span class="node">FastQC: reavaliação</span></div><p class="mini">O fluxo não é simplesmente linear: dependendo dos resultados e dos objetivos, pode ser necessário revisar parâmetros ou manter os dados sem trimming adicional.</p></div></section><section class="section article" id="origem"><div class="kicker">03 · Fundamentos</div><h2>Da amostra biológica às leituras digitais</h2>
+<h3>Biblioteca de sequenciamento: fragmentos e elementos técnicos</h3>
+<p>Antes do sequenciamento, o material genético é submetido a um protocolo de preparação de biblioteca. Em abordagens comuns, moléculas de DNA ou cDNA são fragmentadas e recebem sequências sintéticas necessárias à interação com a plataforma, à amplificação e, conforme o protocolo, à identificação de amostras. O resultado é um conjunto de moléculas cuja estrutura não se resume à sequência biológica de interesse.</p>
+<p>É útil distinguir o <strong>inserto</strong> (região biológica que se pretende sequenciar) das <strong>sequências técnicas</strong> associadas à preparação da biblioteca. A posição e a composição dessas regiões dependem da tecnologia e do kit empregado. Essa distinção explica por que o sequenciador pode registrar bases que não pertencem ao inserto.</p>
+<h3>O que são reads?</h3>
+<p>Uma <em>read</em>, ou leitura, é a sequência de bases inferida a partir dos sinais detectados durante o sequenciamento. Como essa inferência é sujeita a incertezas, cada base costuma ser acompanhada de uma pontuação que expressa a probabilidade estimada de chamada incorreta. O comprimento das leituras e o padrão de qualidade variam conforme a plataforma, o protocolo e as condições do experimento.</p>
+<h3>Sequenciamento single-end e paired-end</h3>
+<p>Em <em>single-end</em>, obtém-se uma leitura por molécula analisada. Em <em>paired-end</em>, duas leituras são geradas a partir de extremidades opostas do mesmo fragmento de biblioteca. Elas são habitualmente chamadas <strong>R1</strong> e <strong>R2</strong> e mantêm uma relação de pareamento que pode ser informativa para alinhamento, montagem e identificação de variantes estruturais.</p>
+<p>As leituras R1 e R2 não são cópias necessariamente idênticas. Cada uma corresponde a uma extremidade e pode ter qualidade diferente. É comum encontrar diferenças sistemáticas entre seus perfis de qualidade, especialmente em posições finais, mas elas devem ser observadas nos dados concretos e não presumidas.</p>
+<div class="think"><strong>Para refletir</strong>Por que eliminar uma leitura de R1 sem considerar a correspondente em R2 pode exigir cuidados especiais em uma análise que depende de pares?</div></section><section class="section article" id="fastq"><div class="kicker">04 · Fundamentos</div><h2>O formato FASTQ e a informação de qualidade</h2>
+<p>O arquivo <strong>FASTQ</strong> armazena sequências nucleotídicas e as pontuações de qualidade associadas a cada posição. No formato usual, cada registro ocupa quatro linhas: identificador da leitura; sequência de bases; linha separadora iniciada por <code>+</code>; e caracteres que codificam a qualidade das bases. A linha de sequência e a linha de qualidade devem corresponder posição por posição.</p>
+<div class="figure" style="text-align:left"><strong>Exemplo ilustrativo de registro FASTQ</strong><pre style="background:#172637;color:#e6f4ff;border-radius:8px;margin-top:10px"><code>@leitura_exemplo/1
+ACGTACGT
++
+IIIIIIII</code></pre><p class="mini">O exemplo serve apenas para identificar as partes de um registro; não representa uma leitura observada nas amostras do exercício.</p></div>
+<p>As pontuações de qualidade seguem a escala <strong>Phred</strong>, definida por <strong>Q = −10 × log<sub>10</sub>(P<sub>erro</sub>)</strong>, na qual <em>P<sub>erro</sub></em> é a probabilidade estimada de uma base ter sido identificada incorretamente. A escala é logarítmica: um aumento de dez pontos corresponde a uma redução de dez vezes na probabilidade estimada de erro.</p>
+<div class="tablewrap"><table><thead><tr><th>Pontuação</th><th>Probabilidade estimada de erro</th><th>Interpretação</th></tr></thead><tbody><tr><td>Q10</td><td>10%</td><td>Uma chamada incorreta esperada em dez bases, em média, se bem calibrada</td></tr><tr><td>Q20</td><td>1%</td><td>Uma chamada incorreta esperada em cem bases</td></tr><tr><td>Q30</td><td>0,1%</td><td>Uma chamada incorreta esperada em mil bases</td></tr><tr><td>Q40</td><td>0,01%</td><td>Uma chamada incorreta esperada em dez mil bases</td></tr></tbody></table></div>
+<p>Essas probabilidades são <strong>estimativas do sistema de base calling</strong>, não uma contagem observada de erros para cada leitura. A qualidade pode apresentar diferenças entre corridas e plataformas, e sua interpretação depende da calibração. Em arquivos FASTQ que usam a codificação Phred+33, as pontuações numéricas são representadas por caracteres ASCII; o estudante não deve confundir esses símbolos com nucleotídeos.</p>
+<p>Outra distinção importante é entre <strong>qualidade por base</strong> e <strong>qualidade por leitura</strong>. Uma sequência pode ter excelente qualidade média e ainda conter um trecho terminal ruim; inversamente, uma amostra pode conter a maioria das leituras boas e uma subpopulação pequena de baixa qualidade. Por isso, precisamos observar mais de uma distribuição.</p></section><section class="section article" id="fastqc"><div class="kicker">05 · Ferramentas</div><h2>FastQC: diagnóstico, não correção</h2>
+<p>O <strong>FastQC</strong> é uma ferramenta de avaliação exploratória de dados de sequenciamento. Sua função é produzir estatísticas e gráficos que permitam reconhecer padrões relevantes antes de iniciar uma análise bioinformática. Ele <strong>não remove adaptadores, não altera arquivos FASTQ e não corrige bases</strong>. O relatório é um instrumento para construir hipóteses sobre a qualidade dos dados e orientar decisões posteriores.</p>
+<p>Na etapa inicial, o FastQC deve ser aplicado aos <strong>dados brutos</strong>, preservando-se esse conjunto original para rastreabilidade. Em dados paired-end, os arquivos R1 e R2 são avaliados separadamente, permitindo verificar diferenças entre os dois extremos sequenciados.</p>
+<h3>Por que realizar uma avaliação antes do processamento?</h3>
+<p>Sem o diagnóstico inicial, a escolha de parâmetros de trimming se torna arbitrária. A análise prévia pode indicar, por exemplo, queda pronunciada de qualidade nas últimas posições, evidência de adaptadores ou perfis de composição que mereçam investigação. Também pode demonstrar que algumas intervenções seriam desnecessárias. Um processamento excessivamente agressivo pode reduzir a cobertura e descartar informação relevante, comprometendo análises subsequentes.</p>
+<p>Os relatórios FastQC empregam marcações de aprovação, alerta e falha. Tais marcas derivam de <strong>critérios heurísticos</strong>, úteis para triagem, mas não equivalem a um laudo universal de adequação. Bibliotecas de amplicons, RNA-seq, pequenos RNAs e protocolos com seleção direcionada podem apresentar padrões que seriam considerados atípicos em bibliotecas genômicas aleatórias.</p>
+<div class="concept"><strong>Regra de interpretação:</strong> um sinal de alerta é um convite à investigação. A decisão de intervir exige considerar o protocolo experimental, o organismo, o padrão dos gráficos e a análise que será realizada a seguir.</div></section><section class="section article" id="modulos"><div class="kicker">06 · Interpretação</div><h2>Como ler os principais indicadores do FastQC</h2>
+<h3>Qualidade por posição — Per base sequence quality</h3>
+<p>Esse módulo resume a distribuição das pontuações de qualidade ao longo das posições das leituras. Em muitos relatórios são exibidos boxplots com mediana, dispersão e valores extremos. Sua principal utilidade é localizar <strong>regiões sistematicamente menos confiáveis</strong>, como extremidades com queda gradual de Q. Uma redução na qualidade nas últimas posições pode motivar um corte terminal, mas é necessário considerar a magnitude da perda e o comprimento de leitura necessário para a análise seguinte.</p>
+<h3>Qualidade média por sequência — Per sequence quality scores</h3>
+<p>Avalia a distribuição de valores médios de qualidade das leituras. Ele permite reconhecer se existe um grupo de sequências globalmente menos confiáveis. Não substitui o módulo anterior, porque a média pode mascarar pequenas regiões problemáticas. Quando há uma cauda importante de leituras de baixa qualidade, é pertinente investigar o impacto dessas leituras na análise downstream e quais estratégias de filtragem são justificáveis.</p>
+<h3>Composição de bases por posição — Per base sequence content</h3>
+<p>Apresenta as proporções de A, C, G e T em diferentes posições. Em bibliotecas idealmente aleatórias, podem existir expectativas de composição relativamente estável ao longo das leituras; porém, desvios nem sempre são artefatos. Protocolos de preparação, desenho de primers, seleção de alvos, propriedades biológicas e características de RNA-seq podem produzir padrões previsíveis. Portanto, não é correto concluir que uma biblioteca está ruim simplesmente porque as curvas de bases não coincidem.</p>
+<h3>Distribuição do conteúdo GC — Per sequence GC content</h3>
+<p>Mostra a frequência de leituras com diferentes proporções de guanina e citosina. Desvios acentuados podem levantar hipóteses sobre misturas de origens biológicas, enriquecimento de determinadas regiões, viés de amplificação ou características da biblioteca. Entretanto, <strong>não é um teste de contaminação isolado</strong>: genomas, regiões-alvo e transcriptomas podem apresentar distribuições não triviais de GC.</p>
+<h3>Conteúdo de adaptadores — Adapter content</h3>
+<p>Investiga correspondências com sequências de adaptadores reconhecidas pela ferramenta. Sinais crescentes em posições finais são compatíveis com a hipótese de que algumas leituras ultrapassaram o inserto biológico e alcançaram sequências técnicas. A ausência de alerta não demonstra ausência completa de adaptadores: o resultado depende das sequências de referência e da capacidade de detecção da ferramenta.</p>
+<h3>Sequências super-representadas — Overrepresented sequences</h3>
+<p>Aponta sequências observadas com frequência elevada em relação ao total de leituras. Elas podem estar relacionadas a adaptadores, primers, duplicações ou a componentes biológicos abundantes. Em bibliotecas direcionadas e amplicons, a repetição pode ser esperada. O significado depende da identidade das sequências e do desenho experimental, não apenas de sua frequência.</p>
+<h3>Distribuição do comprimento — Sequence length distribution</h3>
+<p>Descreve os comprimentos encontrados no arquivo. Antes do processamento, algumas plataformas ou protocolos geram leituras com comprimentos bastante uniformes. Após o trimming, a distribuição frequentemente se amplia porque diferentes leituras perdem números diferentes de bases. Isso não representa necessariamente uma falha: pode ser uma consequência esperada da remoção seletiva de trechos.</p>
+<div class="think"><strong>Pergunta orientadora</strong>Quais módulos fornecem evidências mais diretamente ligadas à remoção de adaptadores? Quais módulos podem permanecer sinalizados mesmo depois de um processamento tecnicamente adequado?</div></section><section class="section article" id="adaptadores"><div class="kicker">07 · Problemas potenciais</div><h2>Adaptadores: origem, identificação e implicações</h2>
+<p><strong>Adaptadores</strong> são sequências sintéticas incorporadas à biblioteca para viabilizar etapas técnicas do sequenciamento. O sequenciamento pode alcançar essas regiões quando o fragmento inserido é curto em relação ao número de ciclos realizados. Nessa situação, parte das bases registradas corresponde à estrutura técnica da biblioteca, e não ao alvo biológico.</p>
+<p>A presença de bases de adaptador pode afetar o alinhamento a uma referência, reduzir o alinhamento correto de trechos e criar dificuldades em montagens ou análises baseadas em correspondência de sequências. O impacto real depende da abundância dessas bases, de sua posição e da tolerância da ferramenta de análise subsequente.</p>
+<h3>Como decidir qual adaptador procurar?</h3>
+<p>O adaptador relevante é determinado pelo <strong>protocolo de preparação da biblioteca</strong>. Existem diferentes famílias de adaptadores e variantes específicas de kits. Um arquivo de referência aparentemente plausível pode não corresponder ao material efetivamente usado. Por esse motivo, a documentação do experimento, os metadados da corrida e a inspeção dos relatórios devem orientar a escolha do conjunto de sequências de adaptadores.</p>
+<p>Na atividade desta disciplina, o arquivo <code>TruSeq3-PE.fa</code> foi selecionado como <strong>candidato didático</strong>. Não existe confirmação independente, nos materiais fornecidos, de que esse arquivo corresponde ao kit utilizado no experimento original. Essa limitação deve ser explicitada ao interpretar o efeito de uma eventual remoção.</p>
+<div class="concept"><strong>Distinção essencial:</strong> a presença de um adaptador é um fenômeno técnico da biblioteca; não deve ser automaticamente descrita como contaminação biológica.</div></section><section class="section article" id="trimming"><div class="kicker">08 · Processamento</div><h2>Trimming: o que é, por que fazer e quais são os riscos</h2>
+<p>O termo <em>trimming</em> descreve a remoção de regiões das leituras com base em critérios definidos. Essa remoção pode ter como objetivo retirar sequências de adaptadores, eliminar bases terminais de qualidade insuficiente ou descartar leituras que se tornaram muito curtas. É uma intervenção efetiva sobre os arquivos: diferentemente do diagnóstico, ela <strong>altera o conjunto de dados que será analisado depois</strong>.</p>
+<h3>Remoção de adaptadores e corte por qualidade não são a mesma coisa</h3>
+<p>A remoção de adaptadores procura correspondências com sequências técnicas conhecidas ou inferidas. Já o corte por qualidade usa os valores Phred para detectar posições cuja confiabilidade estimada está abaixo de um critério. Uma leitura pode precisar de um desses procedimentos, de ambos ou de nenhum. São problemas distintos e não devem ser tratados como equivalentes.</p>
+<h3>Por que não cortar o máximo possível?</h3>
+<p>Leituras mais curtas tendem a conter menos informação para posicionamento inequívoco contra uma referência, resolução de regiões repetitivas e determinadas etapas de montagem. Critérios muito restritivos podem reduzir substancialmente a profundidade útil de sequenciamento e produzir perdas desiguais entre amostras. A retirada de dados deve apresentar benefício analítico plausível em relação ao custo de perda de informação.</p>
+<p>É igualmente importante entender que <strong>trimming não é correção de erros</strong>: ele remove segmentos ou leituras, mas não reconstrói a sequência verdadeira de bases incorretamente chamadas. Também não resolve, por si só, duplicatas de PCR, contaminação entre organismos, problemas de indexação, baixa complexidade biológica ou outros artefatos.</p></section><section class="section article" id="trimmomatic"><div class="kicker">09 · Ferramentas</div><h2>Trimmomatic: como opera o processamento das leituras</h2>
+<p>O <strong>Trimmomatic</strong> é uma ferramenta destinada ao processamento de leituras, especialmente empregada em dados de sequenciamento de curta leitura. Permite combinar critérios de busca de adaptadores com operações baseadas nas pontuações de qualidade. Em modo <em>paired-end</em>, recebe os dois arquivos de uma amostra e acompanha o destino de cada membro do par.</p>
+<p>Na configuração de referência desta aula, os critérios são <strong>ILLUMINACLIP</strong>, <strong>LEADING</strong>, <strong>TRAILING</strong>, <strong>SLIDINGWINDOW</strong> e <strong>MINLEN</strong>. Os valores abaixo descrevem as decisões adotadas no exercício e <strong>não constituem parâmetros universais recomendados para qualquer experimento</strong>.</p>
+<div class="tablewrap"><table><thead><tr><th>Critério didático</th><th>O que o procedimento faz</th><th>Qual problema procura abordar?</th></tr></thead><tbody>
+<tr><td><code>ILLUMINACLIP:…:2:30:10</code></td><td>Compara leituras a sequências de adaptadores; os três números definem tolerância de semente e limiares de pontuação para modos de correspondência.</td><td>Sequências técnicas incorporadas às leituras.</td></tr>
+<tr><td><code>LEADING:3</code></td><td>Remove bases na extremidade inicial enquanto sua qualidade é inferior a Q3.</td><td>Extremidade inicial de qualidade extremamente baixa.</td></tr>
+<tr><td><code>TRAILING:3</code></td><td>Remove bases na extremidade final enquanto sua qualidade é inferior a Q3.</td><td>Extremidade final de qualidade extremamente baixa.</td></tr>
+<tr><td><code>SLIDINGWINDOW:4:20</code></td><td>Examina janelas sucessivas de quatro bases e corta a leitura quando a qualidade média da janela fica abaixo de Q20.</td><td>Regiões a partir das quais a qualidade se torna insuficiente para o critério adotado.</td></tr>
+<tr><td><code>MINLEN:50</code></td><td>Descarta leituras cujo comprimento final é inferior a 50 bases.</td><td>Leituras curtas demais para o limite escolhido na atividade.</td></tr></tbody></table></div>
+<p>Um critério como Q20 foi escolhido por corresponder, na escala Phred, a erro estimado de 1% por base. Entretanto, isso não significa que uma janela com média inferior a Q20 necessariamente inviabilize toda análise. A pertinência do limiar depende da finalidade, do comprimento de leitura, do sequenciador e do padrão observado nos dados brutos.</p>
+<p>O modo paired-end preserva a informação sobre a sobrevivência conjunta de R1 e R2. Se apenas um membro de um par permanecer após os filtros, essa leitura pode ser separada como <em>unpaired</em>; ela não deve ser confundida com uma leitura que ainda possui parceiro no conjunto filtrado. A possibilidade de usar leituras órfãs depende do software e do objetivo analítico subsequentes.</p>
+<div class="think"><strong>Pergunta orientadora</strong>Quais são as consequências possíveis de aumentar o valor mínimo de comprimento de 50 para 100 bases? O resultado necessariamente seria melhor?</div></section><section class="section article" id="resultados"><div class="kicker">10 · Interpretação</div><h2>O que significam as categorias de retenção de leituras?</h2>
+<p>Depois do processamento paired-end, as leituras podem ser classificadas conforme a sobrevivência dos dois membros de cada par. <strong>Both Surviving</strong> indica que R1 e R2 permaneceram; <strong>Forward Only</strong> significa que apenas R1 sobreviveu; <strong>Reverse Only</strong> indica sobrevivência apenas de R2; e <strong>Dropped</strong> significa que nenhum dos dois membros foi mantido.</p>
+<p>No exercício, uma avaliação anterior da amostra <code>SRR15736565</code> apresentou os resultados a seguir. Eles constituem <strong>dados registrados para essa amostra específica</strong>, e não uma previsão para as demais amostras.</p>
+<div class="tablewrap"><table><thead><tr><th>Destino do par</th><th>Quantidade</th><th>Percentual dos 10.000 pares iniciais</th></tr></thead><tbody><tr><td>Both Surviving</td><td>7.905 pares</td><td>79,05%</td></tr><tr><td>Forward Only</td><td>598 pares com apenas R1 mantida</td><td>5,98%</td></tr><tr><td>Reverse Only</td><td>909 pares com apenas R2 mantida</td><td>9,09%</td></tr><tr><td>Dropped</td><td>588 pares</td><td>5,88%</td></tr></tbody></table></div>
+<p>Os resultados somam os 10.000 pares iniciais. Como duas leituras permanecem nos pares classificados em <em>Both Surviving</em>, o total de leituras individuais retidas pode ser diferente do número de pares retidos. Essa distinção é importante quando se calcula a quantidade de dados disponíveis para o alinhamento ou outras análises.</p>
+<p>Não se deve afirmar que 79,05% representa, isoladamente, a qualidade biológica da amostra. Trata-se de uma medida de <strong>retenção sob os filtros escolhidos</strong>. A mesma amostra poderia apresentar percentuais diferentes com parâmetros distintos, e valores altos de retenção não asseguram ausência de problemas residuais.</p>
+<p>Para as amostras <code>SRR15736581</code> e <code>SRR15736592</code>, os percentuais devem ser obtidos dos resultados efetivamente produzidos durante a atividade. Não há, no contexto disponível, estatísticas confirmadas que permitam preenchê-los antecipadamente.</p></section><section class="section article" id="pos"><div class="kicker">11 · Reavaliação</div><h2>Por que repetir o FastQC após o processamento?</h2>
+<p>Depois de qualquer procedimento que modifica leituras, é preciso determinar o que mudou. Uma segunda avaliação com FastQC permite verificar se o processamento afetou os indicadores que justificaram a intervenção e identificar eventuais efeitos colaterais. O objetivo não é apenas comprovar que uma ferramenta foi executada, mas <strong>avaliar se sua ação produziu uma melhoria pertinente à análise seguinte</strong>.</p>
+<p>A comparação deve ser feita entre arquivos equivalentes: <strong>R1 bruto versus R1 processado</strong> e <strong>R2 bruto versus R2 processado</strong>. Misturar R1 de uma amostra com R2 de outra, ou interpretar diferenças entre os lados como efeito direto do trimming, introduz uma comparação inadequada.</p>
+<p>Após o corte por qualidade, podem ocorrer aumentos na qualidade média das posições retidas e mudanças na distribuição de comprimentos. Se havia sinal de adaptadores e o arquivo de referência era apropriado, espera-se uma redução desse sinal. No entanto, nenhum desses efeitos deve ser declarado sem conferir os relatórios obtidos. Alguns módulos podem continuar apresentando alertas por razões biológicas, pelo desenho experimental ou pelos limites das ferramentas.</p>
+<h3>O que constitui uma comparação convincente?</h3>
+<p>Uma interpretação tecnicamente fundamentada deve descrever o padrão inicial, identificar a decisão de processamento, documentar quanto material foi mantido e demonstrar os efeitos observáveis. Se a qualidade aparente melhorou porque muitas leituras foram excluídas, esse custo deve aparecer na interpretação. É possível, inclusive, que parâmetros menos severos sejam preferíveis dependendo do tipo de análise posterior.</p>
+<div class="concept"><strong>Critério principal:</strong> a meta não é obter relatórios inteiramente verdes, mas dados coerentes com as exigências do estudo, com decisões transparentes e rastreáveis.</div></section><section class="section article" id="multiqc"><div class="kicker">12 · Ferramentas</div><h2>MultiQC: interpretar várias amostras em conjunto</h2>
+<p>O <strong>MultiQC</strong> é uma ferramenta que reúne informações produzidas por outros programas e as apresenta em uma interface consolidada. Em aulas ou projetos com múltiplas amostras, ele facilita a comparação de métricas, a identificação de discrepâncias e o reconhecimento de padrões que passariam despercebidos ao examinar relatórios isolados.</p>
+<p>Seu papel, entretanto, é diferente do de FastQC e Trimmomatic. O FastQC calcula e exibe indicadores por arquivo; o Trimmomatic efetua o processamento; o MultiQC consolida os relatórios disponíveis. Portanto, <strong>MultiQC não remove adaptadores nem substitui uma análise crítica individual</strong> de casos inesperados.</p>
+<p>Quando relatórios de dados brutos e processados são apresentados separadamente, é mais fácil evitar confusão entre estados de processamento e discutir o efeito das intervenções em cada amostra.</p></section><section class="section article" id="decisoes"><div class="kicker">13 · Síntese crítica</div><h2>Como decidir se os dados estão adequados para a próxima análise?</h2>
+<p>A adequação dos dados de sequenciamento é <strong>relativa ao objetivo analítico</strong>. Para mapeamento de variantes, a precisão das bases, a profundidade de cobertura, a distribuição dos alinhamentos e o controle de artefatos têm implicações específicas. Para montagem de novo, o comprimento e a composição das leituras, a cobertura e a complexidade podem ser decisivos. Para RNA-seq, a natureza da biblioteca, o viés de composição e a estratégia de quantificação também importam.</p>
+<p>Assim, o QC inicial responde à pergunta <em>“quais características dos dados merecem atenção?”</em>; o processamento, quando escolhido, responde a <em>“que modificação deve ser feita para reduzir determinado problema?”</em>; e o QC posterior responde a <em>“o problema foi reduzido e quais informações foram perdidas?”</em>. A decisão de prosseguir exige integrar essas três respostas.</p>
+<p>Um relatório rigoroso explicita os parâmetros utilizados, descreve as justificativas, apresenta as evidências antes e depois, quantifica a retenção das leituras e reconhece as limitações. Não se deve inferir sucesso apenas porque a ferramenta terminou sem erros ou porque um módulo passou a mostrar aprovação visual.</p></section><section class="section article" id="questoes"><div class="kicker">14 · Consolidação</div><h2>Questões para interpretação e discussão</h2>
+<ol><li>Por que os dados produzidos por um sequenciador precisam ser avaliados antes das análises biológicas?</li><li>Que informação a escala Phred fornece e por que ela é logarítmica?</li><li>Qual é a diferença entre qualidade por base e qualidade média por leitura?</li><li>Em que R1 e R2 diferem, e por que devem ser comparados separadamente?</li><li>Quais módulos do FastQC são mais informativos sobre queda de qualidade nas extremidades?</li><li>Por que um alerta no conteúdo de GC ou na composição de bases não comprova contaminação?</li><li>O que são adaptadores e em que circunstâncias suas sequências entram nas leituras?</li><li>Qual é a diferença entre remoção de adaptadores e trimming baseado em qualidade?</li><li>Por que um parâmetro de corte mais rigoroso não é necessariamente melhor?</li><li>O que significam Both Surviving, Forward Only, Reverse Only e Dropped?</li><li>O que deve ser comparado entre os relatórios FastQC antes e depois da intervenção?</li><li>Que evidências seriam suficientes para justificar o uso de um arquivo específico de adaptadores?</li><li>Por que MultiQC não substitui o FastQC e o Trimmomatic?</li><li>Como a adequação dos dados pode variar conforme o objetivo da análise subsequente?</li></ol>
+<p class="mini">Ao responder com base nas amostras da aula, diferencie conceitos gerais dos resultados efetivamente observados. Não atribua resultados de uma amostra a outra.</p></section><section class="section article" id="referencias"><div class="kicker">15 · Leitura complementar</div><h2>Fontes técnicas e referências</h2>
+<p>Os materiais abaixo oferecem descrições oficiais de ferramentas e fundamentos metodológicos. Para investigações reais, os procedimentos devem também considerar a documentação específica da plataforma de sequenciamento e da preparação de biblioteca.</p>
+<ul class="refs"><li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/" target="_blank" rel="noopener noreferrer">FastQC — Babraham Bioinformatics</a>. Projeto e documentação da ferramenta de avaliação de qualidade.</li><li><a href="https://github.com/usadellab/Trimmomatic" target="_blank" rel="noopener noreferrer">Trimmomatic — repositório oficial</a>. Ferramenta e documentação para processamento de leituras.</li><li><a href="https://docs.seqera.io/multiqc/" target="_blank" rel="noopener noreferrer">MultiQC — documentação oficial</a>. Consolidação e apresentação de relatórios.</li><li>Bolger, A. M., Lohse, M., &amp; Usadel, B. (2014). Trimmomatic: a flexible trimmer for Illumina sequence data. <em>Bioinformatics</em>, 30(15), 2114–2120. <a href="https://doi.org/10.1093/bioinformatics/btu170" target="_blank" rel="noopener noreferrer">https://doi.org/10.1093/bioinformatics/btu170</a>.</li><li><a href="https://www.illumina.com/" target="_blank" rel="noopener noreferrer">Illumina</a>. Consultar as instruções do kit efetivamente usado antes de escolher sequências de adaptadores.</li></ul>
+<p class="mini">Nota sobre a prática: o notebook <code>04_Controle_Qualidade_Trimming.ipynb</code> foi citado no contexto da atividade, mas o conteúdo operacional do notebook deve ser alinhado separadamente com o fluxo atual. Esta página é intencionalmente conceitual e não fornece comandos de execução.</p></section><footer class="footer">Aula 10 · Bioinformática e Biologia Molecular · Material teórico para estudantes · <a href="./">Voltar para a disciplina</a></footer></main></div></body></html>
