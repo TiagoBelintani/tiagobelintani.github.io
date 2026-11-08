@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Extração de UCEs | Bioinformática e Biologia Molecular</title>
+<title>Aula 13 — Extração de loci, alinhamentos e matrizes | Bioinformática e Biologia Molecular</title>
 <meta name="description" content="Recuperar em FASTA os loci UCE identificados nos contigs e interpretar o número e o conteúdo das sequências extraídas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,6 +133,32 @@
 .start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
 </style>
 
+<style id="eqm-estilos-didaticos">
+/* Estilos restritos ao corpo didático; não alteram o tema nem o menu global. */
+.lesson-content { max-width: 920px; padding-bottom: 16px; }
+.lesson-content > h2 { font-size: clamp(1.8rem, 3.4vw, 2.3rem); line-height: 1.15; margin: 42px 0 14px; }
+.lesson-content > h3 { font-size: 1.5rem; margin: 28px 0 10px; }
+.lesson-content p { line-height: 1.8; }
+.lesson-content strong { color: var(--tb-text); }
+.lesson-content pre { overflow-x: auto; white-space: pre; padding: 16px 20px; border: 1px solid var(--tb-line); border-radius: 12px; background: rgba(255,255,255,.84); line-height: 1.55; font-size: .88rem; }
+.lesson-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.lesson-content :not(pre) > code { background: rgba(76,127,174,.10); padding: 2px 5px; border-radius: 4px; }
+.lesson-content table { border-collapse: collapse; display: block; overflow-x: auto; width: 100%; margin: 22px 0 26px; background: rgba(255,255,255,.70); border: 1px solid var(--tb-line); border-radius: 10px; }
+.lesson-content th, .lesson-content td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--tb-line); }
+.lesson-content th { background: rgba(76,127,174,.10); color: var(--tb-text); }
+.lesson-content blockquote { margin: 22px 0; padding: 14px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.72); border-radius: 0 10px 10px 0; }
+.lesson-content blockquote p { margin: 0; }
+.lesson-content details { margin: 10px 0 18px; padding: 12px 16px; border: 1px solid var(--tb-line); border-radius: 10px; background: rgba(255,255,255,.65); }
+.lesson-content summary { cursor: pointer; font-weight: 600; color: var(--tb-accent-dark); }
+.lesson-content details p { margin-bottom: 0; }
+.lesson-content li { margin-bottom: 8px; }
+.lesson-general-intro { margin: 0 0 26px; padding: 15px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.68); border-radius: 0 12px 12px 0; }
+.lesson-legacy { margin-top: 35px; }
+.lesson-legacy > summary { font-size: 1rem; }
+.lesson-legacy > div { margin-top: 18px; }
+@media (max-width:650px) { .lesson-content table { font-size: .92rem; } .lesson-content pre { padding: 13px; font-size: .8rem; } }
+
+</style>
 </head>
 <body>
 
@@ -160,14 +186,116 @@
   </div>
   <header class="tutorial-header">
     <div class="tutorial-kicker">Roteiro prático</div>
-    <h1>Extração de UCEs</h1>
+    <h1>Extração de loci, alinhamentos e matrizes</h1>
     <p class="lead">Recuperar em FASTA os loci UCE identificados nos contigs e interpretar o número e o conteúdo das sequências extraídas.</p>
     <div class="action-row">
       <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/07_Extracao_UCEs_PHYLUCE.ipynb" target="_blank" rel="noopener noreferrer">Abrir notebook no Google Colab</a>
       <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
     </div>
   </header>
+<!-- EQM-DIDATICA-INICIO -->
+<section class="lesson-content" aria-label="Material didático">
+<p class="lesson-general-intro"><strong>Visão geral:</strong> Veja como organizar sequências por locus, realizar alinhamentos e preparar matrizes comparáveis. Esta página pode ser estudada sem executar um programa.</p>
+<h2 id="comece-por-uma-pergunta">Comece por uma pergunta</h2>
+<p><strong>Encontrar um gene dentro de um contig é o mesmo que obter a sequência desse gene?</strong> Não. A identificação diz <em>onde</em> há uma correspondência; a extração recupera a sequência relevante para uma análise posterior.</p>
+<blockquote>
+<p><strong>Ideia principal:</strong> identificar, extrair, alinhar e concatenar são operações diferentes. Cada uma transforma os dados de maneira específica.</p>
+</blockquote>
+<h2 id="1-o-que-significa-extrair-uma-sequência">1. O que significa extrair uma sequência?</h2>
+<p>Imagine um contig de 4.000 bases e um gene entre as posições 1.200 e 2.000. O objetivo da extração pode ser recuperar apenas esse intervalo ou uma região ampliada, dependendo da análise. Para isso, precisamos de coordenadas, orientação da fita e identificadores rastreáveis.</p>
+<pre><code class="language-text">Contig com 4.000 bases
+|-------------[ GENE / LOCUS ]--------------------|
+              1200       2000
+                         ↓
+FASTA do locus escolhido
+&gt;amostraA_locusX
+ACGT...
+</code></pre>
+<p>Se a região estiver na fita reversa, pode ser necessário recuperar sua <strong>sequência reverso-complementar</strong> para manter orientação consistente. Os limites de extração devem corresponder ao objetivo biológico; um match curto com uma sonda não implica que apenas o trecho da sonda será utilizado.</p>
+<h2 id="2-como-organizar-arquivos-fasta">2. Como organizar arquivos FASTA?</h2>
+<p>Em alguns fluxos, um FASTA <strong>monolítico</strong> reúne várias sequências com cabeçalhos que identificam amostra e locus. Outra organização é ter <strong>um arquivo FASTA por locus</strong>, contendo a sequência correspondente de cada amostra ou táxon.</p>
+<pre><code class="language-fasta">&gt;especie_A_locus_001
+ACGTACGTAA
+&gt;especie_B_locus_001
+ACGTTCGTAA
+&gt;especie_C_locus_001
+ACGTACGTGA
+</code></pre>
+<p>Em comparações evolutivas, o arquivo por locus facilita avaliar se as sequências são de fato comparáveis. Cabeçalhos únicos, coordenadas de origem e nomes padronizados tornam a análise auditável.</p>
+<h2 id="3-por-que-precisamos-alinhar-as-sequências">3. Por que precisamos alinhar as sequências?</h2>
+<p>Duas espécies podem apresentar inserções, deleções e substituições. Um <strong>alinhamento múltiplo</strong> tenta estabelecer hipóteses de correspondência entre posições homólogas. Um alinhamento não é apenas colocar strings do mesmo tamanho; ele representa uma hipótese sobre a história das posições.</p>
+<pre><code class="language-text">Amostra A  ACGT-ACT
+Amostra B  ACGTGACT
+Amostra C  ACGT-AAT
+               ^
+         posição variável
+</code></pre>
+<p><strong>Importante:</strong> gaps são hipóteses de eventos ou posições ausentes no alinhamento, não simplesmente caracteres decorativos. Regiões mal alinhadas podem introduzir erro em inferências posteriores e exigem avaliação adequada.</p>
+<h2 id="4-o-que-é-uma-matriz-de-presença-de-loci">4. O que é uma matriz de presença de loci?</h2>
+<p>Em projetos com várias amostras, nem todos os loci são recuperados em todos os indivíduos ou espécies. A <strong>ocupação</strong> (<em>occupancy</em>) de um locus é a proporção de táxons/amostras representados naquele locus, segundo as regras do conjunto de dados.</p>
+<table>
+<thead>
+<tr>
+<th>Locus</th>
+<th>Espécie A</th>
+<th>Espécie B</th>
+<th>Espécie C</th>
+<th style="text-align:right">Occupancy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Locus 1</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td style="text-align:right">100%</td>
+</tr>
+<tr>
+<td>Locus 2</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+<td style="text-align:right">66,7%</td>
+</tr>
+<tr>
+<td>Locus 3</td>
+<td>—</td>
+<td>✓</td>
+<td>—</td>
+<td style="text-align:right">33,3%</td>
+</tr>
+</tbody>
+</table>
+<p>Um filtro que exige presença em <strong>pelo menos 50%</strong> das três espécies manteria os loci 1 e 2. O locus 3 seria removido. Esse cálculo é apenas ilustrativo: muitos projetos adotam filtros adicionais de qualidade, comprimento e ortologia.</p>
+<h2 id="5-matriz-incompleta-alinhamento-e-concatenação">5. Matriz incompleta, alinhamento e concatenação</h2>
+<p>Uma matriz <strong>incompleta</strong> permite que nem todos os táxons tenham todos os loci. Depois de alinhar as sequências <strong>separadamente por locus</strong>, pode-se construir uma <strong>supermatriz concatenada</strong> (com posições ausentes representadas segundo o formato utilizado) ou analisar árvores por locus em métodos específicos.</p>
+<p>O melhor procedimento depende da pergunta: filogenia de espécies, diversidade genética, identificação taxonômica, estudos de genes individuais ou outro objetivo. Concatenar antes de estabelecer correspondência e homologia adequadas não resolve problemas anteriores.</p>
+<h2 id="6-exemplo-opcional-loci-uce-com-phyluce">6. Exemplo opcional: loci UCE com PHYLUCE</h2>
+<p>Em um fluxo de UCEs, o PHYLUCE pode gerar um banco de correspondências contig–sonda, contar quais loci foram reconhecidos e recuperar as sequências em arquivos FASTA. Quando se trabalha com uma única amostra didática, é possível demonstrar a <strong>extração</strong>, mas não avaliar de modo informativo a ocupação entre múltiplos táxons. O conceito de occupancy ganha importância quando o conjunto inclui várias amostras ou espécies.</p>
+<h2 id="7-verificações-antes-da-próxima-etapa">7. Verificações antes da próxima etapa</h2>
+<ul>
+<li>Os nomes de amostra e locus estão corretos?</li>
+<li>Há mais de uma sequência candidata para o mesmo locus e a mesma amostra?</li>
+<li>As sequências têm comprimentos plausíveis e orientação consistente?</li>
+<li>Os arquivos FASTA são válidos e possuem cabeçalhos únicos?</li>
+<li>A matriz de presença e ausência foi calculada a partir de critérios explícitos?</li>
+</ul>
+<h2 id="teste-sua-compreensão">Teste sua compreensão</h2>
+<p><strong>1. Qual a diferença entre identificar e extrair um gene?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Identificar é reconhecer sua possível localização ou correspondência. Extrair é recuperar a sequência selecionada usando essa informação.</p></details>
+<p><strong>2. Em uma matriz de três espécies, um locus presente em duas tem occupancy de quanto?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>2/3, ou aproximadamente 66,7%, considerando a definição adotada e três espécies incluídas.</p></details>
+<p><strong>3. Por que alinhar os loci antes de concatená-los?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Para estabelecer correspondência entre posições homólogas dentro de cada locus e avaliar regiões incertas antes de combinar blocos de dados.</p></details>
+<h2 id="atividade-prática-complementar-opcional">Atividade prática complementar (opcional)</h2>
+<p><a href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026">Consultar notebooks e materiais no repositório da disciplina</a>. Este notebook aplica os conceitos a um estudo de caso com dados de captura de UCEs. <strong>Atenção:</strong> ele pertence ao fluxo anterior da disciplina e pode utilizar ferramentas e caminhos diferentes do Colab único atualizado. A leitura conceitual desta página não depende de sua execução.</p>
+<h2 id="em-resumo">Em resumo</h2>
+<p>A extração organiza as sequências úteis; o alinhamento estabelece hipóteses de correspondência; e a matriz revela quais dados estão presentes ou ausentes. O próximo passo é auditar todo o processo e interpretar seus resultados.</p>
+<p><strong>Leitura recomendada:</strong> <a href="https://phyluce.readthedocs.io/en/latest/daily-use/daily-use-3-uce-processing.html">PHYLUCE — processamento de UCEs</a></p>
 
+
+<details class="lesson-legacy"><summary>Roteiro anterior da disciplina (consulta opcional)</summary><div>
 <section class="tutorial-card">
 <h2>Antes de começar — retomar o projeto</h2>
 <p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
@@ -232,8 +360,10 @@
 └── SRR15736591-incomplete.incomplete</div>
 <div class="next-step"><strong>Próximo passo:</strong> integrar todas as etapas e produzir um relatório simples do caminho SRA → UCE.</div>
 </section>
-
-  <nav class="tutorial-nav">
+</div></details>
+</section>
+<!-- EQM-DIDATICA-FIM -->
+<nav class="tutorial-nav">
     <a href="aula12.html">← Identificação de UCEs</a>
     <a href="aula14.html">Integração do pipeline →</a>
   </nav>

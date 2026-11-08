@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Montagem de novo | Bioinformática e Biologia Molecular</title>
+<title>Aula 11 — Montagem de novo: de reads a contigs | Bioinformática e Biologia Molecular</title>
 <meta name="description" content="Transformar reads paired-end processados em contigs, avaliar a montagem e preparar as sequências para identificação de UCEs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,6 +133,32 @@
 .start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
 </style>
 
+<style id="eqm-estilos-didaticos">
+/* Estilos restritos ao corpo didático; não alteram o tema nem o menu global. */
+.lesson-content { max-width: 920px; padding-bottom: 16px; }
+.lesson-content > h2 { font-size: clamp(1.8rem, 3.4vw, 2.3rem); line-height: 1.15; margin: 42px 0 14px; }
+.lesson-content > h3 { font-size: 1.5rem; margin: 28px 0 10px; }
+.lesson-content p { line-height: 1.8; }
+.lesson-content strong { color: var(--tb-text); }
+.lesson-content pre { overflow-x: auto; white-space: pre; padding: 16px 20px; border: 1px solid var(--tb-line); border-radius: 12px; background: rgba(255,255,255,.84); line-height: 1.55; font-size: .88rem; }
+.lesson-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.lesson-content :not(pre) > code { background: rgba(76,127,174,.10); padding: 2px 5px; border-radius: 4px; }
+.lesson-content table { border-collapse: collapse; display: block; overflow-x: auto; width: 100%; margin: 22px 0 26px; background: rgba(255,255,255,.70); border: 1px solid var(--tb-line); border-radius: 10px; }
+.lesson-content th, .lesson-content td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--tb-line); }
+.lesson-content th { background: rgba(76,127,174,.10); color: var(--tb-text); }
+.lesson-content blockquote { margin: 22px 0; padding: 14px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.72); border-radius: 0 10px 10px 0; }
+.lesson-content blockquote p { margin: 0; }
+.lesson-content details { margin: 10px 0 18px; padding: 12px 16px; border: 1px solid var(--tb-line); border-radius: 10px; background: rgba(255,255,255,.65); }
+.lesson-content summary { cursor: pointer; font-weight: 600; color: var(--tb-accent-dark); }
+.lesson-content details p { margin-bottom: 0; }
+.lesson-content li { margin-bottom: 8px; }
+.lesson-general-intro { margin: 0 0 26px; padding: 15px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.68); border-radius: 0 12px 12px 0; }
+.lesson-legacy { margin-top: 35px; }
+.lesson-legacy > summary { font-size: 1rem; }
+.lesson-legacy > div { margin-top: 18px; }
+@media (max-width:650px) { .lesson-content table { font-size: .92rem; } .lesson-content pre { padding: 13px; font-size: .8rem; } }
+
+</style>
 </head>
 <body>
 
@@ -160,14 +186,97 @@
   </div>
   <header class="tutorial-header">
     <div class="tutorial-kicker">Roteiro prático</div>
-    <h1>Montagem de novo</h1>
+    <h1>Montagem de novo: de reads a contigs</h1>
     <p class="lead">Transformar reads paired-end processados em contigs, avaliar a montagem e preparar as sequências para identificação de UCEs.</p>
     <div class="action-row">
       <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/05_Montagem_SPAdes.ipynb" target="_blank" rel="noopener noreferrer">Abrir notebook no Google Colab</a>
       <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
     </div>
   </header>
+<!-- EQM-DIDATICA-INICIO -->
+<section class="lesson-content" aria-label="Material didático">
+<p class="lesson-general-intro"><strong>Visão geral:</strong> Compreenda como fragmentos de sequência são utilizados para reconstruir contigs e avaliar a montagem. Esta página pode ser estudada sem executar um programa.</p>
+<h2 id="comece-por-uma-pergunta">Comece por uma pergunta</h2>
+<p><strong>Imagine receber milhares de pedaços de um livro, sem numeração de páginas. Como reconstruir partes do texto original?</strong> A montagem de sequências enfrenta um problema semelhante, mas com uma complicação: o genoma contém regiões repetidas e os reads podem conter erros.</p>
+<blockquote>
+<p><strong>Ideia principal:</strong> montagem <em>de novo</em> é reconstruir sequências a partir das relações entre os reads, sem usar um genoma de referência como molde principal.</p>
+</blockquote>
+<h2 id="1-o-que-é-montagem-e-quando-ela-é-útil">1. O que é montagem? E quando ela é útil?</h2>
+<p>O sequenciador produz fragmentos de sequência. A montagem tenta recuperar trechos maiores da molécula de origem. Isso é útil em estudos de genomas de espécies sem referência, metagenomas, transcriptomas e bibliotecas de captura. Os algoritmos e as estratégias variam entre esses problemas; uma abordagem adequada para bactérias não necessariamente é a melhor para um genoma animal grande.</p>
+<p><strong>Montagem *de novo*** não é o mesmo que **mapeamento por referência</strong>. No mapeamento, alinhamos reads a uma sequência conhecida. Na montagem, inferimos conexões entre os reads para produzir novas sequências.</p>
+<h2 id="2-uma-montagem-manual-com-três-reads">2. Uma montagem manual com três reads</h2>
+<pre><code class="language-text">Read A:    ATGCTAC
+Read B:       CTACGGA
+Read C:           CGGATTA
+                      ↓
+Contig:    ATGCTACGGATTA
+</code></pre>
+<p>A ilustração mostra uma lógica intuitiva de sobreposição. Em conjuntos reais, podem existir milhões de reads, erros, repetições e fragmentos sem sobreposição suficiente. O programa precisa avaliar conexões ambíguas, não apenas concatenar textos.</p>
+<h2 id="3-k-mers-e-grafos-a-ideia-por-trás-de-muitas-montagens">3. K-mers e grafos: a ideia por trás de muitas montagens</h2>
+<p>Um <strong>k-mer</strong> é uma subsequência de comprimento <code>k</code>. Por exemplo, da sequência <code>ATGCA</code> obtemos os k-mers de tamanho 3: <code>ATG</code>, <code>TGC</code>, <code>GCA</code>.</p>
+<p>Em estratégias baseadas em <strong>grafos de de Bruijn</strong>, conexões entre k-mers ajudam a representar caminhos possíveis da sequência. Repetições criam ramificações, enquanto erros de sequenciamento podem gerar caminhos pouco sustentados.</p>
+<ul>
+<li><strong>k menor:</strong> pode ajudar a ligar regiões de baixa cobertura, mas tende a criar mais ambiguidades em repetições.</li>
+<li><strong>k maior:</strong> pode resolver algumas repetições, mas exige sustentação suficiente nos dados e é sensível a baixa cobertura.</li>
+</ul>
+<p>Ferramentas modernas, como SPAdes, empregam abordagens mais sofisticadas, incluindo múltiplos tamanhos de k-mer. Não é necessário dominar a implementação algorítmica para compreender por que o resultado depende do tipo, da quantidade e da qualidade dos reads.</p>
+<h2 id="4-read-contig-e-scaffold">4. Read, contig e scaffold</h2>
+<table>
+<thead>
+<tr>
+<th>Termo</th>
+<th>Definição didática</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read</td>
+<td>Sequência inferida de um fragmento sequenciado</td>
+</tr>
+<tr>
+<td>Contig</td>
+<td>Sequência contínua reconstruída a partir das evidências dos reads, sem lacunas representadas por <code>N</code></td>
+</tr>
+<tr>
+<td>Scaffold</td>
+<td>Estrutura que ordena e orienta contigs, podendo conter lacunas representadas por <code>N</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cuidado:</strong> um contig não é um gene, cromossomo ou genoma completo por definição. É apenas uma sequência produzida pela montagem. Seu significado depende dos dados e da validação posterior.</p>
+<h2 id="5-cobertura-e-suas-consequências">5. Cobertura e suas consequências</h2>
+<p>A <strong>cobertura de sequenciamento</strong> indica, de maneira simplificada, quantas vezes uma região foi observada. Em dados não uniformes — por exemplo, enriquecimento de alvos ou transcriptômica — a cobertura pode variar muito entre regiões. Baixa cobertura pode causar quebras; regiões repetidas podem causar montagens ambíguas, mesmo quando a cobertura parece alta.</p>
+<p>Subamostrar 100 mil pares para uma atividade didática é útil para demonstrar o fluxo, mas pode gerar muitos contigs curtos e recuperar somente parte das regiões-alvo. <strong>Falhar em reconstruir um genoma completo, nesse contexto, não significa que o notebook esteja errado.</strong></p>
+<h2 id="6-como-avaliar-uma-montagem">6. Como avaliar uma montagem?</h2>
+<p>Uma avaliação inicial pode incluir número de contigs, comprimento total, contig mais longo, distribuição de comprimentos e <strong>N50</strong>. Mas métricas de contiguidade não medem sozinhas a correção biológica da montagem.</p>
+<p><strong>Exemplo de N50:</strong> suponha quatro contigs com 900, 600, 300 e 200 bases. O total é 2.000 bases; metade é 1.000. Ordenando do maior para o menor, os dois primeiros acumulam 1.500 bases. O tamanho do contig que ultrapassa 50% do total é <strong>600 bases</strong>, portanto N50 = 600 bp.</p>
+<p>Um N50 maior pode coexistir com quimeras ou outras montagens incorretas. Quando possível, complemente o resumo com remapeamento de reads, avaliação de cobertura, validação contra referências e indicadores apropriados à aplicação (como recuperação de genes esperados).</p>
+<h2 id="7-exemplo-opcional-spades">7. Exemplo opcional: SPAdes</h2>
+<pre><code class="language-bash"># Ilustração: ajustar nomes e recursos ao conjunto de dados
+spades.py \
+  -1 amostra_limpa_R1.fastq.gz \
+  -2 amostra_limpa_R2.fastq.gz \
+  -o montagem_spades \
+  -t 2 -m 8
+</code></pre>
+<p>A opção <code>-1</code> informa R1, <code>-2</code> informa R2, <code>-o</code> seleciona o diretório de saída, <code>-t</code> define threads e <code>-m</code> limita a memória indicada ao programa (em GB). O resultado pode incluir <code>contigs.fasta</code>, <code>scaffolds.fasta</code> e arquivos de log. A ferramenta, os parâmetros e os recursos precisam ser compatíveis com o tipo de biblioteca. Não existe um único comando ideal para toda análise de montagem.</p>
+<h2 id="8-o-que-podemos-fazer-com-os-contigs">8. O que podemos fazer com os contigs?</h2>
+<p>Depois da montagem, podemos identificar genes, buscar marcadores, verificar contaminação, comparar sequências, recuperar loci para filogenia ou preparar etapas de anotação. Para escolher o próximo passo, voltamos à pergunta biológica original: <strong>que informação queremos extrair dessas sequências?</strong></p>
+<h2 id="teste-sua-compreensão">Teste sua compreensão</h2>
+<p><strong>1. Montagem <em>de novo</em> e mapeamento contra referência são a mesma operação?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Não. A montagem infere sequências a partir de relações entre reads; o mapeamento posiciona reads sobre sequências previamente conhecidas.</p></details>
+<p><strong>2. Uma montagem com N50 maior necessariamente é mais correta?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Não. N50 resume contiguidade. É possível ter sequências longas com erros de junção ou outras inconsistências.</p></details>
+<p><strong>3. Por que bibliotecas com cobertura irregular podem gerar muitos contigs pequenos?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Regiões pouco representadas podem não ter evidência suficiente para conectar os reads e prolongar a reconstrução.</p></details>
+<h2 id="atividade-prática-complementar-opcional">Atividade prática complementar (opcional)</h2>
+<p><a href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026">Consultar notebooks e materiais no repositório da disciplina</a>. Este notebook aplica os conceitos a um estudo de caso com dados de captura de UCEs. <strong>Atenção:</strong> ele pertence ao fluxo anterior da disciplina e pode utilizar ferramentas e caminhos diferentes do Colab único atualizado. A leitura conceitual desta página não depende de sua execução.</p>
+<h2 id="em-resumo">Em resumo</h2>
+<p>Um montador transforma leituras em hipóteses de sequências maiores. No próximo tema, vamos discutir <strong>como identificar, nessas sequências, regiões biologicamente relevantes</strong>.</p>
+<p><strong>Leitura recomendada:</strong> <a href="https://github.com/ablab/spades">SPAdes — projeto e documentação</a></p>
 
+
+<details class="lesson-legacy"><summary>Roteiro anterior da disciplina (consulta opcional)</summary><div>
 <section class="tutorial-card">
 <h2>Antes de começar — retomar o projeto</h2>
 <p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
@@ -239,8 +348,10 @@
     └── contigs_min200.fasta</div>
 <div class="next-step"><strong>Próximo passo:</strong> comparar os contigs montados com o conjunto de sondas de UCEs e descobrir quais loci foram recuperados.</div>
 </section>
-
-  <nav class="tutorial-nav">
+</div></details>
+</section>
+<!-- EQM-DIDATICA-FIM -->
+<nav class="tutorial-nav">
     <a href="aula10.html">← Controle de qualidade e trimming</a>
     <a href="aula12.html">Identificação de UCEs →</a>
   </nav>

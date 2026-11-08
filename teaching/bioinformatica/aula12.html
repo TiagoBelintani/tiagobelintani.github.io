@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Identificação de UCEs | Bioinformática e Biologia Molecular</title>
+<title>Aula 12 — Como identificar regiões e marcadores em sequências | Bioinformática e Biologia Molecular</title>
 <meta name="description" content="Utilizar PHYLUCE e o conjunto Arachnida 1.1Kv1 para localizar nos contigs os loci ultraconservados recuperados.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,6 +133,32 @@
 .start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
 </style>
 
+<style id="eqm-estilos-didaticos">
+/* Estilos restritos ao corpo didático; não alteram o tema nem o menu global. */
+.lesson-content { max-width: 920px; padding-bottom: 16px; }
+.lesson-content > h2 { font-size: clamp(1.8rem, 3.4vw, 2.3rem); line-height: 1.15; margin: 42px 0 14px; }
+.lesson-content > h3 { font-size: 1.5rem; margin: 28px 0 10px; }
+.lesson-content p { line-height: 1.8; }
+.lesson-content strong { color: var(--tb-text); }
+.lesson-content pre { overflow-x: auto; white-space: pre; padding: 16px 20px; border: 1px solid var(--tb-line); border-radius: 12px; background: rgba(255,255,255,.84); line-height: 1.55; font-size: .88rem; }
+.lesson-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.lesson-content :not(pre) > code { background: rgba(76,127,174,.10); padding: 2px 5px; border-radius: 4px; }
+.lesson-content table { border-collapse: collapse; display: block; overflow-x: auto; width: 100%; margin: 22px 0 26px; background: rgba(255,255,255,.70); border: 1px solid var(--tb-line); border-radius: 10px; }
+.lesson-content th, .lesson-content td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--tb-line); }
+.lesson-content th { background: rgba(76,127,174,.10); color: var(--tb-text); }
+.lesson-content blockquote { margin: 22px 0; padding: 14px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.72); border-radius: 0 10px 10px 0; }
+.lesson-content blockquote p { margin: 0; }
+.lesson-content details { margin: 10px 0 18px; padding: 12px 16px; border: 1px solid var(--tb-line); border-radius: 10px; background: rgba(255,255,255,.65); }
+.lesson-content summary { cursor: pointer; font-weight: 600; color: var(--tb-accent-dark); }
+.lesson-content details p { margin-bottom: 0; }
+.lesson-content li { margin-bottom: 8px; }
+.lesson-general-intro { margin: 0 0 26px; padding: 15px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.68); border-radius: 0 12px 12px 0; }
+.lesson-legacy { margin-top: 35px; }
+.lesson-legacy > summary { font-size: 1rem; }
+.lesson-legacy > div { margin-top: 18px; }
+@media (max-width:650px) { .lesson-content table { font-size: .92rem; } .lesson-content pre { padding: 13px; font-size: .8rem; } }
+
+</style>
 </head>
 <body>
 
@@ -160,14 +186,95 @@
   </div>
   <header class="tutorial-header">
     <div class="tutorial-kicker">Roteiro prático</div>
-    <h1>Identificação de UCEs</h1>
+    <h1>Como identificar regiões e marcadores em sequências</h1>
     <p class="lead">Utilizar PHYLUCE e o conjunto Arachnida 1.1Kv1 para localizar nos contigs os loci ultraconservados recuperados.</p>
     <div class="action-row">
       <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/06_Identificacao_UCEs_PHYLUCE.ipynb" target="_blank" rel="noopener noreferrer">Abrir notebook no Google Colab</a>
       <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
     </div>
   </header>
+<!-- EQM-DIDATICA-INICIO -->
+<section class="lesson-content" aria-label="Material didático">
+<p class="lesson-general-intro"><strong>Visão geral:</strong> Conheça homologia, marcadores e estratégias de busca de regiões biologicamente relevantes. Esta página pode ser estudada sem executar um programa.</p>
+<h2 id="comece-por-uma-pergunta">Comece por uma pergunta</h2>
+<p><strong>Você montou centenas de contigs. Como descobrir o que existe dentro deles?</strong> Uma sequência de nucleotídeos, isoladamente, não nos diz se representa um gene, uma região conservada, um contaminante ou outra porção do DNA.</p>
+<p>Identificar regiões de interesse significa reunir <strong>evidências de correspondência</strong> entre as sequências obtidas e algum conhecimento prévio: bancos de sequências, perfis de genes, marcadores moleculares ou sondas desenhadas para capturar regiões específicas.</p>
+<blockquote>
+<p><strong>Ideia principal:</strong> correspondência de sequência é evidência para uma hipótese de identidade; não é uma demonstração automática de função, ancestralidade exclusiva ou ortologia.</p>
+</blockquote>
+<h2 id="1-o-que-podemos-procurar">1. O que podemos procurar?</h2>
+<ul>
+<li><strong>Genes e regiões codificadoras:</strong> por exemplo, um gene mitocondrial associado à identificação de espécies.</li>
+<li><strong>RNAs estruturais:</strong> por exemplo, genes ribossomais usados em análises evolutivas e diversidade microbiana.</li>
+<li><strong>Marcadores moleculares:</strong> genes, exons, introns, SNPs ou regiões conservadas úteis em comparações.</li>
+<li><strong>UCEs:</strong> elementos ultraconservados frequentemente utilizados em filogenômica, especialmente quando acompanhados de regiões flanqueadoras variáveis.</li>
+<li><strong>Contaminantes:</strong> sequências de organismos ou materiais não esperados na amostra.</li>
+</ul>
+<p>A escolha do alvo depende do problema. Para identificar bactérias, um marcador ribossomal pode ser útil; para filogenômica, é comum analisar centenas de loci; para investigar conteúdo funcional, precisamos de estratégias de anotação apropriadas.</p>
+<h2 id="2-similaridade-identidade-e-homologia">2. Similaridade, identidade e homologia</h2>
+<p><strong>Identidade</strong> é a porcentagem de posições iguais em um alinhamento, segundo a região e os critérios considerados. <strong>Similaridade</strong> pode incorporar correspondências biologicamente aceitas entre resíduos, especialmente em proteínas. <strong>Homologia</strong> é uma relação de ancestralidade comum: sequências são homólogas ou não; não existe “80% de homologia” no sentido estrito.</p>
+<p>Um alinhamento com alta identidade pode apoiar a inferência de homologia, mas o contexto importa. Também precisamos examinar o <strong>comprimento alinhado</strong>, a cobertura do alvo, a significância estatística (quando aplicável) e a possibilidade de sequências repetidas ou parálogas.</p>
+<h2 id="3-o-que-significa-reconhecer-o-mesmo-locus-em-espécies-diferentes">3. O que significa reconhecer o mesmo locus em espécies diferentes?</h2>
+<p>Imagine que queremos comparar o mesmo gene em três espécies. É necessário distinguir:</p>
+<ul>
+<li><strong>Ortólogos:</strong> genes cuja divergência se relaciona a eventos de especiação, frequentemente escolhidos para reconstrução da história de espécies.</li>
+<li><strong>Parálogos:</strong> genes cuja divergência decorre de eventos de duplicação, capazes de confundir comparações se forem tratados como equivalentes diretos.</li>
+</ul>
+<p>Essas categorias dependem da história evolutiva, não apenas do nome do gene. Uma correspondência de sequência isolada não prova ortologia.</p>
+<h2 id="4-três-estratégias-frequentes">4. Três estratégias frequentes</h2>
+<table>
+<thead>
+<tr>
+<th>Estratégia</th>
+<th>Princípio</th>
+<th>Exemplo de aplicação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Busca por similaridade</td>
+<td>Compara sequências com um banco conhecido</td>
+<td>BLAST para identificação preliminar</td>
+</tr>
+<tr>
+<td>Modelos/perfis</td>
+<td>Reconhece padrões conservados de famílias ou domínios</td>
+<td>Perfis de proteínas e RNAs</td>
+</tr>
+<tr>
+<td>Sondas de captura (<em>baits</em>)</td>
+<td>Usa sequências planejadas como referência para reconhecer loci-alvo</td>
+<td>Recuperação de UCEs a partir de contigs</td>
+</tr>
+</tbody>
+</table>
+<p>As estratégias podem ser complementares. Em dados de captura de alvos, a análise computacional não realiza uma nova captura: ela <strong>reconhece quais contigs correspondem aos alvos selecionados anteriormente no laboratório</strong>.</p>
+<h2 id="5-exemplo-de-aplicação-uces">5. Exemplo de aplicação: UCEs</h2>
+<p>Um <strong>elemento ultraconservado (UCE)</strong> é uma região que apresenta conservação elevada entre determinados táxons. Em aplicações filogenômicas, o núcleo conservado facilita reconhecer loci comparáveis, enquanto as regiões flanqueadoras podem fornecer variação informativa. O grau de conservação, a distribuição e a utilidade dependem do grupo e do desenho experimental.</p>
+<pre><code class="language-text">Sonda de referência
+        ↓ correspondência
+Contig: [flanco variável | núcleo UCE | flanco variável]
+        ↓ identificação do locus
+Registro: qual contig representa qual região-alvo?
+</code></pre>
+<p>O software <strong>PHYLUCE</strong> oferece ferramentas para comparar contigs a conjuntos de sondas e registrar essas correspondências. Parâmetros de identidade e cobertura, como 80%/80% usados em alguns estudos, são <strong>critérios metodológicos dependentes do desenho de sondas</strong>, e não uma regra universal.</p>
+<h2 id="6-como-interpretar-o-resultado-de-uma-busca">6. Como interpretar o resultado de uma busca?</h2>
+<p>Uma tabela de correspondências deve ser lida com perguntas como: quantos contigs encontraram alvos? Qual a cobertura de alinhamento? Há vários contigs associados ao mesmo locus? Existem matches ambíguos? Quantos loci esperados não foram recuperados? Um locus ausente pode representar falta de cobertura, divergência excessiva, falha de montagem ou ausência real — essas hipóteses não são equivalentes.</p>
+<h2 id="teste-sua-compreensão">Teste sua compreensão</h2>
+<p><strong>1. “Duas sequências apresentam 90% de homologia” é uma descrição tecnicamente precisa?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Não. Podemos dizer que apresentam 90% de identidade na região alinhada; homologia é uma relação evolutiva, não uma porcentagem.</p></details>
+<p><strong>2. Por que um contig pode apresentar correspondências com mais de um locus?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Sequências repetitivas, duplicações, regiões conservadas compartilhadas, montagens problemáticas ou critérios permissivos podem produzir correspondências ambíguas.</p></details>
+<p><strong>3. Não encontrar um UCE significa que o organismo não possui esse locus?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Não necessariamente. O locus pode não ter sido suficientemente sequenciado, montado ou reconhecido com os parâmetros utilizados.</p></details>
+<h2 id="atividade-prática-complementar-opcional">Atividade prática complementar (opcional)</h2>
+<p><a href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026">Consultar notebooks e materiais no repositório da disciplina</a>. Este notebook aplica os conceitos a um estudo de caso com dados de captura de UCEs. <strong>Atenção:</strong> ele pertence ao fluxo anterior da disciplina e pode utilizar ferramentas e caminhos diferentes do Colab único atualizado. A leitura conceitual desta página não depende de sua execução.</p>
+<h2 id="em-resumo">Em resumo</h2>
+<p>A identificação transforma sequências anônimas em <strong>candidatas a regiões de interesse</strong>. Para usá-las em análises comparativas, precisamos recuperar e organizar as sequências correspondentes.</p>
+<p><strong>Leituras recomendadas:</strong> <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi">NCBI BLAST</a> · <a href="https://phyluce.readthedocs.io/en/latest/">PHYLUCE — documentação</a></p>
 
+
+<details class="lesson-legacy"><summary>Roteiro anterior da disciplina (consulta opcional)</summary><div>
 <section class="tutorial-card">
 <h2>Antes de começar — retomar o projeto</h2>
 <p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
@@ -242,8 +349,10 @@
 └── taxon-set.conf</div>
 <div class="next-step"><strong>Próximo passo:</strong> usar o banco de correspondências para extrair as sequências dos loci UCE em FASTA.</div>
 </section>
-
-  <nav class="tutorial-nav">
+</div></details>
+</section>
+<!-- EQM-DIDATICA-FIM -->
+<nav class="tutorial-nav">
     <a href="aula11.html">← Montagem de novo</a>
     <a href="aula13.html">Extração de UCEs →</a>
   </nav>

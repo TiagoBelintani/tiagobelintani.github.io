@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FASTA, FASTQ e SRA | Bioinformática e Biologia Molecular</title>
+<title>Aula 09 — Dos dados de sequenciamento ao FASTQ | Bioinformática e Biologia Molecular</title>
 <meta name="description" content="Compreender a estrutura dos dados brutos de sequenciamento e obter uma fração real dos reads de Hypochilus depositados no SRA.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,6 +133,32 @@
 .start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
 </style>
 
+<style id="eqm-estilos-didaticos">
+/* Estilos restritos ao corpo didático; não alteram o tema nem o menu global. */
+.lesson-content { max-width: 920px; padding-bottom: 16px; }
+.lesson-content > h2 { font-size: clamp(1.8rem, 3.4vw, 2.3rem); line-height: 1.15; margin: 42px 0 14px; }
+.lesson-content > h3 { font-size: 1.5rem; margin: 28px 0 10px; }
+.lesson-content p { line-height: 1.8; }
+.lesson-content strong { color: var(--tb-text); }
+.lesson-content pre { overflow-x: auto; white-space: pre; padding: 16px 20px; border: 1px solid var(--tb-line); border-radius: 12px; background: rgba(255,255,255,.84); line-height: 1.55; font-size: .88rem; }
+.lesson-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.lesson-content :not(pre) > code { background: rgba(76,127,174,.10); padding: 2px 5px; border-radius: 4px; }
+.lesson-content table { border-collapse: collapse; display: block; overflow-x: auto; width: 100%; margin: 22px 0 26px; background: rgba(255,255,255,.70); border: 1px solid var(--tb-line); border-radius: 10px; }
+.lesson-content th, .lesson-content td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--tb-line); }
+.lesson-content th { background: rgba(76,127,174,.10); color: var(--tb-text); }
+.lesson-content blockquote { margin: 22px 0; padding: 14px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.72); border-radius: 0 10px 10px 0; }
+.lesson-content blockquote p { margin: 0; }
+.lesson-content details { margin: 10px 0 18px; padding: 12px 16px; border: 1px solid var(--tb-line); border-radius: 10px; background: rgba(255,255,255,.65); }
+.lesson-content summary { cursor: pointer; font-weight: 600; color: var(--tb-accent-dark); }
+.lesson-content details p { margin-bottom: 0; }
+.lesson-content li { margin-bottom: 8px; }
+.lesson-general-intro { margin: 0 0 26px; padding: 15px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.68); border-radius: 0 12px 12px 0; }
+.lesson-legacy { margin-top: 35px; }
+.lesson-legacy > summary { font-size: 1rem; }
+.lesson-legacy > div { margin-top: 18px; }
+@media (max-width:650px) { .lesson-content table { font-size: .92rem; } .lesson-content pre { padding: 13px; font-size: .8rem; } }
+
+</style>
 </head>
 <body>
 
@@ -160,14 +186,135 @@
   </div>
   <header class="tutorial-header">
     <div class="tutorial-kicker">Roteiro prático</div>
-    <h1>FASTA, FASTQ e SRA</h1>
+    <h1>Dos dados de sequenciamento ao FASTQ</h1>
     <p class="lead">Compreender a estrutura dos dados brutos de sequenciamento e obter uma fração real dos reads de Hypochilus depositados no SRA.</p>
     <div class="action-row">
       <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/03_FASTA_FASTQ_SRA.ipynb" target="_blank" rel="noopener noreferrer">Abrir notebook no Google Colab</a>
       <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
     </div>
   </header>
+<!-- EQM-DIDATICA-INICIO -->
+<section class="lesson-content" aria-label="Material didático">
+<p class="lesson-general-intro"><strong>Visão geral:</strong> Entenda de onde vêm os reads, como interpretar FASTA e FASTQ e como localizar dados públicos de sequenciamento. Esta página pode ser estudada sem executar um programa.</p>
+<h2 id="comece-por-uma-pergunta">Comece por uma pergunta</h2>
+<p><strong>Como o DNA extraído de uma amostra biológica se transforma em milhões de sequências armazenadas em um computador?</strong> Antes de aprender a baixar arquivos, precisamos compreender a origem dos dados.</p>
+<p>O sequenciador não entrega, em geral, um cromossomo pronto. Ele produz observações de fragmentos de moléculas, chamadas <strong>leituras</strong> (<em>reads</em>). A análise computacional depende de reconhecer o que foi medido, como esses fragmentos foram preparados e qual informação está registrada nos arquivos.</p>
+<blockquote>
+<p><strong>Ideia principal:</strong> FASTA e FASTQ são formatos de arquivo. SRA é um repositório. Nenhum desses termos é uma técnica de sequenciamento.</p>
+</blockquote>
+<h2 id="1-do-organismo-ao-dado-digital">1. Do organismo ao dado digital</h2>
+<ol>
+<li><strong>Amostragem:</strong> coletamos tecido, células, água, solo ou outro material de interesse.</li>
+<li><strong>Extração:</strong> isolamos DNA ou RNA; no caso de RNA, muitas abordagens convertem o material em cDNA antes da preparação da biblioteca.</li>
+<li><strong>Biblioteca:</strong> preparamos moléculas compatíveis com a plataforma, frequentemente por fragmentação e adição de adaptadores.</li>
+<li><strong>Sequenciamento:</strong> o instrumento registra sinais que permitem estimar a ordem das bases.</li>
+<li><strong>Base calling e qualidade:</strong> esses sinais são traduzidos em bases chamadas e em estimativas de confiança.</li>
+<li><strong>Arquivos e análises:</strong> as leituras ficam disponíveis para controle de qualidade, alinhamento, montagem e outras tarefas.</li>
+</ol>
+<p>O tipo de dado depende da tecnologia. Plataformas de leituras curtas, como as usadas em muitos experimentos Illumina, produzem grande quantidade de fragmentos relativamente pequenos. Plataformas de leituras longas podem fornecer moléculas maiores, com características de erro e formatos de saída que exigem decisões analíticas específicas.</p>
+<h2 id="2-o-que-é-um-read-e-o-que-significa-paired-end">2. O que é um read? E o que significa paired-end?</h2>
+<p>Um <strong>read</strong> é uma sequência inferida a partir de um fragmento sequenciado. Em sequenciamento <em>single-end</em>, observa-se uma extremidade. Em <strong>paired-end</strong>, são produzidas duas leituras associadas ao mesmo fragmento de biblioteca: <strong>R1</strong> e <strong>R2</strong>.</p>
+<pre><code class="language-text">Fragmento de biblioteca
+5'  [ R1 &gt;&gt;&gt;---- região entre as leituras ----&lt;&lt;&lt; R2 ]  3'
 
+Arquivo A: amostra_R1.fastq.gz
+Arquivo B: amostra_R2.fastq.gz
+</code></pre>
+<p>R1 e R2 não são duas amostras distintas. Cada par contém informações associadas ao mesmo fragmento, embora as duas leituras nem sempre se sobreponham. Perder o pareamento ou embaralhar a ordem das leituras compromete análises que utilizam essa relação.</p>
+<h2 id="3-fasta-e-fastq-com-exemplos-reais-de-estrutura">3. FASTA e FASTQ, com exemplos reais de estrutura</h2>
+<p><strong>FASTA</strong> registra identificador e sequência. É comum em bancos de genes, referências, contigs e alinhamentos:</p>
+<pre><code class="language-fasta">&gt;sequencia_exemplo
+ACGTTGCA
+</code></pre>
+<p><strong>FASTQ</strong> registra, para cada read, identificador, sequência, separador e qualidades:</p>
+<pre><code class="language-fastq">@leitura_001
+ACGTTGCA
++
+IIIIIIII
+</code></pre>
+<p>Cada caractere de qualidade corresponde a uma base da sequência. No padrão Phred+33, <code>I</code> equivale a Q40: probabilidade de erro estimada de aproximadamente 1 em 10.000 para aquela chamada de base. Os símbolos não são nucleotídeos. O formato FASTQ normalmente é armazenado compactado (<code>.fastq.gz</code>) para economizar espaço.</p>
+<table>
+<thead>
+<tr>
+<th>Pergunta</th>
+<th>FASTA</th>
+<th>FASTQ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mostra a sequência?</td>
+<td>Sim</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Traz qualidade por base?</td>
+<td>Não</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>Uso típico</td>
+<td>Referências, contigs e loci</td>
+<td>Leituras com escores de qualidade</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-o-que-é-sra-e-o-que-é-um-accession">4. O que é SRA? E o que é um accession?</h2>
+<p>O <strong>Sequence Read Archive (SRA)</strong>, do NCBI, é um repositório público de dados de sequenciamento. Os identificadores, chamados <em>accessions</em>, ajudam a localizar e citar cada registro.</p>
+<table>
+<thead>
+<tr>
+<th>Registro</th>
+<th>O que descreve</th>
+<th>Exemplo de prefixo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BioProject</td>
+<td>Projeto de pesquisa</td>
+<td><code>PRJNA...</code></td>
+</tr>
+<tr>
+<td>BioSample</td>
+<td>Material biológico analisado</td>
+<td><code>SAMN...</code></td>
+</tr>
+<tr>
+<td>Experiment</td>
+<td>Biblioteca e estratégia experimental</td>
+<td><code>SRX...</code></td>
+</tr>
+<tr>
+<td>Run</td>
+<td>Execução ou conjunto de arquivos de sequenciamento</td>
+<td><code>SRR...</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Analogia:</strong> BioProject é o projeto; BioSample descreve o material; Experiment descreve como foi preparado e sequenciado; Run identifica os dados efetivamente produzidos. Um projeto pode conter várias amostras e runs.</p>
+<p>Antes do download, confirme <strong>organismo, tecido, tecnologia, estratégia da biblioteca, layout single/paired-end e tamanho do arquivo</strong>. Um accession correto é necessário, mas não garante que o conjunto seja adequado à pergunta científica.</p>
+<h2 id="5-por-que-utilizar-subamostras-no-ensino">5. Por que utilizar subamostras no ensino?</h2>
+<p>Um conjunto real pode ter milhões de reads e exigir dezenas de gigabytes. Para aprender a lógica do processamento, podemos trabalhar com uma <strong>fração</strong> dos dados. Essa decisão reduz armazenamento e custo computacional, mas também reduz cobertura e pode prejudicar análises posteriores.</p>
+<p>Duas estratégias não são idênticas: <strong>extrair os primeiros N spots</strong> de um run e <strong>selecionar uma amostra aleatória de N pares</strong>. A primeira é operacionalmente simples, mas pode refletir a ordenação do arquivo; a segunda depende de selecionar corretamente pares R1/R2. Uma subamostra didática não deve ser tratada automaticamente como representativa de todo o experimento.</p>
+<h2 id="6-exemplo-opcional-da-sra-ao-seu-computador">6. Exemplo opcional: da SRA ao seu computador</h2>
+<p>Como aplicação, considere um projeto com dados Illumina paired-end de um organismo de interesse. O caminho geral é: encontrar o BioProject → examinar BioSample e Experiment → escolher o Run → obter os reads → verificar se R1 e R2 estão pareados → arquivar os metadados. Na disciplina, uma amostra de <em>Hypochilus petrunkevitchi</em> (<code>SRR15736591</code>) ilustra essa sequência, mas o mesmo raciocínio vale para plantas, bactérias, seres humanos ou amostras ambientais.</p>
+<p>Não é necessário memorizar comandos neste momento. <strong>O essencial é saber o que foi baixado e de onde vieram os dados.</strong></p>
+<h2 id="teste-sua-compreensão">Teste sua compreensão</h2>
+<p><strong>1. Qual a diferença entre FASTA, FASTQ e SRA?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>FASTA guarda sequências, FASTQ guarda sequências acompanhadas de qualidades por base e SRA é um repositório de dados de sequenciamento.</p></details>
+<p><strong>2. Se um experimento gerou dois arquivos R1 e R2, isso significa que foram sequenciadas duas amostras?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Não. Em paired-end, os dois arquivos frequentemente correspondem às duas extremidades dos mesmos fragmentos de biblioteca de uma amostra.</p></details>
+<p><strong>3. Por que reduzir o número de reads pode prejudicar a montagem?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Menos leituras significam menor cobertura de diferentes regiões, o que tende a aumentar lacunas e reduzir a recuperação de sequências completas.</p></details>
+<h2 id="atividade-prática-complementar-opcional">Atividade prática complementar (opcional)</h2>
+<p><a href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026">Consultar notebooks e materiais no repositório da disciplina</a>. Este notebook aplica os conceitos a um estudo de caso com dados de captura de UCEs. <strong>Atenção:</strong> ele pertence ao fluxo anterior da disciplina e pode utilizar ferramentas e caminhos diferentes do Colab único atualizado. A leitura conceitual desta página não depende de sua execução.</p>
+<h2 id="em-resumo">Em resumo</h2>
+<p>Você deve sair desta página distinguindo <strong>amostra, biblioteca, read, par R1/R2, FASTQ, FASTA e accession</strong>. O próximo tema será compreender como verificar a qualidade dessas leituras antes de utilizá-las.</p>
+<p><strong>Leituras recomendadas:</strong> <a href="https://www.ncbi.nlm.nih.gov/sra">NCBI SRA</a> · <a href="https://www.ncbi.nlm.nih.gov/sra/docs/submitmeta/">Metadados do SRA</a></p>
+
+
+<details class="lesson-legacy"><summary>Roteiro anterior da disciplina (consulta opcional)</summary><div>
 <section class="tutorial-card">
 <h2>Antes de começar — retomar o projeto</h2>
 <p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
@@ -251,8 +398,10 @@ FFFFFFFF...</div>
     └── SRR15736591_2.fastq.gz</div>
 <div class="next-step"><strong>Próximo passo:</strong> avaliar se esses reads apresentam qualidade adequada antes da montagem.</div>
 </section>
-
-  <nav class="tutorial-nav">
+</div></details>
+</section>
+<!-- EQM-DIDATICA-FIM -->
+<nav class="tutorial-nav">
     <a href="aula08.html">← BLAST</a>
     <a href="aula10.html">Controle de qualidade e trimming →</a>
   </nav>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Integração do pipeline | Bioinformática e Biologia Molecular</title>
+<title>Aula 14 — Da análise à interpretação e reprodutibilidade | Bioinformática e Biologia Molecular</title>
 <meta name="description" content="Reunir o percurso completo dos dados, do SRA aos loci UCE, verificando as entradas, saídas, métricas e decisões de cada etapa.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,6 +133,32 @@
 .start-sequence{margin:15px 0;padding:15px 17px;background:#F8FAFC;border:1px solid rgba(23,34,49,.09);border-radius:11px;font:500 .9rem/1.7 "Inter",sans-serif;color:#31465B}
 </style>
 
+<style id="eqm-estilos-didaticos">
+/* Estilos restritos ao corpo didático; não alteram o tema nem o menu global. */
+.lesson-content { max-width: 920px; padding-bottom: 16px; }
+.lesson-content > h2 { font-size: clamp(1.8rem, 3.4vw, 2.3rem); line-height: 1.15; margin: 42px 0 14px; }
+.lesson-content > h3 { font-size: 1.5rem; margin: 28px 0 10px; }
+.lesson-content p { line-height: 1.8; }
+.lesson-content strong { color: var(--tb-text); }
+.lesson-content pre { overflow-x: auto; white-space: pre; padding: 16px 20px; border: 1px solid var(--tb-line); border-radius: 12px; background: rgba(255,255,255,.84); line-height: 1.55; font-size: .88rem; }
+.lesson-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.lesson-content :not(pre) > code { background: rgba(76,127,174,.10); padding: 2px 5px; border-radius: 4px; }
+.lesson-content table { border-collapse: collapse; display: block; overflow-x: auto; width: 100%; margin: 22px 0 26px; background: rgba(255,255,255,.70); border: 1px solid var(--tb-line); border-radius: 10px; }
+.lesson-content th, .lesson-content td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--tb-line); }
+.lesson-content th { background: rgba(76,127,174,.10); color: var(--tb-text); }
+.lesson-content blockquote { margin: 22px 0; padding: 14px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.72); border-radius: 0 10px 10px 0; }
+.lesson-content blockquote p { margin: 0; }
+.lesson-content details { margin: 10px 0 18px; padding: 12px 16px; border: 1px solid var(--tb-line); border-radius: 10px; background: rgba(255,255,255,.65); }
+.lesson-content summary { cursor: pointer; font-weight: 600; color: var(--tb-accent-dark); }
+.lesson-content details p { margin-bottom: 0; }
+.lesson-content li { margin-bottom: 8px; }
+.lesson-general-intro { margin: 0 0 26px; padding: 15px 20px; border-left: 4px solid var(--tb-accent); background: rgba(255,255,255,.68); border-radius: 0 12px 12px 0; }
+.lesson-legacy { margin-top: 35px; }
+.lesson-legacy > summary { font-size: 1rem; }
+.lesson-legacy > div { margin-top: 18px; }
+@media (max-width:650px) { .lesson-content table { font-size: .92rem; } .lesson-content pre { padding: 13px; font-size: .8rem; } }
+
+</style>
 </head>
 <body>
 
@@ -160,14 +186,180 @@
   </div>
   <header class="tutorial-header">
     <div class="tutorial-kicker">Roteiro prático</div>
-    <h1>Integração do pipeline</h1>
+    <h1>Da análise à interpretação e reprodutibilidade</h1>
     <p class="lead">Reunir o percurso completo dos dados, do SRA aos loci UCE, verificando as entradas, saídas, métricas e decisões de cada etapa.</p>
     <div class="action-row">
       <a class="action" href="https://colab.research.google.com/github/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026/blob/main/notebooks/08_Integracao_Pipeline_UCE.ipynb" target="_blank" rel="noopener noreferrer">Abrir notebook no Google Colab</a>
       <a class="action secondary" href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026" target="_blank" rel="noopener noreferrer">Repositório da disciplina</a>
     </div>
   </header>
+<!-- EQM-DIDATICA-INICIO -->
+<section class="lesson-content" aria-label="Material didático">
+<p class="lesson-general-intro"><strong>Visão geral:</strong> Integre as etapas da bioinformática com atenção à interpretação crítica e à reprodutibilidade. Esta página pode ser estudada sem executar um programa.</p>
+<h2 id="comece-por-uma-pergunta">Comece por uma pergunta</h2>
+<p><strong>Se você recebeu apenas o arquivo final de uma análise, consegue confiar nas conclusões sem saber como ele foi produzido?</strong> Em ciência, um resultado computacional precisa estar conectado a sua origem, parâmetros, verificações e limitações.</p>
+<blockquote>
+<p><strong>Ideia principal:</strong> o pipeline não é apenas uma sequência de programas; é uma cadeia de decisões metodológicas e evidências verificáveis.</p>
+</blockquote>
+<h2 id="1-o-mapa-geral-do-fluxo">1. O mapa geral do fluxo</h2>
+<pre><code class="language-text">Pergunta biológica
+       ↓
+Amostras e delineamento experimental
+       ↓
+Sequenciamento e metadados (SRA)
+       ↓
+Reads em FASTQ (R1/R2)
+       ↓
+Controle de qualidade → decisão de filtragem/trimming
+       ↓
+Montagem de novo (quando apropriada)
+       ↓
+Contigs → identificação de alvos → extração/organização de loci
+       ↓
+Análise específica: filogenia, variantes, diversidade, função...
+       ↓
+Interpretação, validação e comunicação
+</code></pre>
+<p>Este é <strong>um exemplo de fluxo</strong>, não um modelo obrigatório de bioinformática. Projetos de RNA-seq, variante genética por referência, amplicons e metagenômica podem seguir estratégias bastante diferentes e nem sempre exigem montagem <em>de novo</em>.</p>
+<h2 id="2-entrada-transformação-e-saída">2. Entrada, transformação e saída</h2>
+<table>
+<thead>
+<tr>
+<th>Etapa</th>
+<th>Entrada comum</th>
+<th>Saída comum</th>
+<th>Pergunta de controle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aquisição</td>
+<td>Accession e metadados</td>
+<td>FASTQ</td>
+<td>Os dados correspondem à amostra e tecnologia esperadas?</td>
+</tr>
+<tr>
+<td>QC</td>
+<td>FASTQ bruto</td>
+<td>Relatórios</td>
+<td>Quais problemas aparecem?</td>
+</tr>
+<tr>
+<td>Pré-processamento</td>
+<td>FASTQ bruto</td>
+<td>FASTQ filtrado</td>
+<td>Quantos pares e bases foram perdidos?</td>
+</tr>
+<tr>
+<td>Montagem</td>
+<td>FASTQ adequado</td>
+<td>Contigs</td>
+<td>A montagem é plausível para o objetivo?</td>
+</tr>
+<tr>
+<td>Identificação</td>
+<td>Contigs + referências/sondas</td>
+<td>Matches/loci</td>
+<td>A identificação é específica e confiável?</td>
+</tr>
+<tr>
+<td>Extração</td>
+<td>Coordenadas/matches + contigs</td>
+<td>FASTA de loci</td>
+<td>As sequências representam os alvos esperados?</td>
+</tr>
+<tr>
+<td>Comparação</td>
+<td>FASTA de vários táxons</td>
+<td>Alinhamentos/matriz</td>
+<td>Existem lacunas, paralogia ou viés relevantes?</td>
+</tr>
+</tbody>
+</table>
+<p>A melhor sequência depende da pergunta e do tipo de dado. Essa tabela é um mapa de raciocínio, não uma receita universal.</p>
+<h2 id="3-como-construir-um-relatório-reproduzível">3. Como construir um relatório reproduzível</h2>
+<p>Para cada etapa, registre: <strong>fonte dos dados e accession</strong>, versões dos programas, parâmetros utilizados, nomes dos arquivos de entrada e saída, quantidades antes e depois, mensagens de erro relevantes e justificativa de escolhas metodológicas.</p>
+<p>Uma organização simples pode ser:</p>
+<pre><code class="language-text">projeto/
+├── README.md
+├── metadata/
+├── raw_data/
+├── qc_reports/
+├── clean_reads/
+├── assembly/
+├── loci/
+└── results/
+</code></pre>
+<p>Um <code>README.md</code> deve explicar objetivo, dados, ambientes, ordem das etapas e onde encontrar resultados. Idealmente, scripts e configurações ficam versionados, enquanto dados grandes são armazenados separadamente com acesso e integridade documentados.</p>
+<h2 id="4-métricas-o-que-relatar-e-o-que-não-concluir">4. Métricas: o que relatar e o que não concluir</h2>
+<p>Considere este exemplo <strong>inventado para ensino</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th style="text-align:right">Resultado ilustrativo</th>
+<th>Interpretação responsável</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pares iniciais</td>
+<td style="text-align:right">100.000</td>
+<td>Tamanho da subamostra, não do projeto completo</td>
+</tr>
+<tr>
+<td>Pares após fastp</td>
+<td style="text-align:right">91.000</td>
+<td>Retenção de 91% com parâmetros definidos</td>
+</tr>
+<tr>
+<td>Contigs</td>
+<td style="text-align:right">420</td>
+<td>Número isolado não mede qualidade da montagem</td>
+</tr>
+<tr>
+<td>N50</td>
+<td style="text-align:right">650 bp</td>
+<td>Descreve contiguidade, não acurácia</td>
+</tr>
+<tr>
+<td>Loci-alvo identificados</td>
+<td style="text-align:right">75</td>
+<td>Recuperação observada sob cobertura e filtros específicos</td>
+</tr>
+</tbody>
+</table>
+<p>Evite frases como “o software comprovou que o genoma está completo” ou “o trimming melhorou a qualidade biológica da amostra”. Diferencie sempre <strong>resultado observado</strong>, <strong>interpretação compatível</strong> e <strong>hipótese que exigiria validação adicional</strong>.</p>
+<h2 id="5-o-que-é-reprodutibilidade">5. O que é reprodutibilidade?</h2>
+<p>Uma análise é mais reproduzível quando alguém pode usar os mesmos dados, software e parâmetros documentados para obter resultados compatíveis. Mudanças de versão, sementes aleatórias, disponibilidade de recursos e dependências podem afetar a repetição de etapas. Guardar apenas o arquivo final não documenta adequadamente o processo.</p>
+<p>Além disso, reprodutibilidade computacional não resolve, por si só, possíveis problemas no delineamento experimental, amostragem, contaminação ou interpretação científica.</p>
+<h2 id="6-como-avaliar-limitações">6. Como avaliar limitações</h2>
+<ul>
+<li><strong>Subamostragem:</strong> reduz custo, mas pode remover regiões raras.</li>
+<li><strong>Filtragem:</strong> pode reduzir erros, mas também elimina dados potencialmente úteis.</li>
+<li><strong>Montagem:</strong> pode conter fragmentação, colapsos de repetição ou junções incorretas.</li>
+<li><strong>Identificação:</strong> depende de qualidade dos alvos, bancos e critérios de similaridade.</li>
+<li><strong>Matrizes:</strong> ausência de loci e composição taxonômica podem afetar comparações.</li>
+</ul>
+<p>Recomendações metodológicas devem ser justificadas pelo conjunto de dados concreto. <strong>Executar o programa sem erro não demonstra que a inferência biológica é válida.</strong></p>
+<h2 id="7-atividade-final-de-interpretação">7. Atividade final de interpretação</h2>
+<p>Imagine que duas amostras possuem a mesma quantidade inicial de reads, mas uma produz mais contigs e menos loci reconhecidos. Isso significa que a primeira tem um genoma maior? <strong>Não necessariamente.</strong> As diferenças podem decorrer de cobertura, qualidade, complexidade, filtragem, contaminação ou comportamento do montador. É necessário examinar as métricas intermediárias e os objetivos da análise.</p>
+<p><strong>Desafio:</strong> monte um quadro com uma linha por etapa e colunas para entrada, programa, versão, parâmetros, saída, indicador de qualidade e limitação. Esse quadro vale mais como evidência de compreensão do que uma lista de comandos copiados.</p>
+<h2 id="teste-sua-compreensão">Teste sua compreensão</h2>
+<p><strong>1. Um pipeline que terminou sem erro pode gerar resultados biologicamente incorretos?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Sim. Execução técnica correta não garante dados adequados, parâmetros apropriados, ausência de viés ou interpretação biologicamente válida.</p></details>
+<p><strong>2. Por que registrar a versão do programa e a semente aleatória?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>Porque versões e decisões aleatórias podem alterar resultados. O registro facilita reprodução e comparação entre execuções.</p></details>
+<p><strong>3. Qual a diferença entre resultado e interpretação?</strong></p>
+<details><summary>Ver resposta comentada</summary><p>“Foram obtidos 420 contigs” é um resultado observado; “a montagem recuperou grande parte dos alvos biológicos” é uma interpretação que exige evidências adicionais.</p></details>
+<h2 id="atividade-prática-complementar-opcional">Atividade prática complementar (opcional)</h2>
+<p><a href="https://github.com/TiagoBelintani/EQM-Bioinformatica-Biologia-Molecular-2026">Consultar notebooks e materiais no repositório da disciplina</a>. Este notebook aplica os conceitos a um estudo de caso com dados de captura de UCEs. <strong>Atenção:</strong> ele pertence ao fluxo anterior da disciplina e pode utilizar ferramentas e caminhos diferentes do Colab único atualizado. A leitura conceitual desta página não depende de sua execução.</p>
+<h2 id="em-resumo">Em resumo</h2>
+<p>Uma boa análise bioinformática deve responder a três perguntas: <strong>de onde vieram os dados, como foram transformados e quais conclusões são sustentadas pelas evidências?</strong> Esse raciocínio vale para genômica, transcriptômica, evolução molecular e muitas outras aplicações.</p>
+<p><strong>Leituras recomendadas:</strong> <a href="https://www.ncbi.nlm.nih.gov/sra">NCBI SRA</a> · <a href="https://github.com/OpenGene/fastp">fastp</a> · <a href="https://github.com/ablab/spades">SPAdes</a> · <a href="https://phyluce.readthedocs.io/en/latest/">PHYLUCE</a></p>
 
+
+<details class="lesson-legacy"><summary>Roteiro anterior da disciplina (consulta opcional)</summary><div>
 <section class="tutorial-card">
 <h2>Antes de começar — retomar o projeto</h2>
 <p>Todas as aulas utilizam a mesma raiz no Google Drive:</p>
@@ -256,8 +448,10 @@ loci UCE em FASTA
 <p>Ao concluir esta sequência, o estudante deverá conseguir explicar de onde vieram os dados, como foram transformados e qual é a relação entre reads, contigs e loci UCE.</p>
 <div class="next-step"><strong>Mensagem central:</strong> uma pergunta biológica gera dados; cada etapa computacional transforma esses dados; a interpretação só é confiável quando entendemos e documentamos essas transformações.</div>
 </section>
-
-  <nav class="tutorial-nav">
+</div></details>
+</section>
+<!-- EQM-DIDATICA-FIM -->
+<nav class="tutorial-nav">
     <a href="aula13.html">← Extração de UCEs</a>
     <a href="index.html">Voltar à disciplina →</a>
   </nav>
