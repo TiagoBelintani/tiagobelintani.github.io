@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Estudo prático guiado do DNA mitocondrial humano e de chimpanzé com NCBI Nucleotide, GenBank, FASTA e BLAST.">
+<title>Explorando e comparando o DNA mitocondrial | Tiago Belintani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/theme-soft.css">
+<style>
+.study-content {color:var(--tb-text); font-size:1rem; line-height:1.78}
+.study-content h2 {font-size:2.15rem; line-height:1.15; margin:2.5rem 0 .8rem; scroll-margin-top:105px}
+.study-content h3 {font-size:1.6rem; line-height:1.2; margin:1.8rem 0 .55rem}
+.study-content p {margin:.65rem 0 1rem}
+.study-content ul,.study-content ol {padding-left:1.55rem}
+.study-content li {padding-left:.2rem; margin:.45rem 0}
+.study-content strong {color:var(--tb-text)}
+.study-lead {font-size:1.09rem; max-width:760px}
+.study-kpis {display:flex;gap:10px;flex-wrap:wrap;margin:15px 0 24px}
+.study-kpis span {font-size:.82rem;border:1px solid var(--tb-line);background:rgba(255,255,255,.8);border-radius:999px;padding:6px 13px;color:var(--tb-accent-dark);font-weight:600}
+.study-toc {padding:20px 24px;background:rgba(255,255,255,.82);border:1px solid var(--tb-line);border-radius:14px}
+.study-toc ol {columns:2; margin:8px 0 0}
+.study-toc a {text-decoration:underline;text-decoration-color:rgba(52,95,135,.22);text-underline-offset:3px}
+.study-note {border-left:3px solid var(--tb-accent);padding:14px 18px;background:rgba(76,127,174,.08);border-radius:0 10px 10px 0;margin:18px 0}
+.study-step {background:rgba(255,255,255,.78);border:1px solid var(--tb-line);padding:20px 24px;border-radius:14px;margin:18px 0}
+.study-step h3 {margin-top:0}
+.study-link {display:inline-block;margin:.4rem 0;padding:9px 15px;border:1px solid rgba(52,95,135,.28);border-radius:9px;background:#fff;color:var(--tb-accent-dark);font-weight:650}
+.study-link:hover {background:#eaf1f7}
+.study-table-wrap {overflow-x:auto;margin:18px 0}
+.study-table {border-collapse:collapse;width:100%;font-size:.94rem;background:rgba(255,255,255,.72)}
+.study-table th,.study-table td {border:1px solid var(--tb-line);padding:11px 13px;text-align:left;vertical-align:top}
+.study-table th {background:rgba(76,127,174,.09);color:var(--tb-text)}
+.study-content pre {white-space:pre-wrap;overflow-wrap:anywhere;background:#e7edf3;border:1px solid var(--tb-line);border-radius:10px;padding:16px;color:#1c344d;font-size:.87rem;line-height:1.55}
+.study-content code {font-size:.92em;color:#244d6c}
+.study-questions {padding:18px 24px;background:rgba(255,255,255,.78);border:1px solid var(--tb-line);border-radius:14px}
+.study-questions li {margin-bottom:12px}
+.study-questions details {margin:15px 0;border-top:1px solid var(--tb-line);padding-top:12px}
+.study-questions summary {cursor:pointer;color:var(--tb-accent-dark);font-weight:600}
+.study-small {font-size:.87rem;color:var(--tb-muted)}
+.study-source {overflow-wrap:anywhere;font-size:.92rem}
+.study-flow {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:18px 0}
+.study-flow span {background:white;border:1px solid var(--tb-line);border-radius:10px;padding:10px 13px;color:var(--tb-text);font-size:.87rem;font-weight:600}
+.study-flow em {font-style:normal;color:var(--tb-accent-dark)}
+@media(max-width:650px){.study-toc ol{columns:1}.study-step{padding:17px}.study-content h2{font-size:1.8rem}}
+@media print {.top-nav,.study-toc,.lesson-nav {display:none!important}body::before{display:none!important}.tutorial-shell{max-width:100%!important}.study-step{break-inside:avoid}}
+</style>
+</head>
+<body>
+<nav class="top-nav" aria-label="Navegação principal">
+  <div class="nav-inner">
+    <a class="brand" href="../../index.html">Tiago Belintani</a>
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../publications.html">Publications</a></li>
+      <li><a href="../../research.html">Research</a></li>
+      <li><a class="bioinfo-nav" href="../../bioinfo-chat.html">BioInfo Chat</a></li>
+      <li><a href="../../teaching.html" aria-current="page">Teaching</a></li>
+      <li><a href="../../repositories.html">Code &amp; Repositories</a></li>
+      <li><a href="../../collaborators.html">Collaborators</a></li>
+      <li><a href="../../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+<main class="tutorial-shell lesson-page">
+<a class="breadcrumb" href="../../teaching.html">← Voltar para Teaching</a>
+<header class="tutorial-header">
+<p class="page-kicker">Estudo prático · Genômica mitocondrial</p>
+<h1>Explorando e comparando o DNA mitocondrial</h1>
+<p class="study-lead">Da consulta a um genoma de referência à comparação de um gene entre humanos e chimpanzés. Um percurso guiado pelas bases de dados do NCBI, sem programação e sem instalação de programas.</p>
+<div class="study-kpis"><span>Iniciante</span><span>55 minutos</span><span>Navegador web</span><span>NCBI · RefSeq · GenBank · FASTA · BLAST</span></div>
+</header>
+<article class="study-content">
+<div class="study-toc"><strong>Navegação pelo estudo</strong><ol>
+<li><a href="#objetivos">Questão e objetivos</a></li>
+<li><a href="#conceitos">Conceitos essenciais</a></li>
+<li><a href="#genbank">Consultar o genoma humano</a></li>
+<li><a href="#genes">Identificar genes</a></li>
+<li><a href="#fasta">Ler e obter FASTA</a></li>
+<li><a href="#chimpanze">Consultar o chimpanzé</a></li>
+<li><a href="#blast">Comparar com BLAST</a></li>
+<li><a href="#interpretacao">Interpretar resultados</a></li>
+<li><a href="#atividades">Questões e discussão</a></li>
+<li><a href="#referencias">Fontes e documentação</a></li>
+</ol></div>
+<section id="objetivos"><h2>1. Questão investigativa e objetivos</h2>
+<p><strong>Como comparar sequências reais de DNA mitocondrial para investigar a função dos genes e a semelhança entre espécies?</strong></p>
+<p>Ao terminar, você deverá ser capaz de encontrar um registro biológico, reconhecer sua identificação e seus principais campos, localizar um gene mitocondrial, acessar sua sequência em FASTA e interpretar a comparação do mesmo gene entre duas espécies. A intenção não é aprender programação, mas compreender o caminho entre uma observação de biologia celular e uma evidência molecular.</p>
+<div class="study-note"><strong>O que você precisa:</strong> computador com acesso à internet e navegador atualizado. Não é necessário criar conta no NCBI. Os nomes e a posição de alguns menus podem mudar com atualizações da plataforma.</div>
+<div class="study-flow"><span>Genoma de referência</span><em>→</em><span>Gene CO1</span><em>→</em><span>FASTA</span><em>→</em><span>BLAST</span><em>→</em><span>Interpretação</span></div>
+</section>
+<section id="conceitos"><h2>2. O que estamos investigando?</h2>
+<h3>2.1. DNA mitocondrial e origem evolutiva</h3>
+<p>As mitocôndrias participam da respiração celular e contêm material genético próprio, uma característica relacionada à sua origem endossimbiótica. Em humanos, o DNA mitocondrial de referência é uma molécula circular de 16.569 pares de bases (pb) com 37 genes anotados: 13 codificam proteínas, 22 codificam RNAs transportadores (tRNAs) e dois codificam RNAs ribossômicos (rRNAs).</p>
+<p>Esses genes representam somente uma pequena parte das moléculas necessárias ao funcionamento das mitocôndrias: a maioria das proteínas mitocondriais humanas é codificada pelo genoma nuclear e importada para a organela. A presença de DNA mitocondrial não significa que a mitocôndria seja independente da célula.</p>
+<h3>2.2. O que é NCBI, GenBank e RefSeq?</h3>
+<p><strong>NCBI</strong> é o National Center for Biotechnology Information, responsável por diversos recursos de informação biológica. O <strong>NCBI Nucleotide</strong> permite pesquisar e visualizar sequências de nucleotídeos. <strong>GenBank</strong> é um arquivo público de sequências submetidas; <strong>RefSeq</strong> é uma coleção de sequências de referência curadas ou processadas pelo NCBI. O registro <code>NC_012920.1</code> pertence ao RefSeq e pode ser consultado no Nucleotide e exibido no formato <em>GenBank</em>.</p>
+<p><strong>Número de acesso (accession):</strong> identificador de um registro. Em <code>NC_012920.1</code>, o sufixo <code>.1</code> indica a versão da sequência; não é um número de cromossomo nem um código do gene CO1.</p>
+</section>
+<section id="genbank"><h2>3. Parte A — Encontrando o genoma mitocondrial humano</h2>
+<div class="study-step"><h3>Etapa 1 · Abrir o registro de referência</h3>
+<p>Abra o endereço abaixo. O título do registro deve indicar <em>Homo sapiens mitochondrion, complete genome</em>. Confirme o identificador <code>NC_012920.1</code>.</p>
+<a class="study-link" href="https://www.ncbi.nlm.nih.gov/nuccore/NC_012920.1" target="_blank" rel="noopener noreferrer">Abrir genoma mitocondrial humano no NCBI ↗</a>
+<ol><li>Identifique o campo <strong>Organism</strong> e registre o nome científico.</li><li>Encontre o número de acesso do registro.</li><li>Alterne a visualização para <strong>GenBank</strong> se necessário, procurando a opção <em>Display settings</em> ou <em>GenBank</em>.</li><li>Localize a indicação do comprimento e o campo <code>LOCUS</code> — nesse registro, o genoma possui <strong>16.569 pb</strong> e topologia circular.</li></ol>
+<p><strong>Por que isso importa?</strong> O registro não armazena apenas letras: também associa a sequência a um organismo, a uma referência e a anotações de regiões funcionais.</p></div>
+<div class="study-table-wrap"><table class="study-table"><thead><tr><th>Campo</th><th>O que significa?</th><th>Exemplo desta atividade</th></tr></thead><tbody><tr><td>Organism</td><td>Espécie de origem</td><td><em>Homo sapiens</em></td></tr><tr><td>Accession</td><td>Identificador único</td><td><code>NC_012920</code></td></tr><tr><td>Version</td><td>Versão da sequência</td><td><code>NC_012920.1</code></td></tr><tr><td>Length</td><td>Quantidade de pares de bases</td><td>16.569 pb</td></tr><tr><td>Features</td><td>Regiões anotadas e suas funções</td><td><code>gene</code>, <code>CDS</code>, <code>tRNA</code>, <code>rRNA</code></td></tr></tbody></table></div>
+</section>
+<section id="genes"><h2>4. Investigando os genes do genoma mitocondrial</h2>
+<div class="study-step"><h3>Etapa 2 · Encontrar o gene <em>MT-CO1</em></h3>
+<p>Na visualização GenBank, utilize a busca da página do navegador (<code>⌘F</code> no Mac ou <code>Ctrl+F</code> no Windows) e procure <code>MT-CO1</code>. Se a nomenclatura não aparecer da mesma forma, procure <code>COX1</code> ou acesse diretamente o registro NCBI Gene abaixo.</p>
+<a class="study-link" href="https://www.ncbi.nlm.nih.gov/gene/4512" target="_blank" rel="noopener noreferrer">Consultar MT-CO1 humano no NCBI Gene ↗</a>
+<p>Na referência humana, a região codificadora do gene está nas posições <strong>5904..7445</strong> do DNA mitocondrial. A proteína resultante é a subunidade I da citocromo <em>c</em> oxidase, componente central do complexo IV da cadeia respiratória.</p>
+<p><strong>Atenção:</strong> um <code>gene</code> é uma região anotada; <code>CDS</code> indica a região codificadora de uma proteína. Genes de tRNA e rRNA não são traduzidos em proteínas.</p></div>
+<h3>4.1. Relacione alguns genes com suas funções</h3>
+<div class="study-table-wrap"><table class="study-table"><thead><tr><th>Gene</th><th>Produto ou função</th><th>Ligação com a respiração</th></tr></thead><tbody><tr><td><em>MT-CO1</em></td><td>Citocromo <em>c</em> oxidase I</td><td>Complexo IV</td></tr><tr><td><em>MT-ND1</em></td><td>NADH desidrogenase 1</td><td>Complexo I</td></tr><tr><td><em>MT-CYB</em></td><td>Citocromo <em>b</em></td><td>Complexo III</td></tr><tr><td><em>MT-ATP6</em></td><td>Subunidade 6 da ATP sintase</td><td>Complexo V</td></tr></tbody></table></div>
+<p><strong>Pergunta para reflexão:</strong> se o genoma mitocondrial possui poucos genes, de onde vêm as demais proteínas envolvidas na respiração celular? A resposta será discutida na atividade final.</p>
+</section>
+<section id="fasta"><h2>5. Do registro anotado à sequência FASTA</h2>
+<h3>5.1. O que é FASTA?</h3>
+<p>FASTA é um formato simples e amplamente utilizado para representar sequências biológicas. A primeira linha, iniciada por <code>&gt;</code>, funciona como cabeçalho; as seguintes contêm letras que representam nucleotídeos ou aminoácidos.</p>
+<pre>&gt;sequencia_exemplo
+ATGCGTACCGTTAAGC</pre>
+<p>O trecho acima é <strong>ilustrativo</strong>, não corresponde ao gene do estudo. Ao trabalhar com dados reais, é importante conservar o identificador, a espécie e a região extraída.</p>
+<div class="study-step"><h3>Etapa 3 · Visualizar e obter a sequência do gene</h3>
+<ol><li>Abra o genoma humano em formato FASTA para observar a diferença entre a sequência bruta e suas anotações.</li><li>Depois, abra o recorte FASTA correspondente à região <code>5904..7445</code>, que contém <em>MT-CO1</em>.</li><li>Copie <strong>todo o texto do recorte</strong>, incluindo o cabeçalho, para utilizar no BLAST. Não copie o genoma completo nessa etapa.</li><li>Se o navegador apresentar o arquivo como texto simples, isso é esperado: FASTA é um formato textual.</li></ol>
+<a class="study-link" href="https://www.ncbi.nlm.nih.gov/nuccore/NC_012920.1?report=fasta" target="_blank" rel="noopener noreferrer">Ver FASTA do genoma humano completo ↗</a><br>
+<a class="study-link" href="https://www.ncbi.nlm.nih.gov/sviewer/viewer.fcgi?id=NC_012920.1&amp;db=nuccore&amp;report=fasta&amp;retmode=text&amp;from=5904&amp;to=7445" target="_blank" rel="noopener noreferrer">Obter FASTA do MT-CO1 humano (5904–7445) ↗</a>
+<p class="study-small">Se o segundo endereço não abrir na rede utilizada, acesse o registro <a href="https://www.ncbi.nlm.nih.gov/gene/4512" target="_blank" rel="noopener noreferrer">NCBI Gene MT-CO1</a>, localize a seção da sequência genômica e utilize a opção FASTA para a região anotada.</p></div>
+</section>
+<section id="chimpanze"><h2>6. Parte B — O mesmo gene no chimpanzé</h2>
+<p>Agora investigaremos o gene homólogo no chimpanzé, <em>Pan troglodytes</em>. Humanos e chimpanzés compartilham ancestralidade evolutiva, e seus genes ortólogos frequentemente apresentam sequências semelhantes. Entretanto, o número de acesso do genoma e as coordenadas do gene não são os mesmos nas duas espécies.</p>
+<div class="study-table-wrap"><table class="study-table"><thead><tr><th>Espécie</th><th>Genoma mitocondrial</th><th>Região de CO1</th><th>Comprimento da região</th></tr></thead><tbody><tr><td><em>Homo sapiens</em></td><td><code>NC_012920.1</code></td><td><code>5904..7445</code></td><td>1.542 pb</td></tr><tr><td><em>Pan troglodytes</em></td><td><code>NC_001643.1</code></td><td><code>5321..6862</code></td><td>1.542 pb</td></tr></tbody></table></div>
+<div class="study-step"><h3>Etapa 4 · Consultar a sequência correspondente</h3>
+<ol><li>Acesse o genoma mitocondrial do chimpanzé e confirme o nome científico.</li><li>Abra o registro do gene <code>COX1</code> e localize sua posição: <strong>5321..6862</strong>.</li><li>Abra o recorte FASTA e copie a sequência completa, incluindo o cabeçalho.</li><li>Compare os dois números de acesso: cada um identifica uma sequência de referência de uma espécie diferente.</li></ol>
+<a class="study-link" href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001643.1" target="_blank" rel="noopener noreferrer">Genoma do chimpanzé ↗</a><br>
+<a class="study-link" href="https://www.ncbi.nlm.nih.gov/gene?LinkName=protein_gene&amp;from_uid=5835128" target="_blank" rel="noopener noreferrer">Gene COX1 do chimpanzé ↗</a><br>
+<a class="study-link" href="https://www.ncbi.nlm.nih.gov/sviewer/viewer.fcgi?id=NC_001643.1&amp;db=nuccore&amp;report=fasta&amp;retmode=text&amp;from=5321&amp;to=6862" target="_blank" rel="noopener noreferrer">Obter FASTA do COX1 do chimpanzé (5321–6862) ↗</a></div>
+<div class="study-note"><strong>Por que comparar o mesmo gene?</strong> Comparar dois genes correspondentes é mais adequado para introduzir o conceito de homologia do que comparar regiões aleatórias. Nesse caso, as duas regiões têm 1.542 pb, mas isso não significa que todas as posições tenham nucleotídeos idênticos.</div>
+</section>
+<section id="blast"><h2>7. Comparando sequências com o NCBI BLAST</h2>
+<h3>7.1. O que o BLAST faz?</h3>
+<p>O BLAST (<em>Basic Local Alignment Search Tool</em>) identifica regiões de similaridade entre sequências. Para comparar DNA com DNA utilizaremos <strong>blastn</strong>. O resultado é um alinhamento local: o programa identifica regiões correspondentes, mas não reconstrói sozinho uma árvore filogenética e não prova parentesco individual entre organismos.</p>
+<div class="study-step"><h3>Etapa 5 · Alinhar duas sequências</h3>
+<a class="study-link" href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?BLAST_SPEC=blast2seq&amp;PAGE_TYPE=BlastSearch&amp;PROG_DEF=blastn" target="_blank" rel="noopener noreferrer">Abrir NCBI BLAST — Align two or more sequences ↗</a>
+<ol><li>Confirme que o tipo de comparação é <strong>Nucleotide BLAST</strong> e que a opção <strong>Align two or more sequences</strong> está ativa.</li><li>No campo <strong>Enter Query Sequence</strong>, cole a sequência FASTA do gene <em>MT-CO1</em> humano.</li><li>No campo <strong>Enter Subject Sequence</strong>, cole a sequência FASTA do gene <em>COX1</em> do chimpanzé.</li><li>Utilize os parâmetros padrão de comparação de nucleotídeos. Caso exista a opção de programa, mantenha <strong>megablast</strong> para sequências muito semelhantes ou <strong>blastn</strong> padrão.</li><li>Clique em <strong>BLAST</strong> e aguarde a exibição do resultado. Se necessário, role a página até os detalhes do alinhamento.</li></ol>
+<p><strong>O que registrar?</strong> Porcentagem de identidade (<em>Percent identity</em> ou <em>Identities</em>), comprimento do alinhamento (<em>alignment length</em>) e presença de diferenças nas posições alinhadas. Anote esses valores a partir da execução real; eles não estão previamente fixados neste roteiro.</p></div>
+<h3>7.2. Como ler o alinhamento?</h3>
+<pre>Query   1   ATGCCGTAACGTTAC   15
+            ||||| ||||||| ||
+Sbjct   1   ATGCCATAACGTTTC   15</pre>
+<p>Este alinhamento é <strong>esquemático</strong> e não corresponde às sequências reais da atividade. Na saída do NCBI, linhas como <code>Query</code> e <code>Sbjct</code> representam as duas sequências, e posições coincidentes mostram nucleotídeos iguais. Diferenças podem aparecer como substituições e, em algumas comparações, inserções ou deleções (<em>gaps</em>).</p>
+<p>A porcentagem de identidade expressa a fração das posições alinhadas que apresentam o mesmo nucleotídeo. Ela deve ser interpretada <strong>junto do comprimento e da cobertura do alinhamento</strong>. Um alinhamento muito curto com alta identidade não significa, necessariamente, alta semelhança entre genes completos.</p>
+<div class="study-note"><strong>Nota metodológica:</strong> como BLAST realiza alinhamento local, a identidade obtida diz respeito às regiões efetivamente alinhadas. Um estudo filogenético completo exige amostragem mais ampla, alinhamento criterioso e métodos apropriados de inferência.</div>
+</section>
+<section id="interpretacao"><h2>8. O que podemos concluir?</h2>
+<h3>8.1. Semelhança não significa identidade absoluta</h3>
+<p>Humanos e chimpanzés compartilham ancestralidade. Assim, espera-se observar elevada semelhança entre genes mitocondriais correspondentes, embora substituições nucleotídicas possam ter ocorrido desde a separação de suas linhagens evolutivas.</p>
+<h3>8.2. Um gene pode ser conservado e ainda apresentar diferenças</h3>
+<p>CO1 codifica uma subunidade essencial da citocromo <em>c</em> oxidase (complexo IV). A conservação funcional contribui para restringir determinadas mudanças, mas isso não impede o acúmulo de substituições. Algumas mudanças podem não alterar os aminoácidos; outras podem modificar a proteína.</p>
+<h3>8.3. O que não é possível concluir apenas com esta prática?</h3>
+<p>O alinhamento de um único gene não permite determinar precisamente a idade da divergência entre espécies, estimar a história completa de suas populações ou explicar diretamente processos históricos recentes. Essas questões exigem múltiplos dados, modelos, controles e análise de possíveis vieses.</p>
+<h3>8.4. DNA mitocondrial: ancestralidade e herança</h3>
+<p>Em humanos, o DNA mitocondrial é transmitido predominantemente pela linhagem materna. Em diferentes organismos, existem fenômenos documentados de transmissão paterna ou biparental; isso não invalida o padrão humano predominante. O DNA mitocondrial fornece informação sobre uma linhagem genealógica específica, não representa sozinho toda a ancestralidade de uma pessoa.</p>
+</section>
+<section id="atividades"><h2>9. Registro da atividade e questões</h2>
+<div class="study-questions"><p>Responda utilizando os dados obtidos nos registros do NCBI e no alinhamento. Sempre que possível, anote a fonte e a versão da sequência.</p>
+<ol><li>Qual é o número de acesso completo do genoma mitocondrial humano utilizado nesta prática?</li><li>Quantos pares de bases possui esse genoma e quantos genes codificadores de proteínas são anotados?</li><li>Qual é o papel da proteína codificada por <em>MT-CO1</em> na respiração celular?</li><li>Em que posições dos respectivos genomas de referência se encontram os genes CO1 humano e do chimpanzé?</li><li>Qual foi a porcentagem de identidade registrada pelo BLAST? Qual foi a extensão da região alinhada?</li><li>O que a semelhança entre as sequências sugere sobre a evolução dessas espécies? Cite uma limitação dessa comparação.</li></ol>
+<details><summary>Orientações para interpretar as respostas (abrir após concluir)</summary><p><strong>1.</strong> NC_012920.1. <strong>2.</strong> 16.569 pb e 13 genes codificadores de proteínas. <strong>3.</strong> CO1 integra o complexo IV da cadeia respiratória mitocondrial. <strong>4.</strong> Humano 5904–7445; chimpanzé 5321–6862. <strong>5.</strong> Deve ser preenchida com os números efetivamente observados no resultado do BLAST. <strong>6.</strong> A semelhança é compatível com ancestralidade compartilhada; um único gene não basta para inferir toda a história evolutiva das espécies.</p></details>
+</div>
+<h3>Para aprofundar (opcional)</h3>
+<p>Investigue por que a maioria das proteínas mitocondriais é codificada no núcleo. Compare também como o sistema de membranas da mitocôndria participa da fosforilação oxidativa. Para um aprofundamento em evolução, pesquise a origem endossimbiótica e as diferenças entre herança uniparental e biparental do DNA mitocondrial.</p>
+</section>
+<section id="referencias"><h2>10. Referências e documentação consultada</h2>
+<p>Os links abaixo levam às fontes originais. Os registros de sequência são dados públicos mantidos pelo NCBI; a interface pode sofrer atualizações.</p>
+<ol class="study-source">
+<li>NCBI Nucleotide. <a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_012920.1" target="_blank" rel="noopener noreferrer"><em>Homo sapiens</em> mitochondrion, complete genome, NC_012920.1</a>.</li>
+<li>NCBI Gene. <a href="https://www.ncbi.nlm.nih.gov/gene/4512" target="_blank" rel="noopener noreferrer">MT-CO1, <em>Homo sapiens</em></a>.</li>
+<li>NCBI Nucleotide. <a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001643.1" target="_blank" rel="noopener noreferrer"><em>Pan troglodytes</em> mitochondrion, complete genome, NC_001643.1</a>.</li>
+<li>NCBI Gene. <a href="https://www.ncbi.nlm.nih.gov/gene?LinkName=protein_gene&amp;from_uid=5835128" target="_blank" rel="noopener noreferrer">COX1, <em>Pan troglodytes</em></a>.</li>
+<li>NCBI BLAST. <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?BLAST_SPEC=blast2seq&amp;PAGE_TYPE=BlastSearch&amp;PROG_DEF=blastn" target="_blank" rel="noopener noreferrer">Nucleotide BLAST: Align two or more sequences</a>.</li>
+<li>OpenStax. <a href="https://openstax.org/books/biology-2e/pages/7-4-oxidative-phosphorylation" target="_blank" rel="noopener noreferrer"><em>Biology 2e</em>, 7.4 — Oxidative Phosphorylation</a>.</li>
+</ol>
+</section>
+<nav class="lesson-nav"><a href="../../teaching.html">← Voltar aos recursos de Teaching</a><a href="#objetivos">Voltar ao início ↑</a></nav>
+</article>
+</main>
+</body>
+</html>
